@@ -1,1 +1,1 @@
-# TaskSharper test of jira-gitgub 
+# TaskSharper test of jira-gitgub
