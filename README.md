@@ -1,1 +1,1 @@
-# TaskSharper test of jira-gitgub <TAS-18> TAS-18
+# TaskSharper test of jira-gitgub 
