@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calender.WPF", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer", "TaskSharper.DataAccessLayer\TaskSharper.DataAccessLayer.csproj", "{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer.TestClient", "TaskSharper.DataAccessLayer.TestClient\TaskSharper.DataAccessLayer.TestClient.csproj", "{1CE9407A-1523-48FD-8512-A79D2DF7690D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
