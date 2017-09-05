@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaskSharper.DataAccessLayer.Calendar.Model;
 
-namespace TaskSharper.DataAccessLayer.Calendar.Service
+namespace TaskSharper.Domain.Calendar
 {
     public interface ICalendarService
     {

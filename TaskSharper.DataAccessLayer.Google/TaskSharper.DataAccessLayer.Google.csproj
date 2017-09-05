@@ -7,8 +7,8 @@
     <ProjectGuid>{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaskSharper.DataAccessLayer</RootNamespace>
-    <AssemblyName>TaskSharper.DataAccessLayer</AssemblyName>
+    <RootNamespace>TaskSharper.DataAccessLayer.Google</RootNamespace>
+    <AssemblyName>TaskSharper.DataAccessLayer.Google</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -79,10 +79,7 @@
     <Compile Include="Calendar\BaseService.cs" />
     <Compile Include="Calendar\Helpers\Helpers.cs" />
     <Compile Include="Calendar\Model\Event.cs" />
-    <Compile Include="Calendar\Service\GoogleCalendarService.cs">
-      <DependentUpon>ICalendarService.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Calendar\Service\ICalendarService.cs" />
+    <Compile Include="Calendar\Service\GoogleCalendarService.cs" />
     <Compile Include="Calendar\Model\Calendar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -91,6 +88,12 @@
     <None Include="client_secret.json" />
     <None Include="packages.config" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
+      <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
+      <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

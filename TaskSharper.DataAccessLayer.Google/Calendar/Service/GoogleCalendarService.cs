@@ -4,6 +4,7 @@ using System.Linq;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
+using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.DataAccessLayer.Calendar.Service
 {
@@ -20,7 +21,7 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
             });
         }
 
-        public List<Model.Event> GetEvents(string calendarId = "primary")
+        public List<Domain.Calendar.Event> GetEvents(string calendarId = "primary")
         {
             // Define parameters of request.
             var request = _service.Events.List(calendarId);
@@ -34,7 +35,7 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
             return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
         }
 
-        public List<Model.Event> GetEvents(DateTime start, string calendarId = "primary")
+        public List<Domain.Calendar.Event> GetEvents(DateTime start, string calendarId = "primary")
         {
             var request = _service.Events.List(calendarId);
             request.TimeMin = start;
@@ -47,7 +48,7 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
             return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
         }
 
-        public List<Model.Event> GetEvents(DateTime start, DateTime end, string calendarId = "primary")
+        public List<Domain.Calendar.Event> GetEvents(DateTime start, DateTime end, string calendarId = "primary")
         {
             var request = _service.Events.List(calendarId);
             request.TimeMin = start;
@@ -61,7 +62,7 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
             return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
         }
 
-        public Model.Event InsertEvent(Model.Event eventObj, string calendarId = "primary")
+        public Domain.Calendar.Event InsertEvent(Domain.Calendar.Event eventObj, string calendarId = "primary")
         {
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 

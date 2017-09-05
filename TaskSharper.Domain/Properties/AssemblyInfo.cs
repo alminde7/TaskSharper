@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TaskSharper.DataAccessLayer")]
+[assembly: AssemblyTitle("TaskSharper.Domain")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TaskSharper.DataAccessLayer")]
+[assembly: AssemblyProduct("TaskSharper.Domain")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9f579bfe-0bdc-4c2c-84fa-9b4c12f1d516")]
+[assembly: Guid("e329af7f-27b3-46ef-80a4-d7993b662cad")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -5,11 +5,13 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calender.WPF", "TaskSharper.Calender.WPF\TaskSharper.Calender.WPF.csproj", "{E7703189-AB75-42AD-A24C-7084FF9BCFA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer", "TaskSharper.DataAccessLayer\TaskSharper.DataAccessLayer.csproj", "{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer.TestClient", "TaskSharper.DataAccessLayer.TestClient\TaskSharper.DataAccessLayer.TestClient.csproj", "{1CE9407A-1523-48FD-8512-A79D2DF7690D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer.Test.Unit", "TaskSharper.DataAccessLayer.Test.Unit\TaskSharper.DataAccessLayer.Test.Unit.csproj", "{612BD79A-B57C-4474-9F21-D9794550F1BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer.Google", "TaskSharper.DataAccessLayer.Google\TaskSharper.DataAccessLayer.Google.csproj", "{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Domain", "TaskSharper.Domain\TaskSharper.Domain.csproj", "{E329AF7F-27B3-46EF-80A4-D7993B662CAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +23,6 @@ Global
 		{E7703189-AB75-42AD-A24C-7084FF9BCFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7703189-AB75-42AD-A24C-7084FF9BCFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7703189-AB75-42AD-A24C-7084FF9BCFA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +31,14 @@ Global
 		{612BD79A-B57C-4474-9F21-D9794550F1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{612BD79A-B57C-4474-9F21-D9794550F1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{612BD79A-B57C-4474-9F21-D9794550F1BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F579BFE-0BDC-4C2C-84FA-9B4C12F1D516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E329AF7F-27B3-46EF-80A4-D7993B662CAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E329AF7F-27B3-46EF-80A4-D7993B662CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E329AF7F-27B3-46EF-80A4-D7993B662CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E329AF7F-27B3-46EF-80A4-D7993B662CAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

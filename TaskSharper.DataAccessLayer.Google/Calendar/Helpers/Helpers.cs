@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Google.Apis.Calendar.v3.Data;
-using Event = TaskSharper.DataAccessLayer.Calendar.Model.Event;
+using Event = TaskSharper.Domain.Calendar.Event;
 
 namespace TaskSharper.DataAccessLayer.Calendar.Helpers
 {
