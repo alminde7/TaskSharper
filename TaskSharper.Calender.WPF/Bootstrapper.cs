@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
-using TaskSharper.Calender.WPF.ViewComponents;
+using TaskSharper.Calender.WPF.Views;
 
 namespace TaskSharper.Calender.WPF
 {
@@ -20,16 +20,7 @@ namespace TaskSharper.Calender.WPF
         {
             base.ConfigureModuleCatalog();
 
-            Container.RegisterType(typeof(object), typeof(CalendarAppointmentsComponent), "CalendarAppointmentsComponent");
-
-            Container.RegisterTypeForNavigation<CalendarAppointmentsComponent>("CalendarAppointmentsComponent");
-        }
-    }
-    public static class UnityExtensions
-    {
-        public static void RegisterTypeForNavigation<T>(this IUnityContainer container, string name)
-        {
-            container.RegisterType(typeof(object), typeof(T), name);
+            Container.RegisterTypeForNavigation<CalendarAppointmentsView>("CalendarAppointmentsView");
         }
     }
 }
