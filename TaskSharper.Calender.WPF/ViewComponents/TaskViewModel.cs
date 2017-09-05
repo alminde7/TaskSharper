@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TaskSharper.Calender.WPF.ViewComponents
 {
-    public class CalendarTasksViewModel
+    public class TaskViewModel
     {
-        IEnumerable<TaskViewModel> Tasks { get; set; }
+        public string Headline { get; set; } = "default Headline";
+        public string Description { get; set; }
     }
 }

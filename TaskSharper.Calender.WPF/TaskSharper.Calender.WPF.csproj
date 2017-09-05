@@ -81,6 +81,9 @@
     <Compile Include="ViewComponents\CalendarTodayViewModel.cs">
       <DependentUpon>CalendarTodayComponent.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewComponents\TaskViewModel.cs">
+      <DependentUpon>CalendarTasksComponent.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
