@@ -19,7 +19,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void Navigate(string uri)
         {
-            _regionManager.RequestNavigate("ContentRegion", uri);
+            _regionManager.RequestNavigate("CalenderRegion", uri);
         }
     }
 }

@@ -90,6 +90,9 @@
       <DependentUpon>CalendarDateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CalendarDateViewModel.cs" />
+    <Compile Include="Views\CalendarMonthView.xaml.cs">
+      <DependentUpon>CalendarMonthView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CalendarTasksView.xaml.cs">
       <DependentUpon>CalendarTasksView.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,14 @@
     </Compile>
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
+    <Page Include="Views\CalendarMonthView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CalendarWeekView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +117,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\CalendarWeekView.xaml.cs">
+      <DependentUpon>CalendarWeekView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TaskSharper.Calender.WPF
+namespace TaskSharper.Calender.WPF.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
