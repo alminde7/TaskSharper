@@ -20,6 +20,7 @@ namespace TaskSharper.Calender.WPF
         {
             base.ConfigureModuleCatalog();
 
+            Container.RegisterTypeForNavigation<CalendarTodayView>("CalenderRegion");
             Container.RegisterTypeForNavigation<CalendarAppointmentsView>("CalendarAppointmentsView");
         }
     }

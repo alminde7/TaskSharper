@@ -9,7 +9,7 @@
         Title="TaskSharperCalendar" Height="936.818" Width="1309">
 
     <Grid>
-        <ItemsControl Name="MainRegion" prism:RegionManager.RegionName="MainRegion"></ItemsControl>
-        <ItemsControl Name="CalenderSelectionRegion" prism:RegionManager.RegionName="CalenderSelectionRegion"></ItemsControl>
+        <ContentControl Name="CalenderRegion" prism:RegionManager.RegionName="CalenderRegion"></ContentControl>
+        <!--<ContentControl Name="CalenderSelectionRegion" prism:RegionManager.RegionName="CalenderSelectionRegion" Margin="86,66,62,46"></ContentControl>-->
     </Grid>
 </Window>
