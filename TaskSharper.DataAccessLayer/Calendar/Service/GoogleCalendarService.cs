@@ -9,14 +9,14 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
 {
     public class GoogleCalendarService : BaseService, ICalendarService
     {
-        private CalendarService _service;
+        private readonly CalendarService _service;
         public GoogleCalendarService()
         {
             Authenticate();
             _service = new CalendarService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = base.UserCredential,
-                ApplicationName = "TaskSharper",
+                ApplicationName = "TaskSharper"
             });
         }
 
@@ -59,6 +59,16 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
             var events = request.Execute();
 
             return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
+        }
+
+        public Model.Event InsertEvent(Model.Event eventObj, string calendarId = "primary")
+        {
+            var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
+
+            var request = _service.Events.Insert(googleEvent, calendarId);
+            var createdEvent = request.Execute();
+
+            return Helpers.Helpers.GoogleEventParser(createdEvent);
         }
     }
 }

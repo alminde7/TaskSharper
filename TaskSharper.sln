@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer.TestClient", "TaskSharper.DataAccessLayer.TestClient\TaskSharper.DataAccessLayer.TestClient.csproj", "{1CE9407A-1523-48FD-8512-A79D2DF7690D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccessLayer.Test.Unit", "TaskSharper.DataAccessLayer.Test.Unit\TaskSharper.DataAccessLayer.Test.Unit.csproj", "{612BD79A-B57C-4474-9F21-D9794550F1BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CE9407A-1523-48FD-8512-A79D2DF7690D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{612BD79A-B57C-4474-9F21-D9794550F1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{612BD79A-B57C-4474-9F21-D9794550F1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{612BD79A-B57C-4474-9F21-D9794550F1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{612BD79A-B57C-4474-9F21-D9794550F1BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

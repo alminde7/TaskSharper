@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /TaskSharper.DataAccessLayer.TestClient
+/TaskSharper.DataAccessLayer/client_secret.json

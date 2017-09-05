@@ -9,7 +9,7 @@ namespace TaskSharper.DataAccessLayer.Authentication
 {
     public static class GoogleAuthentication
     {
-        private static readonly string[] Scopes = { CalendarService.Scope.CalendarReadonly };
+        private static readonly string[] Scopes = { CalendarService.Scope.Calendar };
         public static UserCredential Authenticate()
         {
             UserCredential credential;
