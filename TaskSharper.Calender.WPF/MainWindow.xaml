@@ -3,10 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TaskSharper.Calender.WPF"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        xmlns:views="clr-namespace:TaskSharper.Calender.WPF.ViewComponents"
         
+        mc:Ignorable="d"
+        Title="MainWindow" Height="936.818" Width="1309">
+
+    <Grid>
+        <StackPanel>
+            <views:CalendarTodayComponent Loaded="CalendarTodayComponent_Loaded" Margin="295,0,877,0" Width="Auto"/>
+        </StackPanel>
     </Grid>
+   
 </Window>

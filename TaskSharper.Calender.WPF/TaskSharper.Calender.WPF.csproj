@@ -54,6 +54,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewComponents\AppointmentViewModel.cs">
+      <DependentUpon>CalendarAppointmentsComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarAppointmentsComponent.xaml.cs">
+      <DependentUpon>CalendarAppointmentsComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarAppointmentsViewModel.cs">
+      <DependentUpon>CalendarAppointmentsComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarDateComponent.xaml.cs">
+      <DependentUpon>CalendarDateComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarDateViewModel.cs">
+      <DependentUpon>CalendarDateComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarTasksComponent.xaml.cs">
+      <DependentUpon>CalendarTasksComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarTasksViewModel.cs">
+      <DependentUpon>CalendarTasksComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarTodayComponent.xaml.cs">
+      <DependentUpon>CalendarTodayComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewComponents\CalendarTodayViewModel.cs">
+      <DependentUpon>CalendarTodayComponent.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,6 +93,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ViewComponents\CalendarAppointmentsComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewComponents\CalendarDateComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewComponents\CalendarTasksComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewComponents\CalendarTodayComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -93,5 +136,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
