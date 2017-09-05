@@ -16,9 +16,9 @@ namespace TaskSharper.Calender.WPF
         {
             Application.Current.MainWindow.Show();
         }
-        protected override void ConfigureModuleCatalog()
+        protected override void ConfigureContainer()
         {
-            base.ConfigureModuleCatalog();
+            base.ConfigureContainer();
 
             Container.RegisterTypeForNavigation<CalendarTodayView>("CalenderRegion");
             Container.RegisterTypeForNavigation<CalendarAppointmentsView>("CalendarAppointmentsView");
