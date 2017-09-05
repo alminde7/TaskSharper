@@ -5,7 +5,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Util.Store;
 
-namespace TaskSharper.DataAccessLayer.Authentication
+namespace TaskSharper.DataAccessLayer.Google.Authentication
 {
     public static class GoogleAuthentication
     {

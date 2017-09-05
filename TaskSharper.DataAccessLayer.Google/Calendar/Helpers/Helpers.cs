@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Google.Apis.Calendar.v3.Data;
+using GoogleEvent = Google.Apis.Calendar.v3.Data.Event;
 using Event = TaskSharper.Domain.Calendar.Event;
 
-namespace TaskSharper.DataAccessLayer.Calendar.Helpers
+namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
 {
-    public static class Helpers
+    internal class Helpers
     {
-        public static Event GoogleEventParser(Google.Apis.Calendar.v3.Data.Event googleEvent)
+        internal static Event GoogleEventParser(GoogleEvent googleEvent)
         {
             return new Event
             {
@@ -27,7 +25,7 @@ namespace TaskSharper.DataAccessLayer.Calendar.Helpers
             };
         }
 
-        public static List<Event> GoogleEventParser(List<Google.Apis.Calendar.v3.Data.Event> googleEvents)
+        internal static List<Event> GoogleEventParser(List<GoogleEvent> googleEvents)
         {
             return googleEvents.Select(googleEvent => new Event
             {
@@ -44,9 +42,9 @@ namespace TaskSharper.DataAccessLayer.Calendar.Helpers
             }).ToList();
         }
 
-        public static Google.Apis.Calendar.v3.Data.Event GoogleEventParser(Event eventObj)
+        internal static GoogleEvent GoogleEventParser(Event eventObj)
         {
-            return new Google.Apis.Calendar.v3.Data.Event
+            return new GoogleEvent
             {
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
@@ -56,9 +54,9 @@ namespace TaskSharper.DataAccessLayer.Calendar.Helpers
             };
         }
 
-        public static List<Google.Apis.Calendar.v3.Data.Event> GoogleEventParser(List<Event> eventObjs)
+        internal static List<GoogleEvent> GoogleEventParser(List<Event> eventObjs)
         {
-            return eventObjs.Select(eventObj => new Google.Apis.Calendar.v3.Data.Event
+            return eventObjs.Select(eventObj => new GoogleEvent
             {
                 Summary = eventObj.Title,
                 Description = eventObj.Description,

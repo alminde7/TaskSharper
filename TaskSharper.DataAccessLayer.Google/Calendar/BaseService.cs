@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Apis.Auth.OAuth2;
-using TaskSharper.DataAccessLayer.Authentication;
+﻿using Google.Apis.Auth.OAuth2;
+using TaskSharper.DataAccessLayer.Google.Authentication;
 
-namespace TaskSharper.DataAccessLayer.Calendar
+namespace TaskSharper.DataAccessLayer.Google.Calendar
 {
     public class BaseService
     {

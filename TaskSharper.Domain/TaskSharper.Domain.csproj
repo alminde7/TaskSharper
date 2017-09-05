@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Calendar\Event.cs" />
     <Compile Include="Calendar\ICalendarService.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
