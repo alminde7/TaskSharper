@@ -11,10 +11,5 @@ namespace TaskSharper.Calender.WPF
         {
             InitializeComponent();
         }
-
-        private void CalendarTodayComponent_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
