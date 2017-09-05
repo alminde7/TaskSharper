@@ -19,7 +19,8 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
                 ApplicationName = "TaskSharper",
             });
         }
-        public List<Event> GetEvents(string calendarId = "primary")
+
+        public List<Model.Event> GetEvents(string calendarId = "primary")
         {
             // Define parameters of request.
             var request = _service.Events.List(calendarId);
@@ -29,10 +30,11 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
 
             // Execute request to retrieve events
             var events = request.Execute();
-            return events.Items.ToList();
+
+            return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
         }
 
-        public List<Event> GetEvents(DateTime start, string calendarId = "primary")
+        public List<Model.Event> GetEvents(DateTime start, string calendarId = "primary")
         {
             var request = _service.Events.List(calendarId);
             request.TimeMin = start;
@@ -40,10 +42,12 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
-            return request.Execute().Items.ToList();
+            var events = request.Execute();
+
+            return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
         }
 
-        public List<Event> GetEvents(DateTime start, DateTime end, string calendarId = "primary")
+        public List<Model.Event> GetEvents(DateTime start, DateTime end, string calendarId = "primary")
         {
             var request = _service.Events.List(calendarId);
             request.TimeMin = start;
@@ -52,7 +56,9 @@ namespace TaskSharper.DataAccessLayer.Calendar.Service
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
 
-            return request.Execute().Items.ToList();
+            var events = request.Execute();
+
+            return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
         }
     }
 }

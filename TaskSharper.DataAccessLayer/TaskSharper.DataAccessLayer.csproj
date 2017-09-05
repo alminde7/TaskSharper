@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="Authentication\GoogleAuthentication.cs" />
     <Compile Include="Calendar\BaseService.cs" />
+    <Compile Include="Calendar\Helpers\Helpers.cs" />
     <Compile Include="Calendar\Model\Event.cs" />
     <Compile Include="Calendar\Service\GoogleCalendarService.cs">
       <DependentUpon>ICalendarService.cs</DependentUpon>
