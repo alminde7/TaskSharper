@@ -7,13 +7,20 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" Width="100">
+             d:DesignHeight="300" Width="300">
     <Grid Grid.Row="1" Grid.Column="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <views:CalendarDateView Grid.Row="0" Grid.Column="0"></views:CalendarDateView>
-        <views:CalendarEventsView Grid.Row="1" Grid.Column="0"></views:CalendarEventsView>
+        
+        <ScrollViewer Grid.Row="1">
+            <views:CalendarEventsView></views:CalendarEventsView>
+        </ScrollViewer>
+        
     </Grid>
 </UserControl>
