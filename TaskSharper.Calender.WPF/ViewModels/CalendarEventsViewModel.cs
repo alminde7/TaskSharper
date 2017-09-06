@@ -11,7 +11,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public CalendarEventsViewModel()
         {
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
+            InitializeView();
+        }
 
+        private void InitializeView()
+        {
             for (int i = 0; i < 24; i++)
             {
                 CalendarEvents.Add(new CalendarEventViewModel()
@@ -20,23 +24,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     Description = "Jeppe"
                 });
             }
-            
-            //CalendarEvents.Add(new CalendarEventViewModel()
-            //{
-            //    Title = "sdf",
-            //    Description = "sdfsd"
-            //});
-
-            //CalendarEvents.Add(new CalendarEventViewModel()
-            //{
-            //    Title = "Mads",
-            //    Description = "Er til mænd"
-            //});
-
-            CalendarEvents[12].Title = "Jeppe";
-            CalendarEvents[12].Description = "Er smuk";
         }
-
-
     }
 }
