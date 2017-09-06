@@ -11,9 +11,9 @@
     <Grid Grid.Row="1" Grid.Column="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <views:CalendarDateView Grid.Row="0" Grid.Column="0"></views:CalendarDateView>
+        <Grid Grid.Row="2" Grid.Column="0" Background="Red"></Grid>
     </Grid>
 </UserControl>
