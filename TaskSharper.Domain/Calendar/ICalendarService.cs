@@ -8,5 +8,8 @@ namespace TaskSharper.Domain.Calendar
         List<Event> GetEvents(string calendarId);
         List<Event> GetEvents(DateTime start, string calendarId);
         List<Event> GetEvents(DateTime start, DateTime end, string calendarId);
+        Event InsertEvent(Event eventObj, string calendarId);
+        Event UpdateEvent(Event eventObj, string calendarId);
+        void DeleteEvent(string calendarId, string eventId);
     }
 }

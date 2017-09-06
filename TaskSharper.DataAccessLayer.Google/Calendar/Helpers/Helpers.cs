@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
 using GoogleEvent = Google.Apis.Calendar.v3.Data.Event;
@@ -6,9 +7,9 @@ using Event = TaskSharper.Domain.Calendar.Event;
 
 namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
 {
-    internal class Helpers
+    public class Helpers
     {
-        internal static Event GoogleEventParser(GoogleEvent googleEvent)
+        public static Event GoogleEventParser(GoogleEvent googleEvent)
         {
             return new Event
             {
@@ -17,11 +18,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Description = googleEvent.Description,
                 Start = googleEvent.Start?.DateTime,
                 End = googleEvent.End?.DateTime,
-                Status = googleEvent.Status,
+                Status = Enum.TryParse(googleEvent.Status, out Event.EventStatus statusValue) ? statusValue : Event.EventStatus.Confirmed,
                 Created = googleEvent.Created,
                 OriginalStartTime = googleEvent.OriginalStartTime?.DateTime,
                 Updated = googleEvent.Updated,
-                Recurrence = googleEvent.Recurrence
+                Recurrence = googleEvent.Recurrence,
+                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None
             };
         }
 
@@ -34,11 +36,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Description = googleEvent.Description,
                 Start = googleEvent.Start?.DateTime,
                 End = googleEvent.End?.DateTime,
-                Status = googleEvent.Status,
+                Status = Enum.TryParse(googleEvent.Status, out Event.EventStatus statusValue) ? statusValue : Event.EventStatus.Confirmed,
                 Created = googleEvent.Created,
                 OriginalStartTime = googleEvent.OriginalStartTime?.DateTime,
                 Updated = googleEvent.Updated,
-                Recurrence = googleEvent.Recurrence
+                Recurrence = googleEvent.Recurrence,
+                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None
             }).ToList();
         }
 
@@ -50,7 +53,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Description = eventObj.Description,
                 Start = new EventDateTime { DateTime = eventObj.Start },
                 End = new EventDateTime { DateTime = eventObj.End },
-                Status = eventObj.Status
+                Status = eventObj.Status.ToString(),
+                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>
+                {
+                    { "Type", eventObj.Type.ToString() }
+                }}
             };
         }
 
@@ -60,9 +67,13 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
             {
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
-                Start = new EventDateTime { Date = eventObj.Start.ToString(), DateTime = eventObj.Start },
-                End = new EventDateTime { Date = eventObj.End.ToString(), DateTime = eventObj.End },
-                Status = eventObj.Status
+                Start = new EventDateTime { DateTime = eventObj.Start },
+                End = new EventDateTime { DateTime = eventObj.End },
+                Status = eventObj.Status.ToString(),
+                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>
+                {
+                    { "Type", eventObj.Type.ToString() }
+                }}
             }).ToList();
         }
     }

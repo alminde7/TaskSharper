@@ -9,6 +9,27 @@ namespace TaskSharper.Domain.Calendar
     public class Event
     {
         /// <summary>
+        /// Possible types an event can be.
+        /// </summary>
+        public enum EventType
+        {
+            None,
+            Appointment,
+            Task
+        }
+
+        /// <summary>
+        /// Possible statuses that can be assigned to an event.
+        /// </summary>
+        public enum EventStatus
+        {
+            Confirmed,
+            Tentative,
+            Cancelled,
+            Completed
+        }
+
+        /// <summary>
         /// Identifier of the event.
         /// </summary>
         public string Id { get; set; }
@@ -35,11 +56,12 @@ namespace TaskSharper.Domain.Calendar
 
         /// <summary>
         /// Status of the event. Optional. Possible values:
-        /// "confirmed" - The event is confirmed (default).
-        /// "tentative" - The event is tentatively confirmed.
-        /// "cancelled" - The event is cancelled.
+        /// Confirmed - The event is confirmed (default).
+        /// Tentative - The event is tentatively confirmed.
+        /// Cancelled - The event is cancelled.
+        /// Completed - The event is completed.
         /// </summary>
-        public string Status { get; set; }
+        public EventStatus Status { get; set; }
 
         /// <summary>
         /// Creation time of the event. Read-only.
@@ -60,5 +82,13 @@ namespace TaskSharper.Domain.Calendar
         /// Recurrence of the event. TODO: Look into how this looks.
         /// </summary>
         public IList<string> Recurrence { get; set; }
+
+        /// <summary>
+        /// Type of the event. Possible values:
+        /// None
+        /// Apointment
+        /// Task
+        /// </summary>
+        public EventType? Type { get; set; }
     }
 }

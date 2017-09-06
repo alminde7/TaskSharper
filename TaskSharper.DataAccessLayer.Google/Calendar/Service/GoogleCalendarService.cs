@@ -21,6 +21,10 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
                     ApplicationName = "TaskSharper"
                 });
             }
+            else
+            {
+                _service = service;
+            }
         }
 
         public List<Event> GetEvents(string calendarId = "primary")
@@ -69,9 +73,25 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 
             var request = _service.Events.Insert(googleEvent, calendarId);
-            var createdEvent = request.Execute();
+            var response = request.Execute();
 
-            return Helpers.Helpers.GoogleEventParser(createdEvent);
+            return Helpers.Helpers.GoogleEventParser(response);
+        }
+
+        public Event UpdateEvent(Event eventObj, string calendarId)
+        {
+            var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
+
+            var request = _service.Events.Update(googleEvent, calendarId, googleEvent.Id);
+            var response = request.Execute();
+
+            return Helpers.Helpers.GoogleEventParser(response);
+        }
+
+        public void DeleteEvent(string calendarId, string eventId)
+        {
+            var request = _service.Events.Delete(calendarId, eventId);
+            request.Execute();
         }
     }
 }
