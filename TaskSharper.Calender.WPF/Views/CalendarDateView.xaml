@@ -24,7 +24,9 @@
                  VerticalAlignment="Top"
                  HorizontalAlignment="Left">
             <TextBlock VerticalAlignment="Top" 
-                       HorizontalAlignment="Left" Text="{Binding DayOfMonth}"/>
+                       HorizontalAlignment="Left" 
+                       Text="{Binding DayOfMonth}"
+                       />
         </Viewbox>
         
     </Grid>

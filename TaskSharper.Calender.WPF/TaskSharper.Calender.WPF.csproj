@@ -82,6 +82,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AppointmentViewModel.cs" />
     <Compile Include="Views\CalendarEventsView.xaml.cs">
@@ -92,6 +93,9 @@
       <DependentUpon>CalendarDateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CalendarDateViewModel.cs" />
+    <Compile Include="Views\CalendarEventView.xaml.cs">
+      <DependentUpon>CalendarEventView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CalendarMonthView.xaml.cs">
       <DependentUpon>CalendarMonthView.xaml</DependentUpon>
     </Compile>
@@ -104,6 +108,10 @@
     </Compile>
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
+    <Page Include="Views\CalendarEventView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CalendarMonthView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
