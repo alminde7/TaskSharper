@@ -48,7 +48,7 @@
                         Height="Auto" 
                         Width="Auto" 
                         Margin="10"
-                        prism:RegionManager.RegionName="CalenderRegion">
+                        prism:RegionManager.RegionName="CalendarRegion">
         </ContentControl>
 
     </Grid>
