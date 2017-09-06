@@ -4,11 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
              x:Class="TaskSharper.Calender.WPF.Views.CalendarWeekView"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="Red">
-        <Label Content="Label" HorizontalAlignment="Left" Margin="153,92,0,0" VerticalAlignment="Top"/>
+    <Grid Grid.Row="0" Grid.Column="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <views:CalendarTodayView Grid.Row="0" Grid.Column="1"></views:CalendarTodayView>
+        <views:CalendarTodayView Grid.Row="0" Grid.Column="2"></views:CalendarTodayView>
+        <views:CalendarTodayView Grid.Row="0" Grid.Column="3"></views:CalendarTodayView>
+        <views:CalendarTodayView Grid.Row="0" Grid.Column="4"></views:CalendarTodayView>
+        <views:CalendarTodayView Grid.Row="0" Grid.Column="5"></views:CalendarTodayView>
+        <views:CalendarTodayView Grid.Row="0" Grid.Column="6"></views:CalendarTodayView>
+        <views:CalendarTodayView Grid.Row="0" Grid.Column="7"></views:CalendarTodayView>
     </Grid>
 </UserControl>

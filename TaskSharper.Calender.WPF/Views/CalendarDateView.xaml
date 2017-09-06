@@ -9,21 +9,22 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
         <Viewbox Grid.Row="0"
-                 VerticalAlignment="Center"
+                 VerticalAlignment="Bottom"
                  HorizontalAlignment="Left">
-            <TextBlock VerticalAlignment="Center" 
+            <TextBlock VerticalAlignment="Bottom" 
                        HorizontalAlignment="Left"
                        Text="{Binding DayOfWeek}"/>
         </Viewbox>
         <Viewbox Grid.Row="1"
-                 VerticalAlignment="Center"
+                 VerticalAlignment="Top"
                  HorizontalAlignment="Left">
-            <TextBlock Text="{Binding DayOfMonth}"/>
+            <TextBlock VerticalAlignment="Top" 
+                       HorizontalAlignment="Left" Text="{Binding DayOfMonth}"/>
         </Viewbox>
         
     </Grid>
