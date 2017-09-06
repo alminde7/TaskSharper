@@ -12,7 +12,7 @@
         <ItemsControl ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarEventView></views:CalendarEventView>
+                    <views:CalendarEventView BorderBrush="DarkGray"  BorderThickness="0,0,0,1"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

@@ -9,23 +9,56 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Grid.Row="0" Grid.Column="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <views:CalendarTodayView Grid.Row="0" Grid.Column="1"></views:CalendarTodayView>
-        <views:CalendarTodayView Grid.Row="0" Grid.Column="2"></views:CalendarTodayView>
-        <views:CalendarTodayView Grid.Row="0" Grid.Column="3"></views:CalendarTodayView>
-        <views:CalendarTodayView Grid.Row="0" Grid.Column="4"></views:CalendarTodayView>
-        <views:CalendarTodayView Grid.Row="0" Grid.Column="5"></views:CalendarTodayView>
-        <views:CalendarTodayView Grid.Row="0" Grid.Column="6"></views:CalendarTodayView>
-        <views:CalendarTodayView Grid.Row="0" Grid.Column="7"></views:CalendarTodayView>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <views:CalendarDateView Margin="2" Grid.Row="0" Grid.Column="1"/>
+            <views:CalendarDateView Margin="2" Grid.Row="0" Grid.Column="2"/>
+            <views:CalendarDateView Margin="2" Grid.Row="0" Grid.Column="3"/>
+            <views:CalendarDateView Margin="2" Grid.Row="0" Grid.Column="4"/>
+            <views:CalendarDateView Margin="2" Grid.Row="0" Grid.Column="5"/>
+            <views:CalendarDateView Margin="2" Grid.Row="0" Grid.Column="6"/>
+            <views:CalendarDateView Margin="2" Grid.Row="0" Grid.Column="7"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <views:CalendarEventsView Margin="2" Grid.Column="1"></views:CalendarEventsView>
+                <views:CalendarEventsView Margin="2" Grid.Column="2"></views:CalendarEventsView>
+                <views:CalendarEventsView Margin="2" Grid.Column="3"></views:CalendarEventsView>
+                <views:CalendarEventsView Margin="2" Grid.Column="4"></views:CalendarEventsView>
+                <views:CalendarEventsView Margin="2" Grid.Column="5"></views:CalendarEventsView>
+                <views:CalendarEventsView Margin="2" Grid.Column="6"></views:CalendarEventsView>
+                <views:CalendarEventsView Margin="2" Grid.Column="7"></views:CalendarEventsView>
+            </Grid>
+        </ScrollViewer>
+
     </Grid>
 </UserControl>
