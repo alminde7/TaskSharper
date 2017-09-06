@@ -8,9 +8,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <StackPanel>
-            <Label Content="{Binding DayOfWeek}"/>
-            <Label Content="{Binding DayOfMonth}"/>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+
+        <Viewbox Grid.Row="0"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left">
+            <TextBlock VerticalAlignment="Center" 
+                       HorizontalAlignment="Left"
+                       Text="{Binding DayOfWeek}"/>
+        </Viewbox>
+        <Viewbox Grid.Row="1"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left">
+            <TextBlock Text="{Binding DayOfMonth}"/>
+        </Viewbox>
+        
     </Grid>
 </UserControl>
