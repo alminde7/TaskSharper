@@ -34,11 +34,14 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+            Logger.Information("Requesting all events in Google Calendar.");
 
             // Execute request to retrieve events
-            var events = request.Execute();
+            var response = request.Execute();
+            var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
-            return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
+            return events;
         }
 
         public List<Event> GetEvents(DateTime start, string calendarId = "primary")
@@ -48,10 +51,13 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+            Logger.Information($"Requesting all events in Google Calendar from {start}.");
 
-            var events = request.Execute();
+            var response = request.Execute();
+            var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
-            return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
+            return events;
         }
 
         public List<Event> GetEvents(DateTime start, DateTime end, string calendarId = "primary")
@@ -62,10 +68,13 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+            Logger.Information($"Requesting all events in Google Calendar from {start} to {end}.");
 
-            var events = request.Execute();
+            var response = request.Execute();
+            var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
-            return Helpers.Helpers.GoogleEventParser(events.Items.ToList());
+            return events;
         }
 
         public Event InsertEvent(Event eventObj, string calendarId = "primary")
@@ -73,9 +82,13 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 
             var request = _service.Events.Insert(googleEvent, calendarId);
-            var response = request.Execute();
+            Logger.Information("Inserting {@0} into Google Calendar.", eventObj);
 
-            return Helpers.Helpers.GoogleEventParser(response);
+            var response = request.Execute();
+            var retval = Helpers.Helpers.GoogleEventParser(response);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+
+            return retval;
         }
 
         public Event UpdateEvent(Event eventObj, string calendarId)
@@ -83,14 +96,20 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 
             var request = _service.Events.Update(googleEvent, calendarId, googleEvent.Id);
-            var response = request.Execute();
+            Logger.Information("Updating {@0} in Google Calendar.", eventObj);
 
-            return Helpers.Helpers.GoogleEventParser(response);
+            var response = request.Execute();
+            var retval = Helpers.Helpers.GoogleEventParser(response);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+
+            return retval;
         }
 
         public void DeleteEvent(string calendarId, string eventId)
         {
             var request = _service.Events.Delete(calendarId, eventId);
+            Logger.Information("Deleting event with {@0} in Google Calendar.", eventId);
+
             request.Execute();
         }
     }

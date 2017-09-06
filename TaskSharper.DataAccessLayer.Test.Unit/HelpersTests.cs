@@ -13,30 +13,80 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         [SetUp]
         public void Init()
         {
-            
+
         }
 
         [TearDown]
         public void Dispose()
         {
-            
+
         }
 
         [Test]
-        public void GoogleEventParser_TypeIsTask_TypeIsTask()
+        public void GoogleEventParser_FromGoogleEventToCalendarEvent_TypeIsTaskAsString_TypeIsSetToTaskAsEnumMember()
         {
-            
-            var googleEvent = new GoogleEvent()
+
+            var googleEvent = new GoogleEvent
             {
-                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>
+                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                 {
-                    { "Type", "Task" }
-                }}
+                    Shared = new Dictionary<string, string>
+                    {
+                        { "Type", "Task" }
+                    }
+                }
             };
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
 
             Assert.That(parsed.Type, Is.EqualTo(Event.EventType.Task));
+        }
+
+        [Test]
+        public void GoogleEventParser_FromGoogleEventToCalendarEvent_TypeIsAppointmentAsString_TypeIsSetToAppointmentAsEnumMember()
+        {
+
+            var googleEvent = new GoogleEvent
+            {
+                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
+                {
+                    Shared = new Dictionary<string, string>
+                    {
+                        { "Type", "Appointment" }
+                    }
+                }
+            };
+
+            var parsed = Helpers.GoogleEventParser(googleEvent);
+
+            Assert.That(parsed.Type, Is.EqualTo(Event.EventType.Appointment));
+        }
+
+        [Test]
+        public void GoogleEventParser_FromGoogleEventToCalendarEvent_TypeIsNotSet_TypeIsSetToNoneAsEnumMember()
+        {
+            var parsed = Helpers.GoogleEventParser(new GoogleEvent());
+
+            Assert.That(parsed.Type, Is.EqualTo(Event.EventType.None));
+        }
+
+        [Test]
+        public void GoogleEventParser_FromGoogleEventToCalendarEvent_TypeIsStringNotMatchingAnyEnumMember_TypeIsSetToNoneAsEnumMember()
+        {
+            var googleEvent = new GoogleEvent
+            {
+                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
+                {
+                    Shared = new Dictionary<string, string>
+                    {
+                        { "Type", "InvalidString" }
+                    }
+                }
+            };
+
+            var parsed = Helpers.GoogleEventParser(googleEvent);
+
+            Assert.That(parsed.Type, Is.EqualTo(Event.EventType.None));
         }
     }
 }
