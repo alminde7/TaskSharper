@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using TaskSharper.Calender.WPF.Views;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -16,10 +17,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
-
         private void Navigate(string uri)
         {
-            _regionManager.RequestNavigate("CalenderRegion", uri);
+            _regionManager.RequestNavigate("CalendarRegion", uri);
         }
     }
 }
