@@ -82,6 +82,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\DateHeaderValueConverter.cs" />
+    <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimelineViewModel.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimeViewModel.cs" />
     <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
