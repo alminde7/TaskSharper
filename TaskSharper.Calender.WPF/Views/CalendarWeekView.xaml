@@ -12,13 +12,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -40,7 +40,7 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
             <Grid >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.3*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -49,7 +49,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
+                
+                <views:CalendarTimelineView Margin="2" Grid.Column="0"></views:CalendarTimelineView>
                 <views:CalendarEventsView Margin="2" Grid.Column="1"></views:CalendarEventsView>
                 <views:CalendarEventsView Margin="2" Grid.Column="2"></views:CalendarEventsView>
                 <views:CalendarEventsView Margin="2" Grid.Column="3"></views:CalendarEventsView>

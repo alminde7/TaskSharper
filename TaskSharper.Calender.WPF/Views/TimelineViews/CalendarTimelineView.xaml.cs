@@ -15,15 +15,11 @@ using System.Windows.Shapes;
 
 namespace TaskSharper.Calender.WPF.Views
 {
-    /// <summary>
-    /// Interaction logic for CalendarWeekView.xaml
-    /// </summary>
-    public partial class CalendarWeekView : UserControl
+    public partial class CalendarTimelineView : UserControl
     {
-        public CalendarWeekView()
+        public CalendarTimelineView()
         {
             InitializeComponent();
         }
-       
     }
 }

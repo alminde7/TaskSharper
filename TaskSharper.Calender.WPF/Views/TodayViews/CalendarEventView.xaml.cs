@@ -3,11 +3,11 @@
 namespace TaskSharper.Calender.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for CalendarTodayComponent.xaml
+    /// Interaction logic for CalendarEventView.xaml
     /// </summary>
-    public partial class CalendarTodayView : UserControl
+    public partial class CalendarEventView : UserControl
     {
-        public CalendarTodayView()
+        public CalendarEventView()
         {
             InitializeComponent();
         }

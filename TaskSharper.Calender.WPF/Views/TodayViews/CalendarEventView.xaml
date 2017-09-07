@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="50" d:DesignWidth="300">
+    <Grid Height="50">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>

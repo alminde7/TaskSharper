@@ -82,37 +82,49 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ViewModels\CalendarEventViewModel.cs" />
+    <Compile Include="ViewModels\TimelineViewModels\CalendarTimelineViewModel.cs" />
+    <Compile Include="ViewModels\TimelineViewModels\CalendarTimeViewModel.cs" />
+    <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AppointmentViewModel.cs" />
-    <Compile Include="Views\CalendarEventsView.xaml.cs">
+    <Compile Include="Views\TimelineViews\CalendarTimeView.xaml.cs">
+      <DependentUpon>CalendarTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TodayViews\CalendarEventsView.xaml.cs">
       <DependentUpon>CalendarEventsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CalendarEventsViewModel.cs" />
-    <Compile Include="Views\CalendarDateView.xaml.cs">
+    <Compile Include="ViewModels\TodayViewModels\CalendarEventsViewModel.cs" />
+    <Compile Include="Views\TodayViews\CalendarDateView.xaml.cs">
       <DependentUpon>CalendarDateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CalendarDateViewModel.cs" />
-    <Compile Include="Views\CalendarEventView.xaml.cs">
+    <Compile Include="ViewModels\TodayViewModels\CalendarDateViewModel.cs" />
+    <Compile Include="Views\TodayViews\CalendarEventView.xaml.cs">
       <DependentUpon>CalendarEventView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CalendarMonthView.xaml.cs">
       <DependentUpon>CalendarMonthView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CalendarTasksView.xaml.cs">
-      <DependentUpon>CalendarTasksView.xaml</DependentUpon>
+    <Compile Include="Views\TimelineViews\CalendarTimelineView.xaml.cs">
+      <DependentUpon>CalendarTimelineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CalendarTasksViewModel.cs" />
-    <Compile Include="Views\CalendarTodayView.xaml.cs">
+    <Compile Include="Views\TodayViews\CalendarTodayView.xaml.cs">
       <DependentUpon>CalendarTodayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\TaskViewModel.cs" />
-    <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
-    <Page Include="Views\CalendarEventView.xaml">
+    <Compile Include="ViewModels\TodayViewModels\CalendarTodayViewModel.cs" />
+    <Page Include="Views\TimelineViews\CalendarTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TodayViews\CalendarEventView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CalendarMonthView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimelineViews\CalendarTimelineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,19 +147,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\CalendarEventsView.xaml">
+    <Page Include="Views\TodayViews\CalendarEventsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CalendarDateView.xaml">
+    <Page Include="Views\TodayViews\CalendarDateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CalendarTasksView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CalendarTodayView.xaml">
+    <Page Include="Views\TodayViews\CalendarTodayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -20,7 +18,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 CalendarEvents.Add(new CalendarEventViewModel()
                 {
-                    Title = "Hej",
+                    Title = "yoyo",
                     Description = "Jeppe"
                 });
             }

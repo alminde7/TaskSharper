@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace TaskSharper.Calender.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for CalendarEventView.xaml
+    /// Interaction logic for CalendarTimelineViewModel.xaml
     /// </summary>
-    public partial class CalendarEventView : UserControl
+    public partial class CalendarTimeView : UserControl
     {
-        public CalendarEventView()
+        public CalendarTimeView()
         {
             InitializeComponent();
         }

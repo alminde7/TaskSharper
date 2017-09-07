@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
 namespace TaskSharper.Calender.WPF.Views
-{
+{ 
     /// <summary>
-    /// Interaction logic for CalendarTasksComponent.xaml
+    /// Interaction logic for CalendarTodayComponent.xaml
     /// </summary>
-    public partial class CalendarTasksView : UserControl
+    public partial class CalendarTodayView : UserControl
     {
-        public CalendarTasksView()
+        public CalendarTodayView()
         {
             InitializeComponent();
         }
