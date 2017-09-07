@@ -28,7 +28,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0"  Content="{x:Static p:Resources.MainWindow_Today_Button_Text}" 
+            <Button Grid.Row="0"  Content="{x:Static p:Resources.MainWindow_Week_Button_Text}" 
                     Command="{Binding NavigateCommand}" CommandParameter="CalendarTodayView" 
                     Margin="2" 
                     Height="Auto">
