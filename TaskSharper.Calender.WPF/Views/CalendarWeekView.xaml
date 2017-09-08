@@ -58,7 +58,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <views:CalendarTimelineView Margin="2" Grid.Column="0"></views:CalendarTimelineView>
+                <views:CalendarTimelineView Margin="2" Grid.Column="0"></views:CalendarTimelineView >
                 <views:CalendarEventsView Margin="2" Grid.Column="1"></views:CalendarEventsView>
                 <views:CalendarEventsView Margin="2" Grid.Column="2"></views:CalendarEventsView>
                 <views:CalendarEventsView Margin="2" Grid.Column="3"></views:CalendarEventsView>

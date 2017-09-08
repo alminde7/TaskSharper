@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
+using Prism.Regions;
 using TaskSharper.Calender.WPF.Views;
 
 namespace TaskSharper.Calender.WPF
@@ -15,6 +16,11 @@ namespace TaskSharper.Calender.WPF
         protected override void InitializeShell()
         {
             Application.Current.MainWindow.Show();
+
+            // Set default Calendar on start.
+            var regionManager = Container.Resolve<IRegionManager>();
+            regionManager.RequestNavigate("CalendarRegion", "CalendarWeekView");
+
         }
         protected override void ConfigureContainer()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Prism.Mvvm;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -23,6 +24,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             var dayOffset = today - (int)DateTime.Now.DayOfWeek;
 
+            // TODO:: Dont do this.. do something smarter
+            if (today == 0)
+                dayOffset += 7;
+
+            //var info = DateTimeFormatInfo.CurrentInfo;
+            //var culture = new CultureInfo("da-DK");
+            
             var dateTime = DateTime.Now.AddDays(dayOffset);
 
             DayOfMonth = dateTime.Day;

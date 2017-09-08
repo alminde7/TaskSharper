@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,15 +11,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarWeekViewModel : BindableBase
     {
+        private const int DAYS_IN_WEEK = 7;
+
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
 
         public CalendarWeekViewModel()
         {
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
+            InitializeView();
+        }
 
-            for (int i = 0; i < 7; i++)
+        private void InitializeView()
+        {
+            for (int i = 1; i <= DAYS_IN_WEEK; i++)
             {
-                DateHeaders.Add(new CalendarDateViewModel(i));
+                DateHeaders.Add(new CalendarDateViewModel(i%DAYS_IN_WEEK));
             }
         }
     }
