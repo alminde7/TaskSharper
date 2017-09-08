@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
+using System.Threading;
+using System.Windows.Markup;
 
 namespace TaskSharper.Calender.WPF
 {
@@ -8,14 +10,14 @@ namespace TaskSharper.Calender.WPF
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.Name)));
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+
             base.OnStartup(e);
             Bootstrapper bootstrapper = new Bootstrapper();
             bootstrapper.Run();
-
-            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("dk");
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("dk");
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("dk");
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("dk");
         }
     }
 }

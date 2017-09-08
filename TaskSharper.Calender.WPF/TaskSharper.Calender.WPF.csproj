@@ -97,8 +97,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Properties\Resources.dk.Designer.cs">
-      <DependentUpon>Resources.dk.resx</DependentUpon>
+    <Compile Include="Properties\Resources.dk-DK.Designer.cs">
+      <DependentUpon>Resources.dk-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
@@ -196,9 +196,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.dk.resx">
+    <EmbeddedResource Include="Properties\Resources.dk-DK.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.dk.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.dk-DK.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
