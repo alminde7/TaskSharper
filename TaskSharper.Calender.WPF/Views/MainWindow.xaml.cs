@@ -11,9 +11,6 @@ namespace TaskSharper.Calender.WPF.Views
         public MainWindow()
         {
             InitializeComponent();
-
-
-
         }
     }
 }
