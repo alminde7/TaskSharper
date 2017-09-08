@@ -10,7 +10,7 @@ namespace TaskSharper.Shared.Configuration
         public static string ElasticsearchHost = GetAppsetting("ElasticsearchHost");
         public static string ElasticsearchPort = GetAppsetting("ElasticsearchPort");
 
-        public static bool ElkAuthIsActivated = Convert.ToBoolean(GetAppsetting("ElkAutenthenticationActivated"));
+        public static bool ElkAuthIsActivated = Convert.ToBoolean(GetAppsetting("ElkAuthenticationActivated"));
 
         public static string GetAppsetting(string key)
         {

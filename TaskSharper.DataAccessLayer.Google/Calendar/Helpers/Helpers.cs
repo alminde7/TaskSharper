@@ -23,7 +23,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 OriginalStartTime = googleEvent.OriginalStartTime?.DateTime,
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
-                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None
+                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None,
+                Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList()
             };
         }
 
@@ -41,7 +42,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 OriginalStartTime = googleEvent.OriginalStartTime?.DateTime,
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
-                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None
+                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None,
+                Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList()
             }).ToList();
         }
 
@@ -51,13 +53,25 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
             {
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
-                Start = new EventDateTime { DateTime = eventObj.Start },
-                End = new EventDateTime { DateTime = eventObj.End },
-                Status = eventObj.Status.ToString(),
-                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>
+                Start = new EventDateTime {DateTime = eventObj.Start},
+                End = new EventDateTime {DateTime = eventObj.End},
+                Status = eventObj.Status.ToString().ToLower(),
+                ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                 {
-                    { "Type", eventObj.Type.ToString() }
-                }}
+                    Shared = new Dictionary<string, string>
+                    {
+                        { "Type", eventObj.Type.ToString() }
+                    }
+                },
+                Reminders = new GoogleEvent.RemindersData
+                {
+                    Overrides = eventObj.Reminders.Select(reminder => new EventReminder
+                    {
+                        Minutes = reminder,
+                        Method = "popup"
+                    }).ToList(),
+                    UseDefault = eventObj.Reminders.Count == 0
+                }
             };
         }
 
@@ -69,11 +83,20 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Description = eventObj.Description,
                 Start = new EventDateTime { DateTime = eventObj.Start },
                 End = new EventDateTime { DateTime = eventObj.End },
-                Status = eventObj.Status.ToString(),
+                Status = eventObj.Status.ToString().ToLower(),
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>
                 {
                     { "Type", eventObj.Type.ToString() }
-                }}
+                }},
+                Reminders = new GoogleEvent.RemindersData
+                {
+                    Overrides = eventObj.Reminders.Select(reminder => new EventReminder
+                    {
+                        Minutes = reminder,
+                        Method = "popup"
+                    }).ToList(),
+                    UseDefault = eventObj.Reminders.Count == 0
+                }
             }).ToList();
         }
     }

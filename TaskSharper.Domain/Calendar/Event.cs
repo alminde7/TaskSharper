@@ -90,5 +90,10 @@ namespace TaskSharper.Domain.Calendar
         /// Task
         /// </summary>
         public EventType? Type { get; set; }
+
+        /// <summary>
+        /// Reminders for the event. In minutes.
+        /// </summary>
+        public List<int?> Reminders { get; set; }
     }
 }
