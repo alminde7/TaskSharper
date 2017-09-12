@@ -14,10 +14,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private const int DAYS_IN_WEEK = 7;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
+        public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
 
         public CalendarWeekViewModel()
         {
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
+            EventContainers = new ObservableCollection<CalendarEventsViewModel>();
             InitializeView();
         }
 
@@ -26,6 +28,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             for (int i = 1; i <= DAYS_IN_WEEK; i++)
             {
                 DateHeaders.Add(new CalendarDateViewModel(i%DAYS_IN_WEEK));
+                EventContainers.Add(new CalendarEventsViewModel());
             }
         }
     }

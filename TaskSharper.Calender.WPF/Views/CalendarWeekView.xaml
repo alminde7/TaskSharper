@@ -23,18 +23,17 @@
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Column="1" Width="Auto">
+            <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="0" Grid.Column="1" Width="Auto">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1"/>
-
-
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -44,30 +43,34 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
+        
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-            <Grid >
+
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.3*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
 
-                <views:CalendarTimelineView Margin="2" Grid.Column="0"></views:CalendarTimelineView >
-                <views:CalendarEventsView Margin="2" Grid.Column="1"></views:CalendarEventsView>
-                <views:CalendarEventsView Margin="2" Grid.Column="2"></views:CalendarEventsView>
-                <views:CalendarEventsView Margin="2" Grid.Column="3"></views:CalendarEventsView>
-                <views:CalendarEventsView Margin="2" Grid.Column="4"></views:CalendarEventsView>
-                <views:CalendarEventsView Margin="2" Grid.Column="5"></views:CalendarEventsView>
-                <views:CalendarEventsView Margin="2" Grid.Column="6"></views:CalendarEventsView>
-                <views:CalendarEventsView Margin="2" Grid.Column="7"></views:CalendarEventsView>
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding EventContainers}"  Width="Auto">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <views:CalendarEventsView Width="Auto" HorizontalAlignment="Stretch"></views:CalendarEventsView>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <views:CalendarTimelineView Grid.Column="0"></views:CalendarTimelineView>
             </Grid>
         </ScrollViewer>
+
+
 
     </Grid>
 </UserControl>
