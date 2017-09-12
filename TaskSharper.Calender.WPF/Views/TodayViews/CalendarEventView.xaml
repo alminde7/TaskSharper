@@ -3,17 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views"
+             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+
+             
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
-    <Grid Height="50">
+    <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
         <Grid.RowDefinitions>
+
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <Label Grid.Row="0" Content="{Binding Title}"/>
         <Label Grid.Row="1" Content="{Binding Description}"/>
-        
+
     </Grid>
 </UserControl>
