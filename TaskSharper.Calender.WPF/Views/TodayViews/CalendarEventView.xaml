@@ -6,12 +6,9 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views"
              xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
-
-             
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
-    <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
-    
+
     <UserControl.Resources>
         <Style x:Key="SwitchButtonStyle" TargetType="Label">
             <Style.Triggers>
@@ -21,9 +18,9 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
-    <Grid Height="50">
-        
+
+    <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
+
         <Grid.RowDefinitions>
 
             <RowDefinition Height="*"/>
