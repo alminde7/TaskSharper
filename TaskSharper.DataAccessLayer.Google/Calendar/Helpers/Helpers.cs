@@ -28,7 +28,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
             };
         }
 
-        internal static List<Event> GoogleEventParser(List<GoogleEvent> googleEvents)
+        public static List<Event> GoogleEventParser(List<GoogleEvent> googleEvents)
         {
             return googleEvents.Select(googleEvent => new Event
             {
@@ -47,7 +47,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
             }).ToList();
         }
 
-        internal static GoogleEvent GoogleEventParser(Event eventObj)
+        public static GoogleEvent GoogleEventParser(Event eventObj)
         {
             return new GoogleEvent
             {
@@ -65,17 +65,17 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 },
                 Reminders = new GoogleEvent.RemindersData
                 {
-                    Overrides = eventObj.Reminders.Select(reminder => new EventReminder
+                    Overrides = eventObj.Reminders?.Select(reminder => new EventReminder
                     {
                         Minutes = reminder,
                         Method = "popup"
                     }).ToList(),
-                    UseDefault = eventObj.Reminders.Count == 0
+                    UseDefault = eventObj.Reminders?.Count == 0
                 }
             };
         }
 
-        internal static List<GoogleEvent> GoogleEventParser(List<Event> eventObjs)
+        public static List<GoogleEvent> GoogleEventParser(List<Event> eventObjs)
         {
             return eventObjs.Select(eventObj => new GoogleEvent
             {
@@ -90,12 +90,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 }},
                 Reminders = new GoogleEvent.RemindersData
                 {
-                    Overrides = eventObj.Reminders.Select(reminder => new EventReminder
+                    Overrides = eventObj.Reminders?.Select(reminder => new EventReminder
                     {
                         Minutes = reminder,
                         Method = "popup"
                     }).ToList(),
-                    UseDefault = eventObj.Reminders.Count == 0
+                    UseDefault = eventObj.Reminders?.Count == 0
                 }
             }).ToList();
         }
