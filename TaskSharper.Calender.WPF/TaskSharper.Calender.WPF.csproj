@@ -107,11 +107,15 @@
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimelineViewModel.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimeViewModel.cs" />
+    <Compile Include="ViewModels\TimelineViewModels\CalendarYearHeaderViewModel.cs" />
     <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AppointmentViewModel.cs" />
     <Compile Include="Views\TimelineViews\CalendarTimeView.xaml.cs">
       <DependentUpon>CalendarTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimelineViews\CalendarYearHeaderView.xaml.cs">
+      <DependentUpon>CalendarYearHeaderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TodayViews\CalendarEventsView.xaml.cs">
       <DependentUpon>CalendarEventsView.xaml</DependentUpon>
@@ -136,6 +140,10 @@
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\TodayViewModels\CalendarTodayViewModel.cs" />
     <Page Include="Views\TimelineViews\CalendarTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimelineViews\CalendarYearHeaderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
