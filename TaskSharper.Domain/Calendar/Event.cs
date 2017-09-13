@@ -69,7 +69,7 @@ namespace TaskSharper.Domain.Calendar
         public DateTime? Created { get; set; }
 
         /// <summary>
-        /// First start time for a recurring event. Optional. TODO: Should this be included?
+        /// First start time for a recurring event. Optional.
         /// </summary>
         public DateTime? OriginalStartTime { get; set; }
 

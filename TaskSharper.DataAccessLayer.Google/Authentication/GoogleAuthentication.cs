@@ -4,13 +4,21 @@ using System.Threading;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Util.Store;
+using Serilog;
+using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.DataAccessLayer.Google.Authentication
 {
-    public static class GoogleAuthentication
+    public class GoogleAuthentication
     {
-        private static readonly string[] Scopes = { CalendarService.Scope.Calendar };
-        public static UserCredential Authenticate()
+        protected ILogger Logger;
+        private readonly string[] _scopes = { CalendarService.Scope.Calendar };
+
+        public GoogleAuthentication(ILogger logger)
+        {
+            Logger = logger;
+        }
+        public UserCredential Authenticate()
         {
             UserCredential credential;
 
@@ -21,11 +29,12 @@ namespace TaskSharper.DataAccessLayer.Google.Authentication
 
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
+                    _scopes,
                     "user",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
-                //Console.WriteLine("Credential file saved to: " + credPath);
+
+                Logger.Information($"Credential file saved to: {credPath}");
             }
 
             return credential;

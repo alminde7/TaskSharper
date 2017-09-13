@@ -9,20 +9,17 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
     {
         protected UserCredential UserCredential;
         protected ILogger Logger;
+        protected GoogleAuthentication GoogleAuthentication;
 
-        public BaseService()
+        public BaseService(ILogger logger, GoogleAuthentication googleAuthentication)
         {
-            InitLogging();
+            Logger = logger;
+            GoogleAuthentication = googleAuthentication;
         }
 
         public void Authenticate()
         {
             UserCredential = GoogleAuthentication.Authenticate();
-        }
-
-        public void InitLogging()
-        {
-            Logger = LogConfiguration.Configure();
         }
     }
 }

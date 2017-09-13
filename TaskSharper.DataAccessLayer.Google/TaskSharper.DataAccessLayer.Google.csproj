@@ -98,6 +98,7 @@
     <Compile Include="Calendar\BaseService.cs" />
     <Compile Include="Calendar\Helpers\Helpers.cs" />
     <Compile Include="Calendar\Service\GoogleCalendarService.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
