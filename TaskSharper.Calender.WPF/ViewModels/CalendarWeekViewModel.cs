@@ -50,7 +50,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
 
             InitializeViews();
-            Task.Run(GetCalelndarEvents);
+            Task.Run(GetCalendarEvents);
             
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
@@ -71,8 +71,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             DateHeaders.Clear();
             EventContainers.Clear();
             InitializeViews();
-            GetCalendarEvents();
-
+            Task.Run(GetCalendarEvents);
         }
 
         private void InitializeViews()
@@ -113,7 +112,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 // TODO:: Remove this when add functionality is complete
                 calendarEvent.Type = Event.EventType.Appointment;
 
-                var container = EventContainers.FirstOrDefault(x => x.Date.Day == calendarEvent.Start.Day && x.Date.Month == calendarEvent.Start.Month && x.Date.Year == x.Date.Year);
+                var container = EventContainers.FirstOrDefault(x => x.Date.Day == calendarEvent.Start.Value.Day && x.Date.Month == calendarEvent.Start.Value.Month && x.Date.Year == calendarEvent.Start.Value.Date.Year);
                 if (container != null)
                 {
                     var index = EventContainers.IndexOf(container);
