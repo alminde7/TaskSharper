@@ -257,5 +257,23 @@ namespace TaskSharper.Calender.WPF.Properties {
                 return ResourceManager.GetString("MainWindow_Week_Button_Text", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string WeekView_Next_Button_Text {
+            get {
+                return ResourceManager.GetString("WeekView_Next_Button_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prev.
+        /// </summary>
+        public static string WeekView_Prev_Button_Text {
+            get {
+                return ResourceManager.GetString("WeekView_Prev_Button_Text", resourceCulture);
+            }
+        }
     }
 }

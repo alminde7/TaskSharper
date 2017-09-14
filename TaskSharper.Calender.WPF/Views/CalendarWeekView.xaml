@@ -5,32 +5,35 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
+             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
              xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
              x:Class="TaskSharper.Calender.WPF.Views.CalendarWeekView"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <converters:DateHeaderValueConverter x:Key="DateHeaderValueConverter">
-            
+
         </converters:DateHeaderValueConverter>
     </UserControl.Resources>
-
-    <Grid>
+    <Grid Grid.Column="0" Grid.Row="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
-
-
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="23*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="0" Grid.Column="1" Width="Auto">
+            <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="0" Grid.Column="1" Width="Auto" Grid.RowSpan="2">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1"/>
@@ -42,17 +45,21 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
+                <Button Command="{Binding NextCommand}" Content="{x:Static p:Resources.WeekView_Next_Button_Text}"  />
+                <Button Command="{Binding PrevCommand}" Content="{x:Static p:Resources.WeekView_Prev_Button_Text}" />
+            </StackPanel>
         </Grid>
-        
+
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.3*"/>
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
-
+                <views:CalendarTimelineView Grid.Column="0">
+                </views:CalendarTimelineView>
                 <ItemsControl Grid.Column="1" ItemsSource="{Binding EventContainers}"  Width="Auto">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -65,12 +72,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
-                <views:CalendarTimelineView Grid.Column="0"></views:CalendarTimelineView>
             </Grid>
         </ScrollViewer>
-
-
-
     </Grid>
 </UserControl>
