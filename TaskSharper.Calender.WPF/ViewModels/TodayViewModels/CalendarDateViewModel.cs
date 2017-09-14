@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Prism.Mvvm;
 
 namespace TaskSharper.Calender.WPF.ViewModels
