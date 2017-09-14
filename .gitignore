@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/TaskSharper.DataAccessLayer.TestClient
+/TaskSharper.DataAccessLayer/client_secret.json
+client_secret.json

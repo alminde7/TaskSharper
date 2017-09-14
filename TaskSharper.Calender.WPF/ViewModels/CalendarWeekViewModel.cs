@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
+using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.Resources;
 using Prism.Commands;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -12,6 +16,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
     {
         private readonly CalendarEventsService _service;
         private const int DAYS_IN_WEEK = 7;
+        private IEventAggregator _eventAggregator;
 
         public DelegateCommand NextCommand { get; set; }
 
@@ -22,15 +27,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public int WeeklyOffset { get; set; } = 0;
 
-        public CalendarWeekViewModel(CalendarEventsService calendarEventsService)
+
+        public CalendarWeekViewModel(CalendarEventsService service, IEventAggregator eventAggregator)
         {
-            _service = calendarEventsService;
+
 
             NextCommand = new DelegateCommand(NextWeek);
             PrevCommand = new DelegateCommand(PrevWeek);
+            _service = service;
+            _eventAggregator = eventAggregator;
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
-           
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             InitializeViews();
             GetCalelndarEvents();
         }
@@ -52,6 +60,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             EventContainers.Clear();
             InitializeViews();
             GetCalelndarEvents();
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private void InitializeViews()
