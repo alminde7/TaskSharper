@@ -40,7 +40,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             InitializeViews();
-            GetCalelndarEvents();
+            GetCalendarEvents();
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
@@ -60,7 +60,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             DateHeaders.Clear();
             EventContainers.Clear();
             InitializeViews();
-            GetCalelndarEvents();
+            GetCalendarEvents();
         }
 
         private void InitializeViews()
