@@ -87,7 +87,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             return dateTime;
         }
 
-        public Task GetCalelndarEvents()
+        public Task GetCalendarEvents()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             var events = _service.GetEvents();
