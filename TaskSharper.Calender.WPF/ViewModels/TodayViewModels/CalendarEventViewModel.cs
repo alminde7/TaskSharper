@@ -71,7 +71,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _isTitleAndDescriptionActivated, value);
         }
 
-        public int TimeOfDay { get; set; }
+#endregion
 
 
         public CalendarEventViewModel(int timeOfDay, IRegionManager regionManager)

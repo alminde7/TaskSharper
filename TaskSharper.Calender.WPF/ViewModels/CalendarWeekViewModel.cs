@@ -37,7 +37,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public int WeeklyOffset { get; set; } = 0;
 
 
-        public CalendarWeekViewModel(ICalendarService service, IEventAggregator eventAggregator)
+        public CalendarWeekViewModel(ICalendarService service, IEventAggregator eventAggregator, IRegionManager regionManager)
         {
 
 
