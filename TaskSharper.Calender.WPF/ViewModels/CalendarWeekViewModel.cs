@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -18,16 +19,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly CalendarEventsService _service;
         private const int DAYS_IN_WEEK = 7;
         private IEventAggregator _eventAggregator;
+        private readonly IRegionManager _regionManager;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
 
-        public CalendarWeekViewModel(CalendarEventsService service, IEventAggregator eventAggregator)
+        public CalendarWeekViewModel(CalendarEventsService service, IEventAggregator eventAggregator, IRegionManager regionManager)
         {
             _service = service;
             _eventAggregator = eventAggregator;
+            _regionManager = regionManager;
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
+
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             InitializeViews();
 
@@ -35,13 +39,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
+
         private void InitializeViews()
         {
             for (int i = 1; i <= DAYS_IN_WEEK; i++)
             {
                 var date = CalculateDate(i);
                 DateHeaders.Add(new CalendarDateViewModel(date));
-                EventContainers.Add(new CalendarEventsViewModel(date));
+                EventContainers.Add(new CalendarEventsViewModel(date, _regionManager));
             }
         }
 

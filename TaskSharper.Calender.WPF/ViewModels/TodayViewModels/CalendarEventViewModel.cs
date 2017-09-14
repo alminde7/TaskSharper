@@ -1,17 +1,24 @@
 ﻿using System;
+using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Configuration;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarEventViewModel : BindableBase
     {
+        private readonly IRegionManager _regionManager;
+
         private string _title;
         private string _description;
         private bool _hasAppointment;
         private bool _hasTask;
         private DateTime _start;
         private DateTime _end;
+        public DelegateCommand EventClickCommand { get; set; }
+        
 
         public string Title
         {
@@ -60,9 +67,27 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public int TimeOfDay { get; set; }
 
-        public CalendarEventViewModel(int timeOfDay)
+
+        public CalendarEventViewModel(int timeOfDay, IRegionManager regionManager)
         {
             TimeOfDay = timeOfDay;
+            _regionManager = regionManager;
+            EventClickCommand = new DelegateCommand(EventClick, CanExecute);
+        }
+
+        private void Navigate(string uri)
+        {
+            _regionManager.RequestNavigate("CalendarRegion", uri);
+        }
+
+        private void EventClick()
+        {
+            Navigate("CalendarEventDetailsView");
+        }
+
+        private bool CanExecute()
+        {
+            return !string.IsNullOrEmpty(Title);
         }
     }
 }

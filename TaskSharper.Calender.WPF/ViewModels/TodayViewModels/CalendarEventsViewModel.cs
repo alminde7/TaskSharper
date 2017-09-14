@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
+using Microsoft.Practices.Unity;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarEventsViewModel
     {
+        private readonly IRegionManager _regionManager;
         public DateTime Date { get; }
         private const int HOURS_IN_A_DAY = 24;
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
+        
 
-        public CalendarEventsViewModel(DateTime date)
+        public CalendarEventsViewModel(DateTime date, IRegionManager regionManager)
         {
             Date = date;
+            _regionManager = regionManager;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
             InitializeView();
         }
@@ -22,7 +30,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             for (int i = 0; i < 24; i++)
             {
-                CalendarEvents.Add(new CalendarEventViewModel(i));
+                CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager));
             }
         }
 

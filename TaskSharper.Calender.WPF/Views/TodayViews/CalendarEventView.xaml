@@ -20,7 +20,9 @@
     </UserControl.Resources>
 
     <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
-
+        <Grid.InputBindings>
+            <MouseBinding Gesture="LeftClick"  Command="{Binding EventClickCommand}" CommandParameter=""/>
+        </Grid.InputBindings>
         <Grid.RowDefinitions>
 
             <RowDefinition Height="*"/>
@@ -29,7 +31,7 @@
 
         <Label Grid.Row="0"
                Style="{StaticResource SwitchButtonStyle}"
-               Content="{Binding Title}"/>
+               Content="{Binding Title}"></Label>
         <Label Grid.Row="1" 
                Style="{StaticResource SwitchButtonStyle}"
                Content="{Binding Description}">

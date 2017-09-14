@@ -29,6 +29,7 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterTypeForNavigation<CalendarTodayView>("CalendarTodayView");
             Container.RegisterTypeForNavigation<CalendarWeekView>("CalendarWeekView");
             Container.RegisterTypeForNavigation<CalendarMonthView>("CalendarMonthView");
+            Container.RegisterTypeForNavigation<CalendarEventDetailsView>("CalendarEventDetailsView");
         }
     }
 }
