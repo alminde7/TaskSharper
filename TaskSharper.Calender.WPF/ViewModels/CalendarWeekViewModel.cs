@@ -41,6 +41,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             InitializeViews();
             GetCalelndarEvents();
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private void NextWeek()
@@ -60,7 +61,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             EventContainers.Clear();
             InitializeViews();
             GetCalelndarEvents();
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private void InitializeViews()
@@ -89,6 +89,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public Task GetCalelndarEvents()
         {
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             var events = _service.GetEvents();
 
             //TODO:: Refactor this to make use of observable dictionary
@@ -102,6 +103,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     EventContainers[index].AddEvent(calendarEvent);
                 }
             }
+
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
             return Task.CompletedTask;
         }
     }
