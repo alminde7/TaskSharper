@@ -25,67 +25,52 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private IEventAggregator _eventAggregator;
 
         public DelegateCommand NextCommand { get; set; }
-
         public DelegateCommand PrevCommand { get; set; }
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
 
         
-        public int WeeklyOffset { get; set; } = 0;
+        public DateTime CurrentWeek { get; set; }
 
 
         public CalendarWeekViewModel(ICalendarService service, IEventAggregator eventAggregator)
         {
-
-
-            NextCommand = new DelegateCommand(NextWeek);
-            PrevCommand = new DelegateCommand(PrevWeek);
             _service = service;
             _eventAggregator = eventAggregator;
 
+            NextCommand = new DelegateCommand(NextWeek);
+            PrevCommand = new DelegateCommand(PrevWeek);
+            
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
 
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
+            CurrentWeek = DateTime.Now;
 
             InitializeViews();
-            Task.Run(GetCalendarEvents);
-            
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
+        #region Commands
         private void NextWeek()
         {
-            WeeklyOffset++;
-            ReconstructView();
+            CurrentWeek = CurrentWeek.Date.AddDays(7);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(WeekChangedEnum.Increase);
         }
 
         private void PrevWeek()
         {
-            WeeklyOffset--;
-            ReconstructView();
+            CurrentWeek = CurrentWeek.Date.AddDays(-7);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(WeekChangedEnum.Decrease);
         }
-        private void ReconstructView()
-        {
-            DateHeaders.Clear();
-            EventContainers.Clear();
-            InitializeViews();
-            Task.Run(GetCalendarEvents);
-        }
+        #endregion
 
         private void InitializeViews()
         {
-            SetupDates(WeeklyOffset);
-        }
-        public void SetupDates(int weeklyoffset)
-        {
-            int daysOffset = weeklyoffset * 7;
             for (int i = 1; i <= DAYS_IN_WEEK; i++)
             {
-                var date = CalculateDate(i + daysOffset);
-                DateHeaders.Add(new CalendarDateViewModel(date));
-                EventContainers.Add(new CalendarEventsViewModel(date));
+                var date = CalculateDate(i);
+                DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator));
+                EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _service));
             }
         }
 
@@ -96,34 +81,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             var dateTime = DateTime.Now.AddDays(dayOffset);
 
             return dateTime;
-        }
-
-        public Task GetCalendarEvents()
-        {
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-            var events = _service.GetEvents(DateHeaders.First().Date, DateHeaders.Last().Date, Constants.DefaultGoogleCalendarId);
-
-            //TODO:: Refactor this to make use of observable dictionary
-            foreach (var calendarEvent in events)
-            {
-                // Do not allow events without start and end time (small hack)
-                if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-
-                // TODO:: Remove this when add functionality is complete
-                calendarEvent.Type = Event.EventType.Appointment;
-
-                var container = EventContainers.FirstOrDefault(x => x.Date.Day == calendarEvent.Start.Value.Day && x.Date.Month == calendarEvent.Start.Value.Month && x.Date.Year == calendarEvent.Start.Value.Date.Year);
-                if (container != null)
-                {
-                    var index = EventContainers.IndexOf(container);
-
-                    EventContainers[index].AddEvent(calendarEvent);
-                }
-            }
-
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-            
-            return Task.CompletedTask;
         }
     }
 }

@@ -1,24 +1,42 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Practices.ObjectBuilder2;
+using Prism.Events;
+using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarEventsViewModel
     {
-        public DateTime Date { get; }
         private const int HOURS_IN_A_DAY = 24;
+
+        private readonly IEventAggregator _eventAggregator;
+
+        public DateTime Date { get; set; }
+        public ICalendarService Service { get; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
 
-        public CalendarEventsViewModel(DateTime date)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, ICalendarService service)
         {
+            _eventAggregator = eventAggregator;
             Date = date;
+            Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
-            InitializeView();
-        }
 
+            eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            
+            InitializeView();
+
+            Task.Run(GetEvents);
+        }
+        
         private void InitializeView()
         {
             for (int i = 0; i < HOURS_IN_A_DAY; i++)
@@ -27,25 +45,43 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-        public void AddEvent(Event calendarEvent)
+        private void WeekChangedEventHandler(WeekChangedEnum state)
         {
-            //TODO:: Refactor this to make use of observable dictionary
-            
-            var eventViewModel = CalendarEvents.FirstOrDefault(x => x.TimeOfDay == calendarEvent.Start.Value.Hour);
-            var index = CalendarEvents.IndexOf(eventViewModel);
-
-            
-            var timespan = calendarEvent.End.Value.Hour - calendarEvent.Start.Value.Hour;
-
-            for (int i = index; i < index + timespan; i++)
+            switch (state)
             {
-                CalendarEvents[i].Id = calendarEvent.Id;
-                CalendarEvents[i].Title = calendarEvent.Title;
-                CalendarEvents[i].Description = calendarEvent.Description;
-                CalendarEvents[i].Start = calendarEvent.Start.Value;
-                CalendarEvents[i].End = calendarEvent.End.Value;
-                CalendarEvents[i].Type = calendarEvent.Type;
+                case WeekChangedEnum.Increase:
+                    Date = Date.AddDays(7);
+                    CalendarEvents.ForEach(x => x.Event = null);
+
+                    Task.Run(GetEvents);
+                    break;
+                case WeekChangedEnum.Decrease:
+                    Date = Date.AddDays(-7);
+                    CalendarEvents.ForEach(x => x.Event = null);
+                    Task.Run(GetEvents);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
+
+        private Task GetEvents()
+        {
+            var calendarEvents = Service.GetEvents(Date.Date, Date.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
+
+            foreach (var calendarEvent in calendarEvents)
+            {
+                var eventTimespan = calendarEvent.End.Value.Hour - calendarEvent.Start.Value.Hour;
+                var startIndex = calendarEvent.Start.Value.Hour;
+
+                for (int i = startIndex; i < startIndex + eventTimespan; i++)
+                {
+                    CalendarEvents[i].Event = calendarEvent;
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
     }
 }
