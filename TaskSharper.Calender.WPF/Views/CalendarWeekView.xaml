@@ -50,8 +50,6 @@
                 <Button Command="{Binding PrevCommand}" Content="{x:Static p:Resources.WeekView_Prev_Button_Text}" />
             </StackPanel>
         </Grid>
-
-
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
             <Grid>
                 <Grid.ColumnDefinitions>
