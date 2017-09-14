@@ -30,7 +30,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="7*"/>
-                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.6*"/>
             </Grid.ColumnDefinitions>
 
             <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="0" Grid.Column="1" Width="Auto" Grid.RowSpan="2">
@@ -57,6 +57,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.3*"/>
                     <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="0.6*"/>
                 </Grid.ColumnDefinitions>
                 <views:CalendarTimelineView Grid.Column="0">
                 </views:CalendarTimelineView>

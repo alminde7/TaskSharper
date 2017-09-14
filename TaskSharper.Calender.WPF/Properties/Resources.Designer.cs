@@ -259,7 +259,7 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next.
+        ///   Looks up a localized string similar to Next Week.
         /// </summary>
         public static string WeekView_Next_Button_Text {
             get {
@@ -268,7 +268,7 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prev.
+        ///   Looks up a localized string similar to Prev Week.
         /// </summary>
         public static string WeekView_Prev_Button_Text {
             get {
