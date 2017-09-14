@@ -4,6 +4,7 @@ using Microsoft.Practices.Unity.Configuration;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -13,13 +14,20 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private string _title;
         private string _description;
-        private bool _hasAppointment;
-        private bool _hasTask;
         private DateTime _start;
         private DateTime _end;
         public DelegateCommand EventClickCommand { get; set; }
         
 
+        private Event.EventType _type;
+        private bool _isTitleAndDescriptionActivated;
+
+        #region Non-binding properties
+        public string Id { get; set; }
+        public int TimeOfDay { get; set; }
+        #endregion
+
+        #region Binding properties
         public string Title
         {
             get => _title;
@@ -37,11 +45,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             get => _start;
             set
             {
-                HasAppointment = true;
                 if (value.Hour < TimeOfDay)
                 {
-                    Title = "";
-                    Description = "";
+                    IsTitleAndDescriptionActivated = false;
                 }
                 SetProperty(ref _start, value);
             }
@@ -53,16 +59,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _end, value);
         }
 
-        public bool HasAppointment
+        public Event.EventType Type
         {
-            get => _hasAppointment;
-            set => SetProperty(ref _hasAppointment, value);
+            get => _type;
+            set => SetProperty(ref _type, value);
         }
 
-        public bool HasTask
+        public bool IsTitleAndDescriptionActivated
         {
-            get => _hasTask;
-            set => SetProperty(ref _hasTask, value);
+            get => _isTitleAndDescriptionActivated;
+            set => SetProperty(ref _isTitleAndDescriptionActivated, value);
         }
 
         public int TimeOfDay { get; set; }
@@ -71,6 +77,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public CalendarEventViewModel(int timeOfDay, IRegionManager regionManager)
         {
             TimeOfDay = timeOfDay;
+            IsTitleAndDescriptionActivated = true;
             _regionManager = regionManager;
             EventClickCommand = new DelegateCommand(EventClick, CanExecute);
         }

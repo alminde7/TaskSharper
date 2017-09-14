@@ -183,4 +183,10 @@
   <data name="MainWindow_Week_Button_Text" xml:space="preserve">
     <value>This Week</value>
   </data>
+  <data name="WeekView_Next_Button_Text" xml:space="preserve">
+    <value>Next Week</value>
+  </data>
+  <data name="WeekView_Prev_Button_Text" xml:space="preserve">
+    <value>Prev Week</value>
+  </data>
 </root>
