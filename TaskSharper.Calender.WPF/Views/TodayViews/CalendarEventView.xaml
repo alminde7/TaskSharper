@@ -6,43 +6,47 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views"
              xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+             xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <Style x:Key="SwitchButtonStyle" TargetType="Label">
+        <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
+        <Style x:Key="EventTypeStyle" TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding HasAppointment}" Value="true">
-                    <Setter Property="Background" Value="Red"/>
+                <DataTrigger Binding="{Binding Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
+                    <Setter Property="Background" Value="DarkOliveGreen"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Task}" Value="true">
+                    <Setter Property="Background" Value="CornflowerBlue"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="LabelHideStyle" TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsTitleAndDescriptionActivated}" Value="false">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
     <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
-
         <Grid.RowDefinitions>
 
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0"
-               Style="{StaticResource SwitchButtonStyle}"
-               Content="{Binding Title}"/>
-        <Label Grid.Row="1" 
-               Style="{StaticResource SwitchButtonStyle}"
-               Content="{Binding Description}">
-        </Label>
+        <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
+            <Label Style="{StaticResource LabelHideStyle}"
+                   Content="{Binding Title}"/>
+        </TextBlock>
 
-        <!--<TextBlock VerticalAlignment="Top" 
-                   HorizontalAlignment="Left" 
-                   Grid.Row="0"
-                   Text="{Binding Title}"/>
-        <TextBlock VerticalAlignment="Top" 
-                   HorizontalAlignment="Left" 
-                   Grid.Row="1"
-                   Text="{Binding Description}"/>-->
-
+        <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
+            <Label Style="{StaticResource LabelHideStyle}"
+                   Content="{Binding Description}"/>
+        </TextBlock>
     </Grid>
 </UserControl>
