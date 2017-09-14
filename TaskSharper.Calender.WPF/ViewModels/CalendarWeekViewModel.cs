@@ -4,34 +4,42 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.DataAccessLayer.Google;
+using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarWeekViewModel : BindableBase
     {
-        private readonly CalendarEventsService _service;
         private const int DAYS_IN_WEEK = 7;
+
+        private readonly ICalendarService _service;
         private IEventAggregator _eventAggregator;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
 
-        public CalendarWeekViewModel(CalendarEventsService service, IEventAggregator eventAggregator)
+        public CalendarWeekViewModel(ICalendarService service, IEventAggregator eventAggregator)
         {
             _service = service;
             _eventAggregator = eventAggregator;
+
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
+
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
+
             InitializeViews();
 
-            GetCalelndarEvents();
+            Task.Run(GetCalelndarEvents);
+
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
@@ -59,12 +67,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public Task GetCalelndarEvents()
         {
-            var events = _service.GetEvents();
+            var events = _service.GetEvents(DateHeaders.First().Date, DateHeaders.Last().Date, Constants.DefaultGoogleCalendarId);
 
             //TODO:: Refactor this to make use of observable dictionary
             foreach (var calendarEvent in events)
             {
-                var container = EventContainers.FirstOrDefault(x => x.Date.Day == calendarEvent.Start.Day);
+                // Do not allow events without start and end time (small hack)
+                if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
+
+                // TODO:: Remove this when add functionality is complete
+                calendarEvent.Type = Event.EventType.Appointment;
+                
+                var container = EventContainers.FirstOrDefault(x => x.Date.Day == calendarEvent.Start.Value.Day);
                 var index = EventContainers.IndexOf(container);
                 
                 EventContainers[index].AddEvent(calendarEvent);
@@ -72,46 +86,5 @@ namespace TaskSharper.Calender.WPF.ViewModels
             
             return Task.CompletedTask;
         }
-    }
-
-    public class CalendarEventsService
-    {
-        public List<Events> GetEvents()
-        {
-            var list = new List<Events>()
-            {
-                new Events()
-                {
-                    Title = "The title", 
-                    Description = "A description",
-                    Start = DateTime.Now,
-                    End = DateTime.Now.AddHours(3)
-                },
-                new Events()
-                {
-                    Title = "The new title",
-                    Description = "A new description",
-                    Start = DateTime.Now.AddDays(3),
-                    End = DateTime.Now.AddDays(3).AddHours(3)
-                },
-                new Events()
-                {
-                    Title = "Cool title",
-                    Description = "crappy description",
-                    Start = DateTime.Now.AddDays(3).AddHours(-4),
-                    End = DateTime.Now.AddDays(3).AddHours(-2)
-                }
-            };
-
-            return list;
-        }
-    }
-
-    public class Events
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
     }
 }

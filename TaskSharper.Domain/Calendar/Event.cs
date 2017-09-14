@@ -89,7 +89,7 @@ namespace TaskSharper.Domain.Calendar
         /// Apointment
         /// Task
         /// </summary>
-        public EventType? Type { get; set; }
+        public EventType Type { get; set; }
 
         /// <summary>
         /// Reminders for the event. In minutes.
