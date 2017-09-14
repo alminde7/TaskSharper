@@ -67,10 +67,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private Task GetEvents()
         {
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
+
             var calendarEvents = Service.GetEvents(Date.Date, Date.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
 
             foreach (var calendarEvent in calendarEvents)
             {
+                if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
+
                 var eventTimespan = calendarEvent.End.Value.Hour - calendarEvent.Start.Value.Hour;
                 var startIndex = calendarEvent.Start.Value.Hour;
 
@@ -79,7 +83,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     CalendarEvents[i].Event = calendarEvent;
                 }
             }
-
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
             return Task.CompletedTask;
         }
 
