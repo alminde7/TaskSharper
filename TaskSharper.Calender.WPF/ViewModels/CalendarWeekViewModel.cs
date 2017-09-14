@@ -5,8 +5,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -14,18 +17,22 @@ namespace TaskSharper.Calender.WPF.ViewModels
     {
         private readonly CalendarEventsService _service;
         private const int DAYS_IN_WEEK = 7;
+        private IEventAggregator _eventAggregator;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
 
-        public CalendarWeekViewModel(CalendarEventsService service)
+        public CalendarWeekViewModel(CalendarEventsService service, IEventAggregator eventAggregator)
         {
             _service = service;
+            _eventAggregator = eventAggregator;
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             InitializeViews();
 
             GetCalelndarEvents();
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private void InitializeViews()
@@ -62,6 +69,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 
                 EventContainers[index].AddEvent(calendarEvent);
             }
+            
             return Task.CompletedTask;
         }
     }
