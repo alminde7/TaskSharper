@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AppConfig.cs" />
+    <Compile Include="Configuration\Config.cs" />
     <Compile Include="Logging\LogConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

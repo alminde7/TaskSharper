@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Elasticsearch.Net;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using TaskSharper.Shared.Configuration;
@@ -22,7 +23,8 @@ namespace TaskSharper.Shared.Logging
                     .WriteTo.Elasticsearch(
                         new ElasticsearchSinkOptions(new Uri(_elasticSearchUrl))
                         {
-                            AutoRegisterTemplate = true
+                            AutoRegisterTemplate = true,
+                            ConnectionTimeout = Config.ElasticsearchConnectionTimeout,
                         })
                     .MinimumLevel.Information()
                     .CreateLogger();
