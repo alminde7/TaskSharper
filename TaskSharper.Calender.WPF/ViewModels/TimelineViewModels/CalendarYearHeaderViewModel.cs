@@ -4,24 +4,78 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Events;
+using Prism.Mvvm;
+using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
-    public class CalendarYearHeaderViewModel
+    public class CalendarYearHeaderViewModel : BindableBase
     {
-        public int Year { get; set; }
-        public string Month { get; set; }
-        public int WeekNumber { get; set; }
+        private DateTime _date;
+        private int _year;
+        private string _month;
+        private int _weekNumber;
 
-        public CalendarYearHeaderViewModel()
+        public int Year
         {
-            var date = DateTime.Now;
+            get => _year;
+            set => SetProperty(ref _year, value);
+        }
 
-            var dateCultureInfo = DateTimeFormatInfo.CurrentInfo;
+        public string Month
+        {
+            get => _month;
+            set => SetProperty(ref _month, value);
+        }
 
-            Year = date.Year;
-            Month = dateCultureInfo?.GetMonthName(date.Month);
-            WeekNumber = dateCultureInfo.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
+        public int WeekNumber
+        {
+            get => _weekNumber;
+            set => SetProperty(ref _weekNumber, value);
+        }
+
+        public DateTime Date    
+        {
+            get => _date;
+            set
+            {
+                Year = value.Year;
+                Month = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetMonthName(value.Month));
+                WeekNumber = DateCultureInfo.Calendar.GetWeekOfYear(value, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
+                _date = value;
+            }
+        }
+
+        public DateTimeFormatInfo DateCultureInfo { get; set; }
+
+        public CultureInfo CurrentCulture { get; set; }
+
+        public CalendarYearHeaderViewModel(IEventAggregator eventAggregator)
+        {
+            // Initialization
+            CurrentCulture = CultureInfo.CurrentCulture;
+            DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
+            Date = DateTime.Now;
+
+            // Event subscriptions
+            eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+        }
+
+        private void WeekChangedEventHandler(ChangeWeekEnum state)
+        {
+            switch (state)
+            {
+                case ChangeWeekEnum.Increase:
+                    Date = Date.AddDays(7);
+                    break;
+                case ChangeWeekEnum.Decrease:
+                    Date = Date.AddDays(-7);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
         }
     }
 }

@@ -33,8 +33,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public bool SpinnerVisible
         {
-            get { return _spinnerVisible; }
-            set { SetProperty(ref _spinnerVisible, value); }
+            get => _spinnerVisible;
+            set => SetProperty(ref _spinnerVisible, value);
         }
 
         private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
