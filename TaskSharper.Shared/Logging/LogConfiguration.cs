@@ -2,7 +2,7 @@
 using System.Reflection;
 using Elasticsearch.Net;
 using Serilog;
-using Serilog.Sinks.Elasticsearch;
+using Serilog.Core;
 using TaskSharper.Shared.Configuration;
 
 namespace TaskSharper.Shared.Logging
@@ -20,12 +20,7 @@ namespace TaskSharper.Shared.Logging
                 new LoggerConfiguration()
                     .Enrich.WithProperty("MachineName", machineName)
                     .Enrich.WithProperty("Application", applicationName)
-                    .WriteTo.Elasticsearch(
-                        new ElasticsearchSinkOptions(new Uri(_elasticSearchUrl))
-                        {
-                            AutoRegisterTemplate = true,
-                            ConnectionTimeout = Config.ElasticsearchConnectionTimeout,
-                        })
+                    .AddElasticsearch(_elasticSearchUrl)
                     .MinimumLevel.Information()
                     .CreateLogger();
             return logger;

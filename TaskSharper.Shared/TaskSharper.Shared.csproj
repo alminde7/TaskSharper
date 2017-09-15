@@ -62,6 +62,7 @@
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Logging\LogConfiguration.cs" />
+    <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
