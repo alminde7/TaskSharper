@@ -2,6 +2,13 @@
 
 This project defines structure and behaviour for **TaskSharper Calendar**
 
+## Future work
+- Show modal in corner of screen on error
+  - Connection error
+    - Google DAL
+    - Rest API
+    - etc.
+
 ## Project structure
 This section describes various quirks to be aware of when working on this project.
 

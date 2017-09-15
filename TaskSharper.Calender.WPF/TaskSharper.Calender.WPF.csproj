@@ -200,7 +200,7 @@
     <Compile Include="Views\CalendarTodayView.xaml.cs">
       <DependentUpon>CalendarTodayView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\TodayViewModels\CalendarTodayViewModel.cs" />
+    <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
     <Page Include="Views\TimelineViews\CalendarTimeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
