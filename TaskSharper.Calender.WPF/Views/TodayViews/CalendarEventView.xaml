@@ -14,11 +14,14 @@
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
         <Style x:Key="EventTypeStyle" TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
+                <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
                     <Setter Property="Background" Value="DarkOliveGreen"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Task}" Value="true">
+                <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Task}" Value="true">
                     <Setter Property="Background" Value="CornflowerBlue"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}" Value="true">
+                    <Setter Property="Background" Value="DarkOliveGreen"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -41,12 +44,12 @@
 
         <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
             <Label Style="{StaticResource LabelHideStyle}"
-                   Content="{Binding Title}"/>
+                   Content="{Binding Event.Title}"/>
         </TextBlock>
 
         <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
             <Label Style="{StaticResource LabelHideStyle}"
-                   Content="{Binding Description}"/>
+                   Content="{Binding Event.Description}"/>
         </TextBlock>
     </Grid>
 </UserControl>
