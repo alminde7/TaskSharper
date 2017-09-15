@@ -42,8 +42,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             get => _isTitleAndDescriptionActivated;
             set => SetProperty(ref _isTitleAndDescriptionActivated, value);
         }
-
-#endregion
+        
 
 
         public CalendarEventViewModel(int timeOfDay, IRegionManager regionManager)
@@ -56,7 +55,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void Navigate(string uri)
         {
-            _regionManager.RequestNavigate("CalendarRegion", uri + $"?id={Id}");
+            _regionManager.RequestNavigate("CalendarRegion", uri + $"?id={Event.Id}");
         }
 
         private void EventClick()
@@ -66,7 +65,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private bool CanExecute()
         {
-            return !string.IsNullOrEmpty(Id);
+            return !string.IsNullOrEmpty(Event.Id);
         }
     }
 }
