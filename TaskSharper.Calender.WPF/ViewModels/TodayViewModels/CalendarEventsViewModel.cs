@@ -39,7 +39,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             InitializeView();
 
-           // Task.Run(GetEvents);
+            Task.Run(GetEvents);
         }
 
         private void InitializeView()

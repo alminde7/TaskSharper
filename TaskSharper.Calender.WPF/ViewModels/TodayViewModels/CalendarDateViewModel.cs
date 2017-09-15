@@ -62,6 +62,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 case DateChangeEnum.Decrease_Week:
                     CurrentDate = CurrentDate.AddDays(-7);
                     break;
+                case DateChangeEnum.Increase_Day:
+                    CurrentDate = CurrentDate.AddDays(1);
+                    break;
+                case DateChangeEnum.Decrease_Day:
+                    CurrentDate = CurrentDate.AddDays(-1);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newDate), newDate, null);
             }
