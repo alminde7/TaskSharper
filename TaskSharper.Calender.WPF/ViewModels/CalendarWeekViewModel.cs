@@ -54,13 +54,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void NextWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(7);
-            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(ChangeWeekEnum.Increase);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangeEnum.Increase_Week);
         }
 
         private void PreviousWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(-7);
-            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(ChangeWeekEnum.Decrease);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangeEnum.Decrease_Week);
         }
         #endregion
 

@@ -36,12 +36,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
 
             eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
-            
+
             InitializeView();
 
-            Task.Run(GetEvents);
+           // Task.Run(GetEvents);
         }
-        
+
         private void InitializeView()
         {
             for (int i = 0; i < HOURS_IN_A_DAY; i++)
@@ -50,24 +50,35 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-        private void WeekChangedEventHandler(ChangeWeekEnum state)
+        private void WeekChangedEventHandler(DateChangeEnum state)
         {
             switch (state)
             {
-                case ChangeWeekEnum.Increase:
+                case DateChangeEnum.Increase_Week:
                     Date = Date.AddDays(7);
-                    CalendarEvents.ForEach(x => x.Event = null);
-
-                    Task.Run(GetEvents);
+                    UpdateView();
                     break;
-                case ChangeWeekEnum.Decrease:
+                case DateChangeEnum.Decrease_Week:
                     Date = Date.AddDays(-7);
-                    CalendarEvents.ForEach(x => x.Event = null);
-                    Task.Run(GetEvents);
+                    UpdateView();
+                    break;
+                case DateChangeEnum.Increase_Day:
+                    Date = Date.AddDays(1);
+                    UpdateView();
+                    break;
+                case DateChangeEnum.Decrease_Day:
+                    Date = Date.AddDays(-1);
+                    UpdateView();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
+        }
+
+        private void UpdateView()
+        {
+            CalendarEvents.ForEach(x => x.Event = null);
+            Task.Run(GetEvents);
         }
 
         private Task GetEvents()

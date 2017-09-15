@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace TaskSharper.Calender.WPF.Events.Resources
 {
-    public enum ChangeWeekEnum
+    public enum DateChangeEnum
     {
-        Increase,
-        Decrease
+        Increase_Week,
+        Decrease_Week,
+
+        Increase_Day,
+        Decrease_Day,
     }
 }

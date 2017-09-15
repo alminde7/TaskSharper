@@ -63,14 +63,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
             eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
         }
 
-        private void WeekChangedEventHandler(ChangeWeekEnum state)
+        private void WeekChangedEventHandler(DateChangeEnum state)
         {
             switch (state)
             {
-                case ChangeWeekEnum.Increase:
+                case DateChangeEnum.Increase_Week:
                     Date = Date.AddDays(7);
                     break;
-                case ChangeWeekEnum.Decrease:
+                case DateChangeEnum.Decrease_Week:
                     Date = Date.AddDays(-7);
                     break;
                 default:
