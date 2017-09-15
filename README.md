@@ -1,5 +1,6 @@
  # TaskSharper
 
+Build status can be found on continous integration server here: [Go CI/CD](http://alminde1.mynetgear.com:8153/go/pipelines)
 Something about the project
 
 
