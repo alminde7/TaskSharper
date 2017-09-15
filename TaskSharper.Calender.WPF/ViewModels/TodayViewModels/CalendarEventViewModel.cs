@@ -84,7 +84,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void Navigate(string uri)
         {
-            _regionManager.RequestNavigate("CalendarRegion", uri);
+            _regionManager.RequestNavigate("CalendarRegion", uri + $"?id={Id}");
         }
 
         private void EventClick()
@@ -94,7 +94,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private bool CanExecute()
         {
-            return !string.IsNullOrEmpty(Title);
+            return !string.IsNullOrEmpty(Id);
         }
     }
 }

@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+        <Style x:Key="BackBtnStyle" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -23,17 +23,30 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" ></RowDefinition>
-            <RowDefinition Height="15*" ></RowDefinition>
-            <RowDefinition Height="*" ></RowDefinition>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentStyle}">
-            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" />
+        <Button Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource BackBtnStyle}">
+            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft"/>
         </Button>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SelectedEvent.Title}">
+            <TextBlock.Style>
+                <Style>
+                    <Setter Property="TextBlock.FontSize" Value="36" />
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock Text="{Binding SelectedEvent.Description}"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <fa:ImageAwesome Icon="Check" Foreground="Green"/>
+            <fa:ImageAwesome Icon="Remove" Margin="10,0,0,0" Foreground="DarkRed" />
+        </StackPanel>
     </Grid>
 </UserControl>
