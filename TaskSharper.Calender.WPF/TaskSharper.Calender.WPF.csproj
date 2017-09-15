@@ -166,7 +166,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Converters\DateHeaderValueConverter.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="Events\Resources\EventResources.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimelineViewModel.cs" />
