@@ -40,7 +40,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator = eventAggregator;
 
             NextCommand = new DelegateCommand(NextWeek);
-            PrevCommand = new DelegateCommand(PrevWeek);
+            PrevCommand = new DelegateCommand(PreviousWeek);
             
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
@@ -54,13 +54,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void NextWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(7);
-            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(WeekChangedEnum.Increase);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(ChangeWeekEnum.Increase);
         }
 
-        private void PrevWeek()
+        private void PreviousWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(-7);
-            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(WeekChangedEnum.Decrease);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(ChangeWeekEnum.Decrease);
         }
         #endregion
 

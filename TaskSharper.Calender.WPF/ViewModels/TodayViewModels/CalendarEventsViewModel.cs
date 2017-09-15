@@ -50,17 +50,17 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-        private void WeekChangedEventHandler(WeekChangedEnum state)
+        private void WeekChangedEventHandler(ChangeWeekEnum state)
         {
             switch (state)
             {
-                case WeekChangedEnum.Increase:
+                case ChangeWeekEnum.Increase:
                     Date = Date.AddDays(7);
                     CalendarEvents.ForEach(x => x.Event = null);
 
                     Task.Run(GetEvents);
                     break;
-                case WeekChangedEnum.Decrease:
+                case ChangeWeekEnum.Decrease:
                     Date = Date.AddDays(-7);
                     CalendarEvents.ForEach(x => x.Event = null);
                     Task.Run(GetEvents);
