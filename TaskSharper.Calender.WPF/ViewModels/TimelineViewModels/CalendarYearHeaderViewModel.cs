@@ -60,7 +60,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Date = DateTime.Now;
 
             // Event subscriptions
-            eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
         }
 
         private void WeekChangedEventHandler(DateChangeEnum state)

@@ -159,7 +159,7 @@
     <Compile Include="Converters\EnumBooleanConverter.cs" />
     <Compile Include="Events\Resources\WeekChangedEnum.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
-    <Compile Include="Events\WeekChangedEvent.cs" />
+    <Compile Include="Events\DateChangedEvent.cs" />
     <Compile Include="Properties\Resources.dk-DK.Designer.cs">
       <DependentUpon>Resources.dk-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>

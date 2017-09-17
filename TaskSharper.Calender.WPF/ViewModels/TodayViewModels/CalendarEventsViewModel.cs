@@ -36,7 +36,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
 
-            eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
 
             InitializeView();
 
@@ -107,6 +107,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
             catch (Exception e)
             {
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
+                // TODO:: Log exception:Handle exception:Show message to user(maybe)
+
             }
             return Task.CompletedTask;
         }
