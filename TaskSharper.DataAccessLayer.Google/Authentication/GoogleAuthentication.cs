@@ -1,11 +1,12 @@
-﻿using System;
+﻿    using System;
 using System.IO;
 using System.Threading;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Util.Store;
 using Serilog;
-using TaskSharper.Shared.Logging;
+    using TaskSharper.Shared.Configuration;
+    using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.DataAccessLayer.Google.Authentication
 {
@@ -22,10 +23,13 @@ namespace TaskSharper.DataAccessLayer.Google.Authentication
         {
             UserCredential credential;
 
-            using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
+            var pathToSecret = Path.Combine(Config.TaskSharperCredentialStore, "client_secret.json");
+            if(!File.Exists(pathToSecret)) throw new ArgumentException("Could not find any client_secret.json file in " + pathToSecret);
+
+            using (var stream = new FileStream(Path.Combine(pathToSecret), FileMode.Open, FileAccess.Read))
             {
                 string credPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-                credPath = Path.Combine(credPath, ".credentials/calendar.json");
+                credPath = Path.Combine(Config.TaskSharperCredentialStore, "calendar.json");
 
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
