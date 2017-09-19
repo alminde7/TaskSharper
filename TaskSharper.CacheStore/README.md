@@ -41,6 +41,8 @@ public interface ICacheStore
 
 
 ## Future work
+- Add `LastUpdated` attribute to every event id in the EventCollectionStore, to controle when each individual event
+    must be updated
 - Perfomance testing
   - Different collection types
     - `ConcurrentDictionary<DateTime, List<Event>>()`
