@@ -44,8 +44,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0">
-                <Button Command="{Binding NextCommand}" Content="{x:Static p:Resources.WeekView_Next_Button_Text}"  />
-                <Button Command="{Binding PrevCommand}" Content="{x:Static p:Resources.WeekView_Prev_Button_Text}" />
+                <Button Command="{Binding NextCommand}" Content="{x:Static p:Resources.WeekView_Next_Button_Text}"/>
+                <Button Command="{Binding PrevCommand}" Content="{x:Static p:Resources.WeekView_Prev_Button_Text}"/>
             </StackPanel>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
