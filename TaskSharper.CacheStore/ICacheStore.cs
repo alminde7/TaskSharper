@@ -9,8 +9,11 @@ namespace TaskSharper.CacheStore
 {
     public interface ICacheStore
     {
-        bool HasData(DateTime date);
-        void UpdateCacheStore(IList<Event> events, DateTime fromDate, DateTime? toDate);
         IList<Event> GetEvents(DateTime date);
+
+        bool HasData(DateTime date);
+
+        void UpdateCacheStore(IList<Event> events, DateTime fromDate, DateTime? toDate);
+        
     }
 }
