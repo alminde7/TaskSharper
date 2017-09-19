@@ -24,6 +24,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.CacheStore", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.CacheStore.Test.Unit", "TaskSharper.CacheStore.Test.Unit\TaskSharper.CacheStore.Test.Unit.csproj", "{2AC4F14B-4C81-48EB-86A9-799788474E66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.BusinessLayer.Unit.Test", "TaskSharper.BusinessLayer.Unit.Test\TaskSharper.BusinessLayer.Unit.Test.csproj", "{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,9 +66,18 @@ Global
 		{2AC4F14B-4C81-48EB-86A9-799788474E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AC4F14B-4C81-48EB-86A9-799788474E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AC4F14B-4C81-48EB-86A9-799788474E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{612BD79A-B57C-4474-9F21-D9794550F1BD} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
+		{2AC4F14B-4C81-48EB-86A9-799788474E66} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
+		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2610FE-FBAE-448B-ACAB-893FDB66EB45}
