@@ -60,18 +60,24 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Date = DateTime.Now;
 
             // Event subscriptions
-            eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
         }
 
-        private void WeekChangedEventHandler(ChangeWeekEnum state)
+        private void WeekChangedEventHandler(DateChangeEnum state)
         {
             switch (state)
             {
-                case ChangeWeekEnum.Increase:
+                case DateChangeEnum.IncreaseWeek:
                     Date = Date.AddDays(7);
                     break;
-                case ChangeWeekEnum.Decrease:
+                case DateChangeEnum.DecreaseWeek:
                     Date = Date.AddDays(-7);
+                    break;
+                case DateChangeEnum.IncreaseDay:
+                    Date = Date.AddDays(1);
+                    break;
+                case DateChangeEnum.DecreaseDay:
+                    Date = Date.AddDays(-1);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

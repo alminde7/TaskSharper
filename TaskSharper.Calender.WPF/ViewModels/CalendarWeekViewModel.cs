@@ -20,20 +20,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarWeekViewModel : BindableBase 
     {
-        private const int DAYS_IN_WEEK = 7;
+        private const int DaysInWeek = 7;
 
         private readonly ICalendarService _service;
         private IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
 
-        public DelegateCommand NextCommand { get; set; }
-        public DelegateCommand PrevCommand { get; set; }
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
-
-        
         public DateTime CurrentWeek { get; set; }
+
+        public DelegateCommand NextCommand { get; set; }
+        public DelegateCommand PrevCommand { get; set; }
 
 
         public CalendarWeekViewModel(ICalendarService service, IEventAggregator eventAggregator, IRegionManager regionManager)
@@ -57,19 +56,20 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void NextWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(7);
-            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(ChangeWeekEnum.Increase);
+            _eventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.IncreaseWeek);
         }
 
         private void PreviousWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(-7);
-            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(ChangeWeekEnum.Decrease);
+            _eventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.DecreaseWeek);
         }
         #endregion
 
+        #region Bootstrap Views
         private void InitializeViews()
         {
-            for (int i = 1; i <= DAYS_IN_WEEK; i++)
+            for (int i = 1; i <= DaysInWeek; i++)
             {
                 var date = CalculateDate(i);
                 DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator));
@@ -85,5 +85,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             return dateTime;
         }
+        #endregion
+
     }
 }

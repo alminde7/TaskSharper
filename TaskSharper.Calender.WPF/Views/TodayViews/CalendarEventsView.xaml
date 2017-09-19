@@ -7,10 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="100">
     <Grid>
+       <!--Some sort of container in here to All-day events. See Slack for inspiration on how to disable scrolling for the container-->
         <ItemsControl ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarEventView BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5"/>
+                    <views:CalendarEventView BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Width="Auto" HorizontalAlignment="Stretch"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
