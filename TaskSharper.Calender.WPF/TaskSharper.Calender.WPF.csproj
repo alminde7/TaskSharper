@@ -159,14 +159,13 @@
     <Compile Include="Converters\EnumBooleanConverter.cs" />
     <Compile Include="Events\Resources\WeekChangedEnum.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
-    <Compile Include="Events\WeekChangedEvent.cs" />
+    <Compile Include="Events\DateChangedEvent.cs" />
     <Compile Include="Properties\Resources.dk-DK.Designer.cs">
       <DependentUpon>Resources.dk-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Converters\DateHeaderValueConverter.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="Events\Resources\EventResources.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimelineViewModel.cs" />
@@ -198,10 +197,10 @@
     <Compile Include="Views\TimelineViews\CalendarTimelineView.xaml.cs">
       <DependentUpon>CalendarTimelineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TodayViews\CalendarTodayView.xaml.cs">
+    <Compile Include="Views\CalendarTodayView.xaml.cs">
       <DependentUpon>CalendarTodayView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\TodayViewModels\CalendarTodayViewModel.cs" />
+    <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
     <Page Include="Views\TimelineViews\CalendarTimeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -249,7 +248,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TodayViews\CalendarTodayView.xaml">
+    <Page Include="Views\CalendarTodayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
