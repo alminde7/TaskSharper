@@ -17,11 +17,22 @@ namespace TaskSharper.CacheStore
             Events = new ConcurrentDictionary<DateTime, Dictionary<string, Event>>();
         }
 
+        /// <summary>
+        /// Return true if the given date has updated data. Return false if the given date is not in the cache store.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public bool HasData(DateTime date)
         {
             return Events.ContainsKey(date.Date);
         }
 
+        /// <summary>
+        /// Return true if an event contains on a given day with a given id. Return false otherwise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public bool HasEvent(string id, DateTime date)
         {
             if (HasData(date.Date))
@@ -31,13 +42,18 @@ namespace TaskSharper.CacheStore
             return false;
         }
 
+        /// <summary>
+        /// Return true id cache contains an event with the given id. Return false otherwise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool HasEvent(string id)
         {
             return Events.Any(x => x.Value.ContainsKey(id));
         }
 
         /// <summary>
-        /// 
+        /// Add or update a collection of events
         /// </summary>
         /// <param name="events"></param>
         /// <param name="fromDate"></param>
@@ -57,6 +73,11 @@ namespace TaskSharper.CacheStore
             LastUpdated = DateTime.Now;
         }
 
+        /// <summary>
+        /// Returns all events on a given date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public IList<Event> GetEvents(DateTime date)
         {
             if (HasData(date))
@@ -66,6 +87,12 @@ namespace TaskSharper.CacheStore
             return null;
         }
 
+        /// <summary>
+        /// Returns an event on a given date with a given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public Event GetEvent(string id, DateTime date)
         {
             date = date.Date;
@@ -76,6 +103,11 @@ namespace TaskSharper.CacheStore
             return Events[date][id];
         }
 
+        /// <summary>
+        /// Return an event with a given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Event GetEvent(string id)
         {
             Event calEvent = null;
@@ -84,6 +116,10 @@ namespace TaskSharper.CacheStore
             return calEvent;
         }
 
+        /// <summary>
+        /// Add the event if it does not exist, and updates the event if is does exist
+        /// </summary>
+        /// <param name="calendarEvent"></param>
         public void AddOrUpdateEvent(Event calendarEvent)
         {
             var date = calendarEvent.Start.Value.Date;
