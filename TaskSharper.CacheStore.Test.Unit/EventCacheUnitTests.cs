@@ -1,25 +1,445 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
+using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.CacheStore.Test.Unit
 {
     [TestFixture]
     public class EventCacheUnitTests
     {
+        private EventCache _uut;
+
         [SetUp]
         public void Setup()
         {
-            
+            _uut = new EventCache();
         }
 
         [TearDown]
         public void TearDown()
         {
             
+        }
+
+        [Test]
+        public void Constructor_EventsDictionaryHasBeenInitialized()
+        {
+            Assert.NotNull(_uut.Events);
+        }
+
+        [Test]
+        public void Constructor_EventsContainerInitialized_EventsContains0Elements()
+        {
+            Assert.That(_uut.Events.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void HasData_NotData_ReturnFalse()
+        {
+            Assert.False(_uut.HasData(DateTime.Now.Date));
+        }
+
+        [Test]
+        public void HasData_InsertDataInDate03032017_ReturnTrueWhenAskedFor03032017()
+        {
+            var date = new DateTime(2017, 3, 3);
+            _uut.Events.TryAdd(date, new Dictionary<string, Event>());
+
+            Assert.True(_uut.HasData(date));
+        }
+
+        [Test]
+        public void HasEvent_WithDate_DoesNotContainDate_ReturnFalse()
+        {
+            string id = "123";
+            
+            Assert.False(_uut.HasEvent(id, DateTime.Now));
+        }
+
+        [Test]
+        public void HasEvent_WithDate_DoesContainDateButNotEvent_ReturnFalse()
+        {
+            string id = "123";
+            string fakeId = "321";
+            var date = new DateTime(2017,3,3);
+            var dic = new Dictionary<string, Event> {{id, new Event()}};
+
+            _uut.Events.TryAdd(date, dic);
+
+            Assert.False(_uut.HasEvent(fakeId, date));
+        }
+
+        [Test]
+        public void HasEvent_WithDate_DoesContainDateAndEvent_ReturnTrue()
+        {
+            string id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var dic = new Dictionary<string, Event> { { id, new Event() } };
+
+            _uut.Events.TryAdd(date, dic);
+
+            Assert.True(_uut.HasEvent(id, date));
+        }
+
+        [Test]
+        public void HasEvent_DoesNotContainEvent_ReturnFalse()
+        {
+            Assert.False(_uut.HasEvent("123"));
+        }
+
+        [Test]
+        public void HasEvent_DoesContainEvent_ReturnTrue()
+        {
+            string id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var dic = new Dictionary<string, Event> { { id, new Event() } };
+
+            _uut.Events.TryAdd(date, dic);
+
+            Assert.True(_uut.HasEvent(id));
+        }
+
+        [Test]
+        public void UpdateCacheStore_EmptyListOfEventsIsSuppliedDateFromAndDateToHasATimespanOf5Days_CountOfEventsContainerIs6()
+        {
+            var timeInt = 5;
+            var list = new List<Event>();
+
+            var timespan = TimeSpan.FromDays(timeInt);
+            var startDate = new DateTime(2017,3,3);
+            var endDate = startDate + timespan;
+
+            _uut.UpdateCacheStore(list, startDate, endDate);
+
+            Assert.That(_uut.Events.Count, Is.EqualTo(6));
+        }
+
+        [Test]
+        public void UpdateCacheStore_EmptyListOfEventsIsSuppliedDateFromAndDateToHasATimespanOf5Days_NoActualEventsIsAddedToTheEventContainer()
+        {
+            var timeInt = 5;
+            var list = new List<Event>();
+
+            var timespan = TimeSpan.FromDays(timeInt);
+            var startDate = new DateTime(2017, 3, 3);
+            var endDate = startDate + timespan;
+
+            _uut.UpdateCacheStore(list, startDate, endDate);
+
+            foreach (var uutEvent in _uut.Events)
+            {
+                Assert.That(uutEvent.Value.Count, Is.EqualTo(0));
+            }
+        }
+
+        [Test]
+        public void UpdateCacheStore_AddListWithEmptyEventsOnlySpecifyingStartDate_CountOfEventsContainerIs1()
+        {
+            var list = new List<Event>();
+            var date = new DateTime(2017,3,3);
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.That(_uut.Events.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void UpdateCacheStore_AddListWithOneEventOnOneDate_EventContainerHasEventWithSpecifiedId()
+        {
+            string id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var list = new List<Event>()
+            {
+                new Event()
+                {
+                    Start = date,
+                    Id = id
+                }
+            };
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.True(_uut.HasEvent(id));
+        }
+
+        [Test]
+        public void UpdateCacheStore_AddListWithOneEventWithNoId_ThrowsArgumentNullException()
+        {
+            var date = new DateTime(2017, 3, 3);
+            var list = new List<Event>()
+            {
+                new Event()
+                {
+                    Start = date,
+                }
+            };
+
+            Assert.Throws<ArgumentNullException>(()=> _uut.UpdateCacheStore(list, date, null));
+        }
+
+        [Test]
+        public void UpdateCacheStore_AddListWithOneEventOnOneDate_LastUpdatedHasBeenUpdated()
+        {
+            var updated = _uut.LastUpdated;
+            string id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var list = new List<Event>()
+            {
+                new Event()
+                {
+                    Start = date,
+                    Id = id
+                }
+            };
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.AreNotEqual(updated, _uut.LastUpdated);
+        }
+
+        [Test]
+        public void UpdateCacheStore_CallTwiceWithEventsWithSameId_ContentOfEventHasBeenUpdated()
+        {
+            string id = "123";
+            var d1 = "The first description";
+            var d2 = "The second description";
+            var date = new DateTime(2017, 3, 3);
+            var firstList = new List<Event>()
+            {
+                new Event()
+                {
+                    Start = date,
+                    Description = d1,
+                    Id = id
+                }
+            };
+
+            _uut.UpdateCacheStore(firstList, date, null);
+
+            var secondList = new List<Event>()
+            {
+                new Event()
+                {
+                    Start = date,
+                    Description = d2,
+                    Id = id
+                }
+            };
+
+            _uut.UpdateCacheStore(secondList, date, null);
+
+            Assert.That(_uut.GetEvent(id).Description, Is.EqualTo(d2));
+        }
+
+        [Test]
+        public void GetEvents_DateNotCached_ReturnsNull()
+        {
+            var date = new DateTime(2017,3,3);
+            Assert.Null(_uut.GetEvents(date));
+        }
+
+        [Test]
+        public void GetEvents_NoEventsOnDate_ReturnsEmptyList()
+        {
+            var date = new DateTime(2017, 3, 3);
+
+            var list = new List<Event>();
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.That(_uut.GetEvents(date).Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GetEvents_3EventsAddedToDate_ReturnsListWith3Items()
+        {
+            var date = new DateTime(2017, 3, 3);
+
+            var list = new List<Event>()
+            {
+                new Event()
+                {
+                    Start = date,
+                    Id = "123"
+                },
+                new Event()
+                {
+                    Start = date,
+                    Id = "234"
+                },
+                new Event()
+                {
+                    Start = date,
+                    Id = "345"
+                }
+            };
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.That(_uut.GetEvents(date).Count, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void GetEvents_3EventsAddedToDateWithOnly1UniqueId_ReturnsListWith1Item()
+        {
+            var date = new DateTime(2017, 3, 3);
+
+            var list = new List<Event>()
+            {
+                new Event()
+                {
+                    Start = date,
+                    Id = "123"
+                },
+                new Event()
+                {
+                    Start = date,
+                    Id = "123"
+                },
+                new Event()
+                {
+                    Start = date,
+                    Id = "123"
+                }
+            };
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.That(_uut.GetEvents(date).Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetEvent_WithDate_NoDateInCache_ReturnNull()
+        {
+            var id = "123";
+            var date = new DateTime(2017,3,3);
+
+            Assert.Null(_uut.GetEvent(id, date));
+        }
+
+        [Test]
+        public void GetEvent_WithDate_NoEventOnDate_ReturnNull()
+        {
+            var id = "123";
+            var date = new DateTime(2017, 3, 3);
+
+            var list = new List<Event>();
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.Null(_uut.GetEvent(id, date));
+        }
+
+        [Test]
+        public void GetEvent_WithDate_EventAdded_ReturnTheSpecifiedEvent()
+        {
+            var id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var calEvent = new Event()
+            {
+                Id = id,
+                Start = date
+            };
+
+            var list = new List<Event>()
+            {
+                calEvent
+            };
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.That(_uut.GetEvent(id, date).Id, Is.EqualTo(id));
+        }
+
+        [Test]
+        public void GetEvent_WithDate_EventAddedWithIdOtherThanProvidedId_ReturnNull()
+        {
+            var id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var calEvent = new Event()
+            {
+                Id = "321",
+                Start = date
+            };
+
+            var list = new List<Event>()
+            {
+                calEvent
+            };
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.Null(_uut.GetEvent(id, date));
+        }
+
+        [Test]
+        public void GetEvent_NoEventWithIdInCache_ReturnNull()
+        {
+            Assert.Null(_uut.GetEvent("123"));
+        }
+
+        [Test]
+        public void GetEvent_EventAddedWithMatchingId_EventReturnedWithId()
+        {
+            var id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var calEvent = new Event()
+            {
+                Id = id,
+                Start = date
+            };
+
+            var list = new List<Event>()
+            {
+                calEvent
+            };
+
+            _uut.UpdateCacheStore(list, date, null);
+
+            Assert.That(_uut.GetEvent(id).Id, Is.EqualTo(id));
+        }
+
+        [Test]
+        public void AddOrUpdateUpdateEvent_EventNotAddedToCache_EventHasBeenAdded()
+        {
+            var id = "123";
+            var date = new DateTime(2017,3,3);
+            var d1 = "Description 1";
+
+            var calEvent = new Event()
+            {
+                Id = id,
+                Start = date,
+                Description = d1
+            };
+
+            _uut.AddOrUpdateEvent(calEvent);
+
+            Assert.That(_uut.GetEvent(id), Is.EqualTo(calEvent));
+        }
+
+        [Test]
+        public void AddOrUpdateUpdateEvent_EventAddedAndUpdated_EventHasBeenUpdated()
+        {
+            var id = "123";
+            var date = new DateTime(2017, 3, 3);
+            var d1 = "Description 1";
+            var d2 = "Description 2";
+
+            var calEvent = new Event()
+            {
+                Id = id,
+                Start = date,
+                Description = d1
+            };
+
+            _uut.AddOrUpdateEvent(calEvent);
+
+            calEvent.Description = d2;
+
+            _uut.AddOrUpdateEvent(calEvent);
+
+            Assert.That(_uut.GetEvent(id).Description, Is.EqualTo(d2));
         }
     }
 }

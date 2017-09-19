@@ -58,6 +58,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.CacheStore\TaskSharper.CacheStore.csproj">
+      <Project>{2d89fb0a-65e7-40b6-a9f3-cf71300403c0}</Project>
+      <Name>TaskSharper.CacheStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
+      <Project>{E329AF7F-27B3-46EF-80A4-D7993B662CAD}</Project>
+      <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

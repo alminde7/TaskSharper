@@ -3,7 +3,7 @@ using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using TaskSharper.Shared.Configuration;
 
-namespace TaskSharper.Shared.Logging
+namespace TaskSharper.Shared.Extensions
 {
     public static class LoggerExtensions
     {
