@@ -20,7 +20,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarEventsViewModel
     {
-        private const int HOURS_IN_A_DAY = 24;
+        private const int HoursInADay = 24;
 
         private readonly IEventAggregator _eventAggregator;
 
@@ -45,7 +45,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void InitializeView()
         {
-            for (int i = 0; i < HOURS_IN_A_DAY; i++)
+            for (int i = 0; i < HoursInADay; i++)
             {
                 CalendarEvents.Add(new CalendarEventViewModel(i));
             }
@@ -55,19 +55,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             switch (state)
             {
-                case DateChangeEnum.Increase_Week:
+                case DateChangeEnum.IncreaseWeek:
                     Date = Date.AddDays(7);
                     UpdateView();
                     break;
-                case DateChangeEnum.Decrease_Week:
+                case DateChangeEnum.DecreaseWeek:
                     Date = Date.AddDays(-7);
                     UpdateView();
                     break;
-                case DateChangeEnum.Increase_Day:
+                case DateChangeEnum.IncreaseDay:
                     Date = Date.AddDays(1);
                     UpdateView();
                     break;
-                case DateChangeEnum.Decrease_Day:
+                case DateChangeEnum.DecreaseDay:
                     Date = Date.AddDays(-1);
                     UpdateView();
                     break;

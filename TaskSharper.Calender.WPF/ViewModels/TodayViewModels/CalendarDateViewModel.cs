@@ -56,16 +56,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             switch (newDate)
             {
-                case DateChangeEnum.Increase_Week:
+                case DateChangeEnum.IncreaseWeek:
                     CurrentDate = CurrentDate.AddDays(7);
                     break;
-                case DateChangeEnum.Decrease_Week:
+                case DateChangeEnum.DecreaseWeek:
                     CurrentDate = CurrentDate.AddDays(-7);
                     break;
-                case DateChangeEnum.Increase_Day:
+                case DateChangeEnum.IncreaseDay:
                     CurrentDate = CurrentDate.AddDays(1);
                     break;
-                case DateChangeEnum.Decrease_Day:
+                case DateChangeEnum.DecreaseDay:
                     CurrentDate = CurrentDate.AddDays(-1);
                     break;
                 default:

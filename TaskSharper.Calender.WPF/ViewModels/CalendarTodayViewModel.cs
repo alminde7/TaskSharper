@@ -39,13 +39,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public void NextDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(1);
-            EventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.Increase_Day);
+            EventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.IncreaseDay);
         }
 
         public void PreviousDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(-1);
-            EventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.Decrease_Day);
+            EventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.DecreaseDay);
         }
     }
 }

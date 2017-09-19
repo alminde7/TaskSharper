@@ -67,16 +67,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             switch (state)
             {
-                case DateChangeEnum.Increase_Week:
+                case DateChangeEnum.IncreaseWeek:
                     Date = Date.AddDays(7);
                     break;
-                case DateChangeEnum.Decrease_Week:
+                case DateChangeEnum.DecreaseWeek:
                     Date = Date.AddDays(-7);
                     break;
-                case DateChangeEnum.Increase_Day:
+                case DateChangeEnum.IncreaseDay:
                     Date = Date.AddDays(1);
                     break;
-                case DateChangeEnum.Decrease_Day:
+                case DateChangeEnum.DecreaseDay:
                     Date = Date.AddDays(-1);
                     break;
                 default:

@@ -8,10 +8,10 @@ namespace TaskSharper.Calender.WPF.Events.Resources
 {
     public enum DateChangeEnum
     {
-        Increase_Week,
-        Decrease_Week,
+        IncreaseWeek,
+        DecreaseWeek,
 
-        Increase_Day,
-        Decrease_Day,
+        IncreaseDay,
+        DecreaseDay,
     }
 }
