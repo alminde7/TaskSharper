@@ -309,6 +309,59 @@ namespace TaskSharper.CacheStore.Test.Unit
         }
 
         [Test]
+        public void GetEvents_WithEndDate_NoDataFoundBetweenGivenDates_EmptyListIsReturned()
+        {
+            var date1 = new DateTime(2017,3,3);
+            var date2 = new DateTime(2017,8,8);
+
+            Assert.IsEmpty(_uut.GetEvents(date1, date2));
+        }
+
+        [Test]
+        public void GetEvents_WithEndDate_ThereIs3ElementsBetweenGivenDates_ListWith3ElementsIsReturned()
+        {
+            var date1 = new DateTime(2017, 3, 3);
+            var date2 = new DateTime(2017, 8, 8);
+
+            var list = new List<Event>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                list.Add(new Event()
+                {
+                    Id = i.ToString(),
+                    Start = date1.AddDays(i)
+                });
+            }
+
+            _uut.UpdateCacheStore(list, date1, date2);
+
+            Assert.That(_uut.GetEvents(date1, date2).Count, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void GetEvents_WithEndDate_10ElementsInCacheOnly2BetweenGivenDates_ListWith2ElementsIsReturned()
+        {
+            var date1 = new DateTime(2017, 3, 3);
+            var date2 = new DateTime(2017, 3, 8);
+            var startDate = new DateTime(2017, 3, 16);
+            var list = new List<Event>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                list.Add(new Event()
+                {
+                    Id = i.ToString(),
+                    Start = startDate.Date.AddDays(-i)
+                });
+            }
+
+            _uut.UpdateCacheStore(list, date1, startDate);
+
+            Assert.That(_uut.GetEvents(date1, date2).Count, Is.EqualTo(2));
+        }
+
+        [Test]
         public void GetEvent_WithDate_NoDateInCache_ReturnNull()
         {
             var id = "123";

@@ -91,7 +91,7 @@ namespace TaskSharper.CacheStore
         public IList<Event> GetEvents(DateTime start, DateTime end)
         {
             List<Event> events = new List<Event>();
-            var eventsDictionaries = Events.Where(x => x.Key >= start && x.Key <= end).Select(x => x.Value);
+            var eventsDictionaries = Events.Where(x => x.Key >= start.Date && x.Key <= end.Date).Select(x => x.Value);
             
             foreach (var calEvent in eventsDictionaries)
             {

@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using Prism.Commands;
-using TaskSharper.BusinessLayer;
-using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
-using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

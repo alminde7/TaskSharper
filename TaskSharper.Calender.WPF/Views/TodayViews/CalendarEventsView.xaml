@@ -16,14 +16,10 @@
     <Grid>
        <!--Some sort of container in here to All-day events. See Slack for inspiration on how to disable scrolling for the container-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
-            <ItemsControl Height="50"></ItemsControl>
-        </ScrollViewer>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarEvents}">
+        <ItemsControl Grid.Row="0" ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <views:CalendarEventView BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Width="Auto" HorizontalAlignment="Stretch"/>

@@ -90,8 +90,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var calendarEvents = Service.GetEvents(Date.Date, Date.Date.AddDays(1).AddTicks(-1));
-                //var calendarEvents = Service.GetEvents(Date.Date);
+                var calendarEvents = Service.GetEvents(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaskSharper.CacheStore;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
@@ -24,7 +23,7 @@ namespace TaskSharper.BusinessLayer
             var calEvent = Cache.GetEvent(id);
             if (calEvent == null)
             {
-                // TODO:: Create method in dataAccess to fetch only one.
+                calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
                 Cache.AddOrUpdateEvent(calEvent);
             }
 
@@ -36,7 +35,7 @@ namespace TaskSharper.BusinessLayer
             var calEvent = Cache.GetEvent(id, date);
             if (calEvent == null)
             {
-                // TODO:: Create method in dataAccess to fetch only one.
+                calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
                 Cache.AddOrUpdateEvent(calEvent);
             }
 
@@ -48,7 +47,7 @@ namespace TaskSharper.BusinessLayer
             var events = Cache.GetEvents(start);
             if (events == null)
             {
-                events = CalendarService.GetEvents(start, Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start, start.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
                 Cache.UpdateCacheStore(events, start, null);
             }
             

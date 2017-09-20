@@ -31,6 +31,7 @@ namespace TaskSharper.Calender.WPF
 
         protected override void InitializeShell()
         {
+            // TODO:: Think of a more sofisticated way of doing this. 
             Container.Resolve<IEventManager>().UpdateCacheStore(DateTime.Now.AddDays(-14), DateTime.Now.AddDays(14));
 
             Application.Current.MainWindow.Show();
