@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
+using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -13,7 +14,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private const int DaysInWeek = 7;
         private  DateTime DateNow = DateTime.Now;
 
-        private readonly ICalendarService _service;
+        private readonly IEventManager _eventManager;
         private IEventAggregator _eventAggregator;
 
         public ObservableCollection<CalendarDateDayViewModel> DateDays { get; set; }
@@ -26,9 +27,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
 
-        public CalendarMonthViewModel(ICalendarService service, IEventAggregator eventAggregator)
+        public CalendarMonthViewModel(IEventManager eventManager, IEventAggregator eventAggregator)
         {
-            _service = service;
+            _eventManager = eventManager;
             _eventAggregator = eventAggregator;
 
             NextCommand = new DelegateCommand(NextMonth);
@@ -64,7 +65,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             for (int i = 1; i < DateTime.DaysInMonth(DateNow.Year, DateNow.Month) + 1; i++)
             {
                 var date = CalculateDate(i);
-                DateDays.Add(new CalendarDateDayViewModel(date, _eventAggregator, _service));
+                DateDays.Add(new CalendarDateDayViewModel(date, _eventAggregator, _eventManager));
             }
         }
         private DateTime CalculateDate(int day)

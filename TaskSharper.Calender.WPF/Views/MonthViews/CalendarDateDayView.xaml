@@ -8,13 +8,18 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="150">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label Content="{Binding DayOfMonth}" />
-        <ItemsControl ItemsSource="{Binding CalendarEvents}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="{Binding DayOfMonth}" />
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    </DataTemplate>
+                    <views:CalendarDayEventView HorizontalAlignment="Stretch" Width="Auto"/>
+                </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>

@@ -45,7 +45,7 @@
             </StackPanel>
             
         </Grid>
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+            <ScrollViewer  Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.7*"/>
@@ -54,7 +54,7 @@
                     </Grid.ColumnDefinitions>
                 <!--<views:CalendarTimelineView Grid.Column="0">
                     </views:CalendarTimelineView> -->
-                    <ItemsControl Grid.Column="1" ItemsSource="{Binding DateDays}"  Width="Auto">
+                <ItemsControl BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Grid.Column="1" ItemsSource="{Binding DateDays}"  Width="Auto">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="5" Columns="7"/>
@@ -62,7 +62,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                            <views:CalendarDateDayView Width="Auto" HorizontalAlignment="Left"></views:CalendarDateDayView>
+                            <views:CalendarDateDayView HorizontalAlignment="Stretch" Width="auto" BorderBrush="DarkGray" BorderThickness="0,0.5,0.5,0"></views:CalendarDateDayView>
                         </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
