@@ -61,12 +61,14 @@
   <ItemGroup>
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Logging\LogConfiguration.cs" />
-    <Compile Include="Logging\LoggerExtensions.cs" />
+    <Compile Include="Extensions\LoggerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

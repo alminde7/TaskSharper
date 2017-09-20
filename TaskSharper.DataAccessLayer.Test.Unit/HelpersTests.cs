@@ -278,7 +278,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var parsed = Helpers.GoogleEventParser(new Event());
 
-            Assert.That(parsed.ExtendedProperties.Shared["Type"], Is.Empty);
+            Assert.That(parsed.ExtendedProperties.Shared["Type"], Is.EqualTo("None"));
         }
 
         [Test]
@@ -355,7 +355,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var parsed = Helpers.GoogleEventParser(new List<Event>(){new Event()});
 
-            Assert.That(parsed.First().ExtendedProperties.Shared["Type"], Is.Empty);
+            Assert.That(parsed.First().ExtendedProperties.Shared["Type"], Is.EqualTo("None"));
         }
 
         [Test]

@@ -4,6 +4,7 @@ using Elasticsearch.Net;
 using Serilog;
 using Serilog.Core;
 using TaskSharper.Shared.Configuration;
+using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Shared.Logging
 {

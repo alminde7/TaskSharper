@@ -6,9 +6,20 @@
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="100">
+    
+    <UserControl.Resources>
+        <ControlTemplate x:Key="NoScoll">
+            <ItemsPresenter></ItemsPresenter>
+        </ControlTemplate>
+    </UserControl.Resources>
+    
     <Grid>
        <!--Some sort of container in here to All-day events. See Slack for inspiration on how to disable scrolling for the container-->
-        <ItemsControl ItemsSource="{Binding CalendarEvents}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+
+        <ItemsControl Grid.Row="0" ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <views:CalendarEventView BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Width="Auto" HorizontalAlignment="Stretch"/>

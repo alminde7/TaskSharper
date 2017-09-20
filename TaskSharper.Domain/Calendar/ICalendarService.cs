@@ -5,6 +5,7 @@ namespace TaskSharper.Domain.Calendar
 {
     public interface ICalendarService
     {
+        Event GetEvent(string id, string calendarId);
         List<Event> GetEvents(string calendarId);
         List<Event> GetEvents(DateTime start, string calendarId);
         List<Event> GetEvents(DateTime start, DateTime end, string calendarId);
