@@ -26,7 +26,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
     public class CalendarEventsViewModel
     {
         private readonly IRegionManager _regionManager;
-        private const int HOURS_IN_A_DAY = 24;
+        private const int HoursInADay = 24;
 
         private readonly IEventAggregator _eventAggregator;
 
