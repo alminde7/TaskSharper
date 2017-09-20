@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
@@ -13,6 +14,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarTodayViewModel : BindableBase
     {
+        private readonly IRegionManager _regionManager;
         public IEventAggregator EventAggregator { get; }
         public IEventManager CalendarService { get; }
 
@@ -23,14 +25,15 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ICommand NextCommand { get; set; }
         public ICommand PrevCommand { get; set; }
 
-        public CalendarTodayViewModel(IEventAggregator eventAggregator, IEventManager calendarService)
+        public CalendarTodayViewModel(IEventAggregator eventAggregator, IEventManager calendarService, IRegionManager regionManager)
         {
+            _regionManager = regionManager;
             EventAggregator = eventAggregator;
             CalendarService = calendarService;
             CurrentDay = DateTime.Now;
 
             // Initialize views
-            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, calendarService);
+            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, calendarService, regionManager);
             DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator);
 
             // Initialize commands

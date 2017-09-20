@@ -10,6 +10,7 @@ namespace TaskSharper.Domain.BusinessLayer
         Event GetEvent(string id, DateTime date);
         IList<Event> GetEvents(DateTime start);
         IList<Event> GetEvents(DateTime start, DateTime end);
+        Event UpdateEvent(Event eventObj);
         void UpdateCacheStore(DateTime start, DateTime end);
     }
 }

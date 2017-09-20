@@ -9,6 +9,7 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
+using Prism.Regions;
 using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
@@ -26,31 +27,43 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private const int HoursInADay = 24;
 
         private readonly IEventAggregator _eventAggregator;
+        private readonly IRegionManager _regionManager;
 
         public DateTime Date { get; set; }
         public IEventManager Service { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service, IRegionManager regionManager)
         {
             _eventAggregator = eventAggregator;
+            _regionManager = regionManager;
             Date = date;
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
 
             eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
+            eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
             InitializeView();
 
             Task.Run(GetEvents);
         }
 
+        private void EventChangedEventHandler(Event obj)
+        {
+            if (Date.Date == obj.Start.Value.Date)
+            {
+                Service.UpdateEvent(obj);
+                UpdateView();
+            }
+        }
+
         private void InitializeView()
         {
             for (int i = 0; i < HoursInADay; i++)
             {
-                CalendarEvents.Add(new CalendarEventViewModel(i));
+                CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager));
             }
         }
 

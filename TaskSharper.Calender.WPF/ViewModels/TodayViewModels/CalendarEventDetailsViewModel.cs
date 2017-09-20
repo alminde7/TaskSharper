@@ -10,6 +10,7 @@ using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.DataAccessLayer.Google;
+using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -20,10 +21,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand EnableEditModeCommand { get; set; }
         public DelegateCommand DisableEditModeCommand { get; set; }
         public DelegateCommand SaveEventCommand { get; set; }
+        public DelegateCommand CancelCommand { get; set; }
+
         private readonly IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
+        private readonly IEventManager _calendarService;
 
-        private readonly ICalendarService _calendarService;
         private string _title;
         private Event _selectedEvent;
         private Event _editEvent;
@@ -88,34 +91,49 @@ namespace TaskSharper.Calender.WPF.ViewModels
             IsInEditMode = false;
         }
 
-        public CalendarEventDetailsViewModel(IRegionManager regionManager, ICalendarService calendarService, IEventAggregator eventAggregator)
+        public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventManager calendarService, IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
             _calendarService = calendarService;
             _eventAggregator = eventAggregator;
+
             BackCommand = new DelegateCommand(Back);
             EnableEditModeCommand = new DelegateCommand(EnableEditMode);
             DisableEditModeCommand = new DelegateCommand(DisableEditMode);
             SaveEventCommand = new DelegateCommand(SaveEvent);
+            CancelCommand = new DelegateCommand(Cancel);
+
             EventTypes = Enum.GetValues(typeof(Event.EventType)).Cast<Event.EventType>();
             EventStatuses = Enum.GetValues(typeof(Event.EventStatus)).Cast<Event.EventStatus>().Except(new List<Event.EventStatus>{ Event.EventStatus.Cancelled });
         }
 
+
         private void SaveEvent()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-            _calendarService.UpdateEvent(EditEvent, Constants.DefaultGoogleCalendarId);
-            SelectedEvent = _calendarService.GetEvents(Constants.DefaultGoogleCalendarId).Find(i => i.Id == SelectedEvent.Id);
+            _eventAggregator.GetEvent<EventChangedEvent>().Publish(EditEvent);
+            SelectedEvent = _calendarService.GetEvent(EditEvent.Id, EditEvent.Start.Value);
             DisableEditMode();
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
+        }
+
+        private void Cancel()
+        {
+            EditEvent = CopySelectedEvent();
+            DisableEditMode();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var id = navigationContext.Parameters["id"].ToString();
 
-            SelectedEvent = _calendarService.GetEvents(Constants.DefaultGoogleCalendarId).Find(i => i.Id == id);
-            EditEvent = new Event
+            SelectedEvent = _calendarService.GetEvent(id);
+            EditEvent = CopySelectedEvent();
+        }
+
+        private Event CopySelectedEvent()
+        {
+            return new Event
             {
                 Id = SelectedEvent.Id,
                 Title = SelectedEvent.Title,
@@ -123,7 +141,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 Start = SelectedEvent.Start,
                 End = SelectedEvent.End,
                 Status = SelectedEvent.Status,
-                Type = SelectedEvent.Type
+                Type = SelectedEvent.Type,
+                Created = SelectedEvent.Created,
+                Updated = SelectedEvent.Updated
             };
         }
 

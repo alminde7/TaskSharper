@@ -44,7 +44,42 @@
             </TextBlock.Style>
         </TextBlock>
         <StackPanel Grid.Column="1" Grid.Row="1" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
-            <TextBlock Text="{Binding SelectedEvent.Description}"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Id</Label>
+                <TextBlock Text="{Binding EditEvent.Id}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Title</Label>
+                <TextBlock Text="{Binding EditEvent.Title}" Width="150"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Description</Label>
+                <TextBlock Text="{Binding EditEvent.Description}" Width="150"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Type</Label>
+                <TextBlock Text="{Binding EditEvent.Type}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Status</Label>
+                <TextBlock Text="{Binding EditEvent.Status}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Start</Label>
+                <TextBlock Text="{Binding EditEvent.Start}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">End</Label>
+                <TextBlock Text="{Binding EditEvent.End}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Created</Label>
+                <TextBlock Text="{Binding EditEvent.Created}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="75">Updated</Label>
+                <TextBlock Text="{Binding EditEvent.Updated}"/>
+            </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="1" Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVis}}">
             <StackPanel Orientation="Horizontal">
@@ -76,7 +111,7 @@
             <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
                 <fa:ImageAwesome Icon="Check" Foreground="Green"/>
             </Button>
-            <Button Command="{Binding DisableEditModeCommand}" Style="{StaticResource TransparentBtnStyle}">
+            <Button Command="{Binding CancelCommand}" Style="{StaticResource TransparentBtnStyle}">
                 <fa:ImageAwesome Icon="Remove" Margin="10,0,0,0" Foreground="DarkRed" />
             </Button>
         </StackPanel>
