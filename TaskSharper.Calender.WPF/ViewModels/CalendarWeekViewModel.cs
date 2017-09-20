@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using Prism.Commands;
-using TaskSharper.DataAccessLayer.Google;
-using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.BusinessLayer;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -21,9 +13,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
     {
         private const int DaysInWeek = 7;
 
-        private readonly ICalendarService _service;
+        private readonly IEventManager _service;
         private IEventAggregator _eventAggregator;
-
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
@@ -33,7 +24,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand PrevCommand { get; set; }
 
 
-        public CalendarWeekViewModel(ICalendarService service, IEventAggregator eventAggregator)
+        public CalendarWeekViewModel(IEventManager service, IEventAggregator eventAggregator)
         {
             _service = service;
             _eventAggregator = eventAggregator;

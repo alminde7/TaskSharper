@@ -12,8 +12,13 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
+using TaskSharper.BusinessLayer;
+using TaskSharper.CacheStore;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.DataAccessLayer.Google.Authentication;
+using TaskSharper.Domain.BusinessLayer;
+using TaskSharper.Domain.Cache;
+using EventManager = TaskSharper.BusinessLayer.EventManager;
 
 namespace TaskSharper.Calender.WPF
 {
@@ -26,12 +31,14 @@ namespace TaskSharper.Calender.WPF
 
         protected override void InitializeShell()
         {
+            // TODO:: Think of a more sofisticated way of doing this. 
+            Container.Resolve<IEventManager>().UpdateCacheStore(DateTime.Now.AddDays(-14), DateTime.Now.AddDays(14));
+
             Application.Current.MainWindow.Show();
 
             // Set default Calendar on start.
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate("CalendarRegion", "CalendarWeekView");
-
         }
         protected override void ConfigureContainer()
         {
@@ -48,10 +55,12 @@ namespace TaskSharper.Calender.WPF
                 ApplicationName = Constants.TaskSharper,
                 HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
             });
-
+            
             Container.RegisterInstance(typeof(CalendarService), googleService);
             Container.RegisterInstance(typeof(ILogger), logger);
             Container.RegisterType<ICalendarService, GoogleCalendarService>();
+            Container.RegisterType<IEventManager, EventManager>();
+            Container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
         }
 
         protected override ILoggerFacade CreateLogger()
