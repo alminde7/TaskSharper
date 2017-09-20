@@ -21,6 +21,20 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             _logger = logger;
         }
 
+        public Event GetEvent(string id, string calendarId)
+        {
+            // Define parameters of request.
+            var request = _service.Events.Get(calendarId, id);
+            _logger.Information("Requesting event with id {0} in Google Calendar." + id);
+
+            // Execute request to retrieve events
+            var response = request.Execute();
+            var events = Helpers.Helpers.GoogleEventParser(response);
+            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+
+            return events;
+        }
+
         public List<Event> GetEvents(string calendarId)
         {
             // Define parameters of request.

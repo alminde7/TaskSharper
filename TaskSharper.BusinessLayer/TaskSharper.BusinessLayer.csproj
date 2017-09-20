@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E329AF7F-27B3-46EF-80A4-D7993B662CAD}</ProjectGuid>
+    <ProjectGuid>{041A25FC-DFDA-46A6-972B-DB0DCCC1EEF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaskSharper.Domain</RootNamespace>
-    <AssemblyName>TaskSharper.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>TaskSharper.BusinessLayer</RootNamespace>
+    <AssemblyName>TaskSharper.BusinessLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,11 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLayer\IEventManager.cs" />
-    <Compile Include="Cache\ICacheStore.cs" />
-    <Compile Include="Calendar\Event.cs" />
-    <Compile Include="Calendar\ICalendarService.cs" />
+    <Compile Include="EventManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.CacheStore\TaskSharper.CacheStore.csproj">
+      <Project>{2d89fb0a-65e7-40b6-a9f3-cf71300403c0}</Project>
+      <Name>TaskSharper.CacheStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.DataAccessLayer.Google\TaskSharper.DataAccessLayer.Google.csproj">
+      <Project>{9f579bfe-0bdc-4c2c-84fa-9b4c12f1d516}</Project>
+      <Name>TaskSharper.DataAccessLayer.Google</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
+      <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
+      <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

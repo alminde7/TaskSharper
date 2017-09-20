@@ -8,11 +8,13 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
+using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.DataAccessLayer.Google.Calendar.Service;
+using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
 
@@ -25,11 +27,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IEventAggregator _eventAggregator;
 
         public DateTime Date { get; set; }
-        public ICalendarService Service { get; set; }
+        public IEventManager Service { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, ICalendarService service)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service)
         {
             _eventAggregator = eventAggregator;
             Date = date;
@@ -88,7 +90,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var calendarEvents = Service.GetEvents(Date.Date, Date.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
+                var calendarEvents = Service.GetEvents(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {
