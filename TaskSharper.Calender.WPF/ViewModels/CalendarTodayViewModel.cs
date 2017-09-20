@@ -3,9 +3,10 @@ using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using TaskSharper.BusinessLayer.Interfaces;
+using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels

@@ -12,10 +12,12 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
-using TaskSharper.BusinessLayer.Interfaces;
+using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.DataAccessLayer.Google.Authentication;
+using TaskSharper.Domain.BusinessLayer;
+using TaskSharper.Domain.Cache;
 using EventManager = TaskSharper.BusinessLayer.EventManager;
 
 namespace TaskSharper.Calender.WPF

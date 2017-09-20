@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Extensions;
 
@@ -85,6 +86,18 @@ namespace TaskSharper.CacheStore
                 return Events[date.Date].Values.ToList();
             }
             return null;
+        }
+
+        public IList<Event> GetEvents(DateTime start, DateTime end)
+        {
+            List<Event> events = new List<Event>();
+            var eventsDictionaries = Events.Where(x => x.Key >= start && x.Key <= end).Select(x => x.Value);
+            
+            foreach (var calEvent in eventsDictionaries)
+            {
+                events.AddRange(calEvent.Values.ToList());
+            }
+            return events;
         }
 
         /// <summary>

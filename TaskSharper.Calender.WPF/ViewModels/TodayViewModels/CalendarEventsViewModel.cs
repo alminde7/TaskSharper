@@ -8,12 +8,13 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
-using TaskSharper.BusinessLayer.Interfaces;
+using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.DataAccessLayer.Google.Calendar.Service;
+using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
 

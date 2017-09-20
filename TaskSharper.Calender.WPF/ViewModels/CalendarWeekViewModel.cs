@@ -12,8 +12,9 @@ using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using Prism.Commands;
-using TaskSharper.BusinessLayer.Interfaces;
+using TaskSharper.BusinessLayer;
 using TaskSharper.DataAccessLayer.Google;
+using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels

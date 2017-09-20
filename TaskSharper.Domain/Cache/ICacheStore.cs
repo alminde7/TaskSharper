@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskSharper.Domain.Calendar;
 
-namespace TaskSharper.CacheStore
+namespace TaskSharper.Domain.Cache
 {
     public interface ICacheStore
     {
         DateTime LastUpdated { get; }
 
         IList<Event> GetEvents(DateTime date);
+        IList<Event> GetEvents(DateTime start, DateTime end);
         Event GetEvent(string id, DateTime date);
         Event GetEvent(string id);
 

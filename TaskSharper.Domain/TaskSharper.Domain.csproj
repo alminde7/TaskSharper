@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLayer\IEventManager.cs" />
+    <Compile Include="Cache\ICacheStore.cs" />
     <Compile Include="Calendar\Event.cs" />
     <Compile Include="Calendar\ICalendarService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
