@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
-using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
-using TaskSharper.DataAccessLayer.Google;
-using TaskSharper.DataAccessLayer.Google.Authentication;
-using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.BusinessLayer;
-using TaskSharper.Domain.Calendar;
-using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -25,15 +14,17 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private const int HoursInADay = 24;
 
         private readonly IEventAggregator _eventAggregator;
+        private readonly CalendarTypeEnum _dateType;
 
         public DateTime Date { get; set; }
         public IEventManager Service { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service, CalendarTypeEnum dateType)
         {
             _eventAggregator = eventAggregator;
+            _dateType = dateType;
             Date = date;
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
@@ -55,26 +46,43 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void WeekChangedEventHandler(DateChangeEnum state)
         {
-            switch (state)
+            switch (_dateType)
             {
-                case DateChangeEnum.IncreaseWeek:
-                    Date = Date.AddDays(7);
-                    UpdateView();
+                case CalendarTypeEnum.Day:
+                    switch (state)
+                    {
+                        case DateChangeEnum.IncreaseDay:
+                            Date = Date.AddDays(1);
+                            UpdateView();
+                            break;
+                        case DateChangeEnum.DecreaseDay:
+                            Date = Date.AddDays(-1);
+                            UpdateView();
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                case DateChangeEnum.DecreaseWeek:
-                    Date = Date.AddDays(-7);
-                    UpdateView();
+                case CalendarTypeEnum.Week:
+                    switch (state)
+                    {
+                        case DateChangeEnum.IncreaseWeek:
+                            Date = Date.AddDays(7);
+                            UpdateView();
+                            break;
+                        case DateChangeEnum.DecreaseWeek:
+                            Date = Date.AddDays(-7);
+                            UpdateView();
+                            break;
+                        default:
+                            break;
+                    }
+
                     break;
-                case DateChangeEnum.IncreaseDay:
-                    Date = Date.AddDays(1);
-                    UpdateView();
-                    break;
-                case DateChangeEnum.DecreaseDay:
-                    Date = Date.AddDays(-1);
-                    UpdateView();
+                case CalendarTypeEnum.Month:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

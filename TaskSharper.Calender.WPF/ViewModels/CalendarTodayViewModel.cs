@@ -30,7 +30,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             CurrentDay = DateTime.Now;
 
             // Initialize views
-            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, calendarService);
+            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, calendarService, CalendarTypeEnum.Day);
             DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator);
 
             // Initialize commands
