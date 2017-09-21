@@ -4,6 +4,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Serilog;
 using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
@@ -17,6 +18,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         public IEventAggregator EventAggregator { get; }
         public IEventManager CalendarService { get; }
+        public ILogger Logger { get; }
 
         public CalendarEventsViewModel EventsViewModel { get; set; }
         public CalendarDateViewModel DateViewModel { get; set; }
@@ -26,16 +28,17 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ICommand NextCommand { get; set; }
         public ICommand PrevCommand { get; set; }
 
-        public CalendarTodayViewModel(IEventAggregator eventAggregator, IEventManager calendarService, IRegionManager regionManager)
+        public CalendarTodayViewModel(IEventAggregator eventAggregator, IEventManager calendarService, IRegionManager regionManager, ILogger logger)
         {
             _regionManager = regionManager;
             EventAggregator = eventAggregator;
             CalendarService = calendarService;
+            Logger = logger;
             CurrentDay = DateTime.Now;
 
             // Initialize views
-            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, _regionManager, calendarService, CalendarTypeEnum.Day);
-            DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator, CalendarTypeEnum.Day);
+            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, _regionManager, calendarService, CalendarTypeEnum.Day, Logger);
+            DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator, CalendarTypeEnum.Day, Logger);
             DateYearHeader = new CalendarYearHeaderViewModel(EventAggregator, CalendarTypeEnum.Day);
 
             // Initialize commands

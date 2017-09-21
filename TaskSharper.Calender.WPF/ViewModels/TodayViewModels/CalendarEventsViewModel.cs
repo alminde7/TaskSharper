@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
 using Prism.Regions;
+using Serilog;
 using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
@@ -22,17 +23,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
+        private readonly ILogger _logger;
 
         public DateTime Date { get; set; }
         public IEventManager Service { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager service, CalendarTypeEnum dateType)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager service, CalendarTypeEnum dateType, ILogger logger)
         {
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
+            _logger = logger;
             Date = date;
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();

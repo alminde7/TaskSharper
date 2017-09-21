@@ -6,6 +6,7 @@ using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using Prism.Commands;
 using Prism.Regions;
+using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -17,6 +18,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IEventManager _service;
         private IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
+        private readonly ILogger _logger;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
@@ -27,18 +29,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand PrevCommand { get; set; }
 
 
-        public CalendarWeekViewModel(IEventManager service, IEventAggregator eventAggregator, IRegionManager regionManager)
+        public CalendarWeekViewModel(IEventManager service, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
         {
             _service = service;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
+            _logger = logger;
 
             NextCommand = new DelegateCommand(NextWeek);
             PrevCommand = new DelegateCommand(PreviousWeek);
             
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
-            DateYearHeader = new CalendarYearHeaderViewModel(_eventAggregator, CalendarTypeEnum.Week);
+            DateYearHeader = new CalendarYearHeaderViewModel(_eventAggregator, CalendarTypeEnum.Week, _logger);
 
             CurrentWeek = DateTime.Now;
 
@@ -65,8 +68,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
             for (int i = 1; i <= DaysInWeek; i++)
             {
                 var date = CalculateDate(i);
-                DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week));
-                EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager, _service, CalendarTypeEnum.Week));
+                DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week, _logger));
+                EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager, _service, CalendarTypeEnum.Week, _logger));
             }
         }
 

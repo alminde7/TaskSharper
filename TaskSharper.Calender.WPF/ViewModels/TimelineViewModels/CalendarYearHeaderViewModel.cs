@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
 using Prism.Mvvm;
+using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 
@@ -14,6 +15,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
     public class CalendarYearHeaderViewModel : BindableBase
     {
         private readonly CalendarTypeEnum _dateType;
+        private readonly ILogger _logger;
         private DateTime _date;
         private int _year;
         private string _month;
@@ -53,9 +55,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public CultureInfo CurrentCulture { get; set; }
 
-        public CalendarYearHeaderViewModel(IEventAggregator eventAggregator, CalendarTypeEnum dateType)
+        public CalendarYearHeaderViewModel(IEventAggregator eventAggregator, CalendarTypeEnum dateType, ILogger logger)
         {
             _dateType = dateType;
+            _logger = logger;
             // Initialization
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
