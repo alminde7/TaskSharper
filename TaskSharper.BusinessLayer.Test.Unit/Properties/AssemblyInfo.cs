@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("TaskSharper.BusinessLayer.Unit.Test")]
+[assembly: AssemblyTitle("TaskSharper.BusinessLayer.Test.Unit")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TaskSharper.BusinessLayer.Unit.Test")]
+[assembly: AssemblyProduct("TaskSharper.BusinessLayer.Test.Unit")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
