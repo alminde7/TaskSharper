@@ -63,7 +63,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             for (int i = 0; i < HoursInADay; i++)
             {
-                CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager));
+                CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager, _eventAggregator));
             }
         }
 

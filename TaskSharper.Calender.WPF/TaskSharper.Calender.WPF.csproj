@@ -176,6 +176,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
     <Compile Include="Events\EventChangedEvent.cs" />
+    <Compile Include="Events\EventClickedEvent.cs" />
     <Compile Include="Events\Resources\WeekChangedEnum.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
     <Compile Include="Events\DateChangedEvent.cs" />
