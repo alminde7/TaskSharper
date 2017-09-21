@@ -15,6 +15,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private readonly IEventManager _service;
         private IEventAggregator _eventAggregator;
+        private readonly IEventManager _eventManager;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
