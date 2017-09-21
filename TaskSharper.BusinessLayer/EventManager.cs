@@ -18,7 +18,7 @@ namespace TaskSharper.BusinessLayer
         {
             CalendarService = calendarService;
             Cache = cache;
-            Logger = logger;
+            Logger = logger.ForContext<EventManager>();
         }
 
         public Event GetEvent(string id)
@@ -86,7 +86,9 @@ namespace TaskSharper.BusinessLayer
 
         public void UpdateCacheStore(DateTime start, DateTime end)
         {
-            Cache.UpdateCacheStore(CalendarService.GetEvents(start, end, Constants.DefaultGoogleCalendarId), start, end);
+            var events = CalendarService.GetEvents(start, end, Constants.DefaultGoogleCalendarId);
+            Cache.UpdateCacheStore(events, start, end);
+            Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
         }
     }
 }

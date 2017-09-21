@@ -35,7 +35,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
-            _logger = logger;
+            _logger = logger.ForContext<CalendarEventsViewModel>();
             Date = date;
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
@@ -153,7 +153,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             catch (Exception e)
             {
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-                // TODO:: Log exception:Handle exception:Show message to user(maybe)
+                _logger.Error(e, "Error orcurred while getting event data");
 
             }
             return Task.CompletedTask;

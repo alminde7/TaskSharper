@@ -17,7 +17,7 @@ namespace TaskSharper.CacheStore
 
         public EventCache(ILogger logger)
         {
-            Logger = logger;
+            Logger = logger.ForContext<EventCache>();
             Events = new ConcurrentDictionary<DateTime, Dictionary<string, Event>>();
         }
 
