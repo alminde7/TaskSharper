@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="0.6*"/>
             </Grid.ColumnDefinitions>
 
-            <views:CalendarYearHeaderView Grid.Column="0" Margin="0,0,5,2"></views:CalendarYearHeaderView>
+            <views:CalendarYearHeaderView DataContext="{Binding DateYearHeader}" Grid.Column="0" Margin="0,0,5,2"></views:CalendarYearHeaderView>
 
 
             <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="0" Grid.Column="1" Width="Auto">

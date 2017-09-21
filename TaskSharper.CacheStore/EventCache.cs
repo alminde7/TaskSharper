@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Serilog;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Extensions;
@@ -10,11 +11,13 @@ namespace TaskSharper.CacheStore
 {
     public class EventCache : ICacheStore
     {
+        public ILogger Logger { get; }
         public ConcurrentDictionary<DateTime, Dictionary<string, Event>> Events { get; }
         public DateTime LastUpdated { get; set; }
 
-        public EventCache()
+        public EventCache(ILogger logger)
         {
+            Logger = logger;
             Events = new ConcurrentDictionary<DateTime, Dictionary<string, Event>>();
         }
 

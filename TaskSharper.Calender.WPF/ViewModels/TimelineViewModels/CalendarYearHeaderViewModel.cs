@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
 using Prism.Mvvm;
+using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 
@@ -13,6 +14,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarYearHeaderViewModel : BindableBase
     {
+        private readonly CalendarTypeEnum _dateType;
+        private readonly ILogger _logger;
         private DateTime _date;
         private int _year;
         private string _month;
@@ -52,31 +55,63 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public CultureInfo CurrentCulture { get; set; }
 
-        public CalendarYearHeaderViewModel(IEventAggregator eventAggregator)
+        public CalendarYearHeaderViewModel(IEventAggregator eventAggregator, CalendarTypeEnum dateType, ILogger logger)
         {
+            _dateType = dateType;
+            _logger = logger;
             // Initialization
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
             Date = DateTime.Now;
 
             // Event subscriptions
-            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
+            // Event subscription
+            eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
+            eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
         }
 
-        private void WeekChangedEventHandler(DateChangeEnum state)
+        private void MonthChangedEventHandler(DateChangedEnum state)
         {
+            if (_dateType != CalendarTypeEnum.Month) return;
             switch (state)
             {
-                case DateChangeEnum.IncreaseWeek:
+                case DateChangedEnum.Increase:
+                    Date = Date.AddMonths(1);
+                    break;
+                case DateChangedEnum.Decrease:
+                    Date = Date.AddMonths(-1);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void WeekChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Week) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
                     Date = Date.AddDays(7);
                     break;
-                case DateChangeEnum.DecreaseWeek:
+                case DateChangedEnum.Decrease:
                     Date = Date.AddDays(-7);
                     break;
-                case DateChangeEnum.IncreaseDay:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void DayChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Day) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
                     Date = Date.AddDays(1);
                     break;
-                case DateChangeEnum.DecreaseDay:
+                case DateChangedEnum.Decrease:
                     Date = Date.AddDays(-1);
                     break;
                 default:
