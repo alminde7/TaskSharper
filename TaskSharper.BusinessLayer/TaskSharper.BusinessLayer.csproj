@@ -59,6 +59,10 @@
       <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
       <Name>TaskSharper.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Shared\TaskSharper.Shared.csproj">
+      <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
+      <Name>TaskSharper.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

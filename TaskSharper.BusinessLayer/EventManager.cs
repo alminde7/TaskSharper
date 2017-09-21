@@ -5,6 +5,7 @@ using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.BusinessLayer
 {
@@ -50,7 +51,7 @@ namespace TaskSharper.BusinessLayer
             var events = Cache.GetEvents(start);
             if (events == null)
             {
-                events = CalendarService.GetEvents(start, start.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
                 Cache.UpdateCacheStore(events, start, null);
             }
             
@@ -62,7 +63,7 @@ namespace TaskSharper.BusinessLayer
             var events = Cache.GetEvents(start, end);
             if (events == null)
             {
-                events = CalendarService.GetEvents(start, end, Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
                 Cache.UpdateCacheStore(events, start, end);
             }
             
@@ -86,7 +87,7 @@ namespace TaskSharper.BusinessLayer
 
         public void UpdateCacheStore(DateTime start, DateTime end)
         {
-            var events = CalendarService.GetEvents(start, end, Constants.DefaultGoogleCalendarId);
+            var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
             Cache.UpdateCacheStore(events, start, end);
             Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
         }

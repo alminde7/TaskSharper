@@ -51,6 +51,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Task.Run(GetEvents);
         }
 
+        #region EventHandlers
         private void MonthChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Month) return;
@@ -113,6 +114,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 UpdateView();
             }
         }
+        #endregion
 
         private void UpdateView()
         {
