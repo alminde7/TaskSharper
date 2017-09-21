@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
+using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
@@ -17,6 +18,7 @@ namespace TaskSharper.BusinessLayer.Unit.Test
         private IEventManager _uut;
         private ICalendarService _calendarService;
         private ICacheStore _cache;
+        private ILogger _logger;
 
 
         [SetUp]
@@ -24,8 +26,9 @@ namespace TaskSharper.BusinessLayer.Unit.Test
         {
             _calendarService = Substitute.For<ICalendarService>();
             _cache = Substitute.For<ICacheStore>();
+            _logger = Substitute.For<ILogger>();
 
-            _uut = new EventManager(_calendarService, _cache);
+            _uut = new EventManager(_calendarService, _cache, _logger);
         }
 
         [TearDown]

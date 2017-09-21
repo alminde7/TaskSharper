@@ -11,6 +11,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarDateViewModel : BindableBase
     {
+        private readonly CalendarTypeEnum _dateType;
         private string _dayOfWeek;
         private int _dayOfMonth;
         private DateTime _currentDate;
@@ -41,35 +42,65 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DateTimeFormatInfo DateCultureInfo { get; set; }
         public CultureInfo CurrentCulture { get; set; }
 
-        public CalendarDateViewModel(DateTime date, IEventAggregator eventAggregator)
+        public CalendarDateViewModel(DateTime date, IEventAggregator eventAggregator, CalendarTypeEnum dateType)
         {
+            _dateType = dateType;
             // Initialization
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
             CurrentDate = date;
 
             // Event subscription
-            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEvent);
+            eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
+            eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
         }
 
-        private void WeekChangedEvent(DateChangeEnum newDate)
+        private void MonthChangedEventHandler(DateChangedEnum state)
         {
-            switch (newDate)
+            if (_dateType != CalendarTypeEnum.Month) return;
+            switch (state)
             {
-                case DateChangeEnum.IncreaseWeek:
+                case DateChangedEnum.Increase:
+                    CurrentDate = CurrentDate.AddMonths(1);
+                    break;
+                case DateChangedEnum.Decrease:
+                    CurrentDate = CurrentDate.AddMonths(-1);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void WeekChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Week) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
                     CurrentDate = CurrentDate.AddDays(7);
                     break;
-                case DateChangeEnum.DecreaseWeek:
+                case DateChangedEnum.Decrease:
                     CurrentDate = CurrentDate.AddDays(-7);
                     break;
-                case DateChangeEnum.IncreaseDay:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void DayChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Day) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
                     CurrentDate = CurrentDate.AddDays(1);
                     break;
-                case DateChangeEnum.DecreaseDay:
+                case DateChangedEnum.Decrease:
                     CurrentDate = CurrentDate.AddDays(-1);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(newDate), newDate, null);
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
     }

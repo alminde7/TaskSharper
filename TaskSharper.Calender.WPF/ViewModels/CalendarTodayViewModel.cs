@@ -20,6 +20,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public CalendarEventsViewModel EventsViewModel { get; set; }
         public CalendarDateViewModel DateViewModel { get; set; }
+        public CalendarYearHeaderViewModel DateYearHeader { get; set; }
         public DateTime CurrentDay { get; set; }
 
         public ICommand NextCommand { get; set; }
@@ -33,8 +34,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             CurrentDay = DateTime.Now;
 
             // Initialize views
-            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, calendarService, CalendarTypeEnum.Day);
-            DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator);
+            EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, _regionManager, calendarService, CalendarTypeEnum.Day);
+            DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator, CalendarTypeEnum.Day);
+            DateYearHeader = new CalendarYearHeaderViewModel(EventAggregator, CalendarTypeEnum.Day);
 
             // Initialize commands
             NextCommand = new DelegateCommand(NextDayCommandHandler);
@@ -44,13 +46,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public void NextDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(1);
-            EventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.IncreaseDay);
+            EventAggregator.GetEvent<DayChangedEvent>().Publish(DateChangedEnum.Increase);
         }
 
         public void PreviousDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(-1);
-            EventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.DecreaseDay);
+            EventAggregator.GetEvent<DayChangedEvent>().Publish(DateChangedEnum.Decrease);
         }
     }
 }

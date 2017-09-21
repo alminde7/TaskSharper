@@ -20,6 +20,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
+        public CalendarYearHeaderViewModel DateYearHeader { get; set; }
         public DateTime CurrentWeek { get; set; }
 
         public DelegateCommand NextCommand { get; set; }
@@ -37,6 +38,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
+            DateYearHeader = new CalendarYearHeaderViewModel(_eventAggregator, CalendarTypeEnum.Week);
 
             CurrentWeek = DateTime.Now;
 
@@ -47,13 +49,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void NextWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(7);
-            _eventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.IncreaseWeek);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Increase);
         }
 
         private void PreviousWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(-7);
-            _eventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.DecreaseWeek);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Decrease);
         }
         #endregion
 
@@ -63,8 +65,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
             for (int i = 1; i <= DaysInWeek; i++)
             {
                 var date = CalculateDate(i);
-                DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator));
-                EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _service, CalendarTypeEnum.Week));
+                DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week));
+                EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager, _service, CalendarTypeEnum.Week));
             }
         }
 

@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="0.6*"/>
             </Grid.ColumnDefinitions>
 
-            <views:CalendarYearHeaderView Grid.Column="0" Width="Auto" Height="Auto" HorizontalAlignment="Stretch"/>
+            <views:CalendarYearHeaderView DataContext="{Binding DateYearHeader}" Grid.Column="0" Width="Auto" Height="Auto" HorizontalAlignment="Stretch"/>
             <views:CalendarDateView Grid.Row="0" Grid.Column="1"
                                     Width="Auto"
                                     Height="Auto"

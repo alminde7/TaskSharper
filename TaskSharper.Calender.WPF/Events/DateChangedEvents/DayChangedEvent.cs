@@ -8,7 +8,7 @@ using TaskSharper.Calender.WPF.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.Events
 {
-    public class DateChangedEvent : PubSubEvent<DateChangeEnum>
+    public class DayChangedEvent : PubSubEvent<DateChangedEnum>
     {
     }
 }

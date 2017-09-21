@@ -11,6 +11,7 @@ using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.BusinessLayer;
+using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -27,7 +28,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service, CalendarTypeEnum dateType)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager service, CalendarTypeEnum dateType)
         {
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
@@ -36,12 +37,69 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
 
-            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
+
+            _eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            _eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
             eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
             InitializeView();
 
             Task.Run(GetEvents);
+        }
+
+        private void MonthChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Month) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
+                    Date = Date.AddMonths(1);
+                    UpdateView();
+                    break;
+                case DateChangedEnum.Decrease:
+                    Date = Date.AddMonths(-1);
+                    UpdateView();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void WeekChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Week) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
+                    Date = Date.AddDays(7);
+                    UpdateView();
+                    break;
+                case DateChangedEnum.Decrease:
+                    Date = Date.AddDays(-7);
+                    UpdateView();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void DayChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Day) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
+                    Date = Date.AddDays(1);
+                    UpdateView();
+                    break;
+                case DateChangedEnum.Decrease:
+                    Date = Date.AddDays(-1);
+                    UpdateView();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
         }
 
         private void EventChangedEventHandler(Event obj)
@@ -53,60 +111,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        private void UpdateView()
+        {
+            CalendarEvents.ForEach(x => x.Event = null);
+            Task.Run(GetEvents);
+        }
+
         private void InitializeView()
         {
             for (int i = 0; i < HoursInADay; i++)
             {
                 CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager));
             }
-        }
-
-        private void WeekChangedEventHandler(DateChangeEnum state)
-        {
-            switch (_dateType)
-            {
-                case CalendarTypeEnum.Day:
-                    switch (state)
-                    {
-                        case DateChangeEnum.IncreaseDay:
-                            Date = Date.AddDays(1);
-                            UpdateView();
-                            break;
-                        case DateChangeEnum.DecreaseDay:
-                            Date = Date.AddDays(-1);
-                            UpdateView();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case CalendarTypeEnum.Week:
-                    switch (state)
-                    {
-                        case DateChangeEnum.IncreaseWeek:
-                            Date = Date.AddDays(7);
-                            UpdateView();
-                            break;
-                        case DateChangeEnum.DecreaseWeek:
-                            Date = Date.AddDays(-7);
-                            UpdateView();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case CalendarTypeEnum.Month:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void UpdateView()
-        {
-            CalendarEvents.ForEach(x => x.Event = null);
-            Task.Run(GetEvents);
         }
 
         private Task GetEvents()
