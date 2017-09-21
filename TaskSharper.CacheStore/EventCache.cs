@@ -144,7 +144,6 @@ namespace TaskSharper.CacheStore
                 InitializeEventsDictionary(date, null);
 
             Events[date].AddOrUpdate(calendarEvent.Id, calendarEvent);
-
         }
 
         private void InitializeEventsDictionary(DateTime start, DateTime? end)
