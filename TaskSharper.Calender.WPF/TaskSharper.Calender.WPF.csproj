@@ -146,6 +146,24 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Zlib.Portable, Version=1.11.0.0, Culture=neutral, PublicKeyToken=431cba815f6a8b5b, processorArchitecture=MSIL">
       <HintPath>..\packages\Zlib.Portable.Signed.1.11.0\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
     </Reference>
@@ -157,6 +175,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
+    <Compile Include="Events\EventChangedEvent.cs" />
     <Compile Include="Events\Resources\WeekChangedEnum.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
     <Compile Include="Events\DateChangedEvent.cs" />
@@ -170,12 +189,16 @@
     <Compile Include="Events\Resources\EventResources.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimelineViewModel.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarTimeViewModel.cs" />
+    <Compile Include="ViewModels\TodayViewModels\CalendarEventDetailsViewModel.cs" />
     <Compile Include="ViewModels\TimelineViewModels\CalendarYearHeaderViewModel.cs" />
     <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AppointmentViewModel.cs" />
     <Compile Include="Views\TimelineViews\CalendarTimeView.xaml.cs">
       <DependentUpon>CalendarTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TodayViews\CalendarEventDetailsView.xaml.cs">
+      <DependentUpon>CalendarEventDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TimelineViews\CalendarYearHeaderView.xaml.cs">
       <DependentUpon>CalendarYearHeaderView.xaml</DependentUpon>
@@ -202,6 +225,10 @@
     </Compile>
     <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
     <Page Include="Views\TimelineViews\CalendarTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TodayViews\CalendarEventDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
