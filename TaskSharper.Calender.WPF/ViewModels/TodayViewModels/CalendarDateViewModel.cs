@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Prism.Events;
 using Prism.Mvvm;
+using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 
@@ -12,6 +13,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
     public class CalendarDateViewModel : BindableBase
     {
         private readonly CalendarTypeEnum _dateType;
+        private readonly ILogger _logger;
         private string _dayOfWeek;
         private int _dayOfMonth;
         private DateTime _currentDate;
@@ -42,9 +44,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DateTimeFormatInfo DateCultureInfo { get; set; }
         public CultureInfo CurrentCulture { get; set; }
 
-        public CalendarDateViewModel(DateTime date, IEventAggregator eventAggregator, CalendarTypeEnum dateType)
+        public CalendarDateViewModel(DateTime date, IEventAggregator eventAggregator, CalendarTypeEnum dateType, ILogger logger)
         {
             _dateType = dateType;
+            _logger = logger;
             // Initialization
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
