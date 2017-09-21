@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Serilog;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
@@ -11,11 +12,13 @@ namespace TaskSharper.BusinessLayer
     {
         public ICalendarService CalendarService { get; }
         public ICacheStore Cache { get; }
+        public ILogger Logger { get; }
 
-        public EventManager(ICalendarService calendarService, ICacheStore cache)
+        public EventManager(ICalendarService calendarService, ICacheStore cache, ILogger logger)
         {
             CalendarService = calendarService;
             Cache = cache;
+            Logger = logger;
         }
 
         public Event GetEvent(string id)
@@ -64,6 +67,21 @@ namespace TaskSharper.BusinessLayer
             }
             
             return events;
+        }
+
+        public Event UpdateEvent(Event eventObj)
+        {
+            try
+            {
+                var updatedEvent = CalendarService.UpdateEvent(eventObj, Constants.DefaultGoogleCalendarId);
+                Cache.AddOrUpdateEvent(updatedEvent);
+                return updatedEvent;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, $"Failed to update event with id {eventObj.Id}");
+                return null;
+            }
         }
 
         public void UpdateCacheStore(DateTime start, DateTime end)

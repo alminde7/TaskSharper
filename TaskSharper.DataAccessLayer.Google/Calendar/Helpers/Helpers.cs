@@ -51,6 +51,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
         {
             return new GoogleEvent
             {
+                Id = eventObj.Id,
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
                 Start = new EventDateTime {DateTime = eventObj.Start},
@@ -79,6 +80,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
         {
             return eventObjs.Select(eventObj => new GoogleEvent
             {
+                Id = eventObj.Id,
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
                 Start = new EventDateTime { DateTime = eventObj.Start },

@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using Prism.Commands;
+using Prism.Regions;
 using TaskSharper.Domain.BusinessLayer;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -15,7 +16,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private readonly IEventManager _service;
         private IEventAggregator _eventAggregator;
-        private readonly IEventManager _eventManager;
+        private readonly IRegionManager _regionManager;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
@@ -25,10 +26,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand PrevCommand { get; set; }
 
 
-        public CalendarWeekViewModel(IEventManager service, IEventAggregator eventAggregator)
+        public CalendarWeekViewModel(IEventManager service, IEventAggregator eventAggregator, IRegionManager regionManager)
         {
             _service = service;
             _eventAggregator = eventAggregator;
+            _regionManager = regionManager;
 
             NextCommand = new DelegateCommand(NextWeek);
             PrevCommand = new DelegateCommand(PreviousWeek);

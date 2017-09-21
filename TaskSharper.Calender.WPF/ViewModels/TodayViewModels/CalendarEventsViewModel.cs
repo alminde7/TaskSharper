@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
+using Prism.Regions;
+using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.BusinessLayer;
@@ -14,6 +19,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private const int HoursInADay = 24;
 
         private readonly IEventAggregator _eventAggregator;
+        private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
 
         public DateTime Date { get; set; }
@@ -24,23 +30,34 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service, CalendarTypeEnum dateType)
         {
             _eventAggregator = eventAggregator;
+            _regionManager = regionManager;
             _dateType = dateType;
             Date = date;
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
 
             eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
+            eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
             InitializeView();
 
             Task.Run(GetEvents);
         }
 
+        private void EventChangedEventHandler(Event obj)
+        {
+            if (Date.Date == obj.Start.Value.Date)
+            {
+                Service.UpdateEvent(obj);
+                UpdateView();
+            }
+        }
+
         private void InitializeView()
         {
             for (int i = 0; i < HoursInADay; i++)
             {
-                CalendarEvents.Add(new CalendarEventViewModel(i));
+                CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager));
             }
         }
 

@@ -36,6 +36,9 @@
     </UserControl.Resources>
 
     <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
+        <Grid.InputBindings>
+            <MouseBinding Gesture="LeftClick"  Command="{Binding EventClickCommand}" CommandParameter=""/>
+        </Grid.InputBindings>
         <Grid.RowDefinitions>
 
             <RowDefinition Height="*"/>
