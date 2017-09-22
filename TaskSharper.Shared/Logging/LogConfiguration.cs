@@ -21,6 +21,7 @@ namespace TaskSharper.Shared.Logging
                 new LoggerConfiguration()
                     .Enrich.WithProperty("MachineName", machineName)
                     .Enrich.WithProperty("Application", applicationName)
+                    .WriteTo.RollingFile($"{Config.TaskSharperLogStore}/log-{{Date}}.txt")
                     .AddElasticsearch(_elasticSearchUrl)
                     .MinimumLevel.Information()
                     .CreateLogger();
