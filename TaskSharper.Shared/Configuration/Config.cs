@@ -13,6 +13,8 @@ namespace TaskSharper.Shared.Configuration
 
         public static readonly string TaskSharperCredentialStore = SetupFileSystem.GetClientConnectionPath();
 
+        public static readonly string TaskSharperLogStore = SetupFileSystem.GetLogPath();
+
     }
 
     public class SetupFileSystem
@@ -39,6 +41,18 @@ namespace TaskSharper.Shared.Configuration
             }
 
             return pathToCred;
+        }
+
+        public static string GetLogPath()
+        {
+            var pathToLog = Path.Combine(SetupBasePath(), "Logs");
+
+            if (!Directory.Exists(pathToLog))
+            {
+                Directory.CreateDirectory(pathToLog);
+            }
+
+            return pathToLog;
         }
     }
 }
