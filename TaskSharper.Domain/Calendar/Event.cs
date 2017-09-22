@@ -50,9 +50,14 @@ namespace TaskSharper.Domain.Calendar
         public DateTime? Start { get; set; }
 
         /// <summary>
-        /// The (exclusive) end time of the event
+        /// The (exclusive) end time of the event.
         /// </summary>
         public DateTime? End { get; set; }
+
+        /// <summary>
+        /// Date object which is only set for all day events.
+        /// </summary>
+        public DateTime? AllDayEvent { get; set; }
 
         /// <summary>
         /// Status of the event. Optional. Possible values:
