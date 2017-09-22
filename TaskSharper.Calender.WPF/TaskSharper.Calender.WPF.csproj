@@ -179,7 +179,6 @@
     <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
     <Compile Include="Events\EventChangedEvent.cs" />
     <Compile Include="Events\EventClickedEvent.cs" />
-    <Compile Include="Events\Resources\WeekChangedEnum.cs" />
     <Compile Include="Events\Resources\CalendarTypeEnum.cs" />
     <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
     <Compile Include="Events\Resources\DateChangedEnum.cs" />

@@ -12,5 +12,10 @@ namespace TaskSharper.Calender.WPF.Views
         {
             InitializeComponent();
         }
+
+        private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            eventPop.IsOpen = true;
+        }
     }
 }

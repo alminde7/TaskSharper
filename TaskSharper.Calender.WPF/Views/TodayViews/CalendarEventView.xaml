@@ -33,36 +33,48 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="TransparentBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
+    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventClickCommand}">
+        <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
+            <Grid.RowDefinitions>
 
-    <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarEvent_Height}">
-        <Grid.InputBindings>
-            <MouseBinding Gesture="LeftClick"  Command="{Binding EventClickCommand}" CommandParameter=""/>
-        </Grid.InputBindings>
-        <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
+                <Label Style="{StaticResource LabelHideStyle}"
+                       Content="{Binding Event.Title}"/>
+            </TextBlock>
 
-        <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
-            <Label Style="{StaticResource LabelHideStyle}"
-                   Content="{Binding Event.Title}"/>
-        </TextBlock>
-
-        <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
-            <Label Style="{StaticResource LabelHideStyle}"
-                   Content="{Binding Event.Description}"/>
-        </TextBlock>
-        <Popup Grid.Row="1" Name="eventPop" IsOpen="{Binding IsPopupOpen}" StaysOpen="True">
-            <Border BorderBrush="Blue" BorderThickness="1"
-                    Background="AliceBlue">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Julius Caesar was a Roman emperor who lived from 100 BC to 44 BC"
-                               Margin="10"
-                               Width="150" TextWrapping="Wrap"/>
-                </StackPanel>
-            </Border>
-        </Popup>
-    </Grid>
+            <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
+                <Label Style="{StaticResource LabelHideStyle}"
+                       Content="{Binding Event.Description}"/>
+            </TextBlock>
+            <Popup Grid.Row="1" Name="eventPop" IsOpen="{Binding IsPopupOpen}" StaysOpen="False">
+                <Border BorderBrush="Blue" BorderThickness="1"
+                        Background="AliceBlue">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Event.Title}" FontWeight="Bold" Margin="10,5"></TextBlock>
+                        <TextBlock Text="{Binding Event.Description}"
+                                   Margin="10,5"
+                                   Width="150" TextWrapping="Wrap"/>
+                        <Button Command="{Binding EventDetailsClickCommand}">More...</Button>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+    </Button>
 </UserControl>

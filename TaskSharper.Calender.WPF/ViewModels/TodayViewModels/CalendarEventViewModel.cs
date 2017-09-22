@@ -18,7 +18,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly ILogger _logger;
 
         public DelegateCommand EventClickCommand { get; set; }
-        
+        public DelegateCommand EventDetailsClickCommand { get; set; }
+
         private bool _isTitleAndDescriptionActivated;
         private Event _event;
         private bool _isPopupOpen;
@@ -65,16 +66,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
             IsTitleAndDescriptionActivated = true;
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
-            _logger = logger;
-            EventClickCommand = new DelegateCommand(EventClick, CanExecute);
-            _eventAggregator.GetEvent<EventClickedEvent>().Subscribe(LogEventClick);
+            _logger = logger.ForContext<CalendarEventViewModel>();
+            EventClickCommand = new DelegateCommand(EventClick, CanExecuteEventClick);
+            EventDetailsClickCommand = new DelegateCommand(EventDetailsClick);
         }
 
-        private void LogEventClick(EventClickObject obj)
+        private void LogEventClick()
         {
-            if (obj.Event != null)
+            if (Event != null)
             {
-                _logger.Information($"Event {obj.Event.Title} (id: {obj.Event.Id}) with timespan {obj.TimeOfDay} was clicked at {DateTime.Now}");
+                _logger.ForContext("Click", Event).Information($"Event {Event.Title} (id: {Event.Id}) with timespan {TimeOfDay} was clicked at {DateTime.Now}");
             }
         }
 
@@ -85,22 +86,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void EventClick()
         {
-            
-            if (IsPopupOpen)
-            {
-                Navigate("CalendarEventDetailsView");
-            }
-            else
-            {
-                IsPopupOpen = true;
-                _subscriptionToken = _eventAggregator.GetEvent<EventClickedEvent>().Subscribe(ClosePopup);
-            }
+            LogEventClick();
+            IsPopupOpen = true;
+            _subscriptionToken = _eventAggregator.GetEvent<EventClickedEvent>().Subscribe(ClosePopup);
         }
 
-        private bool CanExecute()
+        private void EventDetailsClick()
+        {
+            Navigate("CalendarEventDetailsView");
+        }
+
+        private bool CanExecuteEventClick()
         {
             var canExecute = !string.IsNullOrEmpty(Event?.Id);
-            _eventAggregator.GetEvent<EventClickedEvent>().Publish(new EventClickObject() { Event = Event, TimeOfDay = TimeOfDay });
+            var eventClickObject = new EventClickObject {Event = Event, TimeOfDay = TimeOfDay};
+            _eventAggregator.GetEvent<EventClickedEvent>().Publish(eventClickObject);
 
             return canExecute;
         }
