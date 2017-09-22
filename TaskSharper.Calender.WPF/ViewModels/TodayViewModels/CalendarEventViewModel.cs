@@ -67,7 +67,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
             _logger = logger.ForContext<CalendarEventViewModel>();
-            EventClickCommand = new DelegateCommand(EventClick, CanExecuteEventClick);
+            EventClickCommand = new DelegateCommand(EventClick);
             EventDetailsClickCommand = new DelegateCommand(EventDetailsClick);
         }
 
@@ -86,9 +86,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void EventClick()
         {
-            LogEventClick();
-            IsPopupOpen = true;
-            _subscriptionToken = _eventAggregator.GetEvent<EventClickedEvent>().Subscribe(ClosePopup);
+            if (CanExecuteEventClick())
+            {
+                LogEventClick();
+                IsPopupOpen = true;
+                _subscriptionToken = _eventAggregator.GetEvent<EventClickedEvent>().Subscribe(ClosePopup);
+            }
         }
 
         private void EventDetailsClick()
