@@ -33,7 +33,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _regionManager = regionManager;
             EventAggregator = eventAggregator;
             CalendarService = calendarService;
-            Logger = logger;
+            Logger = logger.ForContext<CalendarTodayViewModel>();
             CurrentDay = DateTime.Now;
 
             // Initialize views
@@ -50,12 +50,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             CurrentDay = CurrentDay.AddDays(1);
             EventAggregator.GetEvent<DayChangedEvent>().Publish(DateChangedEnum.Increase);
+            Logger.ForContext("Click", typeof(DayChangedEvent)).Information("NextDay has been clicked");
         }
 
         public void PreviousDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(-1);
             EventAggregator.GetEvent<DayChangedEvent>().Publish(DateChangedEnum.Decrease);
+            Logger.ForContext("Click", typeof(DayChangedEvent)).Information("PreviousDay has been clicked");
         }
     }
 }
