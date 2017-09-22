@@ -38,6 +38,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     {
                         IsTitleAndDescriptionActivated = false;
                     }
+                    else
+                    {
+                        IsTitleAndDescriptionActivated = true;
+                    }
                 }
                 SetProperty(ref _event, value);
             }
