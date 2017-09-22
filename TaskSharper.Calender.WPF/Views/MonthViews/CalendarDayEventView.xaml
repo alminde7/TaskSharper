@@ -10,8 +10,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <Grid>
-        
-        <Label Content="{Binding Event.Title}"/> 
-  
+        <TextBlock Grid.Row="0">
+            <Label Content="{Binding Event.Title}"/>
+        </TextBlock>
     </Grid>
 </UserControl>

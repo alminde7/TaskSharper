@@ -22,7 +22,7 @@
         <ItemsControl Grid.Row="0" ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarEventView BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Width="Auto" HorizontalAlignment="Stretch"/>
+                    <views:CalendarEventView BorderBrush="DarkGray" BorderThickness="0.5,0,0,0.5" Width="Auto" HorizontalAlignment="Stretch"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

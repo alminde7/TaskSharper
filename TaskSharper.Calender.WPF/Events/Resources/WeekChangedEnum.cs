@@ -13,5 +13,8 @@ namespace TaskSharper.Calender.WPF.Events.Resources
 
         IncreaseDay,
         DecreaseDay,
+
+        IncreaseMonth,
+        DecreaseMonth
     }
 }

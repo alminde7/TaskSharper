@@ -73,6 +73,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     Date = Date.AddDays(-1);
                     UpdateView();
                     break;
+                case DateChangeEnum.IncreaseMonth:
+                    Date = Date.AddMonths(1);
+                    UpdateView();
+                    break;
+                case DateChangeEnum.DecreaseMonth:
+                    Date = Date.AddMonths(-1);
+                    UpdateView();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }

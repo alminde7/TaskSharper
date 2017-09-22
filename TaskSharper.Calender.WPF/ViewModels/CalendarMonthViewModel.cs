@@ -1,8 +1,11 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Practices.ObjectBuilder2;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -12,7 +15,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
     public class CalendarMonthViewModel : BindableBase
     {
         private const int DaysInWeek = 7;
-        private  DateTime DateNow = DateTime.Now;
+        private DateTime DateNow = DateTime.Now;
+        private DateTime PrevFriday;
 
         private readonly IEventManager _eventManager;
         private IEventAggregator _eventAggregator;
@@ -22,7 +26,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public ObservableCollection<CalendarWeekDayViewModel> WeekDays { get; set; }
 
-        public DateTime CurrentWeek { get; set; }
+        public DateTime CurrentDatetime { get; set; }
 
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
@@ -39,40 +43,59 @@ namespace TaskSharper.Calender.WPF.ViewModels
             WeekNumbers = new ObservableCollection<CalendarWeekNumberViewModel>();
             WeekDays = new ObservableCollection<CalendarWeekDayViewModel>();
 
-            CurrentWeek = DateTime.Now;
+            CurrentDatetime = DateTime.Now;
 
             InitializeViews();
         }
 
         private void PrevMonth()
         {
-            throw new NotImplementedException();
+            CurrentDatetime = CurrentDatetime.AddMonths(-1); 
+            _eventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.DecreaseMonth);
         }
 
         private void NextMonth()
         {
-            throw new NotImplementedException();
+            CurrentDatetime = CurrentDatetime.AddMonths(1);
+            _eventAggregator.GetEvent<DateChangedEvent>().Publish(DateChangeEnum.IncreaseMonth);
         }
 
         private void InitializeViews()
         {
-            for (int i = 1; i <= DaysInWeek; i++)
+            for (int i = 1; i <= 7; i++)
             {
-                var date = CalculateDate(i);
-                WeekDays.Add(new CalendarWeekDayViewModel(date));
-               
+                WeekDays.Add(new CalendarWeekDayViewModel(i));
             }
-            for (int i = 1; i < DateTime.DaysInMonth(DateNow.Year, DateNow.Month) + 1; i++)
+            var nextFriday = CalculateDate(1, CurrentDatetime);
+            FindMonday(nextFriday);
+
+            for (int i =  0; i < 35; i++)
             {
-                var date = CalculateDate(i);
-                DateDays.Add(new CalendarDateDayViewModel(date, _eventAggregator, _eventManager));
+                var PrevMonday = PrevFriday.AddDays(i);
+                DateDays.Add(new CalendarDateDayViewModel(PrevMonday, _eventAggregator, _eventManager));
             }
         }
-        private DateTime CalculateDate(int day)
+        private void UpdateViews()
         {
-            var dayOffset = day - (int)DateTime.Now.Day;
+            var nextFriday = CalculateDate(1, CurrentDatetime);
+            
+        }
+        private void FindMonday(DateTime nextmonth)
+        {
+            if(nextmonth.DayOfWeek == DayOfWeek.Monday)
+            {
+                PrevFriday = nextmonth;
+                return;
+            }
+            FindMonday(nextmonth.AddDays(-1));
 
-            var dateTime = DateTime.Now.AddDays(dayOffset);
+        }
+        
+        private DateTime CalculateDate(int day, DateTime currentDateTime)
+        {
+            var dayOffset = day - (int)currentDateTime.Day;
+
+            var dateTime = currentDateTime.AddDays(dayOffset);
 
             return dateTime;
         }

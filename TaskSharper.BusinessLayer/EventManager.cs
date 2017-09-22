@@ -47,7 +47,7 @@ namespace TaskSharper.BusinessLayer
             var events = Cache.GetEvents(start);
             if (events == null)
             {
-                events = CalendarService.GetEvents(start, start.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start.Date, start.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
                 Cache.UpdateCacheStore(events, start, null);
             }
             

@@ -8,28 +8,22 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 {
     public class CalendarWeekDayViewModel : BindableBase
     {
-        private string _dayOfWeek;
-        private DateTime _currentDate;
+        private string day;
+        
 
-        public string DayOfWeek
+        public string Day
         {
-            get => _dayOfWeek;
-            set => SetProperty(ref _dayOfWeek, value);
+            get => day;
+            set => SetProperty(ref day, value);
         }
 
-        public DateTime CurrentDate
+        public CalendarWeekDayViewModel(int dayofweek)
         {
-            get => _currentDate;
-            set
-            {
-                DayOfWeek = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DateTimeFormatInfo.CurrentInfo.GetDayName(value.DayOfWeek));
-                _currentDate = value;
-            }
-        }
+            if (dayofweek == 7)
+                dayofweek = 0;
 
-        public CalendarWeekDayViewModel(DateTime date)
-        {
-            CurrentDate = date;
+            var DayOfWeekObject = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), dayofweek);
+            day = DayOfWeekObject.ToString();
         }
     }
 }
