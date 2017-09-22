@@ -34,7 +34,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _service = service;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
-            _logger = logger;
+            _logger = logger.ForContext<CalendarWeekViewModel>();
 
             NextCommand = new DelegateCommand(NextWeek);
             PrevCommand = new DelegateCommand(PreviousWeek);
@@ -53,12 +53,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             CurrentWeek = CurrentWeek.Date.AddDays(7);
             _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Increase);
+            _logger.ForContext("Click", typeof(WeekChangedEvent)).Information("NextWeek has been clicked");
         }
 
         private void PreviousWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(-7);
             _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Decrease);
+            _logger.ForContext("Click", typeof(WeekChangedEvent)).Information("PreviousWeek has been clicked");
         }
         #endregion
 

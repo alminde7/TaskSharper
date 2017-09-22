@@ -62,6 +62,7 @@
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Logging\LogConfiguration.cs" />
     <Compile Include="Extensions\LoggerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

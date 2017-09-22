@@ -14,7 +14,7 @@ namespace TaskSharper.Shared.Logging
 
         public static ILogger Configure()
         {
-            var applicationName = Assembly.GetExecutingAssembly().GetName().Name;
+            var applicationName = Assembly.GetCallingAssembly().GetName().Name;
             var machineName = Environment.MachineName;
 
             var logger =
