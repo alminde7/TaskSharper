@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Domain.BusinessLayer
@@ -12,5 +13,12 @@ namespace TaskSharper.Domain.BusinessLayer
         IList<Event> GetEvents(DateTime start, DateTime end);
         Event UpdateEvent(Event eventObj);
         void UpdateCacheStore(DateTime start, DateTime end);
+
+        Task<Event> GetEventAsync(string id);
+        Task<Event> GetEventAsync(string id, DateTime date);
+        Task<IList<Event>> GetEventsAsync(DateTime start);
+        Task<IList<Event>> GetEventsAsync(DateTime start, DateTime end);
+        Task<Event> UpdateEventAsync(Event eventObj);
+        Task UpdateCacheStoreAsync(DateTime start, DateTime end);
     }
 }
