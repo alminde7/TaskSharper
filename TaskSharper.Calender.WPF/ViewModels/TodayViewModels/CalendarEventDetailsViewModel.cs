@@ -23,12 +23,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand DisableEditModeCommand { get; set; }
         public DelegateCommand SaveEventCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
-        public Process TouchKeyboardProcess;
+        public DelegateCommand KeyboardCommand { get; set; }     
 
         private readonly IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
         private readonly IEventManager _calendarService;
 
+        private Process _touchKeyboardProcess;
         private string touchKeyboardPath = @"C:\Program Files\Common Files\Microsoft Shared\Ink\TabTip.exe";
         private string _title;
         private Event _selectedEvent;
@@ -37,7 +38,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool _isNotInEditMode = true;
         private IEnumerable<Event.EventType> _eventTypes;
         private IEnumerable<Event.EventStatus> _eventStatuses;
-        
+
+        public Process TouchKeyboardProcess
+        {
+            get => _touchKeyboardProcess;
+            set => SetProperty(ref _touchKeyboardProcess, value);
+        }
+
         public string Title
         {
             get => _title;
@@ -87,14 +94,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public void EnableEditMode()
         {
             IsInEditMode = true;
-
             TouchKeyboardProcess = Process.Start(touchKeyboardPath);
         }
 
         public void DisableEditMode()
         {
             IsInEditMode = false;
-            TouchKeyboardProcess = null;
+            TouchKeyboardProcess?.WaitForExit(200);
         }
 
         public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventManager calendarService, IEventAggregator eventAggregator)
@@ -108,11 +114,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
             DisableEditModeCommand = new DelegateCommand(DisableEditMode);
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
+            KeyboardCommand = new DelegateCommand(ToggleKeyboard);
 
             EventTypes = Enum.GetValues(typeof(Event.EventType)).Cast<Event.EventType>();
             EventStatuses = Enum.GetValues(typeof(Event.EventStatus)).Cast<Event.EventStatus>().Except(new List<Event.EventStatus>{ Event.EventStatus.Cancelled });
         }
 
+        private void ToggleKeyboard()
+        {      
+            TouchKeyboardProcess = TouchKeyboardProcess.HasExited || TouchKeyboardProcess == null ? Process.Start(touchKeyboardPath) : null;
+        }
 
         private void SaveEvent()
         {
