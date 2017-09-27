@@ -2,21 +2,18 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
-using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
-using TaskSharper.Domain.Calendar;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.Resources;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 {
     public class CalendarDateDayViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly CalendarTypeEnum _dateType;
+        private readonly ILogger _logger;
         private int _dayOfMonth;
         private DateTime _date;
 
@@ -39,50 +36,30 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             set => SetProperty(ref _dayOfMonth, value);
         }
 
-        public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager eventManager)
+        public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger)
         {
             _eventAggregator = eventAggregator;
+            _dateType = dateType;
+            _logger = logger.ForContext<CalendarDateDayViewModel>();
             Date = date;
             EventManager = eventManager;
             CalendarEvents = new ObservableCollection<CalendarDayEventViewModel>();
-
-            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(MonthChangedEventHandler);
-
-            InitializeView();
-
+            
+            eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
+            
             GetEvents();
         }
 
-        private void InitializeView()
+        private void MonthChangedEventHandler(DateChangedEnum state)
         {
-            
-        }
-
-        private void MonthChangedEventHandler(DateChangeEnum state)
-        {
+            if (_dateType != CalendarTypeEnum.Month) return;
             switch (state)
             {
-                case DateChangeEnum.IncreaseWeek:
-                    Date = Date.AddDays(7);
-                    UpdateView();
-                    break;
-                case DateChangeEnum.DecreaseWeek:
-                    Date = Date.AddDays(-7);
-                    UpdateView();
-                    break;
-                case DateChangeEnum.IncreaseDay:
-                    Date = Date.AddDays(1);
-                    UpdateView();
-                    break;
-                case DateChangeEnum.DecreaseDay:
-                    Date = Date.AddDays(-1);
-                    UpdateView();
-                    break;
-                case DateChangeEnum.IncreaseMonth:
+                case DateChangedEnum.Increase:
                     Date = Date.AddDays(28);
                     UpdateView();
                     break;
-                case DateChangeEnum.DecreaseMonth:
+                case DateChangedEnum.Decrease:
                     Date = Date.AddDays(-28);
                     UpdateView();
                     break;
@@ -95,6 +72,12 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         {
             CalendarEvents.Clear();
             GetEvents();
+        }
+
+        public void UpdateDate(DateTime date)
+        {
+            Date = date;
+            UpdateView();
         }
 
         public void GetEvents()
@@ -117,8 +100,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             catch (Exception e)
             {
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-                // TODO:: Log exception:Handle exception:Show message to user(maybe)
-
+                _logger.Error(e, "Failed to update view");
             }
         }
     }
