@@ -9,7 +9,6 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
     public class CalendarWeekDayViewModel : BindableBase
     {
         private string day;
-        
 
         public string Day
         {

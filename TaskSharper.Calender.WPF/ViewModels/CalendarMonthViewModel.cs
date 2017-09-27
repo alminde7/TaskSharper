@@ -21,7 +21,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public ObservableCollection<CalendarDateDayViewModel> DateDays { get; set; }
         public ObservableCollection<CalendarWeekNumberViewModel> WeekNumbers { get; set; }
-
         public ObservableCollection<CalendarWeekDayViewModel> WeekDays { get; set; }
 
         public DateTime CurrentDatetime { get; set; }
@@ -71,6 +70,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             for (int i =  0; i < 35; i++)
             {
                 var prevMonday = PreviousMonday.AddDays(i);
+
+                if (i % 7 == 0)
+                {
+                    WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
+                }
+
                 DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventManager, CalendarTypeEnum.Month, _logger));
             }
         }
@@ -101,9 +106,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
             var firstDayOfMonth = CalculateDate(1, CurrentDatetime);
             FindPreviousMonday(firstDayOfMonth);
 
+            int weekCount = 0;
             for (int i = 0; i < 35; i++)
             {
                 var prevMonday = PreviousMonday.AddDays(i);
+
+                if (i % 7 == 0)
+                    WeekNumbers[weekCount++].Date = prevMonday;
+                    
                 DateDays[i].UpdateDate(prevMonday);
             }
         }

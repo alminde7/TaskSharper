@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TaskSharper.Calender.WPF.Views.MonthViews
+namespace TaskSharper.Calender.WPF.Views
 {
     /// <summary>
     /// Interaction logic for CalendarWeekNumberView.xaml

@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
@@ -80,13 +81,13 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             UpdateView();
         }
 
-        public void GetEvents()
+        public async void GetEvents()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
 
             try
             {
-                var calendarEvents = EventManager.GetEvents(Date);
+                var calendarEvents = await EventManager.GetEventsAsync(Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {
