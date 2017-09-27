@@ -233,9 +233,6 @@
       <DependentUpon>CalendarDateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\TodayViewModels\CalendarDateViewModel.cs" />
-    <Compile Include="Views\TodayViews\CalendarEventView.xaml.cs">
-      <DependentUpon>CalendarEventView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CalendarMonthView.xaml.cs">
       <DependentUpon>CalendarMonthView.xaml</DependentUpon>
     </Compile>
@@ -271,10 +268,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TimelineViews\CalendarYearHeaderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TodayViews\CalendarEventView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

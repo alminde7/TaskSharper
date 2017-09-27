@@ -8,13 +8,7 @@ using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.Events
 {
-    public class EventClickedEvent : PubSubEvent<EventClickObject>
+    public class EventClickedEvent : PubSubEvent<Event>
     {
-    }
-
-    public class EventClickObject
-    {
-        public Event Event { get; set; }
-        public int? TimeOfDay { get; set; }
     }
 }
