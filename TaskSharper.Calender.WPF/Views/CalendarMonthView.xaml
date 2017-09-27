@@ -55,7 +55,7 @@
                 <ItemsControl BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Grid.Column="1" ItemsSource="{Binding DateDays}"  Width="Auto">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Rows="6" Columns="7"/>
+                                <UniformGrid Rows="5" Columns="7"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
