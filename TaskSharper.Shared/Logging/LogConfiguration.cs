@@ -5,6 +5,7 @@ using Serilog;
 using Serilog.Core;
 using TaskSharper.Shared.Configuration;
 using TaskSharper.Shared.Extensions;
+using TaskSharper.Shared.Helpers;
 
 namespace TaskSharper.Shared.Logging
 {
@@ -22,10 +23,14 @@ namespace TaskSharper.Shared.Logging
                     .Enrich.WithProperty("MachineName", machineName)
                     .Enrich.WithProperty("Application", applicationName)
                     .WriteTo.RollingFile($"{Config.TaskSharperLogStore}/log-{{Date}}.txt")
-                    .AddElasticsearch(_elasticSearchUrl)
-                    .MinimumLevel.Information()
-                    .CreateLogger();
-            return logger;
+                    .MinimumLevel.Information();
+
+            if (ConnectionHelper.CheckConnectionElasticsearch(_elasticSearchUrl))
+            {
+                logger.AddElasticsearch(_elasticSearchUrl);
+            }
+
+            return logger.CreateLogger();
         }
     }
 }
