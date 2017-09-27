@@ -259,6 +259,24 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next Month.
+        /// </summary>
+        public static string MonthView_Next_Button_Text {
+            get {
+                return ResourceManager.GetString("MonthView_Next_Button_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prev Month.
+        /// </summary>
+        public static string MonthView_Prev_Button_Text {
+            get {
+                return ResourceManager.GetString("MonthView_Prev_Button_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next Week.
         /// </summary>
         public static string WeekView_Next_Button_Text {
