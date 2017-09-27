@@ -18,7 +18,8 @@
             <Label Content="{Binding Day}" 
                    FontSize="18" 
                    Width="Auto" 
-                   FontStretch="Normal" 
+                   FontStretch="Normal"
+                   FontWeight="SemiBold"
                    HorizontalAlignment="Left" 
                    VerticalAlignment="Bottom" 
                    Margin="2"/>

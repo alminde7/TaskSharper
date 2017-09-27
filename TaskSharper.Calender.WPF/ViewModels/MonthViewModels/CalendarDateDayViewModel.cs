@@ -17,6 +17,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         private readonly ILogger _logger;
         private int _dayOfMonth;
         private DateTime _date;
+        private bool _isCurrentDay;
 
         public ObservableCollection<CalendarDayEventViewModel> CalendarEvents { get; set; }    
         public IEventManager EventManager { get; set; }
@@ -27,6 +28,10 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             set
             {
                 DayOfMonth = value.Day;
+                if (value.Date == DateTime.Now.Date)
+                    IsCurrentDay = true;
+                else
+                    IsCurrentDay = false;
                 _date = value;
             }
         }
@@ -37,8 +42,15 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             set => SetProperty(ref _dayOfMonth, value);
         }
 
+        public bool IsCurrentDay
+        {
+            get { return _isCurrentDay; }
+            set { SetProperty(ref _isCurrentDay, value); }
+        }
+
         public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger)
         {
+            IsCurrentDay = false;
             _eventAggregator = eventAggregator;
             _dateType = dateType;
             _logger = logger.ForContext<CalendarDateDayViewModel>();

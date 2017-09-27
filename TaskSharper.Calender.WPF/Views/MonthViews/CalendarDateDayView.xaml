@@ -5,10 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+
+    <UserControl.Resources>
+        <Style x:Key="CurrentDayStyle" TargetType="Grid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCurrentDay}" Value="true">
+                    <Setter Property="Background" Value="DarkGray"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Style="{StaticResource CurrentDayStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="9*"/>
