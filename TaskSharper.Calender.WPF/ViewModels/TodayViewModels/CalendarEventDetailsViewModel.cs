@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +23,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand DisableEditModeCommand { get; set; }
         public DelegateCommand SaveEventCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
+        public Process TouchKeyboardProcess;
 
         private readonly IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
         private readonly IEventManager _calendarService;
 
+        private string touchKeyboardPath = @"C:\Program Files\Common Files\Microsoft Shared\Ink\TabTip.exe";
         private string _title;
         private Event _selectedEvent;
         private Event _editEvent;
@@ -84,11 +87,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public void EnableEditMode()
         {
             IsInEditMode = true;
+
+            TouchKeyboardProcess = Process.Start(touchKeyboardPath);
         }
 
         public void DisableEditMode()
         {
             IsInEditMode = false;
+            TouchKeyboardProcess = null;
         }
 
         public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventManager calendarService, IEventAggregator eventAggregator)
