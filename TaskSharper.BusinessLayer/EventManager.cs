@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Serilog;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.BusinessLayer
 {
@@ -11,11 +13,13 @@ namespace TaskSharper.BusinessLayer
     {
         public ICalendarService CalendarService { get; }
         public ICacheStore Cache { get; }
+        public ILogger Logger { get; }
 
-        public EventManager(ICalendarService calendarService, ICacheStore cache)
+        public EventManager(ICalendarService calendarService, ICacheStore cache, ILogger logger)
         {
             CalendarService = calendarService;
             Cache = cache;
+            Logger = logger.ForContext<EventManager>();
         }
 
         public Event GetEvent(string id)
@@ -47,7 +51,7 @@ namespace TaskSharper.BusinessLayer
             var events = Cache.GetEvents(start);
             if (events == null)
             {
-                events = CalendarService.GetEvents(start.Date, start.Date.AddDays(1).AddTicks(-1), Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
                 Cache.UpdateCacheStore(events, start, null);
             }
             
@@ -59,16 +63,33 @@ namespace TaskSharper.BusinessLayer
             var events = Cache.GetEvents(start, end);
             if (events == null)
             {
-                events = CalendarService.GetEvents(start, end, Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
                 Cache.UpdateCacheStore(events, start, end);
             }
             
             return events;
         }
 
+        public Event UpdateEvent(Event eventObj)
+        {
+            try
+            {
+                var updatedEvent = CalendarService.UpdateEvent(eventObj, Constants.DefaultGoogleCalendarId);
+                Cache.AddOrUpdateEvent(updatedEvent);
+                return updatedEvent;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, $"Failed to update event with id {eventObj.Id}");
+                return null;
+            }
+        }
+
         public void UpdateCacheStore(DateTime start, DateTime end)
         {
-            Cache.UpdateCacheStore(CalendarService.GetEvents(start, end, Constants.DefaultGoogleCalendarId), start, end);
+            var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+            Cache.UpdateCacheStore(events, start, end);
+            Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSubstitute;
 using NUnit.Framework;
+using Serilog;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.CacheStore.Test.Unit
@@ -9,11 +11,13 @@ namespace TaskSharper.CacheStore.Test.Unit
     public class EventCacheUnitTests
     {
         private EventCache _uut;
+        private ILogger _logger;
 
         [SetUp]
         public void Setup()
         {
-            _uut = new EventCache();
+            _logger = Substitute.For<ILogger>();
+            _uut = new EventCache(_logger);
         }
 
         [TearDown]

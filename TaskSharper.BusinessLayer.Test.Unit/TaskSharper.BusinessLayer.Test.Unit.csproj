@@ -8,8 +8,8 @@
     <ProjectGuid>{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaskSharper.BusinessLayer.Unit.Test</RootNamespace>
-    <AssemblyName>TaskSharper.BusinessLayer.Unit.Test</AssemblyName>
+    <RootNamespace>TaskSharper.BusinessLayer.Test.Unit</RootNamespace>
+    <AssemblyName>TaskSharper.BusinessLayer.Test.Unit</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -51,6 +51,9 @@
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -59,7 +62,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.BusinessLayer\TaskSharper.BusinessLayer.csproj">
+      <Project>{041a25fc-dfda-46a6-972b-db0dccc1eef8}</Project>
+      <Name>TaskSharper.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.CacheStore\TaskSharper.CacheStore.csproj">
+      <Project>{2d89fb0a-65e7-40b6-a9f3-cf71300403c0}</Project>
+      <Name>TaskSharper.CacheStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
+      <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
+      <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

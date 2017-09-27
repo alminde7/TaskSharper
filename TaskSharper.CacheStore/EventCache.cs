@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Serilog;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Extensions;
@@ -10,11 +11,13 @@ namespace TaskSharper.CacheStore
 {
     public class EventCache : ICacheStore
     {
+        public ILogger Logger { get; }
         public ConcurrentDictionary<DateTime, Dictionary<string, Event>> Events { get; }
         public DateTime LastUpdated { get; set; }
 
-        public EventCache()
+        public EventCache(ILogger logger)
         {
+            Logger = logger.ForContext<EventCache>();
             Events = new ConcurrentDictionary<DateTime, Dictionary<string, Event>>();
         }
 
@@ -25,7 +28,7 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasData(DateTime date)
         {
-            return Events.ContainsKey(date.Date);
+            return Events.ContainsKey(date.StartOfDay());
         }
 
         /// <summary>
@@ -36,9 +39,9 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasEvent(string id, DateTime date)
         {
-            if (HasData(date.Date))
+            if (HasData(date.StartOfDay()))
             {
-                return Events[date.Date].ContainsKey(id);
+                return Events[date.StartOfDay()].ContainsKey(id);
             }
             return false;
         }
@@ -66,7 +69,7 @@ namespace TaskSharper.CacheStore
 
             foreach (var calEvent in events)
             {
-                var date = calEvent.Start.Value.Date;
+                var date = calEvent.Start.Value.StartOfDay();
 
                 Events[date].AddOrUpdate(calEvent.Id, calEvent);
             }
@@ -81,9 +84,9 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public IList<Event> GetEvents(DateTime date)
         {
-            if (HasData(date))
+            if (HasData(date.StartOfDay()))
             {
-                return Events[date.Date].Values.ToList();
+                return Events[date.StartOfDay()].Values.ToList();
             }
             return null;
         }
@@ -91,7 +94,7 @@ namespace TaskSharper.CacheStore
         public IList<Event> GetEvents(DateTime start, DateTime end)
         {
             List<Event> events = new List<Event>();
-            var eventsDictionaries = Events.Where(x => x.Key >= start.Date && x.Key <= end.Date).Select(x => x.Value);
+            var eventsDictionaries = Events.Where(x => x.Key >= start.StartOfDay() && x.Key <= end.StartOfDay()).Select(x => x.Value);
             
             foreach (var calEvent in eventsDictionaries)
             {
@@ -108,7 +111,7 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public Event GetEvent(string id, DateTime date)
         {
-            date = date.Date;
+            date = date.StartOfDay();
 
             if (!HasData(date)) return null;
             if (!Events[date].ContainsKey(id)) return null;
@@ -135,24 +138,23 @@ namespace TaskSharper.CacheStore
         /// <param name="calendarEvent"></param>
         public void AddOrUpdateEvent(Event calendarEvent)
         {
-            var date = calendarEvent.Start.Value.Date;
+            var date = calendarEvent.Start.Value.StartOfDay();
 
             if(!Events.ContainsKey(date))
                 InitializeEventsDictionary(date, null);
 
             Events[date].AddOrUpdate(calendarEvent.Id, calendarEvent);
-
         }
 
         private void InitializeEventsDictionary(DateTime start, DateTime? end)
         {
             if (end.HasValue)
             {
-                var timeSpanDays = (end.Value.Date - start.Date).Days;
+                var timeSpanDays = (end.Value.StartOfDay() - start.StartOfDay()).Days;
 
                 for (int index = 0; index <= timeSpanDays; index++)
                 {
-                    var date = start.Date.AddDays(index);
+                    var date = start.StartOfDay().AddDays(index);
                     if (!Events.ContainsKey(date))
                     {
                         Events.TryAdd(date, new Dictionary<string, Event>());
@@ -161,7 +163,7 @@ namespace TaskSharper.CacheStore
             }
             else
             {
-                var date = start.Date;
+                var date = start.StartOfDay();
                 if (!Events.ContainsKey(date))
                 {
                     Events.TryAdd(date, new Dictionary<string, Event>());

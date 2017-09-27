@@ -14,13 +14,14 @@ namespace TaskSharper.Shared.Logging
 
         public static ILogger Configure()
         {
-            var applicationName = Assembly.GetExecutingAssembly().GetName().Name;
+            var applicationName = Assembly.GetCallingAssembly().GetName().Name;
             var machineName = Environment.MachineName;
 
             var logger =
                 new LoggerConfiguration()
                     .Enrich.WithProperty("MachineName", machineName)
                     .Enrich.WithProperty("Application", applicationName)
+                    .WriteTo.RollingFile($"{Config.TaskSharperLogStore}/log-{{Date}}.txt")
                     .AddElasticsearch(_elasticSearchUrl)
                     .MinimumLevel.Information()
                     .CreateLogger();

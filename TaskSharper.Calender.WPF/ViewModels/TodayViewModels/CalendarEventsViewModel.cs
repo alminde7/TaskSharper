@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
+using Prism.Regions;
+using Serilog;
 using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
-using TaskSharper.DataAccessLayer.Google;
-using TaskSharper.DataAccessLayer.Google.Authentication;
-using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
-using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -25,51 +21,83 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private const int HoursInADay = 24;
 
         private readonly IEventAggregator _eventAggregator;
+        private readonly IRegionManager _regionManager;
+        private readonly CalendarTypeEnum _dateType;
+        private readonly ILogger _logger;
 
         public DateTime Date { get; set; }
         public IEventManager Service { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager service)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager service, CalendarTypeEnum dateType, ILogger logger)
         {
             _eventAggregator = eventAggregator;
+            _regionManager = regionManager;
+            _dateType = dateType;
+            _logger = logger.ForContext<CalendarEventsViewModel>();
             Date = date;
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
 
-            eventAggregator.GetEvent<DateChangedEvent>().Subscribe(WeekChangedEventHandler);
+
+            _eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
+            _eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
+            _eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
+            eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
             InitializeView();
 
             Task.Run(GetEvents);
         }
 
-        private void InitializeView()
+        #region EventHandlers
+        private void MonthChangedEventHandler(DateChangedEnum state)
         {
-            for (int i = 0; i < HoursInADay; i++)
+            if (_dateType != CalendarTypeEnum.Month) return;
+            switch (state)
             {
-                CalendarEvents.Add(new CalendarEventViewModel(i));
+                case DateChangedEnum.Increase:
+                    Date = Date.AddMonths(1);
+                    UpdateView();
+                    break;
+                case DateChangedEnum.Decrease:
+                    Date = Date.AddMonths(-1);
+                    UpdateView();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
 
-        private void WeekChangedEventHandler(DateChangeEnum state)
+        private void WeekChangedEventHandler(DateChangedEnum state)
         {
+            if (_dateType != CalendarTypeEnum.Week) return;
             switch (state)
             {
-                case DateChangeEnum.IncreaseWeek:
+                case DateChangedEnum.Increase:
                     Date = Date.AddDays(7);
                     UpdateView();
                     break;
-                case DateChangeEnum.DecreaseWeek:
+                case DateChangedEnum.Decrease:
                     Date = Date.AddDays(-7);
                     UpdateView();
                     break;
-                case DateChangeEnum.IncreaseDay:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void DayChangedEventHandler(DateChangedEnum state)
+        {
+            if (_dateType != CalendarTypeEnum.Day) return;
+            switch (state)
+            {
+                case DateChangedEnum.Increase:
                     Date = Date.AddDays(1);
                     UpdateView();
                     break;
-                case DateChangeEnum.DecreaseDay:
+                case DateChangedEnum.Decrease:
                     Date = Date.AddDays(-1);
                     UpdateView();
                     break;
@@ -86,10 +114,28 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        private void EventChangedEventHandler(Event obj)
+        {
+            if (Date.Date == obj.Start.Value.Date)
+            {
+                Service.UpdateEvent(obj);
+                UpdateView();
+            }
+        }
+        #endregion
+
         private void UpdateView()
         {
             CalendarEvents.ForEach(x => x.Event = null);
             Task.Run(GetEvents);
+        }
+
+        private void InitializeView()
+        {
+            for (int i = 0; i < HoursInADay; i++)
+            {
+                CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager, _eventAggregator, _logger));
+            }
         }
 
         private Task GetEvents()
@@ -117,7 +163,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             catch (Exception e)
             {
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-                // TODO:: Log exception:Handle exception:Show message to user(maybe)
+                _logger.Error(e, "Error orcurred while getting event data");
 
             }
             return Task.CompletedTask;
