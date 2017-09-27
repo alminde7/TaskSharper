@@ -105,7 +105,6 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
                 {
                     if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
                     CalendarEvents.Add(new CalendarDayEventViewModel() { Event = calendarEvent });
-                    
 
                 }
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
