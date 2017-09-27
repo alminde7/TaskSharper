@@ -4,27 +4,88 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
+             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+             xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="100">
-    
-    <UserControl.Resources>
-        <ControlTemplate x:Key="NoScoll">
-            <ItemsPresenter></ItemsPresenter>
-        </ControlTemplate>
-    </UserControl.Resources>
-    
-    <Grid>
-       <!--Some sort of container in here to All-day events. See Slack for inspiration on how to disable scrolling for the container-->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="9*"/>
-        </Grid.RowDefinitions>
 
-        <ItemsControl Grid.Row="0" ItemsSource="{Binding CalendarEvents}">
+    <UserControl.Resources>
+        <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
+        <Style x:Key="EventTypeStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
+                    <Setter Property="Background" Value="DarkOliveGreen"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Task}" Value="true">
+                    <Setter Property="Background" Value="CornflowerBlue"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}" Value="true">
+                    <Setter Property="Background" Value="DarkOliveGreen"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TransparentBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Canvas Height="1200" x:Name="CalendarEvents">
+        <ItemsControl ItemsSource="{Binding CalendarEvents}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding LocX}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding LocY}"/>
+                    <Setter Property="Height" Value="{Binding Height}"/>
+                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarEventView BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Width="Auto" HorizontalAlignment="Stretch"/>
+                    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventClickCommand}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
+                                <Label Content="{Binding Event.Title}"/>
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
+                                <Label Content="{Binding Event.Description}"/>
+                            </TextBlock>
+                            <Popup Grid.Row="1" Name="eventPop" IsOpen="{Binding IsPopupOpen}" StaysOpen="False">
+                                <Border BorderBrush="Blue" BorderThickness="1"
+                                        Background="AliceBlue">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{Binding Event.Title}" FontWeight="Bold" Margin="10,5"></TextBlock>
+                                        <TextBlock Text="{Binding Event.Description}"
+                                                   Margin="10,5"
+                                                   Width="150" TextWrapping="Wrap"/>
+                                        <Button Command="{Binding EventDetailsClickCommand}">More...</Button>
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </Grid>
+    </Canvas>
 </UserControl>
