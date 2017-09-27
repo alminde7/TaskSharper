@@ -46,7 +46,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
             eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
-            Task.Run(GetEvents);
+            GetEvents();
         }
 
         #region EventHandlers
@@ -117,16 +117,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void UpdateView()
         {
             CalendarEvents.Clear();
-            Task.Run(GetEvents);
+            GetEvents();
         }
 
-        private Task GetEvents()
+        private async void GetEvents()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
 
             try
             {
-                var calendarEvents = Service.GetEvents(Date.Date);
+                var calendarEvents = await Service.GetEventsAsync(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {
@@ -138,12 +138,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
                         Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / 60.0 / 24.0 * 1200,
                         Event = calendarEvent
                     };
-
-                    // https://stackoverflow.com/questions/12881489/asynchronously-adding-to-observablecollection-or-an-alternative
-                    Application.Current.Dispatcher.BeginInvoke((Action) delegate()
-                    {
-                        CalendarEvents.Add(viewModel);
-                    });
+                    
+                    CalendarEvents.Add(viewModel);
                 }
 
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
@@ -154,7 +150,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 _logger.Error(e, "Error orcurred while getting event data");
 
             }
-            return Task.CompletedTask;
         }
 
     }
