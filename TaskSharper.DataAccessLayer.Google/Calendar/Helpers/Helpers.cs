@@ -56,7 +56,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Id = eventObj.Id,
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
-                Start = new EventDateTime {DateTime = eventObj.Start, Date = eventObj.AllDayEvent.ToString()},
+                Start = new EventDateTime {DateTime = eventObj.Start, Date = eventObj.AllDayEvent?.ToString()},
                 End = new EventDateTime {DateTime = eventObj.End},
                 Status = eventObj.Status.ToString().ToLower(),
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
@@ -85,7 +85,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Id = eventObj.Id,
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
-                Start = new EventDateTime { DateTime = eventObj.Start, Date = eventObj.AllDayEvent.ToString() },
+                Start = new EventDateTime { DateTime = eventObj.Start, Date = eventObj.AllDayEvent?.ToString() },
                 End = new EventDateTime { DateTime = eventObj.End },
                 Status = eventObj.Status.ToString().ToLower(),
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>

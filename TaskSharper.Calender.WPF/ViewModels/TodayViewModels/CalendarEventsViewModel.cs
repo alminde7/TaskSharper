@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.BusinessLayer;
@@ -16,10 +18,8 @@ using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
-    public class CalendarEventsViewModel
+    public class CalendarEventsViewModel : BindableBase
     {
-        private const int HoursInADay = 24;
-
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
@@ -45,8 +45,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
             _eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
             eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
-
-            InitializeView();
 
             Task.Run(GetEvents);
         }
@@ -118,16 +116,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void UpdateView()
         {
-            CalendarEvents.ForEach(x => x.Event = null);
+            CalendarEvents.Clear();
             Task.Run(GetEvents);
-        }
-
-        private void InitializeView()
-        {
-            for (int i = 0; i < HoursInADay; i++)
-            {
-                CalendarEvents.Add(new CalendarEventViewModel(i, _regionManager, _eventAggregator, _logger));
-            }
         }
 
         private Task GetEvents()
@@ -141,15 +131,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 foreach (var calendarEvent in calendarEvents)
                 {
                     if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-
-                    var eventTimespan = calendarEvent.End.Value.Hour - calendarEvent.Start.Value.Hour;
-                    var startIndex = calendarEvent.Start.Value.Hour;
-
-                    for (int i = startIndex; i < startIndex + eventTimespan; i++)
+                    var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
                     {
-                        CalendarEvents[i].Event = calendarEvent;
-                    }
+                        LocY = calendarEvent.Start.Value.Hour / 24.0 * 1200 +
+                               calendarEvent.Start.Value.Minute / 60.0 / 24.0 * 1200,
+                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / 60.0 / 24.0 * 1200,
+                        Event = calendarEvent
+                    };
+
+                    // https://stackoverflow.com/questions/12881489/asynchronously-adding-to-observablecollection-or-an-alternative
+                    Application.Current.Dispatcher.BeginInvoke((Action) delegate()
+                    {
+                        CalendarEvents.Add(viewModel);
+                    });
                 }
+
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
             }
             catch (Exception e)

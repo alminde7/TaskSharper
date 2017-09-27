@@ -19,39 +19,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public DelegateCommand EventClickCommand { get; set; }
         public DelegateCommand EventDetailsClickCommand { get; set; }
-
-        private bool _isTitleAndDescriptionActivated;
+        
         private Event _event;
         private bool _isPopupOpen;
         SubscriptionToken _subscriptionToken;
-
-
-        public int TimeOfDay { get; set; }
+        private double _height;
+        private double _width;
+        private double _locY;
+        private double _locX;
 
         public Event Event
         {
             get => _event;
-            set
-            {
-                if (value?.Start != null && value.End.HasValue)
-                {
-                    if (value.Start.Value.Hour < TimeOfDay)
-                    {
-                        IsTitleAndDescriptionActivated = false;
-                    }
-                    else
-                    {
-                        IsTitleAndDescriptionActivated = true;
-                    }
-                }
-                SetProperty(ref _event, value);
-            }
-        }
-
-        public bool IsTitleAndDescriptionActivated
-        {
-            get => _isTitleAndDescriptionActivated;
-            set => SetProperty(ref _isTitleAndDescriptionActivated, value);
+            set => SetProperty(ref _event, value);
         }
 
         public bool IsPopupOpen
@@ -59,11 +39,33 @@ namespace TaskSharper.Calender.WPF.ViewModels
             get => _isPopupOpen;
             set => SetProperty(ref _isPopupOpen, value);
         }
-        
-        public CalendarEventViewModel(int timeOfDay, IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
+
+        public double Height
         {
-            TimeOfDay = timeOfDay;
-            IsTitleAndDescriptionActivated = true;
+            get => _height;
+            set => SetProperty(ref _height, value);
+        }
+
+        public double Width
+        {
+            get => _width;
+            set => SetProperty(ref _width, value);
+        }
+
+        public double LocX
+        {
+            get => _locX;
+            set => SetProperty(ref _locX, value);
+        }
+
+        public double LocY
+        {
+            get => _locY;
+            set => SetProperty(ref _locY, value);
+        }
+
+        public CalendarEventViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
+        {
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
             _logger = logger.ForContext<CalendarEventViewModel>();
@@ -75,7 +77,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             if (Event != null)
             {
-                _logger.ForContext("Click", Event).Information($"Event {Event.Title} (id: {Event.Id}) with timespan {TimeOfDay} was clicked at {DateTime.Now}");
+                _logger.ForContext("Click", Event).Information($"Event {Event.Title} (id: {Event.Id}) was clicked.");
             }
         }
 
@@ -102,13 +104,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool CanExecuteEventClick()
         {
             var canExecute = !string.IsNullOrEmpty(Event?.Id);
-            var eventClickObject = new EventClickObject {Event = Event, TimeOfDay = TimeOfDay};
-            _eventAggregator.GetEvent<EventClickedEvent>().Publish(eventClickObject);
+            _eventAggregator.GetEvent<EventClickedEvent>().Publish(Event);
 
             return canExecute;
         }
 
-        private void ClosePopup(EventClickObject obj)
+        private void ClosePopup(Event obj)
         {
             IsPopupOpen = false;
             _eventAggregator.GetEvent<EventClickedEvent>().Unsubscribe(_subscriptionToken);
