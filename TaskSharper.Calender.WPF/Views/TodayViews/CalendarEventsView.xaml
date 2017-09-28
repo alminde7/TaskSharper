@@ -38,7 +38,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Canvas Height="1200" x:Name="CalendarEvents">
+    <Canvas Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarStructure_Height_1200}" x:Name="CalendarEvents">
         <ItemsControl ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
