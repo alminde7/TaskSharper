@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Diagnostics;
+using System.Net.Http;
 
 namespace TaskSharper.Shared.Helpers
 {
@@ -6,9 +8,17 @@ namespace TaskSharper.Shared.Helpers
     {
         public static bool CheckConnectionElasticsearch(string url)
         {
-            var httpClient = new HttpClient();
-            var result = httpClient.GetAsync(url).Result;
-            return result.IsSuccessStatusCode;
+            try
+            {
+                var httpClient = new HttpClient();
+                var result = httpClient.GetAsync(url).Result;
+                return result.IsSuccessStatusCode;
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+                return false;
+            }
         }
     }
 }
