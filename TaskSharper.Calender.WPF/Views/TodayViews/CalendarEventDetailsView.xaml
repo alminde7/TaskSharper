@@ -114,6 +114,9 @@
             <Button Command="{Binding CancelCommand}" Style="{StaticResource TransparentBtnStyle}">
                 <fa:ImageAwesome Icon="Remove" Margin="10,0,0,0" Foreground="DarkRed" />
             </Button>
+            <Button Command="{Binding KeyboardCommand}" Style="{StaticResource TransparentBtnStyle}">
+                <fa:ImageAwesome Icon="KeyboardOutline" Margin="10,0,0,0" Foreground="DodgerBlue" />
+            </Button>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
             <Button Command="{Binding EnableEditModeCommand}" Style="{StaticResource TransparentBtnStyle}">
