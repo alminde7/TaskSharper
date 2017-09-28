@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,7 @@ using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Constants;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -29,6 +31,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public IEventManager Service { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
+        public ObservableCollection<CalendarEventsBackground> Backgrounds { get; set; }
 
         public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager service, CalendarTypeEnum dateType, ILogger logger)
         {
@@ -39,13 +42,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Date = date;
             Service = service;
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
-
+            Backgrounds = new ObservableCollection<CalendarEventsBackground>();
 
             _eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
             _eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
             _eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
             eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
+            InitializeView();
             GetEvents();
         }
 
@@ -114,6 +118,20 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         #endregion
 
+        private void InitializeView()
+        {
+            for (int i = 1; i < Time.HoursInADay; i = i + 2)
+            {
+                Backgrounds.Add(new CalendarEventsBackground
+                {
+                    Height = 50,
+                    LocX = 0,
+                    LocY = i * 50,
+                    Color = Brushes.AliceBlue
+                });
+            }
+        }
+
         private void UpdateView()
         {
             CalendarEvents.Clear();
@@ -133,9 +151,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
                     var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
                     {
-                        LocY = calendarEvent.Start.Value.Hour / 24.0 * 1200 +
-                               calendarEvent.Start.Value.Minute / 60.0 / 24.0 * 1200,
-                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / 60.0 / 24.0 * 1200,
+                        LocY = calendarEvent.Start.Value.Hour / Time.HoursInADay * 1200 +
+                               calendarEvent.Start.Value.Minute / Time.MinutesInAnHour / Time.HoursInADay * 1200, // TODO: Declare 1200 as a constant somewhere
+                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / Time.MinutesInAnHour / Time.HoursInADay * 1200,
                         Event = calendarEvent
                     };
                     
@@ -152,5 +170,37 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+    }
+
+    public class CalendarEventsBackground : BindableBase
+    {
+        private double _height;
+        private double _locX;
+        private double _locY;
+        private Brush _color;
+
+        public double Height
+        {
+            get => _height;
+            set => SetProperty(ref _height, value);
+        }
+
+        public double LocX
+        {
+            get => _locX;
+            set => SetProperty(ref _locX, value);
+        }
+
+        public double LocY
+        {
+            get => _locY;
+            set => SetProperty(ref _locY, value);
+        }
+
+        public Brush Color
+        {
+            get => _color;
+            set => SetProperty(ref _color, value);
+        }
     }
 }

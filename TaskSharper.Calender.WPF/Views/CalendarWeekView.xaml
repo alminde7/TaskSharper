@@ -43,14 +43,14 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <views:CalendarDateView Width="Auto" HorizontalAlignment="Stretch"></views:CalendarDateView>
+                        <views:CalendarDateView Width="Auto" HorizontalAlignment="Center"></views:CalendarDateView>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
 
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
-            <Border BorderBrush="Black" BorderThickness="0.25">
+            <Border BorderBrush="Black" BorderThickness="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.7*"/>
@@ -66,7 +66,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <views:CalendarEventsView Width="Auto" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="0.25,0,0,0"></views:CalendarEventsView>
+                                <views:CalendarEventsView Width="Auto" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="0.25,0,0,0"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

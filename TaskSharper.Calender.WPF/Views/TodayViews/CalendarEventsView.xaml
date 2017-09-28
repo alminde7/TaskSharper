@@ -39,6 +39,27 @@
     </UserControl.Resources>
 
     <Canvas Height="1200" x:Name="CalendarEvents">
+        <ItemsControl ItemsSource="{Binding Backgrounds}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding LocX}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding LocY}"/>
+                    <Setter Property="Height" Value="{Binding Height}"/>
+                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                    <Setter Property="Canvas.ZIndex" Value="0"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Fill="AliceBlue"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <ItemsControl ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -51,6 +72,7 @@
                     <Setter Property="Canvas.Top" Value="{Binding LocY}"/>
                     <Setter Property="Height" Value="{Binding Height}"/>
                     <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                    <Setter Property="Canvas.ZIndex" Value="1"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
