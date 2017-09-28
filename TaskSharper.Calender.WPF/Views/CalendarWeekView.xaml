@@ -36,7 +36,6 @@
 
             <views:CalendarYearHeaderView DataContext="{Binding DateYearHeader}" Grid.Column="0" Margin="0,0,5,2"></views:CalendarYearHeaderView>
 
-
             <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="0" Grid.Column="1" Width="Auto">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -49,7 +48,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-
         </Grid>
 
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
