@@ -7,14 +7,15 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" Width="300">
+             mc:Ignorable="d" >
+
+    
     <Grid Height="Auto" Width="Auto">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
-
+        
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*"/>
@@ -22,21 +23,22 @@
                 <ColumnDefinition Width="0.6*"/>
             </Grid.ColumnDefinitions>
 
-            <views:CalendarYearHeaderView DataContext="{Binding DateYearHeader}" Grid.Column="0" Width="Auto" Height="Auto" HorizontalAlignment="Stretch"/>
+            <views:CalendarYearHeaderView DataContext="{Binding DateYearHeader}" Grid.Column="0" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <views:CalendarDateView Grid.Row="0" Grid.Column="1"
-                                    Width="Auto"
-                                    Height="Auto"
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Stretch"
-                                    DataContext="{Binding DateViewModel}"/>
+                                        Width="Auto"
+                                        Height="Auto"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                        DataContext="{Binding DateViewModel}"/>
 
-            <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" Width="Auto" Height="Auto" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" Width="Auto" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Button Command="{Binding NextCommand}" Content="Increase"  />
                 <Button Command="{Binding PrevCommand}" Content="Decrese" />
             </StackPanel>
         </Grid>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch" Width="Auto">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.7*"/>
@@ -45,12 +47,16 @@
                 </Grid.ColumnDefinitions>
 
                 <views:CalendarTimelineView Grid.Column="0"
-                                            Width="Auto"/>
-                
+                                            HorizontalAlignment="Stretch"
+                                                Width="Auto"/>
+
                 <views:CalendarEventsView Grid.Column="1" 
-                                          Width="Auto"
-                                          DataContext="{Binding EventsViewModel}"/>
+                                              Width="Auto"
+                                          HorizontalAlignment="Stretch"
+                                              DataContext="{Binding EventsViewModel}"/>
             </Grid>
         </ScrollViewer>
     </Grid>
+
+
 </UserControl>
