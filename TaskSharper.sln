@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calender.WPF", "TaskSharper.Calender.WPF\TaskSharper.Calender.WPF.csproj", "{E7703189-AB75-42AD-A24C-7084FF9BCFA2}"
 EndProject
@@ -27,6 +27,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.BusinessLayer.Test.Unit", "TaskSharper.BusinessLayer.Test.Unit\TaskSharper.BusinessLayer.Test.Unit.csproj", "{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Notification", "TaskSharper.Notification\TaskSharper.Notification.csproj", "{F5A1ABD8-6797-489E-B296-B099F1455D7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,10 @@ Global
 		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C82A853-D6C3-4BDF-BBFC-AE80881FBEE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A1ABD8-6797-489E-B296-B099F1455D7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A1ABD8-6797-489E-B296-B099F1455D7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A1ABD8-6797-489E-B296-B099F1455D7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A1ABD8-6797-489E-B296-B099F1455D7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
