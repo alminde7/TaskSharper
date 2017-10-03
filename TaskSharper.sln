@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.BusinessLayer.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Notification", "TaskSharper.Notification\TaskSharper.Notification.csproj", "{F5A1ABD8-6797-489E-B296-B099F1455D7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Notification.Tester", "TaskSharper.Notification.Tester\TaskSharper.Notification.Tester.csproj", "{27CF5397-DCCA-4EE1-AC81-043B1526F9D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{F5A1ABD8-6797-489E-B296-B099F1455D7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5A1ABD8-6797-489E-B296-B099F1455D7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5A1ABD8-6797-489E-B296-B099F1455D7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CF5397-DCCA-4EE1-AC81-043B1526F9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CF5397-DCCA-4EE1-AC81-043B1526F9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CF5397-DCCA-4EE1-AC81-043B1526F9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CF5397-DCCA-4EE1-AC81-043B1526F9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

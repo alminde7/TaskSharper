@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F5A1ABD8-6797-489E-B296-B099F1455D7C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaskSharper.Notification</RootNamespace>
-    <AssemblyName>TaskSharper.Notification</AssemblyName>
+    <ProjectGuid>{27CF5397-DCCA-4EE1-AC81-043B1526F9D2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TaskSharper.Notification.Tester</RootNamespace>
+    <AssemblyName>TaskSharper.Notification.Tester</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,18 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventNotification.cs" />
-    <Compile Include="Events\EventOccurrenceEventArgs.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
       <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
       <Name>TaskSharper.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaskSharper.Shared\TaskSharper.Shared.csproj">
-      <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
-      <Name>TaskSharper.Shared</Name>
+    <ProjectReference Include="..\TaskSharper.Notification\TaskSharper.Notification.csproj">
+      <Project>{f5a1abd8-6797-489e-b296-b099f1455d7c}</Project>
+      <Name>TaskSharper.Notification</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,6 +12,10 @@ namespace TaskSharper.BusinessLayer
 {
     public class EventManager : IEventManager
     {
+        public delegate void EventRaisedEventHandler();
+
+        public event EventRaisedEventHandler eventRasied;
+
         public ICalendarService CalendarService { get; }
         public ICacheStore Cache { get; }
         public ILogger Logger { get; }
@@ -22,7 +26,7 @@ namespace TaskSharper.BusinessLayer
             Cache = cache;
             Logger = logger.ForContext<EventManager>();
         }
-
+        
         public Event GetEvent(string id)
         {
             var calEvent = Cache.GetEvent(id);
