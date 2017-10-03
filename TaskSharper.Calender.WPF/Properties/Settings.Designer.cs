@@ -31,5 +31,14 @@ namespace TaskSharper.Calender.WPF.Properties {
                 return ((double)(this["CalendarEvent_Height"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        public double CalendarStructure_Height_1200 {
+            get {
+                return ((double)(this["CalendarStructure_Height_1200"]));
+            }
+        }
     }
 }
