@@ -87,7 +87,7 @@
             </ItemsControl>
         </Grid>
 
-        <ScrollViewer Grid.Row="2" PanningMode="VerticalOnly" PanningRatio="0.5" PanningDeceleration="0.5" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer Grid.Row="2" PanningMode="VerticalOnly" PanningRatio="0.5" PanningDeceleration="20" VerticalScrollBarVisibility="Hidden">
             <Border BorderBrush="Black" BorderThickness="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
