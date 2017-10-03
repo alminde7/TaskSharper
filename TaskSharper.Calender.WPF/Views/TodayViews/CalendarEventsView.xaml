@@ -39,7 +39,7 @@
     </UserControl.Resources>
    
     <Canvas Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarStructure_Height_1200}" x:Name="CalendarEvents">
-      <ItemsControl ItemsSource="{Binding Backgrounds}">
+        <ItemsControl ItemsSource="{Binding Backgrounds}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -109,5 +109,13 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <Rectangle  Canvas.Left="{Binding TimeLine.LocX}"
+                    Canvas.Top="{Binding TimeLine.LocY}"
+                    Height="{Binding TimeLine.Height}"
+                    Width="{Binding Path=ActualWidth, ElementName=CalendarEvents}"
+                    Canvas.ZIndex="2"
+                    Stroke="Black" Fill="Gray"
+                    StrokeDashArray="{Binding TimeLine.StrokeDashArray}"
+                    StrokeThickness="4"/>
     </Canvas>
 </UserControl>

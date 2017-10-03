@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
-using Microsoft.Practices.ObjectBuilder2;
+using System.Windows.Media;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
-using TaskSharper.BusinessLayer;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.BusinessLayer;
@@ -26,12 +22,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
+        private CalendarEventsCurrentTimeLine _timeLine;
 
         public DateTime Date { get; set; }
         public IEventManager Service { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
         public ObservableCollection<CalendarEventsBackground> Backgrounds { get; set; }
+
+        public CalendarEventsCurrentTimeLine TimeLine
+        {
+            get => _timeLine;
+            set => SetProperty(ref _timeLine, value);
+        }
 
         public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager service, CalendarTypeEnum dateType, ILogger logger)
         {
@@ -50,7 +53,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
             InitializeView();
-            GetEvents();
+            UpdateView();
         }
 
         #region EventHandlers
@@ -126,16 +129,41 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 {
                     Height = 50,
                     LocX = 0,
-                    LocY = i * 50,
-                    Color = Brushes.AliceBlue
+                    LocY = i * 50
                 });
             }
+
+            var now = DateTime.Now;
+
+            TimeLine = new CalendarEventsCurrentTimeLine
+            {
+                Height = 1,
+                LocX = 0,
+                LocY = 1200 / Time.HoursInADay * (now.Hour + now.Minute / Time.MinutesInAnHour),
+                StrokeDashArray = DateTime.Today == Date.Date ? new DoubleCollection { 4, 0 } : new DoubleCollection { 2, 4 }
+            };
+
+            var timer = new Timer();
+            timer.Elapsed += UpdateTimeLine;
+            // Set the Interval to 1 minute.
+            timer.Interval = (double) 60 * 1000;
+            timer.Enabled = true;
+        }
+
+        private void UpdateTimeLine(object source, ElapsedEventArgs e)
+        {
+            TimeLine.LocY = 1200 / Time.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / Time.MinutesInAnHour);
+            
+            TimeLine.StrokeDashArray = DateTime.Today == Date.Date ?
+                Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 4, 0 }) :
+                Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 2, 4 });
         }
 
         private void UpdateView()
         {
             CalendarEvents.Clear();
             GetEvents();
+            UpdateTimeLine(null, null);
         }
 
         private async void GetEvents()
@@ -177,7 +205,32 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _height;
         private double _locX;
         private double _locY;
-        private Brush _color;
+
+        public double Height
+        {
+            get => _height;
+            set => SetProperty(ref _height, value);
+        }
+
+        public double LocX
+        {
+            get => _locX;
+            set => SetProperty(ref _locX, value);
+        }
+
+        public double LocY
+        {
+            get => _locY;
+            set => SetProperty(ref _locY, value);
+        }
+    }
+
+    public class CalendarEventsCurrentTimeLine : BindableBase
+    {
+        private double _height;
+        private double _locX;
+        private double _locY;
+        private DoubleCollection _strokeDashArray;
 
         public double Height
         {
@@ -197,10 +250,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _locY, value);
         }
 
-        public Brush Color
+        public DoubleCollection StrokeDashArray
         {
-            get => _color;
-            set => SetProperty(ref _color, value);
+            get => _strokeDashArray;
+            set => SetProperty(ref _strokeDashArray, value);
         }
     }
 }
