@@ -13,7 +13,7 @@
         <ItemsControl ItemsSource="{Binding Timeline}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarTimeView BorderBrush="DarkGray"  BorderThickness="0,0,0,0.5"/>
+                    <views:CalendarTimeView BorderBrush="DarkGray"  BorderThickness="0,0,0,0"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

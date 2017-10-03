@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Windows.Media;
 using Prism.Mvvm;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -20,7 +21,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 Timeline.Add(new CalendarTimeViewModel()
                 {
-                    Hour = i
+                    Hour = i,
+                    BackgroundColor = i % 2 != 0 ? Brushes.AliceBlue : Brushes.White
                 });
             }
         }

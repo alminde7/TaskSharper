@@ -6,7 +6,7 @@
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
-    <Grid Height="50">
+    <Grid Height="50" Background="{Binding BackgroundColor}">
         <Label VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,5,0" FontSize="20" Content="{Binding Hour}"/>
     </Grid>
 </UserControl>
