@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
@@ -17,6 +18,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private readonly IEventManager _eventManager;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
 
         public ObservableCollection<CalendarDateDayViewModel> DateDays { get; set; }
@@ -28,21 +30,26 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
 
-        public CalendarMonthViewModel(IEventManager eventManager, IEventAggregator eventAggregator, ILogger logger)
+        public CalendarMonthViewModel(IEventManager eventManager, IEventAggregator eventAggregator, ILogger logger, IRegionManager regionManager)
         {
+            // Initialize objects
             _eventManager = eventManager;
             _eventAggregator = eventAggregator;
+            _regionManager = regionManager;
             _logger = logger.ForContext<CalendarMonthViewModel>();
 
+            // Create Event commands
             NextCommand = new DelegateCommand(NextMonth);
             PrevCommand = new DelegateCommand(PrevMonth);
 
+            // Initialize view containers
             DateDays = new ObservableCollection<CalendarDateDayViewModel>();
             WeekNumbers = new ObservableCollection<CalendarWeekNumberViewModel>();
             WeekDays = new ObservableCollection<CalendarWeekDayViewModel>();
 
             CurrentDatetime = DateTime.Now;
 
+            // Create view
             BootstrapView();
         }
 
@@ -76,7 +83,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
                 }
 
-                DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventManager, CalendarTypeEnum.Month, _logger));
+                DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventManager, CalendarTypeEnum.Month, _logger, _regionManager));
             }
         }
 

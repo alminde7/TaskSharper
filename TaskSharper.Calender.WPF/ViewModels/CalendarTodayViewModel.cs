@@ -13,7 +13,7 @@ using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
-    public class CalendarTodayViewModel : BindableBase
+    public class CalendarTodayViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager _regionManager;
         public IEventAggregator EventAggregator { get; }
@@ -58,6 +58,38 @@ namespace TaskSharper.Calender.WPF.ViewModels
             CurrentDay = CurrentDay.AddDays(-1);
             EventAggregator.GetEvent<DayChangedEvent>().Publish(DateChangedEnum.Decrease);
             Logger.ForContext("Click", typeof(DayChangedEvent)).Information("PreviousDay has been clicked");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+
+            // OBS: This is called on every navigation, however [date] parameter is only set on 
+            // navigation from CalendarMonthView. When navigation is not from CalendarMonthView
+            // it will throw an exception when trying to access parameter [date] - which is 
+            // the reason for the empty catch block :)
+            try
+            {
+                if (DateTime.TryParse(navigationContext.Parameters["date"].ToString(), out var day))
+                {
+                    EventsViewModel.Date = day;
+                    DateViewModel.CurrentDate = day;
+                    DateYearHeader.Date = day;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
         }
     }
 }
