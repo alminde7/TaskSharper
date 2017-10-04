@@ -12,13 +12,16 @@ namespace TaskSharper.CacheStore
     public class EventCache : ICacheStore
     {
         public ILogger Logger { get; }
-        public ConcurrentDictionary<DateTime, Dictionary<string, Event>> Events { get; }
+        public ConcurrentDictionary<DateTime, Dictionary<string, CacheData>> Events { get; }
         public DateTime LastUpdated { get; set; }
+        public TimeSpan UpdatedOffset { get; set; }
 
         public EventCache(ILogger logger)
         {
             Logger = logger.ForContext<EventCache>();
-            Events = new ConcurrentDictionary<DateTime, Dictionary<string, Event>>();
+            Events = new ConcurrentDictionary<DateTime, Dictionary<string, CacheData>>();
+
+            UpdatedOffset = TimeSpan.FromMinutes(5);
         }
 
         /// <summary>
@@ -71,7 +74,7 @@ namespace TaskSharper.CacheStore
             {
                 var date = calEvent.Start.Value.StartOfDay();
 
-                Events[date].AddOrUpdate(calEvent.Id, calEvent);
+                Events[date].AddOrUpdate(calEvent.Id, new CacheData(calEvent, DateTime.Now, false));
             }
 
             LastUpdated = DateTime.Now;
@@ -86,8 +89,13 @@ namespace TaskSharper.CacheStore
         {
             if (HasData(date.StartOfDay()))
             {
-                return Events[date.StartOfDay()].Values.ToList();
+                var data = Events[date.StartOfDay()].Values.ToList();
+                
+                if (data.Any(x => x.ForceUpdate || DataTooOld(x.Updated))) return null;
+
+                return data.Select(x => x.Event).ToList();
             }
+
             return null;
         }
 
@@ -98,8 +106,10 @@ namespace TaskSharper.CacheStore
             
             foreach (var calEvent in eventsDictionaries)
             {
-                events.AddRange(calEvent.Values.ToList());
+                if (calEvent.Values.Any(x => x.ForceUpdate || DataTooOld(x.Updated))) return null;
+                events.AddRange(calEvent.Values.Select(x => x.Event).ToList());
             }
+
             return events;
         }
 
@@ -116,7 +126,11 @@ namespace TaskSharper.CacheStore
             if (!HasData(date)) return null;
             if (!Events[date].ContainsKey(id)) return null;
 
-            return Events[date][id];
+            var data = Events[date][id];
+
+            if (data.ForceUpdate || DataTooOld(data.Updated)) return null;
+
+            return Events[date][id].Event;
         }
 
         /// <summary>
@@ -126,10 +140,15 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public Event GetEvent(string id)
         {
-            Event calEvent = null;
-            var dummy = Events.FirstOrDefault(x => x.Value.TryGetValue(id, out calEvent));
+            CacheData cacheData = null;
+            var dummy = Events.FirstOrDefault(x => x.Value.TryGetValue(id, out cacheData));
 
-            return calEvent;
+            if (cacheData != null)
+            {
+                if (cacheData.ForceUpdate || DataTooOld(cacheData.Updated)) return null;
+            }
+            
+            return cacheData?.Event;
         }
 
         /// <summary>
@@ -143,7 +162,7 @@ namespace TaskSharper.CacheStore
             if(!Events.ContainsKey(date))
                 InitializeEventsDictionary(date, null);
 
-            Events[date].AddOrUpdate(calendarEvent.Id, calendarEvent);
+            Events[date].AddOrUpdate(calendarEvent.Id, new CacheData(calendarEvent, DateTime.Now, false));
         }
 
         private void InitializeEventsDictionary(DateTime start, DateTime? end)
@@ -157,7 +176,7 @@ namespace TaskSharper.CacheStore
                     var date = start.StartOfDay().AddDays(index);
                     if (!Events.ContainsKey(date))
                     {
-                        Events.TryAdd(date, new Dictionary<string, Event>());
+                        Events.TryAdd(date, new Dictionary<string, CacheData>());
                     }
                 }
             }
@@ -166,9 +185,14 @@ namespace TaskSharper.CacheStore
                 var date = start.StartOfDay();
                 if (!Events.ContainsKey(date))
                 {
-                    Events.TryAdd(date, new Dictionary<string, Event>());
+                    Events.TryAdd(date, new Dictionary<string, CacheData>());
                 }
             }
+        }
+
+        private bool DataTooOld(DateTime lastUpdated)
+        {
+            return (lastUpdated + UpdatedOffset) < DateTime.Now;
         }
     }
 }
