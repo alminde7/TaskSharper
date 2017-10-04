@@ -16,19 +16,7 @@ namespace TaskSharper.Notification.Test.Unit
         [SetUp]
         public void Setup()
         {
-            var list = new List<int>()
-            {
-                -15,
-                -5,
-                0,
-                5,
-                10,
-                15
-            };
 
-            List = list;
-
-            _uut = new EventNotification(List);
         }
 
 
@@ -36,25 +24,8 @@ namespace TaskSharper.Notification.Test.Unit
         [Test]
         public void Constructor_EverythingHasBeenInitialized()
         {
-            Assert.NotNull(_uut.EventNotifications);
-            Assert.NotNull(_uut.NotificationOffsets);
         }
 
-        [Test]
-        public void Attach_AddEvent_EventHasBeenAddedOnceToDictionaryWithAListOf7Timers()
-        {
-            bool eventFired = false;
 
-            void HandleEvent(Event caleEvent)
-            {
-                eventFired = true;
-            }
-
-            var calEvent = new Event();
-
-            calEvent.Start = DateTime.Now.AddMinutes(30);
-
-            _uut.Attach(calEvent, HandleEvent);
-        }
     }
 }

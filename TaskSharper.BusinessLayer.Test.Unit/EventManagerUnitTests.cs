@@ -9,6 +9,7 @@ using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Notification;
 
 namespace TaskSharper.BusinessLayer.Unit.Test
 {
@@ -18,6 +19,7 @@ namespace TaskSharper.BusinessLayer.Unit.Test
         private IEventManager _uut;
         private ICalendarService _calendarService;
         private ICacheStore _cache;
+        private INotification _notification;
         private ILogger _logger;
 
 
@@ -27,8 +29,9 @@ namespace TaskSharper.BusinessLayer.Unit.Test
             _calendarService = Substitute.For<ICalendarService>();
             _cache = Substitute.For<ICacheStore>();
             _logger = Substitute.For<ILogger>();
+            _notification = Substitute.For<INotification>();
 
-            _uut = new EventManager(_calendarService, _cache, _logger);
+            _uut = new EventManager(_calendarService, _cache, _notification, _logger);
         }
 
         [TearDown]
