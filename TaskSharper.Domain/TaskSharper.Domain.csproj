@@ -44,6 +44,7 @@
     <Compile Include="Cache\ICacheStore.cs" />
     <Compile Include="Calendar\Event.cs" />
     <Compile Include="Calendar\ICalendarService.cs" />
+    <Compile Include="Notification\INotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

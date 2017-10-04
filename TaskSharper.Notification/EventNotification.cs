@@ -1,102 +1,122 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Timers;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Notification;
 using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Notification
 {
-    public class EventNotification
+    public class EventNotification : INotification
     {
-        public IList<int> NotificationOffsets { get; set; }
+        public Action<Event> Callback { get; set; }
+        public IEnumerable<int> NotificationOffsets { get; set; }
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
-        public EventNotification()
+        public EventNotification(IEnumerable<int> notificationOffsets, Action<Event> notificationCallback)
         {
-            NotificationOffsets = new List<int>();
             EventNotifications = new ConcurrentDictionary<string, IList<NotificationObject>>();
 
-            //TODO:: Specify these values in a configuration file of some sort?
-            NotificationOffsets.Add(-15);
-            NotificationOffsets.Add(-5);
-            NotificationOffsets.Add(0);
-            NotificationOffsets.Add(5);
-            NotificationOffsets.Add(10);
-            NotificationOffsets.Add(15);
+            NotificationOffsets = notificationOffsets;
+            Callback = notificationCallback;
         }
 
-        public void Attach(Event calEvent, Action<Event> callback)
+        public void Attach(Event calEvent)
         {
-            if (calEvent.Status == Event.EventStatus.Completed ||
-                calEvent.Status == Event.EventStatus.Cancelled) return;
+            if (calEvent.Status == Event.EventStatus.Completed ||  calEvent.Status == Event.EventStatus.Cancelled) return;
 
             var notificationList = new List<NotificationObject>();
-
-            // Loop through specified notification intervals
-            foreach (var notificationOffset in NotificationOffsets)
+            
+            if (NotificationOffsets != null)
             {
-                var obj = CreateNotification(calEvent, callback, calEvent.Start.Value.AddMinutes(notificationOffset));
-                notificationList.Add(obj);
+                foreach (var notificationOffset in NotificationOffsets)
+                {
+                    if (calEvent.Start.Value + TimeSpan.FromMinutes(notificationOffset) < DateTime.Now) continue; // Notification time is in the past - no reason to add notification
+
+                    var obj = CreateNotification(calEvent, calEvent.Start.Value.AddMinutes(notificationOffset));
+                    notificationList.Add(obj);
+                }
+            }
+            else // No Notification offsets provided
+            {
+                notificationList.Add(CreateNotification(calEvent, calEvent.Start.Value));
             }
 
             EventNotifications.AddOrUpdate(calEvent.Id, notificationList);
         }
 
-        private NotificationObject CreateNotification(Event calEvent, Action<Event> callback, DateTime notificationTime)
+        public void Attach(IEnumerable<Event> calEvents)
         {
-            var notObj = new NotificationObject();
-            
-            var data = CalculateTimeToFire(notificationTime);
-
-            var timer = new Timer();
-            if (!data.EventHasHappend)
+            foreach (var calEvent in calEvents)
             {
-                timer.Interval = data.TimeToFire;
-            }
+                if (calEvent.Status == Event.EventStatus.Completed || calEvent.Status == Event.EventStatus.Cancelled) continue;
 
-            timer.AutoReset = false;
-            timer.Elapsed += (sender, args) =>
-            {
-                callback(calEvent);
-                timer.Close();
-                notObj.HasFired = true;
-            };
+                var notificationList = new List<NotificationObject>();
 
-            return notObj;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="notificationTime"></param>
-        /// <returns>Double in milliseconds</returns>
-        private (double TimeToFire, bool EventHasHappend) CalculateTimeToFire(DateTime notificationTime)
-        {
-            var timeToFire = (notificationTime - DateTime.Now).TotalMilliseconds;
-            return (Math.Abs(timeToFire), timeToFire > 0);
-        }
-
-
-        public void CleanUp()
-        {
-            foreach (var notification in EventNotifications)
-            {
-                for (int i = 0; i < notification.Value.Count; i++)
+                if (NotificationOffsets != null)
                 {
-                    if(notification.Value[i].HasFired)
-                        notification.Value.RemoveAt(i);
+                    foreach (var notificationOffset in NotificationOffsets)
+                    {
+                        if (calEvent.Start.Value + TimeSpan.FromMinutes(notificationOffset) < DateTime.Now) continue; // Notification time is in the past - no reason to add notification
+
+                        var obj = CreateNotification(calEvent, calEvent.Start.Value.AddMinutes(notificationOffset));
+                        notificationList.Add(obj);
+                    }
+                }
+                else // No Notification offsets provided
+                {
+                    notificationList.Add(CreateNotification(calEvent, calEvent.Start.Value));
+                }
+
+                EventNotifications.AddOrUpdate(calEvent.Id, notificationList);
+            }
+        }
+
+        public void Detatch(string eventId)
+        {
+            if (EventNotifications.ContainsKey(eventId))
+            {
+                EventNotifications.TryRemove(eventId, out _);
+            }
+        }
+
+        public void Detatch(IEnumerable<string> eventIds)
+        {
+            foreach (var eventId in eventIds)
+            {
+                if (EventNotifications.ContainsKey(eventId))
+                {
+                    EventNotifications.TryRemove(eventId, out _);
                 }
             }
         }
-    }
 
-    public class NotificationObject
-    {
-        public Timer Timer { get; set; }
-        public bool HasFired { get; set; }
+        private NotificationObject CreateNotification(Event calEvent, DateTime notificationTime)
+        {
+            var notObj = new NotificationObject();
+            var data = CalculateTimeToFire(notificationTime); // Calculate in milliseconds the time to fire the notification
+
+            // Initialize timer
+            var timer = new Timer();
+            timer.Interval = data;
+            timer.AutoReset = false;
+            timer.Elapsed += (sender, args) =>
+            {
+                Callback(calEvent);
+                timer.Close();
+                notObj.HasFired = true;
+            };
+            timer.Start();
+
+            return notObj;
+        }
+        
+        private double CalculateTimeToFire(DateTime notificationTime)
+        {
+            var timeToFire = (notificationTime - DateTime.Now).TotalMilliseconds;
+            return Math.Abs(timeToFire);
+        } // Calculated in milliseconds
     }
 }

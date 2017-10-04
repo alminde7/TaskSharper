@@ -33,7 +33,7 @@ namespace TaskSharper.Notification.Tester
 
             Console.ReadKey();
 
-            notification.CleanUp();
+            notification.CleanUpTimers();
 
             Console.ReadKey();
         }
