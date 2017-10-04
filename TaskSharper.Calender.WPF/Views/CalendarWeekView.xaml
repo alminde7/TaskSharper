@@ -7,21 +7,59 @@
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
              xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
              xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              x:Class="TaskSharper.Calender.WPF.Views.CalendarWeekView"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="PrevAndNextButton">
+            <Setter Property="Background" Value="#1763a5" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <Path x:Name="PathIcon" Width="2" Height="25" HorizontalAlignment="Left" Margin="17,0,0,0" />
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1478ce" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter TargetName="PathIcon" Property="Fill" Value="#1763a5" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#0e60a5" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.8*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right">
-            <Button Margin="2" Command="{Binding PrevCommand}" Content="{x:Static p:Resources.WeekView_Prev_Button_Text}"/>
-            <Button Margin="2" Command="{Binding NextCommand}" Content="{x:Static p:Resources.WeekView_Next_Button_Text}"/>
+            <Button Margin="3,0,0,0" Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding PrevCommand}" >
+                <fa:ImageAwesome Icon="ArrowLeft" Margin="0,0,0,0" Height="40" Foreground="White" />
+            </Button>
+            <Button Margin="3,0,0,0"  Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding NextCommand}">
+                <fa:ImageAwesome Icon="ArrowRight" Margin="0,0,0,0" Height="40" Foreground="White" />
+            </Button>
         </StackPanel>
 
         <Grid Grid.Row="1">
@@ -43,14 +81,14 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <views:CalendarDateView Width="Auto" HorizontalAlignment="Stretch"></views:CalendarDateView>
+                        <views:CalendarDateView Width="Auto" HorizontalAlignment="Center"></views:CalendarDateView>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
 
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
-            <Border BorderBrush="Black" BorderThickness="0.25">
+        <ScrollViewer Grid.Row="2" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden">
+            <Border BorderBrush="Black" BorderThickness="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.7*"/>
@@ -66,7 +104,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <views:CalendarEventsView Width="Auto" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="0.25,0,0,0"></views:CalendarEventsView>
+                                <views:CalendarEventsView Width="Auto" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="0.25,0,0,0"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

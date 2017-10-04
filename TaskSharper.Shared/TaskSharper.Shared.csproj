@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Constants\Time.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
