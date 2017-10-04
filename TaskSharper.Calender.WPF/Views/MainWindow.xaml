@@ -8,9 +8,7 @@
         xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
         mc:Ignorable="d"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        Title="TaskSharperCalendar" Height="936.818" Width="1309"
-        WindowState="Maximized"
-        WindowStyle="None">
+        Title="TaskSharperCalendar" Height="936.818" Width="1309">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Style TargetType="{x:Type Button}" x:Key="NavigationButton">
