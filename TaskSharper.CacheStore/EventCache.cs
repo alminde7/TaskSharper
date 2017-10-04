@@ -90,8 +90,7 @@ namespace TaskSharper.CacheStore
             if (HasData(date.StartOfDay()))
             {
                 var data = Events[date.StartOfDay()].Values.ToList();
-
-                var dateNow = DateTime.Now;
+                
                 if (data.Any(x => x.ForceUpdate || DataTooOld(x.Updated))) return null;
 
                 return data.Select(x => x.Event).ToList();
