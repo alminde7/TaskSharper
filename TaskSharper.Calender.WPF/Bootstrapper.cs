@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Google.Apis.Auth.OAuth2;
 using Prism.Unity;
@@ -19,12 +20,16 @@ using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
+using TaskSharper.Domain.Notification;
+using TaskSharper.Notification;
 using EventManager = TaskSharper.BusinessLayer.EventManager;
 
 namespace TaskSharper.Calender.WPF
 {
     public class Bootstrapper : UnityBootstrapper
     {
+        private ILogger _logger;
+
         protected override DependencyObject CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -50,16 +55,24 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterTypeForNavigation<CalendarMonthView>(ViewConstants.VIEW_CalendarMonth);
             Container.RegisterTypeForNavigation<CalendarEventDetailsView>(ViewConstants.VIEW_CalendarEventDetails);
 
+            // Create logger
             var logger = LogConfiguration.Configure();
+            _logger = logger;
 
+            // Create Google Authentication object
             var googleService = new CalendarService(new BaseClientService.Initializer()
             {
                 ApplicationName = Constants.TaskSharper,
                 HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
             });
+
+            //Create Notification object
+            var notificationObject = new EventNotification(new List<int>(){-15,-5,0,5,10,15}, TempNotificationHandler);
             
             Container.RegisterInstance(typeof(CalendarService), googleService);
             Container.RegisterInstance(typeof(ILogger), logger);
+            Container.RegisterInstance(typeof(INotification), notificationObject);
+
             Container.RegisterType<ICalendarService, GoogleCalendarService>();
             Container.RegisterType<IEventManager, EventManager>();
             Container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
@@ -68,6 +81,12 @@ namespace TaskSharper.Calender.WPF
         protected override ILoggerFacade CreateLogger()
         {
             return new SerilogLogger();
+        }
+
+        // TODO:: Implement correct event handling
+        public void TempNotificationHandler(Event calEvent)
+        {
+            _logger?.ForContext("Notification", typeof(Bootstrapper)).Information("TEMP_Notification for event with id: {EventId}", calEvent.Id);
         }
     }
 
