@@ -22,11 +22,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
+        private readonly IEventManager _evenrManager;
         private CalendarEventsCurrentTimeLine _timeLine;
+        private DateTime _date;
 
-        public DateTime Date { get; set; }
-        public IEventManager Service { get; set; }
-
+        // Setting Date automatically results in view data being updated
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                UpdateView();
+            }
+        }
+        
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
         public ObservableCollection<CalendarEventsBackground> Backgrounds { get; set; }
 
@@ -36,24 +46,30 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _timeLine, value);
         }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager service, CalendarTypeEnum dateType, ILogger logger)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger)
         {
+            // Initialze object
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
+            _evenrManager = eventManager;
             _logger = logger.ForContext<CalendarEventsViewModel>();
-            Date = date;
-            Service = service;
+
+            // Initialize containers
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
             Backgrounds = new ObservableCollection<CalendarEventsBackground>();
 
+            // Subscribe to events
             _eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
             _eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
             _eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
             eventAggregator.GetEvent<EventChangedEvent>().Subscribe(EventChangedEventHandler);
 
+            // Initialize view
             InitializeView();
-            UpdateView();
+
+            // Set date => Automatically update data in view
+            Date = date;
         }
 
         #region EventHandlers
@@ -115,7 +131,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             if (Date.Date == obj.Start.Value.Date)
             {
-                Service.UpdateEvent(obj);
+                _evenrManager.UpdateEvent(obj);
                 UpdateView();
             }
         }
@@ -161,7 +177,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void UpdateView()
         {
-            CalendarEvents.Clear();
+            CalendarEvents?.Clear();
             GetEvents();
             UpdateTimeLine(null, null);
         }
@@ -172,7 +188,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var calendarEvents = await Service.GetEventsAsync(Date.Date);
+                var calendarEvents = await _evenrManager.GetEventsAsync(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {
