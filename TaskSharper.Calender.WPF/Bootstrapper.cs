@@ -14,6 +14,7 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
+using TaskSharper.Calender.WPF.Config;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.Domain.BusinessLayer;
@@ -38,16 +39,16 @@ namespace TaskSharper.Calender.WPF
 
             // Set default Calendar on start.
             var regionManager = Container.Resolve<IRegionManager>();
-            regionManager.RequestNavigate("CalendarRegion", "CalendarWeekView");
+            regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarWeek);
         }
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
 
-            Container.RegisterTypeForNavigation<CalendarDayView>("CalendarDayView");
-            Container.RegisterTypeForNavigation<CalendarWeekView>("CalendarWeekView");
-            Container.RegisterTypeForNavigation<CalendarMonthView>("CalendarMonthView");
-            Container.RegisterTypeForNavigation<CalendarEventDetailsView>("CalendarEventDetailsView");
+            Container.RegisterTypeForNavigation<CalendarDayView>(ViewConstants.VIEW_CalendarDay);
+            Container.RegisterTypeForNavigation<CalendarWeekView>(ViewConstants.VIEW_CalendarWeek);
+            Container.RegisterTypeForNavigation<CalendarMonthView>(ViewConstants.VIEW_CalendarMonth);
+            Container.RegisterTypeForNavigation<CalendarEventDetailsView>(ViewConstants.VIEW_CalendarEventDetails);
 
             var logger = LogConfiguration.Configure();
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.BusinessLayer;
@@ -135,7 +136,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         public void GoToDayView()
         {
             _logger.Information("Navigating from MonthView to DayView");
-            _regionManager.RequestNavigate("CalendarRegion", $"CalendarDayView?date={Date.StartOfDay()}");
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, $"{ViewConstants.VIEW_CalendarDay}?date={Date.StartOfDay()}");
         }
     }
 }
