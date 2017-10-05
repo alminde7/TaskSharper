@@ -23,7 +23,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         private DateTime _date;
         private bool _isCurrentDay;
 
-        public DelegateCommand GoToTodayViewCommand { get; set; }
+        public DelegateCommand GoToDayViewCommand { get; set; }
 
         public ObservableCollection<CalendarDayEventViewModel> CalendarEvents { get; set; }    
         public IEventManager EventManager { get; set; }
@@ -73,7 +73,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
 
             // Initialize event commands
-            GoToTodayViewCommand = new DelegateCommand(GoToDayView);
+            GoToDayViewCommand = new DelegateCommand(GoToDayView);
 
             // Set date => Will automatically call UpdateView()
             Date = date;
@@ -135,7 +135,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         public void GoToDayView()
         {
             _logger.Information("Navigating from MonthView to DayView");
-            _regionManager.RequestNavigate("CalendarRegion", $"CalendarTodayView?date={Date.StartOfDay()}");
+            _regionManager.RequestNavigate("CalendarRegion", $"CalendarDayView?date={Date.StartOfDay()}");
         }
     }
 }

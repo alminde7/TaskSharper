@@ -239,10 +239,10 @@
     <Compile Include="Views\TimelineViews\CalendarTimelineView.xaml.cs">
       <DependentUpon>CalendarTimelineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CalendarTodayView.xaml.cs">
-      <DependentUpon>CalendarTodayView.xaml</DependentUpon>
+    <Compile Include="Views\CalendarDayView.xaml.cs">
+      <DependentUpon>CalendarDayView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
+    <Compile Include="ViewModels\CalendarDayViewModel.cs" />
     <Page Include="Views\MonthViews\CalendarDateDayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -306,7 +306,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CalendarTodayView.xaml">
+    <Page Include="Views\CalendarDayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

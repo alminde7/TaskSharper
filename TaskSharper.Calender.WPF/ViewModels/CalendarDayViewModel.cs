@@ -13,7 +13,7 @@ using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
-    public class CalendarTodayViewModel : BindableBase, INavigationAware
+    public class CalendarDayViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager _regionManager;
         public IEventAggregator EventAggregator { get; }
@@ -28,12 +28,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ICommand NextCommand { get; set; }
         public ICommand PrevCommand { get; set; }
 
-        public CalendarTodayViewModel(IEventAggregator eventAggregator, IEventManager calendarService, IRegionManager regionManager, ILogger logger)
+        public CalendarDayViewModel(IEventAggregator eventAggregator, IEventManager calendarService, IRegionManager regionManager, ILogger logger)
         {
             _regionManager = regionManager;
             EventAggregator = eventAggregator;
             CalendarService = calendarService;
-            Logger = logger.ForContext<CalendarTodayViewModel>();
+            Logger = logger.ForContext<CalendarDayViewModel>();
             CurrentDay = DateTime.Now;
 
             // Initialize views
@@ -62,7 +62,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
             // OBS: This is called on every navigation, however [date] parameter is only set on 
             // navigation from CalendarMonthView. When navigation is not from CalendarMonthView
             // it will throw an exception when trying to access parameter [date] - which is 

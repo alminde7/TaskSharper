@@ -67,7 +67,7 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
             <Button Grid.Row="0"
-                    Command="{Binding NavigateCommand}" CommandParameter="CalendarTodayView" 
+                    Command="{Binding NavigateCommand}" CommandParameter="" 
                     Margin="2"
                     Style="{StaticResource NavigationButton}"
                     Height="100">
@@ -75,7 +75,7 @@
             </Button>
             <DockPanel Grid.Row="1"></DockPanel>
             <Button Grid.Row="2" Content="{x:Static p:Resources.MainWindow_Today_Button_Text}"
-                    Command="{Binding NavigateCommand}" CommandParameter="CalendarTodayView" 
+                    Command="{Binding NavigateCommand}" CommandParameter="CalendarDayView" 
                     Margin="2"
                     Style="{StaticResource NavigationButton}"
                     Height="100">
@@ -94,7 +94,7 @@
             </Button>
             <DockPanel Grid.Row="5"></DockPanel>
             <Button Grid.Row="6"
-                    Command="{Binding NavigateCommand}" CommandParameter="CalendarTodayView" 
+                    Command="{Binding NavigateCommand}" CommandParameter="" 
                     Margin="2"
                     Style="{StaticResource NavigationButton}"
                     Height="100">

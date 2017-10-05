@@ -31,7 +31,7 @@
         </Style>
 
     </UserControl.Resources>
-    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding GoToTodayViewCommand}">
+    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding GoToDayViewCommand}">
         <Grid Style="{StaticResource CurrentDayStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
