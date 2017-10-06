@@ -3,7 +3,7 @@ using TaskSharper.Calender.WPF.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.Events.NotificationEvents
 {
-    public class NotificationEvent : PubSubEvent<Notification>
+    public class NotificationEvent : PubSubEvent<Resources.Notification>
     {
 
     }

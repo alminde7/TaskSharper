@@ -73,7 +73,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _notificationMessage, value);
         }
 
-        private void ShowNotification(Notification notification)
+        private void ShowNotification(Events.Resources.Notification notification)
         {
             NotificationTitle = notification.Title;
             NotificationMessage = notification.Message;
