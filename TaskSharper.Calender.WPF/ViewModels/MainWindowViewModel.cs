@@ -36,7 +36,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             NavigateCommand = new DelegateCommand<string>(Navigate);
             CloseNotificationCommand = new DelegateCommand(ClosePopUp);
 
-            IsPopupOpen = true;
+            IsPopupOpen = false;
         }
 
         private void Navigate(string uri)
@@ -63,12 +63,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public string NotificationTitle
         {
-            get => _notificationTitle = "Custom";
+            get => _notificationTitle;
             set => SetProperty(ref _notificationTitle, value);
         }
         public string NotificationMessage
         {
-            get => _notificationMessage = "Paint job";
+            get => _notificationMessage;
             set => SetProperty(ref _notificationMessage, value);
         }
 
