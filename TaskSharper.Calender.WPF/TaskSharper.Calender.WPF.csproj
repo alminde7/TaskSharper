@@ -180,9 +180,11 @@
     <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
     <Compile Include="Events\EventChangedEvent.cs" />
     <Compile Include="Events\EventClickedEvent.cs" />
+    <Compile Include="Events\NotificationEvents\NotificationEvent.cs" />
     <Compile Include="Events\Resources\CalendarTypeEnum.cs" />
     <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
     <Compile Include="Events\Resources\DateChangedEnum.cs" />
+    <Compile Include="Events\Resources\Notification.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
     <Compile Include="Events\DateChangedEvents\WeekChangedEvent.cs" />
     <Compile Include="Properties\Resources.dk-DK.Designer.cs">

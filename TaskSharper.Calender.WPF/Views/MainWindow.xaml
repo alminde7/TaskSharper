@@ -55,7 +55,7 @@
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
@@ -103,15 +103,25 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48" Visibility="{Binding SpinnerVisible, Converter={StaticResource BoolToVis}}" />
+
             <ContentControl BorderBrush="Black" BorderThickness="2" 
                         Height="Auto" 
                         Width="Auto" 
                         Margin="0,10,10,10"
                         prism:RegionManager.RegionName="CalendarRegion">
-            
-        </ContentControl>
+            </ContentControl>
         </Grid>
-        
+
+        <Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
+            <Border BorderBrush="#5ca2e8" BorderThickness="1"
+                    Background="AliceBlue">
+                <StackPanel Orientation="Vertical" Width="200" Height="100">
+                    <TextBlock Text="{Binding NotificationTitle}"  Height="20" FontWeight="Bold" Margin="10,5"></TextBlock>
+                    <TextBlock Text="{Binding NotificationMessage}"  Height="40" FontWeight="Bold" Margin="10,5"></TextBlock>
+                    <Button Command="{Binding CloseNotificationCommand}">Close</Button>
+                </StackPanel>
+            </Border>
+        </Popup>
 
     </Grid>
 
