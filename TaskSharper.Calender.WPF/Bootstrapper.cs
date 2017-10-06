@@ -16,6 +16,7 @@ using Google.Apis.Services;
 using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
 using TaskSharper.Calender.WPF.Config;
+using TaskSharper.DataAccess.Mock;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.Domain.BusinessLayer;
@@ -73,7 +74,8 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterInstance(typeof(ILogger), logger);
             Container.RegisterInstance(typeof(INotification), notificationObject);
 
-            Container.RegisterType<ICalendarService, GoogleCalendarService>();
+            //Container.RegisterType<ICalendarService, GoogleCalendarService>();
+            Container.RegisterType<ICalendarService, DataAccessLayerMock>();
             Container.RegisterType<IEventManager, EventManager>();
             Container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
         }

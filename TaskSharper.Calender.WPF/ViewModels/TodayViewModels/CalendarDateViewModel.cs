@@ -15,7 +15,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
         private string _dayOfWeek;
-        private int _dayOfMonth;
         private DateTime _currentDate;
 
         public string DayOfWeek
@@ -24,19 +23,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _dayOfWeek, value);
         }
 
-        public int DayOfMonth
-        {
-            get => _dayOfMonth;
-            set => SetProperty(ref _dayOfMonth, value);
-        }
-
         public DateTime CurrentDate
         {
             get => _currentDate;
             set
             {
                 DayOfWeek = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetDayName(value.DayOfWeek));
-                DayOfMonth = value.Day;
                 _currentDate = value;
             }
         }
@@ -50,14 +42,25 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _logger = logger;
 
             // Initialization
-            CurrentCulture = CultureInfo.CurrentCulture;
-            DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
-            CurrentDate = date;
+            SetDate(date);
 
             // Event subscription
             eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
             eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
             eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
+            eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(UpdateCultureHandler);
+        }
+
+        private void UpdateCultureHandler()
+        {
+            SetDate(CurrentDate);
+        }
+
+        private void SetDate(DateTime date)
+        {
+            CurrentCulture = CultureInfo.CurrentCulture;
+            DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
+            CurrentDate = date;
         }
 
         private void MonthChangedEventHandler(DateChangedEnum state)

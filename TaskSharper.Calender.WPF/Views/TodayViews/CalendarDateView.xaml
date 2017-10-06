@@ -30,7 +30,7 @@
                     <TextBlock VerticalAlignment="Top" 
                                HorizontalAlignment="Left"
                                Margin="2,0,0,0"
-                               Text="{Binding DayOfMonth}"/>
+                               Text="{Binding CurrentDate.Day}"/>
                 </Viewbox>
             </Grid>
         </Border>

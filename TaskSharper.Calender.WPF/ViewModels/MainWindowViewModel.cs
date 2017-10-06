@@ -40,8 +40,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void Navigate(string uri)
         {
             LocalizeDictionary.Instance.Culture = (Toggle ? new CultureInfo("da-DK") : new CultureInfo("en-US"));
-            Thread.CurrentThread.CurrentUICulture = (Toggle ? new CultureInfo("da-DK") : new CultureInfo("en-US"));
             Toggle = !Toggle;
+            _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
+
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri);
         }
 

@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Notification", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Notification.Test.Unit", "TaskSharper.Notification.Test.Unit\TaskSharper.Notification.Test.Unit.csproj", "{EB940F15-7155-4065-B849-9E180FDC3DE6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.DataAccess.Mock", "TaskSharper.DataAccess.Mock\TaskSharper.DataAccess.Mock.csproj", "{5959F23F-AB0B-4D6C-94AE-1DC228A9AB31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{EB940F15-7155-4065-B849-9E180FDC3DE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB940F15-7155-4065-B849-9E180FDC3DE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB940F15-7155-4065-B849-9E180FDC3DE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5959F23F-AB0B-4D6C-94AE-1DC228A9AB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5959F23F-AB0B-4D6C-94AE-1DC228A9AB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5959F23F-AB0B-4D6C-94AE-1DC228A9AB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5959F23F-AB0B-4D6C-94AE-1DC228A9AB31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
