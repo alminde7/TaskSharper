@@ -23,7 +23,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand DisableEditModeCommand { get; set; }
         public DelegateCommand SaveEventCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
-        public DelegateCommand KeyboardCommand { get; set; }     
+        public DelegateCommand KeyboardCommand { get; set; }
+        public DelegateCommand SetTypeAsAppointmentCommand { get; set; }
+        public DelegateCommand SetTypeAsTaskCommand { get; set; }
+        public DelegateCommand SetStatusAsTentativeCommand { get; set; }
+        public DelegateCommand SetStatusAsConfirmedCommand { get; set; }
 
         private readonly IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
@@ -38,6 +42,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool _isNotInEditMode = true;
         private IEnumerable<Event.EventType> _eventTypes;
         private IEnumerable<Event.EventStatus> _eventStatuses;
+        private double _taskOpacity = 0.5;
+        private double _appointmentOpacity = 0.5;
+        private double _confirmedOpacity = 0.5;
+        private double _tentativeOpacity = 0.5;
 
         public Process TouchKeyboardProcess
         {
@@ -91,10 +99,90 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _eventStatuses, value);
         }
 
+        public double TaskOpacity
+        {
+            get => _taskOpacity;
+            set => SetProperty(ref _taskOpacity, value);
+        }
+
+        public double AppointmentOpacity
+        {
+            get => _appointmentOpacity;
+            set => SetProperty(ref _appointmentOpacity, value);
+        }
+
+        public double ConfirmedOpacity
+        {
+            get => _confirmedOpacity;
+            set => SetProperty(ref _confirmedOpacity, value);
+        }
+
+        public double TentativeOpacity
+        {
+            get => _tentativeOpacity;
+            set => SetProperty(ref _tentativeOpacity, value);
+        }
+
+        public void SetTypeAsTask()
+        {
+            SetType(Event.EventType.Task);
+        }
+
+        public void SetTypeAsAppointment()
+        {
+            SetType(Event.EventType.Appointment);
+        }
+
+        public void SetType(Event.EventType type)
+        {
+            TaskOpacity = 0.5;
+            AppointmentOpacity = 0.5;
+            switch (type)
+            {
+                case Event.EventType.Task:
+                    EditEvent.Type = Event.EventType.Task;
+                    TaskOpacity = 1;
+                    break;
+                case Event.EventType.Appointment:
+                    EditEvent.Type = Event.EventType.Appointment;
+                    AppointmentOpacity = 1;
+                    break;
+                case Event.EventType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        public void SetStatus(Event.EventStatus status)
+        {
+            ConfirmedOpacity = 0.5;
+            TentativeOpacity = 0.5;
+            switch (status)
+            {
+                case Event.EventStatus.Confirmed:
+                    EditEvent.Status = Event.EventStatus.Confirmed;
+                    ConfirmedOpacity = 1;
+                    break;
+                case Event.EventStatus.Tentative:
+                    EditEvent.Status = Event.EventStatus.Tentative;
+                    TentativeOpacity = 1;
+                    break;
+                case Event.EventStatus.Cancelled:
+                    break;
+                case Event.EventStatus.Completed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
+            }
+        }
+
         public void EnableEditMode()
         {
             IsInEditMode = true;
             TouchKeyboardProcess = Process.Start(touchKeyboardPath);
+            SetType(EditEvent.Type);
+            SetStatus(EditEvent.Status);
         }
 
         public void DisableEditMode()
@@ -115,6 +203,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
             KeyboardCommand = new DelegateCommand(ToggleKeyboard);
+            SetTypeAsTaskCommand = new DelegateCommand(() => SetType(Event.EventType.Task));
+            SetTypeAsAppointmentCommand = new DelegateCommand(() => SetType(Event.EventType.Appointment));
+            SetStatusAsConfirmedCommand = new DelegateCommand(() => SetStatus(Event.EventStatus.Confirmed));
+            SetStatusAsTentativeCommand = new DelegateCommand(() => SetStatus(Event.EventStatus.Tentative));
 
             EventTypes = Enum.GetValues(typeof(Event.EventType)).Cast<Event.EventType>();
             EventStatuses = Enum.GetValues(typeof(Event.EventStatus)).Cast<Event.EventStatus>().Except(new List<Event.EventStatus>{ Event.EventStatus.Cancelled });
@@ -128,8 +220,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void SaveEvent()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-            _eventAggregator.GetEvent<EventChangedEvent>().Publish(EditEvent);
-            SelectedEvent = _calendarService.GetEvent(EditEvent.Id, EditEvent.Start.Value);
+            SelectedEvent = _calendarService.UpdateEvent(EditEvent);
             DisableEditMode();
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
