@@ -175,6 +175,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Config\ViewConstants.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
     <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
     <Compile Include="Events\EventChangedEvent.cs" />
@@ -241,10 +242,10 @@
     <Compile Include="Views\TimelineViews\CalendarTimelineView.xaml.cs">
       <DependentUpon>CalendarTimelineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CalendarTodayView.xaml.cs">
-      <DependentUpon>CalendarTodayView.xaml</DependentUpon>
+    <Compile Include="Views\CalendarDayView.xaml.cs">
+      <DependentUpon>CalendarDayView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CalendarTodayViewModel.cs" />
+    <Compile Include="ViewModels\CalendarDayViewModel.cs" />
     <Page Include="Views\MonthViews\CalendarDateDayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -308,7 +309,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CalendarTodayView.xaml">
+    <Page Include="Views\CalendarDayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,6 +374,10 @@
     <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
       <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
       <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Notification\TaskSharper.Notification.csproj">
+      <Project>{f5a1abd8-6797-489e-b296-b099f1455d7c}</Project>
+      <Name>TaskSharper.Notification</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaskSharper.Shared\TaskSharper.Shared.csproj">
       <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>

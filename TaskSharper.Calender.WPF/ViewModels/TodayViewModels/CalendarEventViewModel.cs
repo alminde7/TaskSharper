@@ -6,6 +6,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Domain.Calendar;
 
@@ -83,7 +84,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void Navigate(string uri)
         {
-            _regionManager.RequestNavigate("CalendarRegion", uri + $"?id={Event.Id}");
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri + $"?id={Event.Id}");
         }
 
         private void EventClick()
@@ -98,7 +99,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void EventDetailsClick()
         {
-            Navigate("CalendarEventDetailsView");
+            Navigate(ViewConstants.VIEW_CalendarEventDetails);
         }
 
         private bool CanExecuteEventClick()

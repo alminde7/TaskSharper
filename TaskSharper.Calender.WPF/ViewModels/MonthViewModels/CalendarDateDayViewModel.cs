@@ -3,10 +3,14 @@ using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Prism.Commands;
+using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.BusinessLayer;
+using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 {
@@ -14,10 +18,13 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly CalendarTypeEnum _dateType;
+        private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
         private int _dayOfMonth;
         private DateTime _date;
         private bool _isCurrentDay;
+
+        public DelegateCommand GoToDayViewCommand { get; set; }
 
         public ObservableCollection<CalendarDayEventViewModel> CalendarEvents { get; set; }    
         public IEventManager EventManager { get; set; }
@@ -33,6 +40,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
                 else
                     IsCurrentDay = false;
                 _date = value;
+                UpdateView();
             }
         }
 
@@ -44,23 +52,32 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 
         public bool IsCurrentDay
         {
-            get { return _isCurrentDay; }
-            set { SetProperty(ref _isCurrentDay, value); }
+            get => _isCurrentDay;
+            set => SetProperty(ref _isCurrentDay, value);
         }
 
-        public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger)
+        public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger, IRegionManager regionManager)
         {
             IsCurrentDay = false;
+
+            // Initialize objects
             _eventAggregator = eventAggregator;
             _dateType = dateType;
-            _logger = logger.ForContext<CalendarDateDayViewModel>();
-            Date = date;
+            _regionManager = regionManager;
             EventManager = eventManager;
+            _logger = logger.ForContext<CalendarDateDayViewModel>();
+            
+            // Initialize view containers
             CalendarEvents = new ObservableCollection<CalendarDayEventViewModel>();
             
+            // Subscribe to events
             eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
-            
-            GetEvents();
+
+            // Initialize event commands
+            GoToDayViewCommand = new DelegateCommand(GoToDayView);
+
+            // Set date => Will automatically call UpdateView()
+            Date = date;
         }
 
         private void MonthChangedEventHandler(DateChangedEnum state)
@@ -114,6 +131,12 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
                 _logger.Error(e, "Failed to update view");
             }
+        }
+
+        public void GoToDayView()
+        {
+            _logger.Information("Navigating from MonthView to DayView");
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, $"{ViewConstants.VIEW_CalendarDay}?date={Date.StartOfDay()}");
         }
     }
 }

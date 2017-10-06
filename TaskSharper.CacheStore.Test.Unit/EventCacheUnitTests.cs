@@ -48,7 +48,7 @@ namespace TaskSharper.CacheStore.Test.Unit
         public void HasData_InsertDataInDate03032017_ReturnTrueWhenAskedFor03032017()
         {
             var date = new DateTime(2017, 3, 3);
-            _uut.Events.TryAdd(date, new Dictionary<string, Event>());
+            _uut.Events.TryAdd(date, new Dictionary<string, CacheData>());
 
             Assert.True(_uut.HasData(date));
         }
@@ -67,7 +67,7 @@ namespace TaskSharper.CacheStore.Test.Unit
             string id = "123";
             string fakeId = "321";
             var date = new DateTime(2017,3,3);
-            var dic = new Dictionary<string, Event> {{id, new Event()}};
+            var dic = new Dictionary<string, CacheData> {{id, new CacheData(new Event(), DateTime.Now, false)}};
 
             _uut.Events.TryAdd(date, dic);
 
@@ -79,7 +79,7 @@ namespace TaskSharper.CacheStore.Test.Unit
         {
             string id = "123";
             var date = new DateTime(2017, 3, 3);
-            var dic = new Dictionary<string, Event> { { id, new Event() } };
+            var dic = new Dictionary<string, CacheData> { { id, new CacheData(new Event(), DateTime.Now, false) } };
 
             _uut.Events.TryAdd(date, dic);
 
@@ -97,7 +97,7 @@ namespace TaskSharper.CacheStore.Test.Unit
         {
             string id = "123";
             var date = new DateTime(2017, 3, 3);
-            var dic = new Dictionary<string, Event> { { id, new Event() } };
+            var dic = new Dictionary<string, CacheData> { { id, new CacheData(new Event(), DateTime.Now, false) } };
 
             _uut.Events.TryAdd(date, dic);
 

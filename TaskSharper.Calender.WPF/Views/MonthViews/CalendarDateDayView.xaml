@@ -6,7 +6,6 @@
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
-             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -18,20 +17,35 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-    </UserControl.Resources>
 
-    <Grid Style="{StaticResource CurrentDayStyle}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="9*"/>
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="{Binding DayOfMonth}" />
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarEvents}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <views:CalendarDayEventView HorizontalAlignment="Stretch" Width="Auto"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+        <Style x:Key="TransparentBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding GoToDayViewCommand}">
+        <Grid Style="{StaticResource CurrentDayStyle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="{Binding DayOfMonth}" />
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarEvents}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <views:CalendarDayEventView HorizontalAlignment="Stretch" Width="Auto"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Button>
+
 </UserControl>
