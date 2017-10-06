@@ -21,8 +21,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             if (dayofweek == 7)
                 dayofweek = 0;
 
-            var DayOfWeekObject = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), dayofweek);
-            day = DayOfWeekObject.ToString();
+            Day = ((DayOfWeek) Enum.ToObject(typeof(DayOfWeek), dayofweek)).ToString();
         }
     }
 }

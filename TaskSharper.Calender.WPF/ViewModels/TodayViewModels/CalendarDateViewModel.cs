@@ -48,6 +48,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             _dateType = dateType;
             _logger = logger;
+
             // Initialization
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;

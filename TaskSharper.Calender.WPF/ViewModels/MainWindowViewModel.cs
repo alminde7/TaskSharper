@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -9,6 +11,7 @@ using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.Views;
 using TaskSharper.Domain.BusinessLayer;
+using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -32,8 +35,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
+        public bool Toggle { get; set; }
+
         private void Navigate(string uri)
         {
+            LocalizeDictionary.Instance.Culture = (Toggle ? new CultureInfo("da-DK") : new CultureInfo("en-US"));
+            Thread.CurrentThread.CurrentUICulture = (Toggle ? new CultureInfo("da-DK") : new CultureInfo("en-US"));
+            Toggle = !Toggle;
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri);
         }
 

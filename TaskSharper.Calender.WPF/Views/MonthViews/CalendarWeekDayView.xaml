@@ -4,6 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.Calender.WPF"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -15,7 +19,7 @@
             </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border BorderThickness="0,0.5,0,0" Grid.Column="0">
-            <Label Content="{Binding Day}" 
+            <Label Content="{lex:Loc }"
                    FontSize="18" 
                    Width="Auto" 
                    FontStretch="Normal"

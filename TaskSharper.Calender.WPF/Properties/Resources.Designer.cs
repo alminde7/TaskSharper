@@ -70,227 +70,227 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Friday.
-        /// </summary>
-        public static string CalendarDay_Friday {
-            get {
-                return ResourceManager.GetString("CalendarDay_Friday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monday.
-        /// </summary>
-        public static string CalendarDay_Monday {
-            get {
-                return ResourceManager.GetString("CalendarDay_Monday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Saturday.
-        /// </summary>
-        public static string CalendarDay_Saturday {
-            get {
-                return ResourceManager.GetString("CalendarDay_Saturday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sunday.
-        /// </summary>
-        public static string CalendarDay_Sunday {
-            get {
-                return ResourceManager.GetString("CalendarDay_Sunday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Thursday.
-        /// </summary>
-        public static string CalendarDay_Thursday {
-            get {
-                return ResourceManager.GetString("CalendarDay_Thursday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tuesday.
-        /// </summary>
-        public static string CalendarDay_Tuesday {
-            get {
-                return ResourceManager.GetString("CalendarDay_Tuesday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Wednesday.
-        /// </summary>
-        public static string CalendarDay_Wednesday {
-            get {
-                return ResourceManager.GetString("CalendarDay_Wednesday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to April.
         /// </summary>
-        public static string CalendarMonth_April {
+        public static string April {
             get {
-                return ResourceManager.GetString("CalendarMonth_April", resourceCulture);
+                return ResourceManager.GetString("April", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to August.
         /// </summary>
-        public static string CalendarMonth_August {
+        public static string August {
             get {
-                return ResourceManager.GetString("CalendarMonth_August", resourceCulture);
+                return ResourceManager.GetString("August", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day.
+        /// </summary>
+        public static string Day {
+            get {
+                return ResourceManager.GetString("Day", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to December.
         /// </summary>
-        public static string CalendarMonth_December {
+        public static string December {
             get {
-                return ResourceManager.GetString("CalendarMonth_December", resourceCulture);
+                return ResourceManager.GetString("December", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to February.
         /// </summary>
-        public static string CalendarMonth_February {
+        public static string February {
             get {
-                return ResourceManager.GetString("CalendarMonth_February", resourceCulture);
+                return ResourceManager.GetString("February", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friday.
+        /// </summary>
+        public static string Friday {
+            get {
+                return ResourceManager.GetString("Friday", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to January.
         /// </summary>
-        public static string CalendarMonth_January {
+        public static string January {
             get {
-                return ResourceManager.GetString("CalendarMonth_January", resourceCulture);
+                return ResourceManager.GetString("January", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to July.
         /// </summary>
-        public static string CalendarMonth_July {
+        public static string July {
             get {
-                return ResourceManager.GetString("CalendarMonth_July", resourceCulture);
+                return ResourceManager.GetString("July", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to June.
         /// </summary>
-        public static string CalendarMonth_June {
+        public static string June {
             get {
-                return ResourceManager.GetString("CalendarMonth_June", resourceCulture);
+                return ResourceManager.GetString("June", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to March.
         /// </summary>
-        public static string CalendarMonth_March {
+        public static string March {
             get {
-                return ResourceManager.GetString("CalendarMonth_March", resourceCulture);
+                return ResourceManager.GetString("March", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to May.
+        /// </summary>
+        public static string May {
+            get {
+                return ResourceManager.GetString("May", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monday.
+        /// </summary>
+        public static string Monday {
+            get {
+                return ResourceManager.GetString("Monday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month.
+        /// </summary>
+        public static string Month {
+            get {
+                return ResourceManager.GetString("Month", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to November.
         /// </summary>
-        public static string CalendarMonth_November {
+        public static string November {
             get {
-                return ResourceManager.GetString("CalendarMonth_November", resourceCulture);
+                return ResourceManager.GetString("November", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to October.
         /// </summary>
-        public static string CalendarMonth_October {
+        public static string October {
             get {
-                return ResourceManager.GetString("CalendarMonth_October", resourceCulture);
+                return ResourceManager.GetString("October", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        public static string Saturday {
+            get {
+                return ResourceManager.GetString("Saturday", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to September.
         /// </summary>
-        public static string CalendarMonth_September {
+        public static string September {
             get {
-                return ResourceManager.GetString("CalendarMonth_September", resourceCulture);
+                return ResourceManager.GetString("September", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This Month .
+        ///   Looks up a localized string similar to Sunday.
         /// </summary>
-        public static string MainWindow_Month_Button_Text {
+        public static string Sunday {
             get {
-                return ResourceManager.GetString("MainWindow_Month_Button_Text", resourceCulture);
+                return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This month.
+        /// </summary>
+        public static string This_month {
+            get {
+                return ResourceManager.GetString("This_month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This week.
+        /// </summary>
+        public static string This_week {
+            get {
+                return ResourceManager.GetString("This_week", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thursday.
+        /// </summary>
+        public static string Thursday {
+            get {
+                return ResourceManager.GetString("Thursday", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Today.
         /// </summary>
-        public static string MainWindow_Today_Button_Text {
+        public static string Today {
             get {
-                return ResourceManager.GetString("MainWindow_Today_Button_Text", resourceCulture);
+                return ResourceManager.GetString("Today", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This Week.
+        ///   Looks up a localized string similar to Tuesday.
         /// </summary>
-        public static string MainWindow_Week_Button_Text {
+        public static string Tuesday {
             get {
-                return ResourceManager.GetString("MainWindow_Week_Button_Text", resourceCulture);
+                return ResourceManager.GetString("Tuesday", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next Month.
+        ///   Looks up a localized string similar to Wednesday.
         /// </summary>
-        public static string MonthView_Next_Button_Text {
+        public static string Wednesday {
             get {
-                return ResourceManager.GetString("MonthView_Next_Button_Text", resourceCulture);
+                return ResourceManager.GetString("Wednesday", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prev Month.
+        ///   Looks up a localized string similar to Week.
         /// </summary>
-        public static string MonthView_Prev_Button_Text {
+        public static string Week {
             get {
-                return ResourceManager.GetString("MonthView_Prev_Button_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Next Week.
-        /// </summary>
-        public static string WeekView_Next_Button_Text {
-            get {
-                return ResourceManager.GetString("WeekView_Next_Button_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Prev Week.
-        /// </summary>
-        public static string WeekView_Prev_Button_Text {
-            get {
-                return ResourceManager.GetString("WeekView_Prev_Button_Text", resourceCulture);
+                return ResourceManager.GetString("Week", resourceCulture);
             }
         }
     }

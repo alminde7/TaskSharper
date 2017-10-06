@@ -147,6 +147,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFLocalizeExtension, Version=2.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfLocalizeExtension.2.3.2\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="XAMLMarkupExtensions, Version=1.2.1.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XAMLMarkupExtensions.1.2.1.3\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
@@ -185,8 +191,14 @@
     <Compile Include="Events\Resources\DateChangedEnum.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
     <Compile Include="Events\DateChangedEvents\WeekChangedEvent.cs" />
-    <Compile Include="Properties\Resources.dk-DK.Designer.cs">
-      <DependentUpon>Resources.dk-DK.resx</DependentUpon>
+    <Compile Include="Properties\Resources.en-US.Designer.cs">
+      <DependentUpon>Resources.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.da-DK.Designer.cs">
+      <DependentUpon>Resources.da-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
@@ -327,15 +339,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.dk-DK.resx">
+    <EmbeddedResource Include="Properties\Resources.en-US.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.dk-DK.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.da-DK.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.da-DK.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -382,6 +401,5 @@
       <Name>TaskSharper.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
