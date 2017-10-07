@@ -23,27 +23,36 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool _spinnerVisible;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
+        public DelegateCommand<string> ChangeLanguageCommand { get; set; }
 
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
         {
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
-            _logger = logger;
+            _logger = logger.ForContext<MainWindowViewModel>();
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
+            ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
         }
 
         public bool Toggle { get; set; }
 
         private void Navigate(string uri)
         {
-            LocalizeDictionary.Instance.Culture = (Toggle ? new CultureInfo("da-DK") : new CultureInfo("en-US"));
-            Toggle = !Toggle;
-            _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
-
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri);
+        }
+
+        private void ChangeLanguage(string culture)
+        {
+            _logger.ForContext("Click", typeof(MainWindowViewModel)).Information("Change language clicked with culture {@Culture}", culture);
+            if (LocalizeDictionary.Instance.Culture.Name != culture)
+            {
+                _logger.ForContext("Language", typeof(MainWindowViewModel)).Information("Changed culture to {@Culture}", culture);
+                LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
+                _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
+            }
         }
 
         public bool SpinnerVisible

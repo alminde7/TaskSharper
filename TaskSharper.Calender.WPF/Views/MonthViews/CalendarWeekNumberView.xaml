@@ -14,17 +14,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock HorizontalAlignment="Right" 
-                   VerticalAlignment="Center"
-                   Text="{lex:Loc Week}"
-                   Margin="2"
-                   FontWeight="SemiBold"
-                   Width="Auto"
-                   Height="Auto">
+        <TextBlock
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Center"
+            FontWeight="SemiBold"
+            Margin="2">
+            <TextBlock Text="{lex:Loc Week}"/>
+            <TextBlock Text="{Binding Week}"/>
+
             <TextBlock.LayoutTransform>
                 <RotateTransform Angle="-90" CenterX="0" CenterY="0"></RotateTransform>
             </TextBlock.LayoutTransform>
         </TextBlock>
+
 
 
     </Grid>

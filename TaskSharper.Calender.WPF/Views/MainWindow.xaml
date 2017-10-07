@@ -12,10 +12,13 @@
         lex:LocalizeDictionary.DesignCulture="en-US"
         lex:ResxLocalizationProvider.DefaultDictionary="Resources"
         
+        xmlns:Flags="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf"
+
         mc:Ignorable="d"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         Title="TaskSharperCalendar" Height="936.818" Width="1309">
     <Window.Resources>
+        <Flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSourceConverter" />
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style TargetType="{x:Type Button}" x:Key="NavigationButton">
             <Setter Property="Background" Value="#5AA1E3" />
@@ -61,6 +64,25 @@
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+            <Button Margin="0,0,5,0"
+                    Command="{Binding ChangeLanguageCommand}" CommandParameter="da-DK">
+                <Image  
+                    Source="{Binding Source=DK, Converter={StaticResource CountryIdToFlagImageSourceConverter}}"
+                    RenderOptions.BitmapScalingMode="HighQuality" 
+                    HorizontalAlignment="Left"/>
+            </Button>
+            <Button Margin="0,0,5,0"
+                    Command="{Binding ChangeLanguageCommand}" CommandParameter="en-US">
+                <Image  
+                    Source="{Binding Source=US, Converter={StaticResource CountryIdToFlagImageSourceConverter}}"
+                    RenderOptions.BitmapScalingMode="HighQuality" 
+                    HorizontalAlignment="Left"/>
+            </Button>
+        </StackPanel>
+
+
 
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
