@@ -12,6 +12,8 @@ namespace TaskSharper.Calender.WPF.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            // From https://stackoverflow.com/questions/27574096/wpf-fullscreen-toggle-still-showing-part-of-desktop
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowStyle = WindowStyle.ToolWindow;
             this.WindowState = WindowState.Maximized;
