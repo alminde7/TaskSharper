@@ -15,7 +15,7 @@
             </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border BorderThickness="0,0.5,0,0" Grid.Column="0">
-            <Label Content="{Binding Day}" 
+            <Label Content="{Binding Day}"
                    FontSize="18" 
                    Width="Auto" 
                    FontStretch="Normal"

@@ -3,14 +3,23 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+        
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.Calender.WPF"
+        lex:LocalizeDictionary.DesignCulture="en-US"
+        lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+        
+        xmlns:Flags="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf"
+
         mc:Ignorable="d"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         Title="TaskSharperCalendar" Height="936.818" Width="1309">
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSourceConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style TargetType="{x:Type Button}" x:Key="NavigationButton">
             <Setter Property="Background" Value="#5AA1E3" />
             <Setter Property="Foreground" Value="White" />
@@ -56,6 +65,23 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+            <Button Margin="0,0,5,0"
+                    Command="{Binding ChangeLanguageCommand}" CommandParameter="da-DK">
+                <Image  
+                    Source="{Binding Source=DK, Converter={StaticResource CountryIdToFlagImageSourceConverter}}"
+                    RenderOptions.BitmapScalingMode="HighQuality" 
+                    HorizontalAlignment="Left"/>
+            </Button>
+            <Button Margin="0,0,5,0"
+                    Command="{Binding ChangeLanguageCommand}" CommandParameter="en-US">
+                <Image  
+                    Source="{Binding Source=US, Converter={StaticResource CountryIdToFlagImageSourceConverter}}"
+                    RenderOptions.BitmapScalingMode="HighQuality" 
+                    HorizontalAlignment="Left"/>
+            </Button>
+        </StackPanel>
+
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
@@ -74,19 +100,19 @@
                 <fa:ImageAwesome Icon="ArrowUp" Margin="10,0,0,0" Height="70" Foreground="White" />
             </Button>
             <DockPanel Grid.Row="1"></DockPanel>
-            <Button Grid.Row="2" Content="{x:Static p:Resources.MainWindow_Today_Button_Text}"
+            <Button Grid.Row="2" Content="{lex:Loc Day}"
                     Command="{Binding NavigateCommand}" CommandParameter="CalendarDayView" 
                     Margin="2"
                     Style="{StaticResource NavigationButton}"
                     Height="100">
             </Button>
-            <Button Grid.Row="3" Content="{x:Static p:Resources.MainWindow_Week_Button_Text}" 
+            <Button Grid.Row="3" Content="{lex:Loc Week}" 
                     Command="{Binding NavigateCommand}" CommandParameter="CalendarWeekView" 
                     Margin="2"
                     Style="{StaticResource NavigationButton}"
                     Height="100">
             </Button>
-            <Button Grid.Row="4" Content="{x:Static p:Resources.MainWindow_Month_Button_Text}" 
+            <Button Grid.Row="4" Content="{lex:Loc Month}" 
                     Command="{Binding NavigateCommand}" CommandParameter="CalendarMonthView" 
                     Margin="2"
                     Style="{StaticResource NavigationButton}"
@@ -124,6 +150,4 @@
         </Popup>
 
     </Grid>
-
-
 </Window>
