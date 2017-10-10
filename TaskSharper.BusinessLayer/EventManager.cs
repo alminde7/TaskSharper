@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Serilog;
 using TaskSharper.DataAccessLayer.Google;
@@ -28,54 +29,87 @@ namespace TaskSharper.BusinessLayer
         
         public Event GetEvent(string id)
         {
-            var calEvent = Cache.GetEvent(id);
-            if (calEvent == null)
+            try
             {
-                calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
-                Cache.AddOrUpdateEvent(calEvent);
-                Notification.Attach(calEvent);
-            }
+                var calEvent = Cache.GetEvent(id);
+                if (calEvent == null)
+                {
+                    calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
+                    Cache.AddOrUpdateEvent(calEvent);
+                    Notification.Attach(calEvent);
+                }
 
-            return calEvent;
+                return calEvent;
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
         }
 
         public Event GetEvent(string id, DateTime date)
         {
-            var calEvent = Cache.GetEvent(id, date);
-            if (calEvent == null)
+            try
             {
-                calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
-                Cache.AddOrUpdateEvent(calEvent);
-                Notification.Attach(calEvent);
-            }
+                var calEvent = Cache.GetEvent(id, date);
+                if (calEvent == null)
+                {
+                    calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
+                    Cache.AddOrUpdateEvent(calEvent);
+                    Notification.Attach(calEvent);
+                }
 
-            return calEvent;
+                return calEvent;
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
         }
 
         public IList<Event> GetEvents(DateTime start)
         {
-            var events = Cache.GetEvents(start);
-            if (events == null)
+            try
             {
-                events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                Cache.UpdateCacheStore(events, start, null);
-                Notification.Attach(events);
+                var events = Cache.GetEvents(start);
+                if (events == null)
+                {
+                    events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                    Cache.UpdateCacheStore(events, start, null);
+                    Notification.Attach(events);
+                }
+
+                return events;
             }
-            
-            return events;
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
+
         }
 
         public IList<Event> GetEvents(DateTime start, DateTime end)
         {
-            var events = Cache.GetEvents(start, end);
-            if (events == null)
+            try
             {
-                events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                Cache.UpdateCacheStore(events, start, end);
-                Notification.Attach(events);
+                var events = Cache.GetEvents(start, end);
+                if (events == null)
+                {
+                    events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                    Cache.UpdateCacheStore(events, start, end);
+                    Notification.Attach(events);
+                }
+
+                return events;
             }
-            
-            return events;
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
         }
 
         public Event UpdateEvent(Event eventObj)
@@ -87,6 +121,11 @@ namespace TaskSharper.BusinessLayer
                 Notification.Attach(updatedEvent);
                 return updatedEvent;
             }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
             catch (Exception e)
             {
                 Logger.Error(e, $"Failed to update event with id {eventObj.Id}");
@@ -96,62 +135,101 @@ namespace TaskSharper.BusinessLayer
 
         public void UpdateCacheStore(DateTime start, DateTime end)
         {
-            var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-            Cache.UpdateCacheStore(events, start, end);
-            Notification.Attach(events);
-            Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
+            try
+            {
+                var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                Cache.UpdateCacheStore(events, start, end);
+                Notification.Attach(events);
+                Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+            }
         }
 
         public async Task<Event> GetEventAsync(string id)
         {
-            var calEvent = Cache.GetEvent(id);
-            if (calEvent == null)
+            try
             {
-                calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
-                Cache.AddOrUpdateEvent(calEvent);
-                Notification.Attach(calEvent);
-            }
+                var calEvent = Cache.GetEvent(id);
+                if (calEvent == null)
+                {
+                    calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
+                    Cache.AddOrUpdateEvent(calEvent);
+                    Notification.Attach(calEvent);
+                }
 
-            return calEvent;
+                return calEvent;
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
         }
 
         public async Task<Event> GetEventAsync(string id, DateTime date)
         {
-            var calEvent = Cache.GetEvent(id, date);
-            if (calEvent == null)
+            try
             {
-                calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
-                Cache.AddOrUpdateEvent(calEvent);
-                Notification.Attach(calEvent);
-            }
+                var calEvent = Cache.GetEvent(id, date);
+                if (calEvent == null)
+                {
+                    calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
+                    Cache.AddOrUpdateEvent(calEvent);
+                    Notification.Attach(calEvent);
+                }
 
-            return calEvent;
+                return calEvent;
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
         }
 
         public async Task<IList<Event>> GetEventsAsync(DateTime start)
         {
-            var events = Cache.GetEvents(start);
-            if (events == null)
+            try
             {
-                events = await CalendarService.GetEventsAsync(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                Cache.UpdateCacheStore(events, start, null);
-                Notification.Attach(events);
-            }
+                var events = Cache.GetEvents(start);
+                if (events == null)
+                {
+                    events = await CalendarService.GetEventsAsync(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                    Cache.UpdateCacheStore(events, start, null);
+                    Notification.Attach(events);
+                }
 
-            return events;
+                return events;
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
         }
 
         public async Task<IList<Event>> GetEventsAsync(DateTime start, DateTime end)
         {
-            var events = Cache.GetEvents(start, end);
-            if (events == null)
+            try
             {
-                events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                Cache.UpdateCacheStore(events, start, end);
-                Notification.Attach(events);
-            }
+                var events = Cache.GetEvents(start, end);
+                if (events == null)
+                {
+                    events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                    Cache.UpdateCacheStore(events, start, end);
+                    Notification.Attach(events);
+                }
 
-            return events;
+                return events;
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
         }
 
         public async Task<Event> UpdateEventAsync(Event eventObj)
@@ -163,6 +241,11 @@ namespace TaskSharper.BusinessLayer
                 Notification.Attach(updatedEvent);
                 return updatedEvent;
             }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+                return null;
+            }
             catch (Exception e)
             {
                 Logger.Error(e, $"Failed to update event with id {eventObj.Id}");
@@ -172,10 +255,17 @@ namespace TaskSharper.BusinessLayer
 
         public async Task UpdateCacheStoreAsync(DateTime start, DateTime end)
         {
-            var events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-            Cache.UpdateCacheStore(events, start, end);
-            Notification.Attach(events);
-            Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
+            try
+            {
+                var events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                Cache.UpdateCacheStore(events, start, end);
+                Notification.Attach(events);
+                Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
+            }
+            catch (HttpRequestException e)
+            {
+                Logger.Error(e, "Could not fetch data from Google Calendar");
+            }
         }
     }
 }
