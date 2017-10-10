@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace TaskSharper.Calender.WPF.Views
 { 
@@ -10,6 +11,11 @@ namespace TaskSharper.Calender.WPF.Views
         public CalendarDayView()
         {
             InitializeComponent();
+        }
+
+        private void UIElement_OnManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

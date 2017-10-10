@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Apis.Calendar.v3;
 using Serilog;
@@ -75,7 +76,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
             _logger.Information($"Requesting all events in Google Calendar from {start} to {end}.");
-
+            
             var response = request.Execute();
             var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
             _logger.Information("Google Calendar request was successful and returned {@0}", events);

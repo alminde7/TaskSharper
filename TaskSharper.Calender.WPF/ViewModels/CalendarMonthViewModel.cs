@@ -69,7 +69,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             for (int i = 1; i <= DaysInWeek; i++)
             {
-                WeekDays.Add(new CalendarWeekDayViewModel(i));
+                WeekDays.Add(new CalendarWeekDayViewModel(i, _eventAggregator));
             }
             var firstDayOfMonth = CalculateDate(1, CurrentDatetime);
             FindPreviousMonday(firstDayOfMonth);

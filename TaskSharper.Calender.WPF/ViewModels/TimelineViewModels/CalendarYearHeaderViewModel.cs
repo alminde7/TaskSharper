@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Prism.Events;
 using Prism.Mvvm;
 using Serilog;
@@ -59,16 +55,27 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             _dateType = dateType;
             _logger = logger;
+
             // Initialization
-            CurrentCulture = CultureInfo.CurrentCulture;
-            DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
-            Date = DateTime.Now;
+            SetDate(DateTime.Now);
 
             // Event subscriptions
-            // Event subscription
             eventAggregator.GetEvent<DayChangedEvent>().Subscribe(DayChangedEventHandler);
             eventAggregator.GetEvent<WeekChangedEvent>().Subscribe(WeekChangedEventHandler);
             eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
+            eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(UpdateCultureHandler);
+        }
+
+        private void UpdateCultureHandler()
+        {
+            SetDate(Date);
+        }
+
+        private void SetDate(DateTime date)
+        {
+            CurrentCulture = CultureInfo.CurrentCulture;
+            DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
+            Date = date;
         }
 
         private void MonthChangedEventHandler(DateChangedEnum state)

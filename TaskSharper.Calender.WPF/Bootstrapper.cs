@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using Google.Apis.Auth.OAuth2;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
 using Prism.Logging;
@@ -13,7 +12,6 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
-using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
 using TaskSharper.Calender.WPF.Config;
 using TaskSharper.DataAccessLayer.Google;
