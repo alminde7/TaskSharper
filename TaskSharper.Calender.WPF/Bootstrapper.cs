@@ -75,7 +75,6 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterInstance(typeof(INotification), notificationObject);
 
             Container.RegisterType<ICalendarService, GoogleCalendarService>();
-            //Container.RegisterType<ICalendarService, DataAccessLayerMock>();
             Container.RegisterType<IEventManager, EventManager>();
             Container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
         }
