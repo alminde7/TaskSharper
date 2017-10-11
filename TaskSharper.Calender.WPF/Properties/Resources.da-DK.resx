@@ -120,17 +120,38 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>TaskSharper Calendar</value>
   </data>
+  <data name="Appointment" xml:space="preserve">
+    <value>Aftale</value>
+  </data>
   <data name="April" xml:space="preserve">
     <value>April</value>
   </data>
   <data name="August" xml:space="preserve">
     <value>August</value>
   </data>
+  <data name="Changed" xml:space="preserve">
+    <value>Ændret</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Fuldført</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Bekræftet</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Opretted</value>
+  </data>
   <data name="Day" xml:space="preserve">
     <value>Dag</value>
   </data>
   <data name="December" xml:space="preserve">
     <value>December</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beskrivelse</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Slut</value>
   </data>
   <data name="February" xml:space="preserve">
     <value>Februar</value>
@@ -171,8 +192,20 @@
   <data name="September" xml:space="preserve">
     <value>September</value>
   </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
   <data name="Sunday" xml:space="preserve">
     <value>Søndag</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Opgave</value>
+  </data>
+  <data name="Tentative" xml:space="preserve">
+    <value>Foreløbig</value>
   </data>
   <data name="This_month" xml:space="preserve">
     <value>Denne måned</value>
@@ -183,11 +216,20 @@
   <data name="Thursday" xml:space="preserve">
     <value>Torsdag</value>
   </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titel</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>I dag</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
     <value>Tirsdag</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Opdateret</value>
   </data>
   <data name="Wednesday" xml:space="preserve">
     <value>Onsdag</value>

@@ -70,6 +70,15 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Appointment.
+        /// </summary>
+        public static string Appointment {
+            get {
+                return ResourceManager.GetString("Appointment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to April.
         /// </summary>
         public static string April {
@@ -88,6 +97,42 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changed.
+        /// </summary>
+        public static string Changed {
+            get {
+                return ResourceManager.GetString("Changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        public static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmed.
+        /// </summary>
+        public static string Confirmed {
+            get {
+                return ResourceManager.GetString("Confirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created.
+        /// </summary>
+        public static string Created {
+            get {
+                return ResourceManager.GetString("Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Day.
         /// </summary>
         public static string Day {
@@ -102,6 +147,24 @@ namespace TaskSharper.Calender.WPF.Properties {
         public static string December {
             get {
                 return ResourceManager.GetString("December", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End.
+        /// </summary>
+        public static string End {
+            get {
+                return ResourceManager.GetString("End", resourceCulture);
             }
         }
         
@@ -223,11 +286,47 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sunday.
         /// </summary>
         public static string Sunday {
             get {
                 return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task.
+        /// </summary>
+        public static string Task {
+            get {
+                return ResourceManager.GetString("Task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tentative.
+        /// </summary>
+        public static string Tentative {
+            get {
+                return ResourceManager.GetString("Tentative", resourceCulture);
             }
         }
         
@@ -259,6 +358,15 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Today.
         /// </summary>
         public static string Today {
@@ -273,6 +381,24 @@ namespace TaskSharper.Calender.WPF.Properties {
         public static string Tuesday {
             get {
                 return ResourceManager.GetString("Tuesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated.
+        /// </summary>
+        public static string Updated {
+            get {
+                return ResourceManager.GetString("Updated", resourceCulture);
             }
         }
         

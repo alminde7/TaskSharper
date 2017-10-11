@@ -10,6 +10,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.Calender.WPF.ViewModels.Components;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -46,6 +47,20 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _appointmentOpacity = 0.5;
         private double _confirmedOpacity = 0.5;
         private double _tentativeOpacity = 0.5;
+        private DateTimePickerViewModel _startPicker;
+        private DateTimePickerViewModel _endPicker;
+
+        public DateTimePickerViewModel StartPicker
+        {
+            get => _startPicker;
+            set => SetProperty(ref _startPicker, value);
+        }
+
+        public DateTimePickerViewModel EndPicker
+        {
+            get => _endPicker;
+            set => SetProperty(ref _endPicker, value);
+        }
 
         public Process TouchKeyboardProcess
         {
@@ -183,6 +198,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
             TouchKeyboardProcess = Process.Start(touchKeyboardPath);
             SetType(EditEvent.Type);
             SetStatus(EditEvent.Status);
+            StartPicker = new DateTimePickerViewModel(ref _editEvent, "start");
+            EndPicker = new DateTimePickerViewModel(ref _editEvent, "end");
         }
 
         public void DisableEditMode()
