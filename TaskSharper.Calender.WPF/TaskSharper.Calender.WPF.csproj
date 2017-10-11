@@ -213,7 +213,6 @@
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="Events\Resources\EventResources.cs" />
-    <Compile Include="ViewModels\Components\DateTimePickerViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarDateDayViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarDayEventViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarWeekDayViewModel.cs" />
@@ -415,6 +414,9 @@
       <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
       <Name>TaskSharper.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Components\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

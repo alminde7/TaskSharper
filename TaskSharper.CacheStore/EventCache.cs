@@ -162,6 +162,18 @@ namespace TaskSharper.CacheStore
             if(!Events.ContainsKey(date))
                 InitializeEventsDictionary(date, null);
 
+            foreach (var @event in Events)
+            {
+                foreach (var calEvent in @event.Value)
+                {
+                    if (calEvent.Key == calendarEvent.Id)
+                    {
+                        Events[@event.Key].Remove(calEvent.Key);
+                        break;
+                    }
+                }
+            } // removes event if exist
+            
             Events[date].AddOrUpdate(calendarEvent.Id, new CacheData(calendarEvent, DateTime.Now, false));
         }
 

@@ -49,7 +49,7 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <StackPanel Grid.Column="1" Grid.Row="1" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
+        <!--<StackPanel Grid.Column="1" Grid.Row="1" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
             <StackPanel Orientation="Horizontal">
                 <Label Width="75">Id</Label>
                 <TextBlock Text="{Binding SelectedEvent.Id}"/>
@@ -86,9 +86,9 @@
                 <Label Width="75">Updated</Label>
                 <TextBlock Text="{Binding SelectedEvent.Updated}"/>
             </StackPanel>
-        </StackPanel>
+        </StackPanel>-->
         <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="1">
-            <StackPanel Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Title}" />
                     <TextBox Text="{Binding EditEvent.Title}" Width="150" Margin="0,0,0,10"/>
@@ -130,16 +130,14 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="50,0,0,0">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
-                    <!--<xctk:DateTimePicker ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" FormatString="dd/MM/yyyy hh:mm" Value="{Binding EditEvent.Start}" Margin="0,0,0,10" HorizontalAlignment="Center"/>-->
-                    <components:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}"></components:DateTimePickerView>
+                    <components:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}" />
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
-                    <!--<xctk:DateTimePicker ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" Value="{Binding EditEvent.End}" Margin="0,0,0,10" HorizontalAlignment="Center"/>-->
-                    <components:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}"></components:DateTimePickerView>
+                    <components:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>
         </Viewbox>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVis}}">
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
                 <fa:ImageAwesome Icon="Check" Foreground="Green"/>
             </Button>
@@ -150,10 +148,10 @@
                 <fa:ImageAwesome Icon="KeyboardOutline" Margin="10,0,0,0" Foreground="DodgerBlue" />
             </Button>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
+        <!--<StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
             <Button Command="{Binding EnableEditModeCommand}" Style="{StaticResource TransparentBtnStyle}">
                 <fa:ImageAwesome Icon="Edit"/>
             </Button>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </UserControl>

@@ -10,7 +10,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
-using TaskSharper.Calender.WPF.ViewModels.Components;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -20,8 +19,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
     public class CalendarEventDetailsViewModel : BindableBase, INavigationAware
     {
         public DelegateCommand BackCommand { get; set; }
-        public DelegateCommand EnableEditModeCommand { get; set; }
-        public DelegateCommand DisableEditModeCommand { get; set; }
         public DelegateCommand SaveEventCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
         public DelegateCommand KeyboardCommand { get; set; }
@@ -39,7 +36,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private string _title;
         private Event _selectedEvent;
         private Event _editEvent;
-        private bool _isInEditMode;
         private bool _isNotInEditMode = true;
         private IEnumerable<Event.EventType> _eventTypes;
         private IEnumerable<Event.EventStatus> _eventStatuses;
@@ -47,20 +43,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _appointmentOpacity = 0.5;
         private double _confirmedOpacity = 0.5;
         private double _tentativeOpacity = 0.5;
-        private DateTimePickerViewModel _startPicker;
-        private DateTimePickerViewModel _endPicker;
-
-        public DateTimePickerViewModel StartPicker
-        {
-            get => _startPicker;
-            set => SetProperty(ref _startPicker, value);
-        }
-
-        public DateTimePickerViewModel EndPicker
-        {
-            get => _endPicker;
-            set => SetProperty(ref _endPicker, value);
-        }
 
         public Process TouchKeyboardProcess
         {
@@ -84,16 +66,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             get => _editEvent;
             set => SetProperty(ref _editEvent, value);
-        }
-
-        public bool IsInEditMode
-        {
-            get => _isInEditMode;
-            set
-            {
-                IsNotInEditMode = !value;
-                SetProperty(ref _isInEditMode, value);
-            }
         }
 
         public bool IsNotInEditMode
@@ -192,22 +164,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-        public void EnableEditMode()
-        {
-            IsInEditMode = true;
-            TouchKeyboardProcess = Process.Start(touchKeyboardPath);
-            SetType(EditEvent.Type);
-            SetStatus(EditEvent.Status);
-            StartPicker = new DateTimePickerViewModel(ref _editEvent, "start");
-            EndPicker = new DateTimePickerViewModel(ref _editEvent, "end");
-        }
-
-        public void DisableEditMode()
-        {
-            IsInEditMode = false;
-            TouchKeyboardProcess?.WaitForExit(200);
-        }
-
         public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventManager calendarService, IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
@@ -215,8 +171,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator = eventAggregator;
 
             BackCommand = new DelegateCommand(Back);
-            EnableEditModeCommand = new DelegateCommand(EnableEditMode);
-            DisableEditModeCommand = new DelegateCommand(DisableEditMode);
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
             KeyboardCommand = new DelegateCommand(ToggleKeyboard);
@@ -238,14 +192,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             SelectedEvent = _calendarService.UpdateEvent(EditEvent);
-            DisableEditMode();
+            _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private void Cancel()
         {
-            EditEvent = CopySelectedEvent();
-            DisableEditMode();
+            _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -254,6 +207,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             SelectedEvent = _calendarService.GetEvent(id);
             EditEvent = CopySelectedEvent();
+            SetType(EditEvent.Type);
+            SetStatus(EditEvent.Status);
         }
 
         private Event CopySelectedEvent()
@@ -279,11 +234,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            EditEvent = CopySelectedEvent();
         }
 
         private void Back()
         {
-            DisableEditMode();
             _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
         }
     }
