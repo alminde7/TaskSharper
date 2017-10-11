@@ -17,10 +17,5 @@ namespace TaskSharper.Calender.WPF.ViewModels
             get => _event;
             set { SetProperty(ref _event, value); }
         }
-
-        public CalendarDayEventViewModel()
-        {
-
-        }
     }
 }

@@ -20,7 +20,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         private readonly CalendarTypeEnum _dateType;
         private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
-        private int _dayOfMonth;
+
         private DateTime _date;
         private bool _isCurrentDay;
 
@@ -32,22 +32,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         public DateTime Date
         {
             get => _date;
-            set
-            {
-                DayOfMonth = value.Day;
-                if (value.Date == DateTime.Now.Date)
-                    IsCurrentDay = true;
-                else
-                    IsCurrentDay = false;
-                _date = value;
-                UpdateView();
-            }
-        }
-
-        public int DayOfMonth
-        {
-            get => _dayOfMonth;
-            set => SetProperty(ref _dayOfMonth, value);
+            set =>  SetProperty(ref _date, value);
         }
 
         public bool IsCurrentDay
@@ -77,7 +62,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             GoToDayViewCommand = new DelegateCommand(GoToDayView);
 
             // Set date => Will automatically call UpdateView()
-            Date = date;
+            UpdateDate(date);
         }
 
         private void MonthChangedEventHandler(DateChangedEnum state)
@@ -98,16 +83,17 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             }
         }
 
+        public void UpdateDate(DateTime date)
+        {
+            Date = date;
+            IsCurrentDay = Date.Date == DateTime.Now.Date;
+            UpdateView();
+        }
+
         private void UpdateView()
         {
             CalendarEvents.Clear();
             GetEvents();
-        }
-
-        public void UpdateDate(DateTime date)
-        {
-            Date = date;
-            UpdateView();
         }
 
         public async void GetEvents()

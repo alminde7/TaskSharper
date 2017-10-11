@@ -52,8 +52,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
             <Button Margin="3,0,0,0" Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding PrevCommand}" >
                 <fa:ImageAwesome Icon="ArrowLeft" Margin="0,0,0,0" Height="40" Foreground="White" />
             </Button>
@@ -61,33 +65,24 @@
                 <fa:ImageAwesome Icon="ArrowRight" Margin="0,0,0,0" Height="40" Foreground="White" />
             </Button>
         </StackPanel>
+        
+        <views:CalendarYearHeaderView Grid.Row="1" DataContext="{Binding DateYearHeader}" Grid.Column="0" Margin="0,0,5,2"></views:CalendarYearHeaderView>
 
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*"/>
-                <ColumnDefinition Width="7*"/>
-            </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="1" Grid.Column="1" Width="Auto">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:CalendarDateView Width="Auto" HorizontalAlignment="Center"></views:CalendarDateView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-            <views:CalendarYearHeaderView DataContext="{Binding DateYearHeader}" Grid.Column="0" Margin="0,0,5,2"></views:CalendarYearHeaderView>
-
-            <ItemsControl ItemsSource="{Binding DateHeaders}" Grid.Row="0" Grid.Column="1" Width="Auto">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="1"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <views:CalendarDateView Width="Auto" HorizontalAlignment="Center"></views:CalendarDateView>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Grid>
-
-        <ScrollViewer Grid.Row="2" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" 
+                      PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden">
             <Border BorderBrush="Black" BorderThickness="0">
                 <Grid>
                     <Grid.ColumnDefinitions>

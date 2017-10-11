@@ -28,6 +28,5 @@ namespace TaskSharper.Calender.WPF.Views
         {
             e.Handled = true;
         }
-
     }
 }

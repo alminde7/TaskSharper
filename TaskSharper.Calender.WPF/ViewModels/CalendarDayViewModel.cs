@@ -46,6 +46,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             PrevCommand = new DelegateCommand(PreviousDayCommandHandler);
         }
 
+        #region EventHandlers
         public void NextDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(1);
@@ -59,7 +60,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             EventAggregator.GetEvent<DayChangedEvent>().Publish(DateChangedEnum.Decrease);
             Logger.ForContext("Click", typeof(DayChangedEvent)).Information("PreviousDay has been clicked");
         }
+        #endregion
 
+        #region NavigationAware implementation
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             // OBS: This is called on every navigation, however [date] parameter is only set on 
@@ -90,5 +93,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             
         }
+        #endregion
     }
 }

@@ -37,7 +37,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="9*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="{Binding DayOfMonth}" />
+            <Label Grid.Row="0" Content="{Binding Date.Day}" />
             <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarEvents}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
