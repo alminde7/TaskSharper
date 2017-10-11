@@ -12,7 +12,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
     {
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
-        private DateTime _date;
+
         private int _year;
         private string _month;
         private int _weekNumber;
@@ -35,20 +35,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _weekNumber, value);
         }
 
-        public DateTime Date    
-        {
-            get => _date;
-            set
-            {
-                Year = value.Year;
-                Month = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetMonthName(value.Month));
-                WeekNumber = DateCultureInfo.Calendar.GetWeekOfYear(value, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
-                _date = value;
-            }
-        }
+        public DateTime Date { get; set; }
 
         public DateTimeFormatInfo DateCultureInfo { get; set; }
-
         public CultureInfo CurrentCulture { get; set; }
 
         public CalendarYearHeaderViewModel(IEventAggregator eventAggregator, CalendarTypeEnum dateType, ILogger logger)
@@ -73,9 +62,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void SetDate(DateTime date)
         {
+            Date = date;
+
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
-            Date = date;
+
+            Year = date.Year;
+            Month = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetMonthName(date.Month));
+            WeekNumber = DateCultureInfo.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
         }
 
         private void MonthChangedEventHandler(DateChangedEnum state)
@@ -84,10 +78,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             switch (state)
             {
                 case DateChangedEnum.Increase:
-                    Date = Date.AddMonths(1);
+                    SetDate(Date.AddMonths(1));
                     break;
                 case DateChangedEnum.Decrease:
-                    Date = Date.AddMonths(-1);
+                   SetDate(Date.AddMonths(-1));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -100,10 +94,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             switch (state)
             {
                 case DateChangedEnum.Increase:
-                    Date = Date.AddDays(7);
+                    SetDate(Date.AddDays(7));
                     break;
                 case DateChangedEnum.Decrease:
-                    Date = Date.AddDays(-7);
+                    SetDate(Date.AddDays(-7));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -116,10 +110,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             switch (state)
             {
                 case DateChangedEnum.Increase:
-                    Date = Date.AddDays(1);
+                    SetDate(Date.AddDays(1));
                     break;
                 case DateChangedEnum.Decrease:
-                    Date = Date.AddDays(-1);
+                    SetDate(Date.AddDays(-1));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
