@@ -29,7 +29,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set
             {
                 DayOfWeek = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetDayName(value.DayOfWeek));
-                _currentDate = value;
+                SetProperty(ref _currentDate, value);
             }
         }
 
