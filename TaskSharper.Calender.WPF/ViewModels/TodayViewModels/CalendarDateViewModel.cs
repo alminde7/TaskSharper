@@ -14,6 +14,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
     {
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
+
         private string _dayOfWeek;
         private DateTime _currentDate;
 
