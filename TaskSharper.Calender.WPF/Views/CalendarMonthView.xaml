@@ -10,6 +10,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}" x:Key="PrevAndNextButton">
             <Setter Property="Background" Value="#1763a5" />
@@ -44,82 +45,74 @@
             </Setter>
         </Style>
     </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
 
-        <StackPanel HorizontalAlignment="Right" Grid.Row="0" Orientation="Horizontal">
-            <Button Margin="2" Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding PrevCommand}">
-                <fa:ImageAwesome Icon="ArrowLeft" Margin="0,0,0,0" Height="40" Foreground="White" />
-            </Button>
-            <Button Margin="2" Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding NextCommand}">
-                <fa:ImageAwesome Icon="ArrowRight" Margin="0,0,0,0" Height="40" Foreground="White" />
-            </Button>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Left" Margin="12,10,0,0" Grid.Row="0" Orientation="Horizontal">
-            <Label Content="{Binding CurrentMonthAndYear}" FontSize="24" HorizontalAlignment="Left" Margin="51,10,0,0" VerticalAlignment="Top"/>
-        </StackPanel>
-        
-        
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            
-            <ItemsControl ItemsSource="{Binding WeekDays}" Grid.Row="0" Grid.Column="1" Width="Auto">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="1"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <views:CalendarWeekDayView/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            
+
+            <StackPanel HorizontalAlignment="Right" Grid.Row="0" Orientation="Horizontal" Grid.Column="1">
+                <Button Margin="2" Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding PrevCommand}">
+                    <fa:ImageAwesome Icon="ArrowLeft" Margin="0,0,0,0" Height="40" Foreground="White" />
+                </Button>
+                <Button Margin="2" Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding NextCommand}">
+                    <fa:ImageAwesome Icon="ArrowRight" Margin="0,0,0,0" Height="40" Foreground="White" />
+                </Button>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="5">
+                <Label Content="{Binding CurrentMonthAndYear}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
         </Grid>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.3*"/>
-                    <ColumnDefinition Width="7*"/>
-                </Grid.ColumnDefinitions>
 
-                <ItemsControl Grid.Column="0" ItemsSource="{Binding WeekNumbers}" Width="Auto">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="5"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <views:CalendarWeekNumberView></views:CalendarWeekNumberView>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+        <ItemsControl ItemsSource="{Binding WeekDays}" Grid.Row="1" Grid.Column="1" Width="Auto">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:CalendarWeekDayView/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-                <ItemsControl BorderBrush="DarkGray"  BorderThickness="0.5,0,0,0.5" Grid.Column="1" ItemsSource="{Binding DateDays}"  Width="Auto">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="5" Columns="7"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <views:CalendarDateDayView HorizontalAlignment="Stretch" Width="auto" BorderBrush="DarkGray" BorderThickness="0,0.5,0.5,0"></views:CalendarDateDayView>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </ScrollViewer>
+        <ItemsControl Grid.Column="0" Grid.Row="2" ItemsSource="{Binding WeekNumbers}" Width="Auto">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="5"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:CalendarWeekNumberView></views:CalendarWeekNumberView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ItemsControl Grid.Column="1" Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0.5,0,0,0.5" ItemsSource="{Binding DateDays}" Width="Auto">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="5" Columns="7"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:CalendarDateDayView HorizontalAlignment="Stretch" Width="auto" BorderBrush="DarkGray" BorderThickness="0,0.5,0.5,0"></views:CalendarDateDayView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

@@ -26,8 +26,5 @@
                 <RotateTransform Angle="-90" CenterX="0" CenterY="0"></RotateTransform>
             </TextBlock.LayoutTransform>
         </TextBlock>
-
-
-
     </Grid>
 </UserControl>

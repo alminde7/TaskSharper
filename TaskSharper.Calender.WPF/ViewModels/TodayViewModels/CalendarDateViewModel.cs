@@ -22,15 +22,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             get => _dayOfWeek;
             set => SetProperty(ref _dayOfWeek, value);
         }
-
         public DateTime CurrentDate
         {
             get => _currentDate;
-            set
-            {
-                DayOfWeek = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetDayName(value.DayOfWeek));
-                SetProperty(ref _currentDate, value);
-            }
+            set => SetProperty(ref _currentDate, value);
         }
 
         public DateTimeFormatInfo DateCultureInfo { get; set; }
@@ -60,6 +55,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
+            DayOfWeek = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetDayName(date.DayOfWeek));
             CurrentDate = date;
         }
 
