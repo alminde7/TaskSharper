@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
@@ -15,7 +16,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
     {
         private const int DaysInWeek = 7;
         private DateTime PreviousMonday;
-
+        private string _currentMonthAndYear;
+        private DateTime _currentDate;
         private readonly IEventManager _eventManager;
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
@@ -24,11 +26,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ObservableCollection<CalendarDateDayViewModel> DateDays { get; set; }
         public ObservableCollection<CalendarWeekNumberViewModel> WeekNumbers { get; set; }
         public ObservableCollection<CalendarWeekDayViewModel> WeekDays { get; set; }
-
-        public DateTime CurrentDatetime { get; set; }
-
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
+        public CultureInfo CurrentCulture { get; set; }
+
+        public DateTime CurrentDatetime
+        {
+            get => _currentDate;
+            set => SetProperty(ref _currentDate, value);
+        }
+
+        public string CurrentMonthAndYear
+        {
+            get => _currentMonthAndYear;
+            set => SetProperty(ref _currentMonthAndYear, value);
+        }
 
         public CalendarMonthViewModel(IEventManager eventManager, IEventAggregator eventAggregator, ILogger logger, IRegionManager regionManager)
         {
@@ -42,27 +54,46 @@ namespace TaskSharper.Calender.WPF.ViewModels
             NextCommand = new DelegateCommand(NextMonth);
             PrevCommand = new DelegateCommand(PrevMonth);
 
+            //Event Subscriptions 
+            eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(UpdateCultureHandler);
+
             // Initialize view containers
             DateDays = new ObservableCollection<CalendarDateDayViewModel>();
             WeekNumbers = new ObservableCollection<CalendarWeekNumberViewModel>();
             WeekDays = new ObservableCollection<CalendarWeekDayViewModel>();
 
             CurrentDatetime = DateTime.Now;
+            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
 
             // Create view
             BootstrapView();
         }
 
+
         private void PrevMonth()
         {
-            CurrentDatetime = CurrentDatetime.AddMonths(-1); 
+            CurrentDatetime = CurrentDatetime.AddMonths(-1);
+            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
             UpdateDates();
         }
 
         private void NextMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(1);
+            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
             UpdateDates();
+        }
+
+       
+        private void UpdateCultureHandler()
+        {
+            SetDate(CurrentDatetime);
+        }
+        private void SetDate(DateTime date)
+        {
+            CurrentCulture = CultureInfo.CurrentCulture;
+            CurrentDatetime = date;
+            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
         }
 
         private void BootstrapView()
