@@ -63,24 +63,29 @@ namespace TaskSharper.Calender.WPF.ViewModels
             WeekDays = new ObservableCollection<CalendarWeekDayViewModel>();
 
             CurrentDatetime = DateTime.Now;
-            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
+            SetMonthAndYearCulture();
 
             // Create view
             BootstrapView();
+        }
+
+        private void SetMonthAndYearCulture()
+        {
+            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("yyyy MMMM", CultureInfo.CurrentCulture));
         }
 
 
         private void PrevMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(-1);
-            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
+            SetMonthAndYearCulture();
             UpdateDates();
         }
 
         private void NextMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(1);
-            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
+            SetMonthAndYearCulture();
             UpdateDates();
         }
 
@@ -93,7 +98,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             CurrentCulture = CultureInfo.CurrentCulture;
             CurrentDatetime = date;
-            CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("Y", CultureInfo.CurrentCulture));
+            SetMonthAndYearCulture();
         }
 
         private void BootstrapView()

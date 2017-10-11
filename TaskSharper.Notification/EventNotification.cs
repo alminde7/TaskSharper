@@ -99,16 +99,16 @@ namespace TaskSharper.Notification
             var data = CalculateTimeToFire(notificationTime); // Calculate in milliseconds the time to fire the notification
 
             // Initialize timer
-            var timer = new Timer();
-            timer.Interval = data;
-            timer.AutoReset = false;
-            timer.Elapsed += (sender, args) =>
-            {
-                Callback(calEvent);
-                timer.Close();
-                notObj.HasFired = true;
-            };
-            timer.Start();
+            //var timer = new Timer();
+            //timer.Interval = data;
+            //timer.AutoReset = false;
+            //timer.Elapsed += (sender, args) =>
+            //{
+            //    Callback(calEvent);
+            //    timer.Close();
+            //    notObj.HasFired = true;
+            //};
+            //timer.Start();
 
             return notObj;
         }
