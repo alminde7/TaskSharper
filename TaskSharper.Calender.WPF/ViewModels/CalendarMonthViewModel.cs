@@ -26,6 +26,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ObservableCollection<CalendarDateDayViewModel> DateDays { get; set; }
         public ObservableCollection<CalendarWeekNumberViewModel> WeekNumbers { get; set; }
         public ObservableCollection<CalendarWeekDayViewModel> WeekDays { get; set; }
+
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
         public CultureInfo CurrentCulture { get; set; }
@@ -35,7 +36,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             get => _currentDate;
             set => SetProperty(ref _currentDate, value);
         }
-
         public string CurrentMonthAndYear
         {
             get => _currentMonthAndYear;
@@ -74,7 +74,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("yyyy MMMM", CultureInfo.CurrentCulture));
         }
 
-
+        #region ClickHandlers
         private void PrevMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(-1);
@@ -88,8 +88,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SetMonthAndYearCulture();
             UpdateDates();
         }
+        #endregion
 
-       
+
         private void UpdateCultureHandler()
         {
             SetDate(CurrentDatetime);
@@ -123,7 +124,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-
         private void FindPreviousMonday(DateTime firstDayOfMonth)
         {
             if(firstDayOfMonth.DayOfWeek == DayOfWeek.Monday)
@@ -132,7 +132,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 return;
             }
             FindPreviousMonday(firstDayOfMonth.AddDays(-1));
-
         }
         
         private DateTime CalculateDate(int day, DateTime currentDateTime)
@@ -155,11 +154,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 var prevMonday = PreviousMonday.AddDays(i);
 
                 if (i % 7 == 0)
-                    WeekNumbers[weekCount++].Date = prevMonday;
+                    WeekNumbers[weekCount++].SetDate(prevMonday);
                     
                 DateDays[i].UpdateDate(prevMonday);
             }
         }
-
     }
 }

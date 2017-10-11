@@ -11,22 +11,24 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public DateTime Date
         {
-            get { return _date; }
-            set
-            {
-                Week = DateTimeFormatInfo.CurrentInfo.Calendar.GetWeekOfYear(value, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
-                SetProperty(ref _date, value);
-            }
+            get => _date;
+            set => SetProperty(ref _date, value);
         }
 
         public int Week
         {
-            get { return _week; }
-            set { SetProperty(ref _week, value); }
+            get => _week;
+            set => SetProperty(ref _week, value);
         }
 
         public CalendarWeekNumberViewModel(DateTime date)
         {
+            SetDate(date);
+        }
+
+        public void SetDate(DateTime date)
+        {
+            Week = DateTimeFormatInfo.CurrentInfo.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
             Date = date;
         }
     }
