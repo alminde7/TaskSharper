@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
@@ -47,48 +49,48 @@ namespace TaskSharper.BusinessLayer.Unit.Test
             _cache.Received(1);
         }
 
-        [Test]
-        public void GetEvent_GetEventThatIsInTheCache_EventIsReturned()
-        {
-            var id = "123";
-            var calEvent = new Event()
-            {
-                Id = "123",
-                Description = "123"
-            };
+        //[Test]
+        //public void GetEvent_GetEventThatIsInTheCache_EventIsReturned()
+        //{
+        //    var id = "123";
+        //    var calEvent = new Event()
+        //    {
+        //        Id = "123",
+        //        Description = "123"
+        //    };
 
-            _cache.GetEvent(Arg.Is(id)).Returns(calEvent);
+        //    _cache.GetEvent(Arg.Is(id)).Returns(calEvent);
 
-            Assert.That(_uut.GetEvent(id), Is.EqualTo(calEvent));
-            _calendarService.DidNotReceive().GetEvent(Arg.Any<string>(), Arg.Any<string>());
-        }
+        //    Assert.That(_uut.GetEvent(id), Is.EqualTo(calEvent));
+        //    _calendarService.DidNotReceive().GetEvent(Arg.Any<string>(), Arg.Any<string>());
+        //}
 
-        [Test]
-        public void GetEvent_CacheReturnNullCalendarServiceIsCalled_CalendarServiceHasBeenCalledOnce()
-        {
-            var id = "123";
-            Event calEvent = null;
+        //[Test]
+        //public void GetEvent_CacheReturnNullCalendarServiceIsCalled_CalendarServiceHasBeenCalledOnce()
+        //{
+        //    var id = "123";
+        //    Event calEvent = null;
 
-            _cache.GetEvent(Arg.Any<string>()).Returns(calEvent);
+        //    _cache.GetEvent(Arg.Any<string>()).Returns(calEvent);
 
-            _uut.GetEvent(id);
+        //    _uut.GetEvent(id);
 
-            _calendarService.Received(1).GetEvent(Arg.Any<string>(), Arg.Any<string>());
-        }
+        //    _calendarService.Received(1).GetEvent(Arg.Any<string>(), Arg.Any<string>());
+        //}
 
-        [Test]
-        public void GetEvent_CacheReturnNullCalendarServiceIsCalled_CacheIsUpdated()
-        {
-            var id = "123";
-            Event calEvent = null;
+        //[Test]
+        //public void GetEvent_CacheReturnNullCalendarServiceIsCalled_CacheIsUpdated()
+        //{
+        //    var id = "123";
+        //    Event calEvent = null;
 
-            _cache.GetEvent(Arg.Any<string>()).Returns(calEvent);
+        //    _cache.GetEvent(Arg.Any<string>()).Returns(calEvent);
 
-            _uut.GetEvent(id);
+        //    _uut.GetEvent(id);
 
-            _calendarService.Received(1).GetEvent(Arg.Any<string>(), Arg.Any<string>());
-            _cache.Received(1).AddOrUpdateEvent(Arg.Any<Event>());
-        }
+        //    _calendarService.Received(1).GetEvent(Arg.Any<string>(), Arg.Any<string>());
+        //    _cache.Received(1).AddOrUpdateEvent(Arg.Any<Event>());
+        //}
 
     }
 }
