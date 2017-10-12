@@ -64,69 +64,69 @@ namespace TaskSharper.Calender.WPF.Views.Components
             HourListBox.SelectedIndex = ((DateTime)Date).Hour;
             MinuteListBox.SelectedIndex = ((DateTime) Date).Minute;
 
-            HourListBox.ScrollIntoView(HourListBox.Items[HourListBox.SelectedIndex]);
-            MinuteListBox.ScrollIntoView(MinuteListBox.Items[MinuteListBox.SelectedIndex]);
+            HourListBox.ScrollToCenterOfView(HourListBox.Items[HourListBox.SelectedIndex]);
+            MinuteListBox.ScrollToCenterOfView(MinuteListBox.Items[MinuteListBox.SelectedIndex]);
         }
 
         private void HourChanged(object sender, SelectionChangedEventArgs e)
         {
-            HourListBox.ScrollToCenterOfView(HourListBox.SelectedItem);
             var selectedHour = (int) ((ListBox) sender).SelectedItem;
             var currentDate = (DateTime) Date;
 
             Date = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, selectedHour, currentDate.Minute, currentDate.Second);
+            HourListBox.ScrollToCenterOfView(HourListBox.SelectedItem);
         }
 
         private void MinuteChanged(object sender, SelectionChangedEventArgs e)
         {
-            MinuteListBox.ScrollToCenterOfView(MinuteListBox.SelectedItem);
             var selectedMinute = (int)((ListBox)sender).SelectedItem;
             var currentDate = (DateTime)Date;
 
             Date = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, selectedMinute, currentDate.Second);
+            MinuteListBox.ScrollToCenterOfView(MinuteListBox.SelectedItem);
         }
 
         private void HourScrollUp(object sender, MouseButtonEventArgs e)
         {
-            HourListBox.SelectedIndex = HourListBox.SelectedIndex == 0 ? 23 : (HourListBox.SelectedIndex - 1 < 0 ? 0 : HourListBox.SelectedIndex - 1);
+            HourListBox.DecrementIndex(0, 23, 1);
         }
 
         private void HourScrollDown(object sender, MouseButtonEventArgs e)
         {
-            HourListBox.SelectedIndex = (HourListBox.SelectedIndex + 1) % 24;
+            HourListBox.IncrementIndex(0, 23, 1);
         }
 
         private void MinuteScrollUp(object sender, MouseButtonEventArgs e)
         {
-            MinuteListBox.SelectedIndex = MinuteListBox.SelectedIndex == 0 ? 59 : (MinuteListBox.SelectedIndex - 5 < 0 ? 0 : MinuteListBox.SelectedIndex - 5);
+            MinuteListBox.DecrementIndex(0, 59, 5);
         }
 
         private void MinuteScrollDown(object sender, MouseButtonEventArgs e)
         {
-            MinuteListBox.SelectedIndex = MinuteListBox.SelectedIndex == 59 ? 0 : (MinuteListBox.SelectedIndex + 5 > 59 ? 59 : MinuteListBox.SelectedIndex + 5);
+            MinuteListBox.IncrementIndex(0, 59, 5);
         }
 
         void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
             e.Handled = true;
         }
-
-        private void HourListBox_OnScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            var a = sender;
-            //HourListBox.SelectedIndex += (int) e.VerticalChange;
-        }
-
-        private void MinuteListBox_OnScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            var a = sender;
-            
-        }
     }
 
-    // From https://stackoverflow.com/a/3002013/6796072
+    
     public static class ItemsControlExtensions
     {
+        public static void IncrementIndex(this ListBox listBox, int minValue, int maxValue, int step)
+        {
+            listBox.SelectedIndex = listBox.SelectedIndex == maxValue ? minValue : (listBox.SelectedIndex + step > maxValue ? maxValue : listBox.SelectedIndex + step);
+            
+        }
+
+        public static void DecrementIndex(this ListBox listBox, int minValue, int maxValue, int step)
+        {
+            listBox.SelectedIndex = listBox.SelectedIndex == minValue ? maxValue : (listBox.SelectedIndex - step < minValue ? minValue : listBox.SelectedIndex - step);
+        }
+
+        // From https://stackoverflow.com/a/3002013/6796072
         public static void ScrollToCenterOfView(this ItemsControl itemsControl, object item)
         {
             // Scroll immediately if possible

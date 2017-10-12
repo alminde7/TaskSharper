@@ -15,14 +15,12 @@
             <StackPanel x:Name="HourPicker" Orientation="Vertical" Margin="10, 1">
                 <fa:ImageAwesome Icon="ChevronUp" Height="20px" MouseDown="HourScrollUp" />
                 <ListBox x:Name="HourListBox" HorizontalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" Height="100" Margin="0,10" SelectionChanged="HourChanged" 
-                         ScrollViewer.ScrollChanged="HourListBox_OnScrollChanged"
                          ScrollViewer.PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" ScrollViewer.PanningRatio="1" ScrollViewer.PanningDeceleration="500"/>
                 <fa:ImageAwesome Icon="ChevronDown" Height="20px" MouseDown="HourScrollDown" />
             </StackPanel>
             <StackPanel x:Name="MinutePicker"  Orientation="Vertical" Margin="10, 1">
                 <fa:ImageAwesome Icon="ChevronUp" Height="20px" MouseDown="MinuteScrollUp" />
                 <ListBox x:Name="MinuteListBox" HorizontalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" Height="100" Margin="0,10" SelectionChanged="MinuteChanged" 
-                         ScrollViewer.ScrollChanged="MinuteListBox_OnScrollChanged"
                          ScrollViewer.PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" ScrollViewer.PanningRatio="1" ScrollViewer.PanningDeceleration="500"/>
                 <fa:ImageAwesome Icon="ChevronDown" Height="20px" MouseDown="MinuteScrollDown" />
             </StackPanel>

@@ -153,6 +153,12 @@
   <data name="End" xml:space="preserve">
     <value>Slut</value>
   </data>
+  <data name="ErrorEndTimeIsEarlierThanStartTime" xml:space="preserve">
+    <value>Fejl! Start tid kan ikke være senere end slut tid.</value>
+  </data>
+  <data name="ErrorTitleNotSet" xml:space="preserve">
+    <value>Fejl! Titel skal udfyldes.</value>
+  </data>
   <data name="February" xml:space="preserve">
     <value>Februar</value>
   </data>

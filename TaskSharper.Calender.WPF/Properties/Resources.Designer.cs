@@ -169,6 +169,24 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error! Start time cannot be later than end time..
+        /// </summary>
+        public static string ErrorEndTimeIsEarlierThanStartTime {
+            get {
+                return ResourceManager.GetString("ErrorEndTimeIsEarlierThanStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error! Title cannot be empty..
+        /// </summary>
+        public static string ErrorTitleNotSet {
+            get {
+                return ResourceManager.GetString("ErrorTitleNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to February.
         /// </summary>
         public static string February {

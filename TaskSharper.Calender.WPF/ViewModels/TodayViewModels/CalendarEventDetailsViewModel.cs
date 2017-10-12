@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -43,6 +48,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _appointmentOpacity = 0.5;
         private double _confirmedOpacity = 0.5;
         private double _tentativeOpacity = 0.5;
+        private string _dateTimeErrorMessage;
+        private string _titleErrorMessage;
 
         public Process TouchKeyboardProcess
         {
@@ -108,6 +115,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             get => _tentativeOpacity;
             set => SetProperty(ref _tentativeOpacity, value);
+        }
+
+        public string TitleErrorMessage
+        {
+            get => _titleErrorMessage;
+            set => SetProperty(ref _titleErrorMessage, value);
+        }
+
+        public string DateTimeErrorMessage
+        {
+            get => _dateTimeErrorMessage;
+            set => SetProperty(ref _dateTimeErrorMessage, value);
         }
 
         public void SetTypeAsTask()
@@ -181,6 +200,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             EventTypes = Enum.GetValues(typeof(Event.EventType)).Cast<Event.EventType>();
             EventStatuses = Enum.GetValues(typeof(Event.EventStatus)).Cast<Event.EventStatus>().Except(new List<Event.EventStatus>{ Event.EventStatus.Cancelled });
+
+            _eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(CultureChanged);
+        }
+
+        private void CultureChanged()
+        {
+            if (TitleErrorMessage != null) TitleErrorMessage = Resources.ErrorTitleNotSet;
+            if (DateTimeErrorMessage != null) DateTimeErrorMessage = Resources.ErrorEndTimeIsEarlierThanStartTime;
         }
 
         private void ToggleKeyboard()
@@ -191,8 +218,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void SaveEvent()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-            SelectedEvent = _calendarService.UpdateEvent(EditEvent);
-            _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
+
+            if (EditEvent.Start > EditEvent.End || EditEvent.Title == "")
+            {
+                DateTimeErrorMessage = EditEvent.Start > EditEvent.End ? Resources.ErrorEndTimeIsEarlierThanStartTime : null;
+                TitleErrorMessage = EditEvent.Title == "" ? Resources.ErrorTitleNotSet : null;
+            }
+            else
+            {
+                SelectedEvent = _calendarService.UpdateEvent(EditEvent);
+                _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
+            }
+            
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
@@ -235,6 +272,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
             EditEvent = CopySelectedEvent();
+            TitleErrorMessage = null;
+            DateTimeErrorMessage = null;
         }
 
         private void Back()

@@ -34,6 +34,7 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="15*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -49,50 +50,13 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <!--<StackPanel Grid.Column="1" Grid.Row="1" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Id</Label>
-                <TextBlock Text="{Binding SelectedEvent.Id}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Title</Label>
-                <TextBlock Text="{Binding SelectedEvent.Title}" Width="150"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Description</Label>
-                <TextBlock Text="{Binding SelectedEvent.Description}" Width="150"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Type</Label>
-                <TextBlock Text="{Binding SelectedEvent.Type}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Status</Label>
-                <TextBlock Text="{Binding SelectedEvent.Status}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Start</Label>
-                <TextBlock Text="{Binding SelectedEvent.Start}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">End</Label>
-                <TextBlock Text="{Binding SelectedEvent.End}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Created</Label>
-                <TextBlock Text="{Binding SelectedEvent.Created}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Updated</Label>
-                <TextBlock Text="{Binding SelectedEvent.Updated}"/>
-            </StackPanel>
-        </StackPanel>-->
         <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="1">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Title}" />
                     <TextBox Text="{Binding EditEvent.Title}" Width="150" Margin="0,0,0,10"/>
-
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding TitleErrorMessage}" Foreground="Red"/>
+                    
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Description}" />
                     <TextBox Text="{Binding EditEvent.Description}" Width="150" Margin="0,0,0,10"/>
 
@@ -134,24 +98,20 @@
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
                     <components:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}" />
+
+                    <TextBlock Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>
                 </StackPanel>
             </StackPanel>
         </Viewbox>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="Check" Foreground="Green"/>
-            </Button>
-            <Button Command="{Binding CancelCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="Remove" Margin="10,0,0,0" Foreground="DarkRed" />
-            </Button>
-            <Button Command="{Binding KeyboardCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="KeyboardOutline" Margin="10,0,0,0" Foreground="DodgerBlue" />
-            </Button>
-        </StackPanel>
-        <!--<StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
-            <Button Command="{Binding EnableEditModeCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="Edit"/>
-            </Button>
-        </StackPanel>-->
+        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="3">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
+                    <fa:ImageAwesome Icon="Check" Foreground="Green"/>
+                </Button>
+                <Button Command="{Binding CancelCommand}" Style="{StaticResource TransparentBtnStyle}">
+                    <fa:ImageAwesome Icon="Remove" Margin="10,0,0,0" Foreground="DarkRed" />
+                </Button>
+            </StackPanel>
+        </Viewbox>
     </Grid>
 </UserControl>
