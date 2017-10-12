@@ -169,7 +169,7 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error! Start time cannot be later than end time..
+        ///   Looks up a localized string similar to Start time cannot be later than end time..
         /// </summary>
         public static string ErrorEndTimeIsEarlierThanStartTime {
             get {
@@ -178,7 +178,7 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error! Title cannot be empty..
+        ///   Looks up a localized string similar to Title cannot be empty..
         /// </summary>
         public static string ErrorTitleNotSet {
             get {

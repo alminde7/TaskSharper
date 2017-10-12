@@ -154,10 +154,10 @@
     <value>End</value>
   </data>
   <data name="ErrorEndTimeIsEarlierThanStartTime" xml:space="preserve">
-    <value>Error! Start time cannot be later than end time.</value>
+    <value>Start time cannot be later than end time.</value>
   </data>
   <data name="ErrorTitleNotSet" xml:space="preserve">
-    <value>Error! Title cannot be empty.</value>
+    <value>Title cannot be empty.</value>
   </data>
   <data name="February" xml:space="preserve">
     <value>February</value>

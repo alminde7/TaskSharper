@@ -50,15 +50,30 @@ namespace TaskSharper.Calender.WPF.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("24")]
         public int Header1Size {
             get {
                 return ((int)(this["Header1Size"]));
             }
-            set {
-                this["Header1Size"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public double NotSelectedOpacity {
+            get {
+                return ((double)(this["NotSelectedOpacity"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double SelectedOpacity {
+            get {
+                return ((double)(this["SelectedOpacity"]));
             }
         }
     }

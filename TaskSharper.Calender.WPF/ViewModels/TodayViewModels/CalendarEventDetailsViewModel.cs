@@ -44,10 +44,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool _isNotInEditMode = true;
         private IEnumerable<Event.EventType> _eventTypes;
         private IEnumerable<Event.EventStatus> _eventStatuses;
-        private double _taskOpacity = 0.5;
-        private double _appointmentOpacity = 0.5;
-        private double _confirmedOpacity = 0.5;
-        private double _tentativeOpacity = 0.5;
+        private double _taskOpacity = Settings.Default.NotSelectedOpacity;
+        private double _appointmentOpacity = Settings.Default.NotSelectedOpacity;
+        private double _confirmedOpacity = Settings.Default.NotSelectedOpacity;
+        private double _tentativeOpacity = Settings.Default.NotSelectedOpacity;
         private string _dateTimeErrorMessage;
         private string _titleErrorMessage;
 
@@ -141,45 +141,45 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void SetType(Event.EventType type)
         {
-            TaskOpacity = 0.5;
-            AppointmentOpacity = 0.5;
+            TaskOpacity = Settings.Default.NotSelectedOpacity;
+            AppointmentOpacity = Settings.Default.NotSelectedOpacity;
             switch (type)
             {
                 case Event.EventType.Task:
                     EditEvent.Type = Event.EventType.Task;
-                    TaskOpacity = 1;
+                    TaskOpacity = Settings.Default.SelectedOpacity;
                     break;
                 case Event.EventType.Appointment:
                     EditEvent.Type = Event.EventType.Appointment;
-                    AppointmentOpacity = 1;
+                    AppointmentOpacity = Settings.Default.SelectedOpacity;
                     break;
                 case Event.EventType.None:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                    break;
             }
         }
 
         public void SetStatus(Event.EventStatus status)
         {
-            ConfirmedOpacity = 0.5;
-            TentativeOpacity = 0.5;
+            ConfirmedOpacity = Settings.Default.NotSelectedOpacity;
+            TentativeOpacity = Settings.Default.NotSelectedOpacity;
             switch (status)
             {
                 case Event.EventStatus.Confirmed:
                     EditEvent.Status = Event.EventStatus.Confirmed;
-                    ConfirmedOpacity = 1;
+                    ConfirmedOpacity = Settings.Default.SelectedOpacity;
                     break;
                 case Event.EventStatus.Tentative:
                     EditEvent.Status = Event.EventStatus.Tentative;
-                    TentativeOpacity = 1;
+                    TentativeOpacity = Settings.Default.SelectedOpacity;
                     break;
                 case Event.EventStatus.Cancelled:
                     break;
                 case Event.EventStatus.Completed:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
+                    break;
             }
         }
 
