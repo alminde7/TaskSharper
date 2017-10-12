@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="TaskSharper.Calender.WPF.Views.Components.DateTimePickerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views.Components"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <WrapPanel>
+        <StackPanel x:Name="DatePicker">
+            <Calendar x:Name="DatePickerCalendar" Height="Auto" IsTodayHighlighted="False" SelectedDatesChanged="SelectedDatesChanged" Loaded="CalendarLoaded" />
+        </StackPanel>
+        <StackPanel x:Name="TimePicker" Orientation="Horizontal" Height="{Binding ActualHeight, ElementName=DatePicker}">
+            <StackPanel x:Name="HourPicker" Orientation="Vertical" Margin="10, 1">
+                <fa:ImageAwesome Icon="ChevronUp" Height="20px" MouseDown="HourScrollUp" />
+                <ListBox x:Name="HourListBox" HorizontalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" Height="100" Margin="0,10" SelectionChanged="HourChanged" 
+                         ScrollViewer.PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" ScrollViewer.PanningRatio="1" ScrollViewer.PanningDeceleration="500"/>
+                <fa:ImageAwesome Icon="ChevronDown" Height="20px" MouseDown="HourScrollDown" />
+            </StackPanel>
+            <StackPanel x:Name="MinutePicker"  Orientation="Vertical" Margin="10, 1">
+                <fa:ImageAwesome Icon="ChevronUp" Height="20px" MouseDown="MinuteScrollUp" />
+                <ListBox x:Name="MinuteListBox" HorizontalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" Height="100" Margin="0,10" SelectionChanged="MinuteChanged" 
+                         ScrollViewer.PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" ScrollViewer.PanningRatio="1" ScrollViewer.PanningDeceleration="500"/>
+                <fa:ImageAwesome Icon="ChevronDown" Height="20px" MouseDown="MinuteScrollDown" />
+            </StackPanel>
+        </StackPanel>
+    </WrapPanel>
+</UserControl>

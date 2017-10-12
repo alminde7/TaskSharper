@@ -134,6 +134,7 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -223,6 +224,9 @@
     <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AppointmentViewModel.cs" />
+    <Compile Include="Views\Components\DateTimePickerView.xaml.cs">
+      <DependentUpon>DateTimePickerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MonthViews\CalendarDateDayView.xaml.cs">
       <DependentUpon>CalendarDateDayView.xaml</DependentUpon>
     </Compile>
@@ -262,6 +266,10 @@
       <DependentUpon>CalendarDayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CalendarDayViewModel.cs" />
+    <Page Include="Views\Components\DateTimePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MonthViews\CalendarDateDayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -406,6 +414,9 @@
       <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
       <Name>TaskSharper.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Components\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

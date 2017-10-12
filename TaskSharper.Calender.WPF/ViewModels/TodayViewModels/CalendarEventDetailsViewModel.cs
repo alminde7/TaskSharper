@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -19,11 +24,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
     public class CalendarEventDetailsViewModel : BindableBase, INavigationAware
     {
         public DelegateCommand BackCommand { get; set; }
-        public DelegateCommand EnableEditModeCommand { get; set; }
-        public DelegateCommand DisableEditModeCommand { get; set; }
         public DelegateCommand SaveEventCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
-        public DelegateCommand KeyboardCommand { get; set; }     
+        public DelegateCommand KeyboardCommand { get; set; }
+        public DelegateCommand SetTypeAsAppointmentCommand { get; set; }
+        public DelegateCommand SetTypeAsTaskCommand { get; set; }
+        public DelegateCommand SetStatusAsTentativeCommand { get; set; }
+        public DelegateCommand SetStatusAsConfirmedCommand { get; set; }
 
         private readonly IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
@@ -34,10 +41,15 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private string _title;
         private Event _selectedEvent;
         private Event _editEvent;
-        private bool _isInEditMode;
         private bool _isNotInEditMode = true;
         private IEnumerable<Event.EventType> _eventTypes;
         private IEnumerable<Event.EventStatus> _eventStatuses;
+        private double _taskOpacity = Settings.Default.NotSelectedOpacity;
+        private double _appointmentOpacity = Settings.Default.NotSelectedOpacity;
+        private double _confirmedOpacity = Settings.Default.NotSelectedOpacity;
+        private double _tentativeOpacity = Settings.Default.NotSelectedOpacity;
+        private string _dateTimeErrorMessage;
+        private string _titleErrorMessage;
 
         public Process TouchKeyboardProcess
         {
@@ -63,16 +75,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _editEvent, value);
         }
 
-        public bool IsInEditMode
-        {
-            get => _isInEditMode;
-            set
-            {
-                IsNotInEditMode = !value;
-                SetProperty(ref _isInEditMode, value);
-            }
-        }
-
         public bool IsNotInEditMode
         {
             get => _isNotInEditMode;
@@ -91,16 +93,94 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _eventStatuses, value);
         }
 
-        public void EnableEditMode()
+        public double TaskOpacity
         {
-            IsInEditMode = true;
-            TouchKeyboardProcess = Process.Start(touchKeyboardPath);
+            get => _taskOpacity;
+            set => SetProperty(ref _taskOpacity, value);
         }
 
-        public void DisableEditMode()
+        public double AppointmentOpacity
         {
-            IsInEditMode = false;
-            TouchKeyboardProcess?.WaitForExit(200);
+            get => _appointmentOpacity;
+            set => SetProperty(ref _appointmentOpacity, value);
+        }
+
+        public double ConfirmedOpacity
+        {
+            get => _confirmedOpacity;
+            set => SetProperty(ref _confirmedOpacity, value);
+        }
+
+        public double TentativeOpacity
+        {
+            get => _tentativeOpacity;
+            set => SetProperty(ref _tentativeOpacity, value);
+        }
+
+        public string TitleErrorMessage
+        {
+            get => _titleErrorMessage;
+            set => SetProperty(ref _titleErrorMessage, value);
+        }
+
+        public string DateTimeErrorMessage
+        {
+            get => _dateTimeErrorMessage;
+            set => SetProperty(ref _dateTimeErrorMessage, value);
+        }
+
+        public void SetTypeAsTask()
+        {
+            SetType(Event.EventType.Task);
+        }
+
+        public void SetTypeAsAppointment()
+        {
+            SetType(Event.EventType.Appointment);
+        }
+
+        public void SetType(Event.EventType type)
+        {
+            TaskOpacity = Settings.Default.NotSelectedOpacity;
+            AppointmentOpacity = Settings.Default.NotSelectedOpacity;
+            switch (type)
+            {
+                case Event.EventType.Task:
+                    EditEvent.Type = Event.EventType.Task;
+                    TaskOpacity = Settings.Default.SelectedOpacity;
+                    break;
+                case Event.EventType.Appointment:
+                    EditEvent.Type = Event.EventType.Appointment;
+                    AppointmentOpacity = Settings.Default.SelectedOpacity;
+                    break;
+                case Event.EventType.None:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void SetStatus(Event.EventStatus status)
+        {
+            ConfirmedOpacity = Settings.Default.NotSelectedOpacity;
+            TentativeOpacity = Settings.Default.NotSelectedOpacity;
+            switch (status)
+            {
+                case Event.EventStatus.Confirmed:
+                    EditEvent.Status = Event.EventStatus.Confirmed;
+                    ConfirmedOpacity = Settings.Default.SelectedOpacity;
+                    break;
+                case Event.EventStatus.Tentative:
+                    EditEvent.Status = Event.EventStatus.Tentative;
+                    TentativeOpacity = Settings.Default.SelectedOpacity;
+                    break;
+                case Event.EventStatus.Cancelled:
+                    break;
+                case Event.EventStatus.Completed:
+                    break;
+                default:
+                    break;
+            }
         }
 
         public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventManager calendarService, IEventAggregator eventAggregator)
@@ -110,14 +190,24 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator = eventAggregator;
 
             BackCommand = new DelegateCommand(Back);
-            EnableEditModeCommand = new DelegateCommand(EnableEditMode);
-            DisableEditModeCommand = new DelegateCommand(DisableEditMode);
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
             KeyboardCommand = new DelegateCommand(ToggleKeyboard);
+            SetTypeAsTaskCommand = new DelegateCommand(() => SetType(Event.EventType.Task));
+            SetTypeAsAppointmentCommand = new DelegateCommand(() => SetType(Event.EventType.Appointment));
+            SetStatusAsConfirmedCommand = new DelegateCommand(() => SetStatus(Event.EventStatus.Confirmed));
+            SetStatusAsTentativeCommand = new DelegateCommand(() => SetStatus(Event.EventStatus.Tentative));
 
             EventTypes = Enum.GetValues(typeof(Event.EventType)).Cast<Event.EventType>();
             EventStatuses = Enum.GetValues(typeof(Event.EventStatus)).Cast<Event.EventStatus>().Except(new List<Event.EventStatus>{ Event.EventStatus.Cancelled });
+
+            _eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(CultureChanged);
+        }
+
+        private void CultureChanged()
+        {
+            if (TitleErrorMessage != null) TitleErrorMessage = Resources.ErrorTitleNotSet;
+            if (DateTimeErrorMessage != null) DateTimeErrorMessage = Resources.ErrorEndTimeIsEarlierThanStartTime;
         }
 
         private void ToggleKeyboard()
@@ -128,16 +218,24 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void SaveEvent()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-            _eventAggregator.GetEvent<EventChangedEvent>().Publish(EditEvent);
-            SelectedEvent = _calendarService.GetEvent(EditEvent.Id, EditEvent.Start.Value);
-            DisableEditMode();
+
+            if (EditEvent.Start > EditEvent.End || EditEvent.Title == "")
+            {
+                DateTimeErrorMessage = EditEvent.Start > EditEvent.End ? Resources.ErrorEndTimeIsEarlierThanStartTime : null;
+                TitleErrorMessage = EditEvent.Title == "" ? Resources.ErrorTitleNotSet : null;
+            }
+            else
+            {
+                SelectedEvent = _calendarService.UpdateEvent(EditEvent);
+                _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
+            }
+            
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private void Cancel()
         {
-            EditEvent = CopySelectedEvent();
-            DisableEditMode();
+            _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -146,6 +244,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             SelectedEvent = _calendarService.GetEvent(id);
             EditEvent = CopySelectedEvent();
+            SetType(EditEvent.Type);
+            SetStatus(EditEvent.Status);
         }
 
         private Event CopySelectedEvent()
@@ -171,11 +271,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            EditEvent = CopySelectedEvent();
+            TitleErrorMessage = null;
+            DateTimeErrorMessage = null;
         }
 
         private void Back()
         {
-            DisableEditMode();
             _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
         }
     }

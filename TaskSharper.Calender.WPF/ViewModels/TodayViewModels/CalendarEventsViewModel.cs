@@ -175,7 +175,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 2, 4 });
         }
 
-        private void UpdateView()
+        public void UpdateView()
         {
             CalendarEvents?.Clear();
             GetEvents();

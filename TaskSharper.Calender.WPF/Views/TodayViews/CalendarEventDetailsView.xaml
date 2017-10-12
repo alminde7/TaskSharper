@@ -6,8 +6,14 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+             xmlns:components="clr-namespace:TaskSharper.Calender.WPF.Views.Components"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.Calender.WPF"
+             lex:LocalizeDictionary.DesignCulture="en-US"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style x:Key="TransparentBtnStyle" TargetType="{x:Type Button}">
@@ -28,13 +34,14 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="15*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <Button Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentBtnStyle}">
-            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft"/>
+            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
         </Button>
         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SelectedEvent.Title}">
             <TextBlock.Style>
@@ -43,85 +50,68 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <StackPanel Grid.Column="1" Grid.Row="1" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Id</Label>
-                <TextBlock Text="{Binding EditEvent.Id}"/>
+        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Title}" />
+                    <TextBox Text="{Binding EditEvent.Title}" Width="150" Margin="0,0,0,10"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding TitleErrorMessage}" Foreground="Red"/>
+                    
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Description}" />
+                    <TextBox Text="{Binding EditEvent.Description}" Width="150" Margin="0,0,0,10"/>
+
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Type}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Center">
+                        <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetTypeAsTaskCommand}">
+                            <StackPanel Orientation="Vertical">
+                                <fa:ImageAwesome Icon="Tasks" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TaskOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Task}" />
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetTypeAsAppointmentCommand}">
+                            <StackPanel Orientation="Vertical">
+                                <fa:ImageAwesome Icon="ListUl" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding AppointmentOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Appointment}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Status}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Center">
+                        <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetStatusAsConfirmedCommand}">
+                            <StackPanel Orientation="Vertical">
+                                <fa:ImageAwesome Icon="CalendarCheckOutline" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding ConfirmedOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Confirmed}" />
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetStatusAsTentativeCommand}">
+                            <StackPanel Orientation="Vertical">
+                                <fa:ImageAwesome Icon="CalendarPlusOutline" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TentativeOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Tentative}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="50,0,0,0">
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
+                    <components:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}" />
+
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
+                    <components:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}" />
+
+                    <TextBlock Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Title</Label>
-                <TextBlock Text="{Binding EditEvent.Title}" Width="150"/>
+        </Viewbox>
+        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="3">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
+                    <fa:ImageAwesome Icon="Check" Foreground="Green"/>
+                </Button>
+                <Button Command="{Binding CancelCommand}" Style="{StaticResource TransparentBtnStyle}">
+                    <fa:ImageAwesome Icon="Remove" Margin="10,0,0,0" Foreground="DarkRed" />
+                </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Description</Label>
-                <TextBlock Text="{Binding EditEvent.Description}" Width="150"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Type</Label>
-                <TextBlock Text="{Binding EditEvent.Type}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Status</Label>
-                <TextBlock Text="{Binding EditEvent.Status}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Start</Label>
-                <TextBlock Text="{Binding EditEvent.Start}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">End</Label>
-                <TextBlock Text="{Binding EditEvent.End}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Created</Label>
-                <TextBlock Text="{Binding EditEvent.Created}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Updated</Label>
-                <TextBlock Text="{Binding EditEvent.Updated}"/>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVis}}">
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Title</Label>
-                <TextBox Text="{Binding EditEvent.Title}" Width="150"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Description</Label>
-                <TextBox Text="{Binding EditEvent.Description}" Width="150"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Type</Label>
-                <ComboBox ItemsSource="{Binding EventTypes}" SelectedValue="{Binding EditEvent.Type}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Status</Label>
-                <ComboBox ItemsSource="{Binding EventStatuses}" SelectedValue="{Binding EditEvent.Status}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">Start</Label>
-                <xctk:DateTimePicker ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" FormatString="dd/MM/yyyy hh:mm" Value="{Binding EditEvent.Start}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Width="75">End</Label>
-                <xctk:DateTimePicker ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" Value="{Binding EditEvent.End}"/>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVis}}">
-            <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="Check" Foreground="Green"/>
-            </Button>
-            <Button Command="{Binding CancelCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="Remove" Margin="10,0,0,0" Foreground="DarkRed" />
-            </Button>
-            <Button Command="{Binding KeyboardCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="KeyboardOutline" Margin="10,0,0,0" Foreground="DodgerBlue" />
-            </Button>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsNotInEditMode, Converter={StaticResource BoolToVis}}">
-            <Button Command="{Binding EnableEditModeCommand}" Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="Edit"/>
-            </Button>
-        </StackPanel>
+        </Viewbox>
     </Grid>
 </UserControl>

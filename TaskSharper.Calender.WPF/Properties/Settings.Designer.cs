@@ -40,5 +40,41 @@ namespace TaskSharper.Calender.WPF.Properties {
                 return ((double)(this["CalendarStructure_Height_1200"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#5ca2e8")]
+        public string PrimaryColor {
+            get {
+                return ((string)(this["PrimaryColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        public int Header1Size {
+            get {
+                return ((int)(this["Header1Size"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public double NotSelectedOpacity {
+            get {
+                return ((double)(this["NotSelectedOpacity"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double SelectedOpacity {
+            get {
+                return ((double)(this["SelectedOpacity"]));
+            }
+        }
     }
 }

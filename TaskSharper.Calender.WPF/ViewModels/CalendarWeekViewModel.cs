@@ -11,7 +11,7 @@ using TaskSharper.Domain.BusinessLayer;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
-    public class CalendarWeekViewModel : BindableBase 
+    public class CalendarWeekViewModel : BindableBase, INavigationAware
     {
         private const int DaysInWeek = 7;
 
@@ -85,5 +85,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         #endregion
 
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            foreach (var calendarEventsViewModel in EventContainers)
+            {
+                calendarEventsViewModel.UpdateView();
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
     }
 }
