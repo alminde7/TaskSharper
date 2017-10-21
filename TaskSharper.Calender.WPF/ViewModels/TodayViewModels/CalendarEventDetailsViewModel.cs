@@ -219,7 +219,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
             else
             {
-                SelectedEvent = await _dataService.Update(EditEvent);
+                SelectedEvent = await _dataService.UpdateAsync(EditEvent);
                 _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
             }
             
@@ -235,7 +235,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             var id = navigationContext.Parameters["id"].ToString();
 
-            SelectedEvent = await _dataService.Get(id);
+            SelectedEvent = await _dataService.GetAsync(id);
             EditEvent = CopySelectedEvent();
             SetType(EditEvent.Type);
             SetStatus(EditEvent.Status);

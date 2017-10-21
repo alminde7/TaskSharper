@@ -131,7 +131,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             if (Date.Date == obj.Start.Value.Date)
             {
-                await _dataService.Update(obj);
+                await _dataService.UpdateAsync(obj);
                 UpdateView();
             }
         }
@@ -188,7 +188,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var calendarEvents = await _dataService.Get(Date.Date);
+                var calendarEvents = await _dataService.GetAsync(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {

@@ -103,7 +103,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 
             try
             {
-                var calendarEvents = await EventManager.Get(Date);
+                var calendarEvents = await EventManager.GetAsync(Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {
