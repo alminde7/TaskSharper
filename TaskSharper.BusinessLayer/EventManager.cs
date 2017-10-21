@@ -267,5 +267,18 @@ namespace TaskSharper.BusinessLayer
                 Logger.Error(e, "Could not fetch data from Google Calendar");
             }
         }
+
+        public async Task DeleteEventAsync(string id)
+        {
+            await CalendarService.DeleteEventAsync(id, Constants.DefaultGoogleCalendarId);
+            Cache.RemoveEvent(id);
+        }
+
+        public async Task<Event> CreateEventAsync(Event newEvent)
+        {
+            var createdEvent = await CalendarService.InsertEventAsync(newEvent, Constants.DefaultGoogleCalendarId);
+            Cache.AddOrUpdateEvent(createdEvent);
+            return createdEvent;
+        }
     }
 }

@@ -101,15 +101,17 @@ namespace TaskSharper.CacheStore
 
         public IList<Event> GetEvents(DateTime start, DateTime end)
         {
+           
+            var eventsDictionaries = Events.Where(x => x.Key >= start.StartOfDay() && x.Key <= end.StartOfDay()).Select(x => x.Value).ToList();
+            if (eventsDictionaries.Count == 0) return null;
+
             List<Event> events = new List<Event>();
-            var eventsDictionaries = Events.Where(x => x.Key >= start.StartOfDay() && x.Key <= end.StartOfDay()).Select(x => x.Value);
-            
             foreach (var calEvent in eventsDictionaries)
             {
                 if (calEvent.Values.Any(x => x.ForceUpdate || DataTooOld(x.Updated))) return null;
                 events.AddRange(calEvent.Values.Select(x => x.Event).ToList());
             }
-
+            
             return events;
         }
 
@@ -175,6 +177,21 @@ namespace TaskSharper.CacheStore
             } // removes event if exist
             
             Events[date].AddOrUpdate(calendarEvent.Id, new CacheData(calendarEvent, DateTime.Now, false));
+        }
+
+        public void RemoveEvent(string id)
+        {
+            foreach (var @event in Events)
+            {
+                foreach (var calEvent in @event.Value)
+                {
+                    if (calEvent.Key == id)
+                    {
+                        Events[@event.Key].Remove(calEvent.Key);
+                        break;
+                    }
+                }
+            } // removes event if exist
         }
 
         private void InitializeEventsDictionary(DateTime start, DateTime? end)

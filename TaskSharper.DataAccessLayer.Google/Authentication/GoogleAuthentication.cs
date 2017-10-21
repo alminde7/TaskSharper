@@ -28,8 +28,7 @@ namespace TaskSharper.DataAccessLayer.Google.Authentication
 
             using (var stream = new FileStream(Path.Combine(pathToSecret), FileMode.Open, FileAccess.Read))
             {
-                string credPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-                credPath = Path.Combine(Config.TaskSharperCredentialStore, "calendar.json");
+                var credPath = Path.Combine(Config.TaskSharperCredentialStore, "calendar.json");
 
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,

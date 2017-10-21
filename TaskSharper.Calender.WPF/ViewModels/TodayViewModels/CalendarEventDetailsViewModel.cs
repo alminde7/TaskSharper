@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -15,7 +9,6 @@ using Prism.Regions;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.Properties;
-using TaskSharper.DataAccessLayer.Google;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 
@@ -33,8 +26,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand SetStatusAsConfirmedCommand { get; set; }
 
         private readonly IRegionManager _regionManager;
-        private IEventAggregator _eventAggregator;
-        private readonly IEventManager _calendarService;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IEventRestClient _dataService;
 
         private Process _touchKeyboardProcess;
         private string touchKeyboardPath = @"C:\Program Files\Common Files\Microsoft Shared\Ink\TabTip.exe";
@@ -42,8 +35,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private Event _selectedEvent;
         private Event _editEvent;
         private bool _isNotInEditMode = true;
-        private IEnumerable<Event.EventType> _eventTypes;
-        private IEnumerable<Event.EventStatus> _eventStatuses;
+        private IEnumerable<EventType> _eventTypes;
+        private IEnumerable<EventStatus> _eventStatuses;
         private double _taskOpacity = Settings.Default.NotSelectedOpacity;
         private double _appointmentOpacity = Settings.Default.NotSelectedOpacity;
         private double _confirmedOpacity = Settings.Default.NotSelectedOpacity;
@@ -81,13 +74,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _isNotInEditMode, value);
         }
 
-        public IEnumerable<Event.EventType> EventTypes
+        public IEnumerable<EventType> EventTypes
         {
             get => _eventTypes;
             set => SetProperty(ref _eventTypes, value);
         }
 
-        public IEnumerable<Event.EventStatus> EventStatuses
+        public IEnumerable<EventStatus> EventStatuses
         {
             get => _eventStatuses;
             set => SetProperty(ref _eventStatuses, value);
@@ -131,75 +124,75 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void SetTypeAsTask()
         {
-            SetType(Event.EventType.Task);
+            SetType(EventType.Task);
         }
 
         public void SetTypeAsAppointment()
         {
-            SetType(Event.EventType.Appointment);
+            SetType(EventType.Appointment);
         }
 
-        public void SetType(Event.EventType type)
+        public void SetType(EventType type)
         {
             TaskOpacity = Settings.Default.NotSelectedOpacity;
             AppointmentOpacity = Settings.Default.NotSelectedOpacity;
             switch (type)
             {
-                case Event.EventType.Task:
-                    EditEvent.Type = Event.EventType.Task;
+                case EventType.Task:
+                    EditEvent.Type = EventType.Task;
                     TaskOpacity = Settings.Default.SelectedOpacity;
                     break;
-                case Event.EventType.Appointment:
-                    EditEvent.Type = Event.EventType.Appointment;
+                case EventType.Appointment:
+                    EditEvent.Type = EventType.Appointment;
                     AppointmentOpacity = Settings.Default.SelectedOpacity;
                     break;
-                case Event.EventType.None:
+                case EventType.None:
                     break;
                 default:
                     break;
             }
         }
 
-        public void SetStatus(Event.EventStatus status)
+        public void SetStatus(EventStatus status)
         {
             ConfirmedOpacity = Settings.Default.NotSelectedOpacity;
             TentativeOpacity = Settings.Default.NotSelectedOpacity;
             switch (status)
             {
-                case Event.EventStatus.Confirmed:
-                    EditEvent.Status = Event.EventStatus.Confirmed;
+                case EventStatus.Confirmed:
+                    EditEvent.Status = EventStatus.Confirmed;
                     ConfirmedOpacity = Settings.Default.SelectedOpacity;
                     break;
-                case Event.EventStatus.Tentative:
-                    EditEvent.Status = Event.EventStatus.Tentative;
+                case EventStatus.Tentative:
+                    EditEvent.Status = EventStatus.Tentative;
                     TentativeOpacity = Settings.Default.SelectedOpacity;
                     break;
-                case Event.EventStatus.Cancelled:
+                case EventStatus.Cancelled:
                     break;
-                case Event.EventStatus.Completed:
+                case EventStatus.Completed:
                     break;
                 default:
                     break;
             }
         }
 
-        public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventManager calendarService, IEventAggregator eventAggregator)
+        public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventRestClient dataService, IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
-            _calendarService = calendarService;
+            _dataService = dataService;
             _eventAggregator = eventAggregator;
 
             BackCommand = new DelegateCommand(Back);
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
             KeyboardCommand = new DelegateCommand(ToggleKeyboard);
-            SetTypeAsTaskCommand = new DelegateCommand(() => SetType(Event.EventType.Task));
-            SetTypeAsAppointmentCommand = new DelegateCommand(() => SetType(Event.EventType.Appointment));
-            SetStatusAsConfirmedCommand = new DelegateCommand(() => SetStatus(Event.EventStatus.Confirmed));
-            SetStatusAsTentativeCommand = new DelegateCommand(() => SetStatus(Event.EventStatus.Tentative));
+            SetTypeAsTaskCommand = new DelegateCommand(() => SetType(EventType.Task));
+            SetTypeAsAppointmentCommand = new DelegateCommand(() => SetType(EventType.Appointment));
+            SetStatusAsConfirmedCommand = new DelegateCommand(() => SetStatus(EventStatus.Confirmed));
+            SetStatusAsTentativeCommand = new DelegateCommand(() => SetStatus(EventStatus.Tentative));
 
-            EventTypes = Enum.GetValues(typeof(Event.EventType)).Cast<Event.EventType>();
-            EventStatuses = Enum.GetValues(typeof(Event.EventStatus)).Cast<Event.EventStatus>().Except(new List<Event.EventStatus>{ Event.EventStatus.Cancelled });
+            EventTypes = Enum.GetValues(typeof(EventType)).Cast<EventType>();
+            EventStatuses = Enum.GetValues(typeof(EventStatus)).Cast<EventStatus>().Except(new List<EventStatus>{ EventStatus.Cancelled });
 
             _eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(CultureChanged);
         }
@@ -215,7 +208,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             TouchKeyboardProcess = TouchKeyboardProcess.HasExited || TouchKeyboardProcess == null ? Process.Start(touchKeyboardPath) : null;
         }
 
-        private void SaveEvent()
+        private async void SaveEvent()
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
 
@@ -226,7 +219,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
             else
             {
-                SelectedEvent = _calendarService.UpdateEvent(EditEvent);
+                SelectedEvent = await _dataService.Update(EditEvent);
                 _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
             }
             
@@ -238,11 +231,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             var id = navigationContext.Parameters["id"].ToString();
 
-            SelectedEvent = _calendarService.GetEvent(id);
+            SelectedEvent = await _dataService.Get(id);
             EditEvent = CopySelectedEvent();
             SetType(EditEvent.Type);
             SetStatus(EditEvent.Status);

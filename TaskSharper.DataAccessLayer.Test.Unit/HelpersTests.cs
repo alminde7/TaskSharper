@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Google.Apis.Calendar.v3.Data;
 using GoogleEvent = Google.Apis.Calendar.v3.Data.Event;
 using TaskSharper.DataAccessLayer.Google.Calendar.Helpers;
+using TaskSharper.Domain.Calendar;
 using Event = TaskSharper.Domain.Calendar.Event;
 
 namespace TaskSharper.DataAccessLayer.Test.Unit
@@ -42,7 +43,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
 
-            Assert.That(parsed.Type, Is.EqualTo(Event.EventType.Task));
+            Assert.That(parsed.Type, Is.EqualTo(EventType.Task));
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
 
-            Assert.That(parsed.Type, Is.EqualTo(Event.EventType.Appointment));
+            Assert.That(parsed.Type, Is.EqualTo(EventType.Appointment));
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var parsed = Helpers.GoogleEventParser(new GoogleEvent());
 
-            Assert.That(parsed.Type, Is.EqualTo(Event.EventType.None));
+            Assert.That(parsed.Type, Is.EqualTo(EventType.None));
         }
 
         [Test]
@@ -89,7 +90,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
 
-            Assert.That(parsed.Type, Is.EqualTo(Event.EventType.None));
+            Assert.That(parsed.Type, Is.EqualTo(EventType.None));
         }
 
         [Test]
@@ -149,7 +150,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var parsed = Helpers.GoogleEventParser(googleEvents);
 
-            Assert.That(parsed.First().Type, Is.EqualTo(Event.EventType.Task));
+            Assert.That(parsed.First().Type, Is.EqualTo(EventType.Task));
         }
 
         [Test]
@@ -171,7 +172,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var parsed = Helpers.GoogleEventParser(googleEvents);
 
-            Assert.That(parsed.First().Type, Is.EqualTo(Event.EventType.Appointment));
+            Assert.That(parsed.First().Type, Is.EqualTo(EventType.Appointment));
         }
 
         [Test]
@@ -179,7 +180,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var parsed = Helpers.GoogleEventParser(new List<GoogleEvent>(){new GoogleEvent()});
 
-            Assert.That(parsed.First().Type, Is.EqualTo(Event.EventType.None));
+            Assert.That(parsed.First().Type, Is.EqualTo(EventType.None));
         }
 
         [Test]
@@ -201,7 +202,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var parsed = Helpers.GoogleEventParser(googleEvents);
 
-            Assert.That(parsed.First().Type, Is.EqualTo(Event.EventType.None));
+            Assert.That(parsed.First().Type, Is.EqualTo(EventType.None));
         }
 
         [Test]
@@ -253,7 +254,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var calendarEvent = new Event
             {
-                Type = Event.EventType.Task
+                Type = EventType.Task
             };
 
             var parsed = Helpers.GoogleEventParser(calendarEvent);
@@ -266,7 +267,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var calendarEvent = new Event
             {
-                Type = Event.EventType.Appointment
+                Type = EventType.Appointment
             };
 
             var parsed = Helpers.GoogleEventParser(calendarEvent);
@@ -326,7 +327,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             {
                 new Event
                 {
-                    Type = Event.EventType.Task
+                    Type = EventType.Task
                 }
             };
 
@@ -342,7 +343,7 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             {
                 new Event
                 {
-                    Type = Event.EventType.Appointment
+                    Type = EventType.Appointment
                 }
             };
 

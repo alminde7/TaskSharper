@@ -9,16 +9,17 @@ using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
 using TaskSharper.Domain.BusinessLayer;
+using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarMonthViewModel : BindableBase
     {
         private const int DaysInWeek = 7;
-        private DateTime PreviousMonday;
+        private DateTime _previousMonday;
         private string _currentMonthAndYear;
         private DateTime _currentDate;
-        private readonly IEventManager _eventManager;
+        private readonly IEventRestClient _dataService;
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
@@ -42,10 +43,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _currentMonthAndYear, value);
         }
 
-        public CalendarMonthViewModel(IEventManager eventManager, IEventAggregator eventAggregator, ILogger logger, IRegionManager regionManager)
+        public CalendarMonthViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, ILogger logger, IRegionManager regionManager)
         {
             // Initialize objects
-            _eventManager = eventManager;
+            _dataService = dataService;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _logger = logger.ForContext<CalendarMonthViewModel>();
@@ -113,14 +114,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             for (int i =  0; i < 35; i++)
             {
-                var prevMonday = PreviousMonday.AddDays(i);
+                var prevMonday = _previousMonday.AddDays(i);
 
                 if (i % 7 == 0)
                 {
                     WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
                 }
 
-                DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventManager, CalendarTypeEnum.Month, _logger, _regionManager));
+                DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _dataService, CalendarTypeEnum.Month, _logger, _regionManager));
             }
         }
 
@@ -128,7 +129,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             if(firstDayOfMonth.DayOfWeek == DayOfWeek.Monday)
             {
-                PreviousMonday = firstDayOfMonth;
+                _previousMonday = firstDayOfMonth;
                 return;
             }
             FindPreviousMonday(firstDayOfMonth.AddDays(-1));
@@ -151,7 +152,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             int weekCount = 0;
             for (int i = 0; i < 35; i++)
             {
-                var prevMonday = PreviousMonday.AddDays(i);
+                var prevMonday = _previousMonday.AddDays(i);
 
                 if (i % 7 == 0)
                     WeekNumbers[weekCount++].SetDate(prevMonday);

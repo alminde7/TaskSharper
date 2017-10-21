@@ -9,27 +9,6 @@ namespace TaskSharper.Domain.Calendar
     public class Event
     {
         /// <summary>
-        /// Possible types an event can be.
-        /// </summary>
-        public enum EventType
-        {
-            None,
-            Appointment,
-            Task
-        }
-
-        /// <summary>
-        /// Possible statuses that can be assigned to an event.
-        /// </summary>
-        public enum EventStatus
-        {
-            Confirmed,
-            Tentative,
-            Cancelled,
-            Completed
-        }
-
-        /// <summary>
         /// Identifier of the event.
         /// </summary>
         public string Id { get; set; }

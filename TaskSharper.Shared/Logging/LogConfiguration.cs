@@ -30,6 +30,8 @@ namespace TaskSharper.Shared.Logging
                 logger.AddElasticsearch(_elasticSearchUrl);
             }
 
+            logger.AddCorrelationId();
+
             return logger.CreateLogger();
         }
     }

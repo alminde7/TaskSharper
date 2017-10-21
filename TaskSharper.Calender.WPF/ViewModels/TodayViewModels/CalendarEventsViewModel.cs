@@ -22,7 +22,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
-        private readonly IEventManager _evenrManager;
+        private readonly IEventRestClient _dataService;
         private CalendarEventsCurrentTimeLine _timeLine;
         private DateTime _date;
 
@@ -46,13 +46,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _timeLine, value);
         }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventRestClient dataService, CalendarTypeEnum dateType, ILogger logger)
         {
             // Initialze object
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
-            _evenrManager = eventManager;
+            _dataService = dataService;
             _logger = logger.ForContext<CalendarEventsViewModel>();
 
             // Initialize containers
@@ -127,11 +127,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-        private void EventChangedEventHandler(Event obj)
+        private async void EventChangedEventHandler(Event obj)
         {
             if (Date.Date == obj.Start.Value.Date)
             {
-                _evenrManager.UpdateEvent(obj);
+                await _dataService.Update(obj);
                 UpdateView();
             }
         }
@@ -188,7 +188,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var calendarEvents = await _evenrManager.GetEventsAsync(Date.Date);
+                var calendarEvents = await _dataService.Get(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {

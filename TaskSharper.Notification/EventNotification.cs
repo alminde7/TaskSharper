@@ -15,7 +15,7 @@ namespace TaskSharper.Notification
         public IEnumerable<int> NotificationOffsets { get; set; }
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
-        public EventNotification(IEnumerable<int> notificationOffsets, Action<Event> notificationCallback)
+        public EventNotification(IEnumerable<int> notificationOffsets, Action<Event> notificationCallback = null)
         {
             EventNotifications = new ConcurrentDictionary<string, IList<NotificationObject>>();
 
@@ -25,7 +25,7 @@ namespace TaskSharper.Notification
 
         public void Attach(Event calEvent)
         {
-            if (calEvent.Status == Event.EventStatus.Completed ||  calEvent.Status == Event.EventStatus.Cancelled) return;
+            if (calEvent.Status == EventStatus.Completed ||  calEvent.Status == EventStatus.Cancelled) return;
 
             var notificationList = new List<NotificationObject>();
             
@@ -34,6 +34,7 @@ namespace TaskSharper.Notification
                 foreach (var notificationOffset in NotificationOffsets)
                 {
                     if (calEvent.Start.Value + TimeSpan.FromMinutes(notificationOffset) < DateTime.Now) continue; // Notification time is in the past - no reason to add notification
+                    if (calEvent.Start.Value > DateTime.Now.AddDays(20)) continue; // later than 20 days in future is not allowed.
 
                     var obj = CreateNotification(calEvent, calEvent.Start.Value.AddMinutes(notificationOffset));
                     notificationList.Add(obj);
@@ -51,7 +52,7 @@ namespace TaskSharper.Notification
         {
             foreach (var calEvent in calEvents)
             {
-                if (calEvent.Status == Event.EventStatus.Completed || calEvent.Status == Event.EventStatus.Cancelled) continue;
+                if (calEvent.Status == EventStatus.Completed || calEvent.Status == EventStatus.Cancelled) continue;
 
                 var notificationList = new List<NotificationObject>();
 
@@ -98,19 +99,27 @@ namespace TaskSharper.Notification
             var notObj = new NotificationObject();
             var data = CalculateTimeToFire(notificationTime); // Calculate in milliseconds the time to fire the notification
 
-            // Initialize timer
-            //var timer = new Timer();
-            //timer.Interval = data;
-            //timer.AutoReset = false;
-            //timer.Elapsed += (sender, args) =>
-            //{
-            //    Callback(calEvent);
-            //    timer.Close();
-            //    notObj.HasFired = true;
-            //};
-            //timer.Start();
+            if (Callback != null)
+            {
+                // Initialize timer
+                var timer = new Timer();
+                timer.Interval = data;
+                timer.AutoReset = false;
+                timer.Elapsed += (sender, args) =>
+                {
+                    Callback(calEvent);
+                    timer.Close();
+                    notObj.HasFired = true;
+                };
+                timer.Start();
 
-            return notObj;
+                return notObj;
+            }
+            else
+            {
+                throw new ArgumentNullException($"There is no Callback provided");
+            }
+
         }
         
         private double CalculateTimeToFire(DateTime notificationTime)
