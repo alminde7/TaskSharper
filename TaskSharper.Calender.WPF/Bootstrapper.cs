@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
@@ -11,6 +12,9 @@ using TaskSharper.Calender.WPF.Views;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
 using TaskSharper.Calender.WPF.Config;
+using TaskSharper.Domain.Notification;
+using TaskSharper.Service.NotificationClient;
+using TaskSharper.Service.NotificationClient.HubConnectionClient;
 using TaskSharper.Service.RestClient;
 using TaskSharper.Service.RestClient.Factories;
 
@@ -32,27 +36,47 @@ namespace TaskSharper.Calender.WPF
             // Set default Calendar on start.
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarWeek);
+
+            var service = Container.Resolve<Service>();
+            service.StartContinousService().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    // shit went wrong
+                }
+                else
+                {
+                    // shit went good
+                }
+            });
         }
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
 
+            // Register views
             Container.RegisterTypeForNavigation<CalendarDayView>(ViewConstants.VIEW_CalendarDay);
             Container.RegisterTypeForNavigation<CalendarWeekView>(ViewConstants.VIEW_CalendarWeek);
             Container.RegisterTypeForNavigation<CalendarMonthView>(ViewConstants.VIEW_CalendarMonth);
             Container.RegisterTypeForNavigation<CalendarEventDetailsView>(ViewConstants.VIEW_CalendarEventDetails);
 
-            // Create logger
+            // Register other dependencies
             var logger = LogConfiguration.Configure();
             _logger = logger;
             
+            // Singletons
             Container.RegisterInstance(typeof(ILogger), logger);
+            Container.RegisterInstance(typeof(IRestClient), new RestClient());
 
-            //Create restsclientobject
-            var restClient = new RestClient();
-            Container.RegisterInstance(typeof(IRestClient), restClient);
+            // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
             Container.RegisterType<IEventRestClient, EventRestClient>();
+
+            var hubConnectionClient = new HubConnectionClient("http://localhost:8000");
+            Container.RegisterInstance(typeof(IHubConnectionClient), hubConnectionClient);
+            Container.RegisterType<INotificationClient, NotificationClient>();
+
+            Container.RegisterInstance(typeof(Service));
         }
 
         protected override ILoggerFacade CreateLogger()

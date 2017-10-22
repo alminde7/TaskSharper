@@ -213,6 +213,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Service.cs" />
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="Events\Resources\EventResources.cs" />
@@ -396,6 +397,10 @@
     <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
       <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
       <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Service.NotificationClient\TaskSharper.Service.NotificationClient.csproj">
+      <Project>{fcf63ae8-6cb5-4d69-b076-8bf95ff50f19}</Project>
+      <Name>TaskSharper.Service.NotificationClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaskSharper.Service.RestClient\TaskSharper.Service.RestClient.csproj">
       <Project>{f611b989-0c55-4170-b520-4ea7392bd53d}</Project>

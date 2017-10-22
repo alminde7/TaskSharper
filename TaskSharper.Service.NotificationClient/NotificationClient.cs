@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Notification;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
 
 namespace TaskSharper.Service.NotificationClient
 {
-    public class NotificationClient : IDisposable
+    public class NotificationClient : IDisposable, INotificationClient
     {
-        private const string HubName = "Notification";
+        private const string HubName = "NotificationHub";
         private const string EventName = "EventNotification";
 
         private readonly IHubProxy _notificationHub;
@@ -21,7 +23,7 @@ namespace TaskSharper.Service.NotificationClient
             _notificationHub = _connection.CreateHubProxy(HubName);
         }
 
-        public async void Connect()
+        public async Task Connect()
         {
             await _connection.Start().ContinueWith(task =>
             {
