@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HubConnectionClient\HubConnectionClient.cs" />
+    <Compile Include="HubConnectionClient\IHubConnectionClient.cs" />
     <Compile Include="NotificationClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

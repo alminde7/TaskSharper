@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
-using Microsoft.AspNet.SignalR.Client.Hubs;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Service.NotificationClient.HubConnectionClient;
 
 namespace TaskSharper.Service.NotificationClient
 {
     public class NotificationClient : IDisposable
     {
+        private const string HubName = "Notification";
+        private const string EventName = "EventNotification";
+
         private readonly IHubProxy _notificationHub;
         private readonly IHubConnectionClient _connection;
 
@@ -16,7 +18,7 @@ namespace TaskSharper.Service.NotificationClient
         public NotificationClient(IHubConnectionClient connection)
         {
             this._connection = connection;
-            _notificationHub = _connection.CreateHubProxy("Notification");
+            _notificationHub = _connection.CreateHubProxy(HubName);
         }
 
         public async void Connect()
@@ -42,44 +44,12 @@ namespace TaskSharper.Service.NotificationClient
                 throw new Exception("There is no connection to the notification server");
             }
             
-            _notificationHub.On<Event>("EventNotification", callback);
+            _notificationHub.On<Event>(EventName, callback);
         }
 
         public void Dispose()
         {
             _connection.Stop();
         }
-    }
-
-    public class HubConnectionClient : IHubConnectionClient
-    {
-        private readonly HubConnection _connection;
-
-        public HubConnectionClient(string url)
-        {
-            _connection = new HubConnection(url);
-        }
-
-        public Task Start()
-        {
-            return _connection.Start();
-        }
-
-        public IHubProxy CreateHubProxy(string hubName)
-        {
-            return _connection.CreateHubProxy(hubName);
-        }
-
-        public void Stop()
-        {
-            _connection.Stop();
-        }
-    }
-
-    public interface IHubConnectionClient
-    {
-        Task Start();
-        IHubProxy CreateHubProxy(string hubName);
-        void Stop();
     }
 }
