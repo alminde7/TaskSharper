@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
+using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
+using TaskSharper.Service.NotificationClient.Exceptions;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
 
 namespace TaskSharper.Service.NotificationClient
@@ -30,7 +32,7 @@ namespace TaskSharper.Service.NotificationClient
                 if (task.IsFaulted) // Could not connect
                 {
                     IsConnected = false;
-                    throw new Exception("Could not connect to hub");
+                    throw new ConnectionException($"Faild to connect to hub {HubName} on server {_connection.Url}");
                 }
                 else // connection succesfully
                 {
@@ -43,7 +45,7 @@ namespace TaskSharper.Service.NotificationClient
         {
             if (!IsConnected)
             {
-                throw new Exception("There is no connection to the notification server");
+                throw new ConnectionException($"There is no connection to hub {HubName} on server {_connection.Url}");
             }
             
             _notificationHub.On<Event>(EventName, callback);

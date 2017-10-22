@@ -162,6 +162,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\LogAttribute.cs" />
     <Compile Include="Config\SwaggerConfig.cs" />
     <Compile Include="Config\UnityConfig.cs" />
     <Compile Include="Config\WebApiConfig.cs" />

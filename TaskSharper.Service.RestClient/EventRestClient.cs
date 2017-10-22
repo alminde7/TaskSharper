@@ -8,6 +8,7 @@ using RestSharp;
 using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.RestDTO;
+using TaskSharper.Service.RestClient.Extensions;
 using TaskSharper.Service.RestClient.Factories;
 using TaskSharper.Shared.Extensions;
 
@@ -31,13 +32,10 @@ namespace TaskSharper.Service.RestClient
         
         public async Task<Event> GetAsync(string id)
         {
-            // Setup request
             var request = _requestFactory.Create($"{Controller}/{id}", Method.GET);
             
-            // Call API
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
-
-            // return result
+            
             return CreateResponse(result);
         }
 
@@ -50,7 +48,7 @@ namespace TaskSharper.Service.RestClient
             request.AddQueryParameter("from", requestDateStart.ToString(CultureInfo.InvariantCulture));
             request.AddQueryParameter("to", requestDateEnd.ToString(CultureInfo.InvariantCulture));
 
-            var result = await _restClient.ExecuteTaskAsync<List<Event>>(request);
+            var result = await _restClient.ExecuteTaskAsync<List<Event>>(request, _logger);
 
             return CreateResponse(result);
         }

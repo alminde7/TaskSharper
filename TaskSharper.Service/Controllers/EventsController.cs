@@ -22,6 +22,7 @@ namespace TaskSharper.Service.Controllers
             _logger = logger;
         }
         
+        [Attributes.Log]
         [HttpGet]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Get(string id)
@@ -41,7 +42,7 @@ namespace TaskSharper.Service.Controllers
             }
         }
 
-
+        [Attributes.Log]
         [HttpGet]
         [ResponseType(typeof(IEnumerable<Event>))]
         public async Task<IHttpActionResult> Get(DateTime from, DateTime to)
@@ -62,6 +63,7 @@ namespace TaskSharper.Service.Controllers
             }
         }
 
+        [Attributes.Log]
         [HttpPost]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Post(EventDto calEvent)
@@ -94,6 +96,7 @@ namespace TaskSharper.Service.Controllers
             }
         }
 
+        [Attributes.Log]
         [HttpPut]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Put(Event calEvent)
@@ -112,6 +115,7 @@ namespace TaskSharper.Service.Controllers
 
         }
 
+        [Attributes.Log]
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(string id)
         {

@@ -7,9 +7,12 @@ namespace TaskSharper.Service.NotificationClient.HubConnectionClient
     {
         private readonly HubConnection _connection;
 
+        public string Url { get; }
+
         public HubConnectionProxy(string url)
         {
             _connection = new HubConnection(url);
+            Url = url;
         }
 
         public Task Start()

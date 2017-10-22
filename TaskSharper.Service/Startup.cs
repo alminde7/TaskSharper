@@ -21,25 +21,14 @@ namespace TaskSharper.Service
             // TODO:: Restrict access
             app.UseCors(CorsOptions.AllowAll);
 
+            // https://docs.microsoft.com/en-us/aspnet/signalr/overview/advanced/dependency-injection
             var not = UnityConfig.GetContainer().Resolve<INotification>();
             var logger = UnityConfig.GetContainer().Resolve<ILogger>();
             GlobalHost.DependencyResolver.Register(typeof(NotificationHub), () => new NotificationHub(not, logger));
 
-            //app.UseJwtSignalRAuthentication(authQueryKey: "authtoken");
+            // This is to enable logging from LogAttribute. The logger cannot be dependencyinjected
+            Log.Logger = logger;
 
-            //app.UseJwtBearerAuthentication(
-            //    new JwtBearerAuthenticationOptions
-            //    {
-            //        AuthenticationMode = AuthenticationMode.Active,
-            //        AllowedAudiences = new[] { AppConfig.ClientId },
-            //        IssuerSecurityTokenProviders = new IIssuerSecurityTokenProvider[]
-            //        {
-            //            new SymmetricKeyIssuerSecurityTokenProvider(AppConfig.AuthenticationIssuer,
-            //                TextEncodings.Base64Url.Decode(AppConfig.ClientSecret))
-            //        }
-            //    });
-
-            
             app.MapSignalR();
 
             SwaggerConfig.Configure(http);
