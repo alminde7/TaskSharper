@@ -3,7 +3,7 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace TaskSharper.Service.NotificationClient.HubConnectionClient
 {
-    public interface IHubConnectionClient
+    public interface IHubConnectionProxy
     {
         Task Start();
         IHubProxy CreateHubProxy(string hubName);

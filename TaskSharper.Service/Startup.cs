@@ -5,6 +5,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Cors;
 using Microsoft.Practices.Unity;
 using Owin;
+using Serilog;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Service.Config;
 using TaskSharper.Service.Hubs;
@@ -21,7 +22,8 @@ namespace TaskSharper.Service
             app.UseCors(CorsOptions.AllowAll);
 
             var not = UnityConfig.GetContainer().Resolve<INotification>();
-            GlobalHost.DependencyResolver.Register(typeof(NotificationHub), () => new NotificationHub(not));
+            var logger = UnityConfig.GetContainer().Resolve<ILogger>();
+            GlobalHost.DependencyResolver.Register(typeof(NotificationHub), () => new NotificationHub(not, logger));
 
             //app.UseJwtSignalRAuthentication(authQueryKey: "authtoken");
 
@@ -37,8 +39,7 @@ namespace TaskSharper.Service
             //        }
             //    });
 
-
-
+            
             app.MapSignalR();
 
             SwaggerConfig.Configure(http);

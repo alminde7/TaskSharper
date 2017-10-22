@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
@@ -72,8 +70,8 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
             Container.RegisterType<IEventRestClient, EventRestClient>();
 
-            var hubConnectionClient = new HubConnectionClient("http://localhost:8000");
-            Container.RegisterInstance(typeof(IHubConnectionClient), hubConnectionClient);
+            var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");
+            Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
             Container.RegisterType<INotificationClient, NotificationClient>();
 
             Container.RegisterInstance(typeof(Service));
@@ -82,12 +80,6 @@ namespace TaskSharper.Calender.WPF
         protected override ILoggerFacade CreateLogger()
         {
             return new SerilogLogger();
-        }
-
-        // TODO:: Implement correct event handling
-        public void TempNotificationHandler(Event calEvent)
-        {
-            _logger?.ForContext("Notification", typeof(Bootstrapper)).Information("TEMP_Notification for event with id: {EventId}", calEvent.Id);
         }
     }
 

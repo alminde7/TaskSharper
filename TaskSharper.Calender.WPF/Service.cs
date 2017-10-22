@@ -37,6 +37,7 @@ namespace TaskSharper.Calender.WPF
             catch (Exception e)
             {
                 _notificationClient.Dispose();
+                // TODO:: Implement proper error handling
                 throw;
             }
         }

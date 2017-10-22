@@ -13,11 +13,11 @@ namespace TaskSharper.Service.NotificationClient
         private const string EventName = "EventNotification";
 
         private readonly IHubProxy _notificationHub;
-        private readonly IHubConnectionClient _connection;
+        private readonly IHubConnectionProxy _connection;
 
         public bool IsConnected { get; private set; }
 
-        public NotificationClient(IHubConnectionClient connection)
+        public NotificationClient(IHubConnectionProxy connection)
         {
             this._connection = connection;
             _notificationHub = _connection.CreateHubProxy(HubName);

@@ -46,14 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HubConnectionClient\HubConnectionClient.cs" />
-    <Compile Include="HubConnectionClient\IHubConnectionClient.cs" />
+    <Compile Include="HubConnectionClient\HubConnectionProxy.cs" />
+    <Compile Include="HubConnectionClient\IHubConnectionProxy.cs" />
     <Compile Include="NotificationClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">

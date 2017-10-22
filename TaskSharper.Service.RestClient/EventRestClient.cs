@@ -18,21 +18,21 @@ namespace TaskSharper.Service.RestClient
         private readonly IRestClient _restClient;
         private readonly IRestRequestFactory _requestFactory;
         private readonly ILogger _logger;
-        private const string _baseUrl = "http://localhost:8000/api/";
-        private const string _controller = "events";
+        private const string BaseUrl = "http://localhost:8000/api/";
+        private const string Controller = "events";
 
         public EventRestClient(IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
         {
             _restClient = restClient;
             _requestFactory = requestFactory;
             _logger = logger.ForContext<EventRestClient>();
-            _restClient.BaseUrl = new Uri(_baseUrl);
+            _restClient.BaseUrl = new Uri(BaseUrl);
         }
         
         public async Task<Event> GetAsync(string id)
         {
             // Setup request
-            var request = _requestFactory.Create($"{_controller}/{id}", Method.GET);
+            var request = _requestFactory.Create($"{Controller}/{id}", Method.GET);
             
             // Call API
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
@@ -46,7 +46,7 @@ namespace TaskSharper.Service.RestClient
             var requestDateStart = date.StartOfDay();
             var requestDateEnd = date.EndOfDay();
 
-            var request = _requestFactory.Create(_controller, Method.GET);
+            var request = _requestFactory.Create(Controller, Method.GET);
             request.AddQueryParameter("from", requestDateStart.ToString(CultureInfo.InvariantCulture));
             request.AddQueryParameter("to", requestDateEnd.ToString(CultureInfo.InvariantCulture));
 
@@ -57,7 +57,7 @@ namespace TaskSharper.Service.RestClient
 
         public async Task<IEnumerable<Event>> GetAsync(DateTime from, DateTime to)
         {
-            var request = _requestFactory.Create(_controller, Method.GET);
+            var request = _requestFactory.Create(Controller, Method.GET);
             request.AddQueryParameter("from", from.ToString(CultureInfo.InvariantCulture));
             request.AddQueryParameter("to", to.ToString(CultureInfo.InvariantCulture));
 
@@ -78,7 +78,7 @@ namespace TaskSharper.Service.RestClient
                 End = newEvent.End.Value
             };
 
-            var request = _requestFactory.Create(_controller, Method.POST);
+            var request = _requestFactory.Create(Controller, Method.POST);
             request.AddBody(eventDto);
 
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
@@ -88,7 +88,7 @@ namespace TaskSharper.Service.RestClient
 
         public async Task<Event> UpdateAsync(Event updatedEvent)
         {
-            var request = _requestFactory.Create(_controller, Method.PUT);
+            var request = _requestFactory.Create(Controller, Method.PUT);
 
             request.AddBody(updatedEvent);
 
@@ -99,7 +99,7 @@ namespace TaskSharper.Service.RestClient
 
         public async Task DeleteAsync(string id)
         {
-            var request = _requestFactory.Create($"{_controller}/{id}", Method.DELETE);
+            var request = _requestFactory.Create($"{Controller}/{id}", Method.DELETE);
 
             var result = await _restClient.ExecuteTaskAsync(request);
 
