@@ -18,11 +18,11 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="{x:Type Label}" x:Key="DetailsLabelHeader">
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}"/>
             <Setter Property="Margin" Value="0,3,0,0"/>
         </Style>
         <Style TargetType="{x:Type Label}" x:Key="DetailsLabelContent">
-            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontSize" Value="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryFont1Size}" />
             <Setter Property="Margin" Value="0,3,0,0"/>
         </Style>
         <Style x:Key="TransparentBtnStyle" TargetType="{x:Type Button}">
@@ -64,7 +64,7 @@
 
             <StackPanel Orientation="Horizontal" >
                 <ScrollViewer PanningMode="VerticalOnly" 
-                              PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden">
+                              PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
                     <TextBox Width="500" Height="150" FontSize="18" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True" Text="{Binding SelectedEvent.Description}"  ></TextBox>
                 </ScrollViewer>
             </StackPanel>

@@ -24,5 +24,10 @@ namespace TaskSharper.Calender.WPF.Views
         {
             InitializeComponent();
         }
+
+        void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }
