@@ -9,6 +9,7 @@ using Serilog;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Service.Config;
 using TaskSharper.Service.Hubs;
+using TaskSharper.Service.Middleware;
 
 namespace TaskSharper.Service
 {
@@ -30,6 +31,8 @@ namespace TaskSharper.Service
             Log.Logger = logger;
 
             app.MapSignalR();
+
+            app.Use(typeof(CorrelationIdMiddleware));
 
             SwaggerConfig.Configure(http);
             WebApiConfig.Configure(app, http);

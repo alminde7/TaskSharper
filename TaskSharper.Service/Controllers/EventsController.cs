@@ -14,21 +14,20 @@ namespace TaskSharper.Service.Controllers
     public class EventsController : ApiController
     {
         private readonly IEventManager _eventManager;
-        private readonly ILogger _logger;
+        public ILogger Logger { get; set; }
 
         public EventsController(IEventManager eventManager, ILogger logger)
         {
             _eventManager = eventManager;
-            _logger = logger;
+            Logger = logger.ForContext<EventsController>();
         }
         
-        [Attributes.Log]
         [HttpGet]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Get(string id)
         {
             if (string.IsNullOrEmpty(id)) return Content(HttpStatusCode.BadRequest, "Invalid id");
-
+            
             try
             {
                 var calEvent = await _eventManager.GetEventAsync(id);
@@ -37,12 +36,11 @@ namespace TaskSharper.Service.Controllers
             catch (Exception e)
             {
                 var errmsg = $"Failed to retrieve events for id {id}";
-                _logger.Error(e, errmsg);
+                Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
         }
-
-        [Attributes.Log]
+        
         [HttpGet]
         [ResponseType(typeof(IEnumerable<Event>))]
         public async Task<IHttpActionResult> Get(DateTime from, DateTime to)
@@ -58,12 +56,11 @@ namespace TaskSharper.Service.Controllers
             catch (Exception e)
             {
                 var errmsg = $"Failed to retrieve events between dates {from} and {to}";
-                _logger.Error(e, errmsg);
+                Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
         }
-
-        [Attributes.Log]
+        
         [HttpPost]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Post(EventDto calEvent)
@@ -91,12 +88,11 @@ namespace TaskSharper.Service.Controllers
             catch (Exception e)
             {
                 var errmsg = $"Failed to create event";
-                _logger.Error(e, errmsg);
+                Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
         }
-
-        [Attributes.Log]
+        
         [HttpPut]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Put(Event calEvent)
@@ -109,13 +105,12 @@ namespace TaskSharper.Service.Controllers
             catch (Exception e)
             {
                 var errmsg = $"Failed to update event with id: {calEvent.Id}";
-                _logger.Error(e, errmsg);
+                Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
 
         }
-
-        [Attributes.Log]
+        
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(string id)
         {
@@ -127,7 +122,7 @@ namespace TaskSharper.Service.Controllers
             catch (Exception e)
             {
                 var errmsg = $"Failed to delete event with id: {id}";
-                _logger.Error(e, errmsg);
+                Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
         }

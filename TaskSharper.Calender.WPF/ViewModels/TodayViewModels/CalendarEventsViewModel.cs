@@ -139,7 +139,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void InitializeView()
         {
-            for (int i = 1; i < Time.HoursInADay; i = i + 2)
+            for (int i = 1; i < TimeConstants.HoursInADay; i = i + 2)
             {
                 Backgrounds.Add(new CalendarEventsBackground
                 {
@@ -155,7 +155,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 Height = 1,
                 LocX = 0,
-                LocY = 1200 / Time.HoursInADay * (now.Hour + now.Minute / Time.MinutesInAnHour),
+                LocY = 1200 / TimeConstants.HoursInADay * (now.Hour + now.Minute / TimeConstants.MinutesInAnHour),
                 StrokeDashArray = DateTime.Today == Date.Date ? new DoubleCollection { 4, 0 } : new DoubleCollection { 2, 4 }
             };
 
@@ -168,7 +168,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void UpdateTimeLine(object source, ElapsedEventArgs e)
         {
-            TimeLine.LocY = 1200 / Time.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / Time.MinutesInAnHour);
+            TimeLine.LocY = 1200 / TimeConstants.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / TimeConstants.MinutesInAnHour);
             
             TimeLine.StrokeDashArray = DateTime.Today == Date.Date ?
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 4, 0 }) :
@@ -195,9 +195,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
                     var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
                     {
-                        LocY = calendarEvent.Start.Value.Hour / Time.HoursInADay * 1200 +
-                               calendarEvent.Start.Value.Minute / Time.MinutesInAnHour / Time.HoursInADay * 1200, // TODO: Declare 1200 as a constant somewhere
-                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / Time.MinutesInAnHour / Time.HoursInADay * 1200,
+                        LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * 1200 +
+                               calendarEvent.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * 1200, // TODO: Declare 1200 as a constant somewhere
+                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * 1200,
                         Event = calendarEvent
                     };
                     

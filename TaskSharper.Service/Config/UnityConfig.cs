@@ -39,7 +39,7 @@ namespace TaskSharper.Service.Config
         private static void RegisterTypes(IUnityContainer container)
         {
             // Create logger
-            var logger = LogConfiguration.Configure();
+            var logger = LogConfiguration.ConfigureAPI();
 
             // Create Google Authentication object
             var googleService = new CalendarService(new BaseClientService.Initializer()
@@ -49,16 +49,18 @@ namespace TaskSharper.Service.Config
             });
 
             //Create Notification object
-            var notificationObject = new EventNotification(new List<int>() { -15, -5, 0, 5, 10, 15 });
+            var notificationObject = new EventNotification(new List<int>() { -15, -5, 0, 5, 10, 15 }, logger);
 
             container.RegisterInstance(typeof(CalendarService), googleService);
-            container.RegisterInstance(typeof(ILogger), logger);
+            //container.RegisterInstance(typeof(ILogger), logger);
             container.RegisterInstance(typeof(INotification), notificationObject);
-
+            
             container.RegisterType<ICalendarService, GoogleCalendarService>();
 
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
             container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI()));
         }
     }
 }

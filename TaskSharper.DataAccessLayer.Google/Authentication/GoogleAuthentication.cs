@@ -19,6 +19,8 @@ namespace TaskSharper.DataAccessLayer.Google.Authentication
         {
             Logger = logger;
         }
+
+        // TODO:: This method is not threadsafe. Maybe load the client token into memory and only update it if request fails?
         public UserCredential Authenticate()
         {
             UserCredential credential;

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Shared.Extensions;
@@ -11,13 +12,15 @@ namespace TaskSharper.Notification
 {
     public class EventNotification : INotification
     {
+        public ILogger Logger { get; set; }
         public Action<Event> Callback { get; set; }
         public IEnumerable<int> NotificationOffsets { get; set; }
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
-        public EventNotification(IEnumerable<int> notificationOffsets, Action<Event> notificationCallback = null)
+        public EventNotification(IEnumerable<int> notificationOffsets, ILogger logger, Action<Event> notificationCallback = null)
         {
             EventNotifications = new ConcurrentDictionary<string, IList<NotificationObject>>();
+            Logger = logger.ForContext<EventNotification>();
 
             NotificationOffsets = notificationOffsets;
             Callback = notificationCallback;

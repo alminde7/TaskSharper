@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.Web;
 using RestSharp;
 using Serilog;
+using Serilog.Context;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.RestDTO;
 using TaskSharper.Service.RestClient.Extensions;
 using TaskSharper.Service.RestClient.Factories;
+using TaskSharper.Shared.Constants;
 using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Service.RestClient
@@ -34,7 +36,7 @@ namespace TaskSharper.Service.RestClient
         {
             var request = _requestFactory.Create($"{Controller}/{id}", Method.GET);
             
-            var result = await _restClient.ExecuteTaskAsync<Event>(request);
+            var result = await _restClient.ExecuteTaskAsync<Event>(request, _logger);
             
             return CreateResponse(result);
         }
@@ -59,7 +61,7 @@ namespace TaskSharper.Service.RestClient
             request.AddQueryParameter("from", from.ToString(CultureInfo.InvariantCulture));
             request.AddQueryParameter("to", to.ToString(CultureInfo.InvariantCulture));
 
-            var result = await _restClient.ExecuteTaskAsync<List<Event>>(request);
+            var result = await _restClient.ExecuteTaskAsync<List<Event>>(request, _logger);
 
             return CreateResponse(result);
         }
@@ -106,45 +108,47 @@ namespace TaskSharper.Service.RestClient
 
         private T CreateResponse<T>(IRestResponse<T> response)
         {
-            var statusCode = response.StatusCode;
+            using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, response.Request.GetCorrelationId()))
+            {
+                var statusCode = response.StatusCode;
 
-            // TODO:: Make switch case
-            
-            if ((int) statusCode >= 400 && (int) statusCode < 500) // User did something wrong
-            {
-                var exception = new ArgumentException(response.ErrorMessage);
-                _logger.Error(exception, "Request faild");
-                throw exception;
-            }
-            else if ((int) statusCode >= 500) // Application did something wrong
-            {
-                var exception = new HttpException(response.ErrorMessage);
-                _logger.Error(exception, "Request faild");
-                throw exception;
-            }
-            else // All good
-            {
-                return response.Data;
+                if ((int)statusCode >= 400 && (int)statusCode < 500) // User did something wrong
+                {
+                    var exception = new ArgumentException(response.ErrorMessage);
+                    _logger.Error(exception, "Request faild");
+                    throw exception;
+                }
+                else if ((int)statusCode >= 500) // Application did something wrong
+                {
+                    var exception = new HttpException(response.ErrorMessage);
+                    _logger.Error(exception, "Request faild");
+                    throw exception;
+                }
+                else // All good
+                {
+                    return response.Data;
+                }
             }
         }
 
         private void CreateResponse(IRestResponse response)
         {
-            var statusCode = response.StatusCode;
-
-            // TODO:: Make switch case
-
-            if ((int)statusCode >= 400 && (int)statusCode < 500) // User did something wrong
+            using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, response.Request.GetCorrelationId()))
             {
-                var exception = new ArgumentException(response.ErrorMessage);
-                _logger.Error(exception, "Request faild");
-                throw exception;
-            }
-            else if ((int)statusCode >= 500) // Application did something wrong
-            {
-                var exception = new HttpException(response.ErrorMessage);
-                _logger.Error(exception, "Request faild");
-                throw exception;
+                var statusCode = response.StatusCode;
+
+                if ((int)statusCode >= 400 && (int)statusCode < 500) // User did something wrong
+                {
+                    var exception = new ArgumentException(response.ErrorMessage);
+                    _logger.Error(exception, "Request faild");
+                    throw exception;
+                }
+                else if ((int)statusCode >= 500) // Application did something wrong
+                {
+                    var exception = new HttpException(response.ErrorMessage);
+                    _logger.Error(exception, "Request faild");
+                    throw exception;
+                }
             }
         }
     }

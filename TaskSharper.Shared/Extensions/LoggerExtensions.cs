@@ -1,6 +1,9 @@
 using System;
 using System.Runtime.Remoting.Messaging;
+using System.Web;
 using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using TaskSharper.Shared.Configuration;
 using TaskSharper.Shared.Constants;
@@ -21,20 +24,22 @@ namespace TaskSharper.Shared.Extensions
 
             return logger;
         }
+    }
 
-        public static LoggerConfiguration AddCorrelationId(this LoggerConfiguration logger)
+    public class CorrelationIdEnricher : ILogEventEnricher
+    {
+        public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
-            var correlationId = CallContext.LogicalGetData(Http.Header_CorrelationId) as string;
+            var correlationId = CallContext.LogicalGetData(HttpConstants.Header_CorrelationId) as string;
 
             if (string.IsNullOrWhiteSpace(correlationId))
             {
-                correlationId = Guid.NewGuid().ToString();
-                CallContext.LogicalSetData(Http.Header_CorrelationId, correlationId);
+                logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(HttpConstants.Header_CorrelationId, Guid.NewGuid().ToString()));
             }
-
-            logger.Enrich.WithProperty("CorrelationId", correlationId);
-
-            return logger;
+            else
+            {
+                logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(HttpConstants.Header_CorrelationId, correlationId));
+            }
         }
     }
 }

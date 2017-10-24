@@ -17,7 +17,7 @@ namespace TaskSharper.BusinessLayer
         public ICalendarService CalendarService { get; }
         public ICacheStore Cache { get; }
         public INotification Notification { get; }
-        public ILogger Logger { get; }
+        public ILogger Logger { get; set; }
 
         public EventManager(ICalendarService calendarService, ICacheStore cache, INotification notification, ILogger logger)
         {

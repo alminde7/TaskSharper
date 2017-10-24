@@ -11,7 +11,7 @@ namespace TaskSharper.CacheStore
 {
     public class EventCache : ICacheStore
     {
-        public ILogger Logger { get; }
+        public ILogger Logger { get; set; }
         public ConcurrentDictionary<DateTime, Dictionary<string, CacheData>> Events { get; }
         public DateTime LastUpdated { get; set; }
         public TimeSpan UpdatedOffset { get; set; }

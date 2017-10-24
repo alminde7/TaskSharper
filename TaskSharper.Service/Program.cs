@@ -12,11 +12,9 @@ namespace TaskSharper.Service
     {
         static void Main(string[] args)
         {
-            var logger = LogConfiguration.Configure();
-
             HostFactory.Run(x =>
             {
-                x.UseSerilog(logger);
+                //x.UseSerilog(logger);
 
                 x.Service<Service>(s =>
                 {

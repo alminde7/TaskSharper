@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskSharper.Shared.Constants
 {
-    public static class Time
+    public static class TimeConstants
     {
         public const double HoursInADay = 24;
         public const double MinutesInAnHour = 60;
