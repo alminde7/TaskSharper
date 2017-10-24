@@ -76,5 +76,14 @@ namespace TaskSharper.Calender.WPF.Properties {
                 return ((double)(this["SelectedOpacity"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("18")]
+        public string PrimaryFont1Size {
+            get {
+                return ((string)(this["PrimaryFont1Size"]));
+            }
+        }
     }
 }

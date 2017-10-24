@@ -99,7 +99,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void EventDetailsClick()
         {
-            Navigate(ViewConstants.VIEW_CalendarEventDetails);
+            Navigate(ViewConstants.VIEW_CalendarEventShowDetails);
         }
 
         private bool CanExecuteEventClick()
