@@ -7,6 +7,8 @@
              xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
              xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
              mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              d:DesignHeight="300" d:DesignWidth="100">
 
     <UserControl.Resources>
@@ -71,20 +73,14 @@
                     <Setter Property="Canvas.Left" Value="{Binding LocX}"/>
                     <Setter Property="Canvas.Top" Value="{Binding LocY}"/>
                     <Setter Property="Height" Value="{Binding Height}"/>
-                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
                     <Setter Property="Canvas.ZIndex" Value="1"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventClickCommand}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
+                        <Grid x:Name="EventsContainer">
+                            <Label x:Name="SimultaneousEvents" Content="{Binding Width}" Visibility="Collapsed"></Label>
                             <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
                                 <Label Content="{Binding Event.Title}"/>
                             </TextBlock>
@@ -104,7 +100,29 @@
                                     </StackPanel>
                                 </Border>
                             </Popup>
+
+                            <Grid.Width>
+                                <MultiBinding Converter="{converters:WidthConverter}">
+                                    <Binding Path="ActualWidth" ElementName="CalendarEvents" />
+                                    <Binding Path="Content" ElementName="SimultaneousEvents" />
+                                </MultiBinding>
+                            </Grid.Width>
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
                         </Grid>
+                        <i:Interaction.Triggers>
+                            <!-- This event trigger will execute the action when the corresponding event is raised by the ListBox. -->
+                            <i:EventTrigger EventName="SizeChanged">
+                                <!-- This action will invoke the selected command in the view model and pass the parameters of the event to it. -->
+                                <prism:InvokeCommandAction Command="{Binding SizeChangedCommand}" CommandParameter="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Loaded">
+                                <prism:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
