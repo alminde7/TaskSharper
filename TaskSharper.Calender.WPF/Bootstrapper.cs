@@ -35,18 +35,18 @@ namespace TaskSharper.Calender.WPF
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarWeek);
 
-            //var service = Container.Resolve<Service>();
-            //service.StartContinousService().ContinueWith(task =>
-            //{
-            //    if (task.IsFaulted)
-            //    {
-            //        // shit went wrong
-            //    }
-            //    else
-            //    {
-            //        // shit went good
-            //    }
-            //});
+            var service = Container.Resolve<Service>();
+            service.StartContinousService().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    // shit went wrong
+                }
+                else
+                {
+                    // shit went good
+                }
+            });
         }
         protected override void ConfigureContainer()
         {
