@@ -82,21 +82,34 @@
             </Button>
         </StackPanel>
 
+        <Grid Grid.Row="1" Grid.Column="1">
+            <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48" Visibility="{Binding SpinnerVisible, Converter={StaticResource BoolToVis}}" />
+
+            <ContentControl BorderBrush="Black" BorderThickness="2" 
+                            x:Name="CalendarRegion"
+                            Height="Auto" 
+                            Width="Auto" 
+                            Margin="0,0,10,0"
+                            prism:RegionManager.RegionName="CalendarRegion">
+            </ContentControl>
+        </Grid>
+        
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="1.9*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="1.9*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
             <Button Grid.Row="0"
-                    Command="{Binding NavigateCommand}" CommandParameter="" 
-                    Margin="2"
+                    Command="{Binding ScrollUpCommand}"
+                    Margin="2,2,2,0"
                     Style="{StaticResource NavigationButton}"
-                    Height="100">
+                    Height="100"
+                    Visibility="{Binding ScrollButtonsVisible, Converter={StaticResource BoolToVis}}">
                 <fa:ImageAwesome Icon="ArrowUp" Margin="10,0,0,0" Height="70" Foreground="White" />
             </Button>
             <DockPanel Grid.Row="1"></DockPanel>
@@ -120,22 +133,13 @@
             </Button>
             <DockPanel Grid.Row="5"></DockPanel>
             <Button Grid.Row="6"
-                    Command="{Binding NavigateCommand}" CommandParameter="" 
-                    Margin="2"
+                    Command="{Binding ScrollDownCommand}"
+                    Margin="2,3,2,0"
                     Style="{StaticResource NavigationButton}"
-                    Height="100">
+                    Height="100"
+                    Visibility="{Binding ScrollButtonsVisible, Converter={StaticResource BoolToVis}}">
                 <fa:ImageAwesome Icon="ArrowDown" Height="70" Margin="10,0,0,0" Foreground="White" />
             </Button>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48" Visibility="{Binding SpinnerVisible, Converter={StaticResource BoolToVis}}" />
-
-            <ContentControl BorderBrush="Black" BorderThickness="2" 
-                        Height="Auto" 
-                        Width="Auto" 
-                        Margin="0,10,10,10"
-                        prism:RegionManager.RegionName="CalendarRegion">
-            </ContentControl>
         </Grid>
 
         <Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
