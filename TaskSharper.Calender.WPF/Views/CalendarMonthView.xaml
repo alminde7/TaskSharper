@@ -72,7 +72,9 @@
                 </Button>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="5">
-                <Label Content="{Binding CurrentMonthAndYear}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Viewbox>
+                    <Label Content="{Binding CurrentMonthAndYear}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Viewbox>
             </StackPanel>
         </Grid>
 
@@ -84,15 +86,17 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarWeekDayView/>
+                    <Viewbox>
+                        <views:CalendarWeekDayView/>
+                    </Viewbox>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl Grid.Column="0" Grid.Row="2" ItemsSource="{Binding WeekNumbers}" Width="Auto">
+        <ItemsControl Grid.Column="0" Grid.Row="2" ItemsSource="{Binding WeekNumbers}" Width="Auto" Height="Auto">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="5"/>
+                    <UniformGrid Rows="{Binding NumberOfWeeks}"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -102,10 +106,10 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl Grid.Column="1" Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0.5,0,0,0.5" ItemsSource="{Binding DateDays}" Width="Auto">
+        <ItemsControl Grid.Column="1" Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0.5,0,0,0.5" ItemsSource="{Binding DateDays}" Width="Auto" Height="Auto">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="5" Columns="7"/>
+                    <UniformGrid Rows="{Binding NumberOfWeeks}" Columns="7"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

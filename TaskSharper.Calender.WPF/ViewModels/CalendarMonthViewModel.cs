@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
@@ -18,10 +19,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private DateTime PreviousMonday;
         private string _currentMonthAndYear;
         private DateTime _currentDate;
+        private int _numberOfWeeks;
         private readonly IEventManager _eventManager;
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
+        
 
         public ObservableCollection<CalendarDateDayViewModel> DateDays { get; set; }
         public ObservableCollection<CalendarWeekNumberViewModel> WeekNumbers { get; set; }
@@ -40,6 +43,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             get => _currentMonthAndYear;
             set => SetProperty(ref _currentMonthAndYear, value);
+        }
+
+        public int NumberOfWeeks
+        {
+            get => _numberOfWeeks;
+            set => SetProperty(ref _numberOfWeeks, value);
         }
 
         public CalendarMonthViewModel(IEventManager eventManager, IEventAggregator eventAggregator, ILogger logger, IRegionManager regionManager)
@@ -102,6 +111,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SetMonthAndYearCulture();
         }
 
+        private void UpdateIsWithinSelectedMonth()
+        {
+            foreach (var day in DateDays)
+            {
+                day.IsWithinSelectedMonth = day.Date.Month == CurrentDatetime.Month;
+            }
+        }
+
         private void BootstrapView()
         {
             for (int i = 1; i <= DaysInWeek; i++)
@@ -111,7 +128,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             var firstDayOfMonth = CalculateDate(1, CurrentDatetime);
             FindPreviousMonday(firstDayOfMonth);
 
-            for (int i =  0; i < 35; i++)
+            for (int i =  0; i < 42; i++)
             {
                 var prevMonday = PreviousMonday.AddDays(i);
 
@@ -121,7 +138,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 }
 
                 DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventManager, CalendarTypeEnum.Month, _logger, _regionManager));
+
+                if (i < 34) continue;
+                if (DateTime.DaysInMonth(CurrentDatetime.Year, CurrentDatetime.Month) == 31 && (firstDayOfMonth.DayOfWeek == DayOfWeek.Saturday || firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    continue;
+                }
+                if (DateTime.DaysInMonth(CurrentDatetime.Year, CurrentDatetime.Month) == 30 && firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    continue;
+                }
+                break;
             }
+
+            NumberOfWeeks = WeekNumbers.Count;
+            UpdateIsWithinSelectedMonth();
         }
 
         private void FindPreviousMonday(DateTime firstDayOfMonth)
@@ -149,15 +180,46 @@ namespace TaskSharper.Calender.WPF.ViewModels
             FindPreviousMonday(firstDayOfMonth);
 
             int weekCount = 0;
-            for (int i = 0; i < 35; i++)
+            WeekNumbers.Clear();
+            for (int i = 0; i < 42; i++)
             {
                 var prevMonday = PreviousMonday.AddDays(i);
 
                 if (i % 7 == 0)
-                    WeekNumbers[weekCount++].SetDate(prevMonday);
+                {
+                    weekCount++;
+                    WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
+                    
+                }
+                    
                     
                 DateDays[i].UpdateDate(prevMonday);
+
+                if (i < 34) continue;
+                if (DateTime.DaysInMonth(CurrentDatetime.Year, CurrentDatetime.Month) == 31 && (firstDayOfMonth.DayOfWeek == DayOfWeek.Saturday || firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    if (i < 41)
+                        DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventManager, CalendarTypeEnum.Month, _logger, _regionManager));
+                    continue;
+                }
+                if (DateTime.DaysInMonth(CurrentDatetime.Year, CurrentDatetime.Month) == 30 && firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    if (i < 41)
+                        DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventManager, CalendarTypeEnum.Month, _logger, _regionManager));
+                    continue;
+                }
+                if (DateDays.Count >= 42)
+                {
+                    for (int j = DateDays.Count - 1; j > i; j--)
+                    {
+                        DateDays.RemoveAt(j);
+                    }
+                }
+                break;
             }
+
+            NumberOfWeeks = WeekNumbers.Count;
+            UpdateIsWithinSelectedMonth();
         }
     }
 }

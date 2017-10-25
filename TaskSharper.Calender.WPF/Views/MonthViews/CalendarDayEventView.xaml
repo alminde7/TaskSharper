@@ -11,7 +11,7 @@
              d:DesignHeight="100" d:DesignWidth="300">
     <Grid>
         <TextBlock Grid.Row="0">
-            <Label Content="{Binding Event.Title}"/>
+            <Label Content="{Binding ViewText}"/>
         </TextBlock>
     </Grid>
 </UserControl>
