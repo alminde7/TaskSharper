@@ -20,7 +20,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public DelegateCommand EventClickCommand { get; set; }
         public DelegateCommand EventDetailsClickCommand { get; set; }
-        
+        public DelegateCommand<object> OnLayoutUpdatedCommand { get; set; }
+        public DelegateCommand<object> OnLoadedCommand { get; set; }
+
+
         private Event _event;
         private bool _isPopupOpen;
         SubscriptionToken _subscriptionToken;
@@ -28,6 +31,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _width;
         private double _locY;
         private double _locX;
+        public double Column { get; set; } // Not binding to this anywhere, only used for LocX
+        public double SimultaneousEvents { get; set; } // Not binding to this anywhere, only used for LocX
 
         public Event Event
         {
@@ -72,6 +77,20 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _logger = logger.ForContext<CalendarEventViewModel>();
             EventClickCommand = new DelegateCommand(EventClick);
             EventDetailsClickCommand = new DelegateCommand(EventDetailsClick);
+            OnLayoutUpdatedCommand = new DelegateCommand<object>(OnLayoutUpdated);
+            OnLoadedCommand = new DelegateCommand<object>(OnLoaded);
+        }
+
+        private void OnLoaded(object containerWidth)
+        {
+            Width = (double) containerWidth / SimultaneousEvents;
+            LocX = Column * (double)containerWidth / SimultaneousEvents;
+        }
+
+        private void OnLayoutUpdated(object containerWidth)
+        {
+            Width = (double)containerWidth / SimultaneousEvents;
+            LocX = Column * (double)containerWidth / SimultaneousEvents;
         }
 
         private void LogEventClick()
@@ -99,7 +118,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void EventDetailsClick()
         {
-            Navigate(ViewConstants.VIEW_CalendarEventDetails);
+            Navigate(ViewConstants.VIEW_CalendarEventShowDetails);
         }
 
         private bool CanExecuteEventClick()

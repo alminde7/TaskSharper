@@ -56,6 +56,7 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterTypeForNavigation<CalendarDayView>(ViewConstants.VIEW_CalendarDay);
             Container.RegisterTypeForNavigation<CalendarWeekView>(ViewConstants.VIEW_CalendarWeek);
             Container.RegisterTypeForNavigation<CalendarMonthView>(ViewConstants.VIEW_CalendarMonth);
+            Container.RegisterTypeForNavigation<CalendarEventShowDetailsView>(ViewConstants.VIEW_CalendarEventShowDetails);
             Container.RegisterTypeForNavigation<CalendarEventDetailsView>(ViewConstants.VIEW_CalendarEventDetails);
 
             // Register other dependencies
