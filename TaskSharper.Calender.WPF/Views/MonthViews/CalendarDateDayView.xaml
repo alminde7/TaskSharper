@@ -10,10 +10,13 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <Style x:Key="CurrentDayStyle" TargetType="Grid">
+        <Style x:Key="DayStyle" TargetType="Grid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsCurrentDay}" Value="true">
-                    <Setter Property="Background" Value="DarkGray"></Setter>
+                    <Setter Property="Background" Value="AliceBlue"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsWithinSelectedMonth}" Value="false">
+                    <Setter Property="Background" Value="DarkGray"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -32,12 +35,14 @@
 
     </UserControl.Resources>
     <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding GoToDayViewCommand}">
-        <Grid Style="{StaticResource CurrentDayStyle}">
+        <Grid Style="{StaticResource DayStyle}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="9*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="{Binding Date.Day}" />
+            <Viewbox Grid.Row="0" HorizontalAlignment="Left">
+                <Label Content="{Binding Date.Day}" />
+            </Viewbox>
             <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarEvents}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
