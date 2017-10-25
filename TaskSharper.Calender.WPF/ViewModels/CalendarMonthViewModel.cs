@@ -4,12 +4,10 @@ using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
-using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -105,6 +103,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             SetDate(CurrentDatetime);
         }
+
         private void SetDate(DateTime date)
         {
             CurrentCulture = CultureInfo.CurrentCulture;
