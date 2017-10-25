@@ -231,8 +231,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
                         SimultaneousEvents = simultaneousEvents.simultaneousEvents,
                         Column = simultaneousEvents.column,
                         Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / Time.MinutesInAnHour / Time.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                        Width = simultaneousEvents.simultaneousEvents,
                         Event = calendarEvent
+                        // Width and LocX are set in the OnLoaded and OnSizeChanged method
                     };
                     
                     CalendarEvents.Add(viewModel);

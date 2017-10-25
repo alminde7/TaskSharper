@@ -187,7 +187,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Config\ViewConstants.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
-    <Compile Include="Converters\WidthConverter.cs" />
     <Compile Include="Events\CultureChangedEvent.cs" />
     <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
     <Compile Include="Events\EventChangedEvent.cs" />

@@ -20,8 +20,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public DelegateCommand EventClickCommand { get; set; }
         public DelegateCommand EventDetailsClickCommand { get; set; }
-        public DelegateCommand<object> SizeChangedCommand { get; set; }
-        public DelegateCommand<object> LoadedCommand { get; set; }
+        public DelegateCommand<object> OnLayoutUpdatedCommand { get; set; }
+        public DelegateCommand<object> OnLoadedCommand { get; set; }
 
 
         private Event _event;
@@ -77,17 +77,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _logger = logger.ForContext<CalendarEventViewModel>();
             EventClickCommand = new DelegateCommand(EventClick);
             EventDetailsClickCommand = new DelegateCommand(EventDetailsClick);
-            SizeChangedCommand = new DelegateCommand<object>(OnSizeChanged);
-            LoadedCommand = new DelegateCommand<object>(OnLoaded);
+            OnLayoutUpdatedCommand = new DelegateCommand<object>(OnLayoutUpdated);
+            OnLoadedCommand = new DelegateCommand<object>(OnLoaded);
         }
 
         private void OnLoaded(object containerWidth)
         {
+            Width = (double) containerWidth / SimultaneousEvents;
             LocX = Column * (double)containerWidth / SimultaneousEvents;
         }
 
-        private void OnSizeChanged(object containerWidth)
+        private void OnLayoutUpdated(object containerWidth)
         {
+            Width = (double)containerWidth / SimultaneousEvents;
             LocX = Column * (double)containerWidth / SimultaneousEvents;
         }
 
