@@ -30,16 +30,24 @@ namespace TaskSharper.Shared.Extensions
     {
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
-            var correlationId = CallContext.LogicalGetData(HttpConstants.Header_CorrelationId) as string;
+            try
+            {
+                var correlationId = CallContext.LogicalGetData(HttpConstants.Header_CorrelationId) as string;
 
-            if (string.IsNullOrWhiteSpace(correlationId))
-            {
-                logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(HttpConstants.Header_CorrelationId, Guid.NewGuid().ToString()));
+                if (string.IsNullOrWhiteSpace(correlationId))
+                {
+                    logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(HttpConstants.Header_CorrelationId, Guid.NewGuid().ToString()));
+                }
+                else
+                {
+                    logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(HttpConstants.Header_CorrelationId, correlationId));
+                }
             }
-            else
+            catch (Exception)
             {
-                logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(HttpConstants.Header_CorrelationId, correlationId));
+                // DO nothing - dont screw up application with logging error
             }
+
         }
     }
 }

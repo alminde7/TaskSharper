@@ -26,7 +26,7 @@ namespace TaskSharper.Service.Middleware
                     CallContext.LogicalSetData(HttpConstants.Header_CorrelationId, Guid.NewGuid().ToString());
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 // Do nothing - dont break the pipeline
             }

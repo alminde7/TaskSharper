@@ -9,6 +9,7 @@ namespace TaskSharper.Service.RestClient.Factories
 {
     public class RestClientFactory
     {
+        // NOTE:: Not in use
         public IRestClient Create(Uri url, string controller)
         {
             var restClient = new RestSharp.RestClient(url + "/" + controller);

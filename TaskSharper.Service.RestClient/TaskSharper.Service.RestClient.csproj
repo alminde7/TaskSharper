@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventRestClient.cs" />
+    <Compile Include="Extensions\RestRequestExtensions.cs" />
     <Compile Include="Factories\IRestRequestFactory.cs" />
     <Compile Include="Factories\RestClientFactory.cs" />
     <Compile Include="Factories\RestRequestFactory.cs" />

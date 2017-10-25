@@ -108,6 +108,7 @@ namespace TaskSharper.Service.RestClient
 
         private T CreateResponse<T>(IRestResponse<T> response)
         {
+            //TODO:: Seek a better solution for this - maybe create an enricher
             using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, response.Request.GetCorrelationId()))
             {
                 var statusCode = response.StatusCode;
@@ -133,6 +134,7 @@ namespace TaskSharper.Service.RestClient
 
         private void CreateResponse(IRestResponse response)
         {
+            //TODO:: Seek a better solution for this - maybe create an enricher
             using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, response.Request.GetCorrelationId()))
             {
                 var statusCode = response.StatusCode;
