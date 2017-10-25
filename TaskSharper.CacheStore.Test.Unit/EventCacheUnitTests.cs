@@ -313,12 +313,12 @@ namespace TaskSharper.CacheStore.Test.Unit
         }
 
         [Test]
-        public void GetEvents_WithEndDate_NoDataFoundBetweenGivenDates_EmptyListIsReturned()
+        public void GetEvents_WithEndDate_NoDataFoundBetweenGivenDates_ReturnNull()
         {
             var date1 = new DateTime(2017,3,3);
             var date2 = new DateTime(2017,8,8);
 
-            Assert.IsEmpty(_uut.GetEvents(date1, date2));
+            Assert.Null(_uut.GetEvents(date1, date2));
         }
 
         [Test]
