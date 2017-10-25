@@ -15,6 +15,7 @@ namespace TaskSharper.Service
 
         public void Start()
         {
+            //NOTE:: Require Visual Studio to run as administrator
             _webApp = WebApp.Start<Startup>(_hostUrl);
         }
 

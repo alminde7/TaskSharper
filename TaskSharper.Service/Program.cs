@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Serilog;
 using TaskSharper.Shared.Logging;
 using Topshelf;
 
@@ -12,9 +13,11 @@ namespace TaskSharper.Service
     {
         static void Main(string[] args)
         {
+            ILogger logger = LogConfiguration.ConfigureAPI();
+
             HostFactory.Run(x =>
             {
-                //x.UseSerilog(logger);
+                x.UseSerilog(logger);
 
                 x.Service<Service>(s =>
                 {

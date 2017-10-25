@@ -26,7 +26,7 @@ namespace TaskSharper.Service.Attributes
 
             _logger.Information("Request Path:{Path}, HttpMethod:{HttpMethod}", path, httpMethod);
 
-            base.OnActionExecuting(actionContext);
+             base.OnActionExecuting(actionContext);
         }
 
         public override async Task OnActionExecutedAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)

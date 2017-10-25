@@ -25,6 +25,7 @@ namespace TaskSharper.Shared.Logging
         {
             var logger = BaseConfig();
             logger.Enrich.With(new CorrelationIdEnricher());
+            logger.WriteTo.Console(); // Enables insight into Service without the need to Kibana - primarily for development purposes
 
             return logger.CreateLogger();
         }

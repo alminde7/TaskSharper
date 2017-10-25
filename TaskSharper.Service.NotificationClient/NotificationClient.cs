@@ -25,6 +25,7 @@ namespace TaskSharper.Service.NotificationClient
             _notificationHub = _connection.CreateHubProxy(HubName);
         }
 
+        // TODO:: Implement retry functionality
         public async Task Connect()
         {
             await _connection.Start().ContinueWith(task =>
