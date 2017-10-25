@@ -20,5 +20,7 @@ namespace TaskSharper.Domain.Cache
 
         void UpdateCacheStore(IList<Event> events, DateTime fromDate, DateTime? toDate);
         void AddOrUpdateEvent(Event calendarEvent);
+
+        void RemoveEvent(string id);
     }
 }

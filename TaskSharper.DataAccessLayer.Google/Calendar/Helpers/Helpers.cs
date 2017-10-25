@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
+using TaskSharper.Domain.Calendar;
 using GoogleEvent = Google.Apis.Calendar.v3.Data.Event;
 using Event = TaskSharper.Domain.Calendar.Event;
 
@@ -19,12 +20,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Start = googleEvent.Start?.DateTime,
                 End = googleEvent.End?.DateTime,
                 AllDayEvent = googleEvent.Start != null && googleEvent.Start?.DateTime == null ? DateTime.Parse(googleEvent.Start?.Date) : (DateTime?) null,
-                Status = Enum.TryParse(googleEvent.Status?.First().ToString().ToUpper() + googleEvent.Status?.Substring(1), out Event.EventStatus statusValue) ? statusValue : Event.EventStatus.Confirmed,
+                Status = Enum.TryParse(googleEvent.Status?.First().ToString().ToUpper() + googleEvent.Status?.Substring(1), out EventStatus statusValue) ? statusValue : EventStatus.Confirmed,
                 Created = googleEvent.Created,
                 OriginalStartTime = googleEvent.OriginalStartTime?.DateTime,
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
-                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None,
+                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out EventType typeValue) ? typeValue : EventType.None,
                 Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList()
             };
         }
@@ -39,12 +40,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Start = googleEvent.Start?.DateTime,
                 End = googleEvent.End?.DateTime,
                 AllDayEvent = googleEvent.Start != null && googleEvent.Start?.DateTime == null ? DateTime.Parse(googleEvent.Start?.Date) : (DateTime?) null,
-                Status = Enum.TryParse(googleEvent.Status?.First().ToString().ToUpper() + googleEvent.Status?.Substring(1), out Event.EventStatus statusValue) ? statusValue : Event.EventStatus.Confirmed,
+                Status = Enum.TryParse(googleEvent.Status?.First().ToString().ToUpper() + googleEvent.Status?.Substring(1), out EventStatus statusValue) ? statusValue : EventStatus.Confirmed,
                 Created = googleEvent.Created,
                 OriginalStartTime = googleEvent.OriginalStartTime?.DateTime,
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
-                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out Event.EventType typeValue) ? typeValue : Event.EventType.None,
+                Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out EventType typeValue) ? typeValue : EventType.None,
                 Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList()
             }).ToList();
         }

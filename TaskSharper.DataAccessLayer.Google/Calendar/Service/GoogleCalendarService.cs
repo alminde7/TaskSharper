@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Google;
 using Google.Apis.Calendar.v3;
 using Serilog;
 using TaskSharper.Domain.Calendar;
@@ -12,24 +13,24 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
     public class GoogleCalendarService : ICalendarService
     {
         private readonly CalendarService _service;
-        private readonly ILogger _logger;
+        public ILogger Logger { get; set; }
 
         public GoogleCalendarService(CalendarService service, ILogger logger)
         {
             _service = service;
-            _logger = logger;
+            Logger = logger.ForContext<GoogleApiException>();
         }
 
         public Event GetEvent(string id, string calendarId)
         {
             // Define parameters of request.
             var request = _service.Events.Get(calendarId, id);
-            _logger.Information("Requesting event with id {0} in Google Calendar." + id);
+            Logger.Information("Requesting event with id {0} in Google Calendar." + id);
 
             // Execute request to retrieve events
             var response = request.Execute();
             var events = Helpers.Helpers.GoogleEventParser(response);
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -41,12 +42,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            _logger.Information("Requesting all events in Google Calendar.");
+            Logger.Information("Requesting all events in Google Calendar.");
 
             // Execute request to retrieve events
             var response = request.Execute();
             var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -58,11 +59,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            _logger.Information($"Requesting all events in Google Calendar from {start}.");
+            Logger.Information($"Requesting all events in Google Calendar from {start}.");
 
             var response = request.Execute();
             var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -75,11 +76,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            _logger.Information($"Requesting all events in Google Calendar from {start} to {end}.");
+            Logger.Information($"Requesting all events in Google Calendar from {start} to {end}.");
             
             var response = request.Execute();
             var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -89,11 +90,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 
             var request = _service.Events.Insert(googleEvent, calendarId);
-            _logger.Information("Inserting {@0} into Google Calendar.", eventObj);
+            Logger.Information("Inserting {@0} into Google Calendar.", eventObj);
 
             var response = request.Execute();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            _logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
 
             return retval;
         }
@@ -103,11 +104,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 
             var request = _service.Events.Update(googleEvent, calendarId, googleEvent.Id);
-            _logger.Information("Updating {@0} in Google Calendar.", eventObj);
+            Logger.Information("Updating {@0} in Google Calendar.", eventObj);
 
             var response = request.Execute();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            _logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
 
             return retval;
         }
@@ -115,7 +116,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
         public void DeleteEvent(string calendarId, string eventId)
         {
             var request = _service.Events.Delete(calendarId, eventId);
-            _logger.Information("Deleting event with {@0} in Google Calendar.", eventId);
+            Logger.Information("Deleting event with {@0} in Google Calendar.", eventId);
 
             request.Execute();
         }
@@ -124,12 +125,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
         {
             // Define parameters of request.
             var request = _service.Events.Get(calendarId, id);
-            _logger.Information("Requesting event with id {0} in Google Calendar." + id);
+            Logger.Information("Requesting event with id {0} in Google Calendar." + id);
 
             // Execute request to retrieve events
             var response = await request.ExecuteAsync();
             var events = Helpers.Helpers.GoogleEventParser(response);
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -141,12 +142,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            _logger.Information("Requesting all events in Google Calendar.");
+            Logger.Information("Requesting all events in Google Calendar.");
 
             // Execute request to retrieve events
             var response = await request.ExecuteAsync();
             var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -158,11 +159,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            _logger.Information($"Requesting all events in Google Calendar from {start}.");
+            Logger.Information($"Requesting all events in Google Calendar from {start}.");
 
             var response = await request.ExecuteAsync();
             var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -175,11 +176,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.ShowDeleted = false;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-            _logger.Information($"Requesting all events in Google Calendar from {start} to {end}.");
+            Logger.Information($"Requesting all events in Google Calendar from {start} to {end}.");
 
             var response = await request.ExecuteAsync();
             var events = Helpers.Helpers.GoogleEventParser(response.Items.ToList());
-            _logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful and returned {@0}", events);
 
             return events;
         }
@@ -189,11 +190,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 
             var request = _service.Events.Insert(googleEvent, calendarId);
-            _logger.Information("Inserting {@0} into Google Calendar.", eventObj);
+            Logger.Information("Inserting {@0} into Google Calendar.", eventObj);
 
             var response = await request.ExecuteAsync();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            _logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
 
             return retval;
         }
@@ -203,11 +204,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
 
             var request = _service.Events.Update(googleEvent, calendarId, googleEvent.Id);
-            _logger.Information("Updating {@0} in Google Calendar.", eventObj);
+            Logger.Information("Updating {@0} in Google Calendar.", eventObj);
 
             var response = await request.ExecuteAsync();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            _logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
 
             return retval;
         }
@@ -215,7 +216,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
         public async Task DeleteEventAsync(string calendarId, string eventId)
         {
             var request = _service.Events.Delete(calendarId, eventId);
-            _logger.Information("Deleting event with {@0} in Google Calendar.", eventId);
+            Logger.Information("Deleting event with {@0} in Google Calendar.", eventId);
 
             await request.ExecuteAsync();
         }

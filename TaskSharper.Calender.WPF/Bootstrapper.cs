@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
 using Prism.Logging;
 using Prism.Regions;
+using RestSharp;
 using Serilog;
 using TaskSharper.Calender.WPF.Views;
-using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
-using TaskSharper.CacheStore;
 using TaskSharper.Calender.WPF.Config;
-using TaskSharper.DataAccessLayer.Google;
-using TaskSharper.DataAccessLayer.Google.Authentication;
-using TaskSharper.Domain.BusinessLayer;
-using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Notification;
-using TaskSharper.Notification;
-using EventManager = TaskSharper.BusinessLayer.EventManager;
+using TaskSharper.Service.NotificationClient;
+using TaskSharper.Service.NotificationClient.HubConnectionClient;
+using TaskSharper.Service.RestClient;
+using TaskSharper.Service.RestClient.Factories;
 
 namespace TaskSharper.Calender.WPF
 {
@@ -35,57 +29,58 @@ namespace TaskSharper.Calender.WPF
 
         protected override void InitializeShell()
         {
-            // TODO:: Think of a more sofisticated way of doing this. 
-            Container.Resolve<IEventManager>().UpdateCacheStore(DateTime.Now.AddMonths(-3),DateTime.Now.AddMonths(3));
-
             Application.Current.MainWindow.Show();
 
             // Set default Calendar on start.
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarWeek);
+
+            var service = Container.Resolve<Service>();
+            service.StartContinousService().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    // shit went wrong
+                }
+                else
+                {
+                    // shit went good
+                }
+            });
         }
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
 
+            // Register views
             Container.RegisterTypeForNavigation<CalendarDayView>(ViewConstants.VIEW_CalendarDay);
             Container.RegisterTypeForNavigation<CalendarWeekView>(ViewConstants.VIEW_CalendarWeek);
             Container.RegisterTypeForNavigation<CalendarMonthView>(ViewConstants.VIEW_CalendarMonth);
             Container.RegisterTypeForNavigation<CalendarEventShowDetailsView>(ViewConstants.VIEW_CalendarEventShowDetails);
             Container.RegisterTypeForNavigation<CalendarEventDetailsView>(ViewConstants.VIEW_CalendarEventDetails);
 
-            // Create logger
-            var logger = LogConfiguration.Configure();
+            // Register other dependencies
+            var logger = LogConfiguration.ConfigureWPF();
             _logger = logger;
-
-            // Create Google Authentication object
-            var googleService = new CalendarService(new BaseClientService.Initializer()
-            {
-                ApplicationName = Constants.TaskSharper,
-                HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
-            });
-
-            //Create Notification object
-            var notificationObject = new EventNotification(new List<int>(){-15,-5,0,5,10,15}, TempNotificationHandler);
             
-            Container.RegisterInstance(typeof(CalendarService), googleService);
+            // Singletons
             Container.RegisterInstance(typeof(ILogger), logger);
-            Container.RegisterInstance(typeof(INotification), notificationObject);
+            Container.RegisterInstance(typeof(IRestClient), new RestClient());
 
-            Container.RegisterType<ICalendarService, GoogleCalendarService>();
-            Container.RegisterType<IEventManager, EventManager>();
-            Container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
+            // Not singletons
+            Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
+            Container.RegisterType<IEventRestClient, EventRestClient>();
+
+            var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");
+            Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
+            Container.RegisterType<INotificationClient, NotificationClient>();
+
+            Container.RegisterInstance(typeof(Service));
         }
 
         protected override ILoggerFacade CreateLogger()
         {
             return new SerilogLogger();
-        }
-
-        // TODO:: Implement correct event handling
-        public void TempNotificationHandler(Event calEvent)
-        {
-            _logger?.ForContext("Notification", typeof(Bootstrapper)).Information("TEMP_Notification for event with id: {EventId}", calEvent.Id);
         }
     }
 

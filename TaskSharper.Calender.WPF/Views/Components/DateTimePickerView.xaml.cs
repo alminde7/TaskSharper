@@ -28,12 +28,12 @@ namespace TaskSharper.Calender.WPF.Views.Components
         {
             InitializeComponent();
 
-            for (int hour = 0; hour < Time.HoursInADay; hour++)
+            for (int hour = 0; hour < TimeConstants.HoursInADay; hour++)
             {
                 HourListBox.Items.Add(hour);
             }
 
-            for (int minute = 0; minute < Time.MinutesInAnHour; minute++)
+            for (int minute = 0; minute < TimeConstants.MinutesInAnHour; minute++)
             {
                 MinuteListBox.Items.Add(minute);
             }

@@ -10,6 +10,7 @@ using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.BusinessLayer;
+using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
@@ -28,7 +29,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         public DelegateCommand GoToDayViewCommand { get; set; }
 
         public ObservableCollection<CalendarDayEventViewModel> CalendarEvents { get; set; }    
-        public IEventManager EventManager { get; set; }
+        public IEventRestClient EventManager { get; set; }
 
         public DateTime Date
         {
@@ -47,8 +48,8 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             get => _isWithinSelectedMonth;
             set => SetProperty(ref _isWithinSelectedMonth, value);
         }
-
-        public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger, IRegionManager regionManager)
+        
+        public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventRestClient eventManager, CalendarTypeEnum dateType, ILogger logger, IRegionManager regionManager)
         {
             IsCurrentDay = false;
             IsWithinSelectedMonth = true;
@@ -110,7 +111,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 
             try
             {
-                var calendarEvents = await EventManager.GetEventsAsync(Date);
+                var calendarEvents = await EventManager.GetAsync(Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {

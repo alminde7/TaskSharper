@@ -25,7 +25,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
-        private readonly IEventManager _eventManager;
+        private readonly IEventRestClient _dataService;
         private CalendarEventsCurrentTimeLine _timeLine;
         private DateTime _date;
 
@@ -49,13 +49,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _timeLine, value);
         }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventManager eventManager, CalendarTypeEnum dateType, ILogger logger)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventRestClient dataService, CalendarTypeEnum dateType, ILogger logger)
         {
             // Initialze object
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
-            _eventManager = eventManager;
+            _dataService = dataService;
             _logger = logger.ForContext<CalendarEventsViewModel>();
 
             // Initialize containers
@@ -130,11 +130,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-        private void EventChangedEventHandler(Event obj)
+        private async void EventChangedEventHandler(Event obj)
         {
             if (Date.Date == obj.Start.Value.Date)
             {
-                _eventManager.UpdateEvent(obj);
+                await _dataService.UpdateAsync(obj);
                 UpdateView();
             }
         }
@@ -142,13 +142,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void InitializeView()
         {
-            for (int i = 1; i < Time.HoursInADay; i = i + 2)
+            for (int i = 1; i < TimeConstants.HoursInADay; i = i + 2)
             {
                 Backgrounds.Add(new CalendarEventsBackground
                 {
-                    Height = Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay,
+                    Height = Settings.Default.CalendarStructure_Height_1200 / TimeConstants.HoursInADay,
                     LocX = 0,
-                    LocY = i * Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay
+                    LocY = i * Settings.Default.CalendarStructure_Height_1200 / TimeConstants.HoursInADay
                 });
             }
 
@@ -158,7 +158,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 Height = 1,
                 LocX = 0,
-                LocY = Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay * (now.Hour + now.Minute / Time.MinutesInAnHour),
+                LocY = 1200 / TimeConstants.HoursInADay * (now.Hour + now.Minute / TimeConstants.MinutesInAnHour),
                 StrokeDashArray = DateTime.Today == Date.Date ? new DoubleCollection { 4, 0 } : new DoubleCollection { 2, 4 }
             };
 
@@ -173,7 +173,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             try
             {
-                var calendarEvents = await _eventManager.GetEventsAsync(Date.Date);
+                var calendarEvents = await _dataService.GetAsync(Date.Date);
                 var columnIndex = 0;
 
                 foreach (var @event in calendarEvents)
@@ -198,7 +198,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void UpdateTimeLine(object source, ElapsedEventArgs e)
         {
-            TimeLine.LocY = Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / Time.MinutesInAnHour);
+            TimeLine.LocY = Settings.Default.CalendarStructure_Height_1200 / TimeConstants.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / TimeConstants.MinutesInAnHour);
             
             TimeLine.StrokeDashArray = DateTime.Today == Date.Date ?
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 4, 0 }) :
@@ -218,7 +218,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var calendarEvents = await _eventManager.GetEventsAsync(Date.Date);
+                var calendarEvents = await _dataService.GetAsync(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {
@@ -226,11 +226,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     var simultaneousEvents = await SimultaneousEvents(calendarEvent);
                     var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
                     {
-                        LocY = calendarEvent.Start.Value.Hour / Time.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
-                               calendarEvent.Start.Value.Minute / Time.MinutesInAnHour / Time.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
+                        LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
+                               calendarEvent.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
                         SimultaneousEvents = simultaneousEvents.simultaneousEvents,
                         Column = simultaneousEvents.column,
-                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / Time.MinutesInAnHour / Time.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
+                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
                         Event = calendarEvent
                         // Width and LocX are set in the OnLoaded and OnSizeChanged method
                     };

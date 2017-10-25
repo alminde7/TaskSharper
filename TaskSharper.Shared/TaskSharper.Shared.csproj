@@ -36,6 +36,12 @@
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog.Enrichers.CorrelationId, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Enrichers.CorrelationId.1.0.1\lib\net45\Serilog.Enrichers.CorrelationId.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Console, Version=3.1.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Console.3.1.1\lib\net45\Serilog.Sinks.Console.dll</HintPath>
+    </Reference>
     <Reference Include="Serilog.Sinks.Elasticsearch, Version=5.3.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Sinks.Elasticsearch.5.3.0\lib\net45\Serilog.Sinks.Elasticsearch.dll</HintPath>
     </Reference>
@@ -51,6 +57,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,7 +68,8 @@
   <ItemGroup>
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Constants\Time.cs" />
+    <Compile Include="Constants\HttpConstants.cs" />
+    <Compile Include="Constants\TimeConstants.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />

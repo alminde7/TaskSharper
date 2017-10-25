@@ -103,6 +103,9 @@
     <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
@@ -210,6 +213,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Service.cs" />
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="Events\Resources\EventResources.cs" />
@@ -398,25 +402,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaskSharper.BusinessLayer\TaskSharper.BusinessLayer.csproj">
-      <Project>{041a25fc-dfda-46a6-972b-db0dccc1eef8}</Project>
-      <Name>TaskSharper.BusinessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TaskSharper.CacheStore\TaskSharper.CacheStore.csproj">
-      <Project>{2d89fb0a-65e7-40b6-a9f3-cf71300403c0}</Project>
-      <Name>TaskSharper.CacheStore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TaskSharper.DataAccessLayer.Google\TaskSharper.DataAccessLayer.Google.csproj">
-      <Project>{9f579bfe-0bdc-4c2c-84fa-9b4c12f1d516}</Project>
-      <Name>TaskSharper.DataAccessLayer.Google</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
       <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
       <Name>TaskSharper.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaskSharper.Notification\TaskSharper.Notification.csproj">
-      <Project>{f5a1abd8-6797-489e-b296-b099f1455d7c}</Project>
-      <Name>TaskSharper.Notification</Name>
+    <ProjectReference Include="..\TaskSharper.Service.NotificationClient\TaskSharper.Service.NotificationClient.csproj">
+      <Project>{fcf63ae8-6cb5-4d69-b076-8bf95ff50f19}</Project>
+      <Name>TaskSharper.Service.NotificationClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Service.RestClient\TaskSharper.Service.RestClient.csproj">
+      <Project>{f611b989-0c55-4170-b520-4ea7392bd53d}</Project>
+      <Name>TaskSharper.Service.RestClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaskSharper.Shared\TaskSharper.Shared.csproj">
       <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
