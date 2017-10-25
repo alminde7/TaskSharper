@@ -24,6 +24,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 
         private DateTime _date;
         private bool _isCurrentDay;
+        private bool _isWithinSelectedMonth;
 
         public DelegateCommand GoToDayViewCommand { get; set; }
 
@@ -42,9 +43,16 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             set => SetProperty(ref _isCurrentDay, value);
         }
 
+        public bool IsWithinSelectedMonth
+        {
+            get => _isWithinSelectedMonth;
+            set => SetProperty(ref _isWithinSelectedMonth, value);
+        }
+        
         public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventRestClient eventManager, CalendarTypeEnum dateType, ILogger logger, IRegionManager regionManager)
         {
             IsCurrentDay = false;
+            IsWithinSelectedMonth = true;
 
             // Initialize objects
             _eventAggregator = eventAggregator;
