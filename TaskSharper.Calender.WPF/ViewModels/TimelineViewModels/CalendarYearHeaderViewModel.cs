@@ -60,7 +60,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SetDate(Date);
         }
 
-        private void SetDate(DateTime date)
+        public void SetDate(DateTime date)
         {
             Date = date;
 

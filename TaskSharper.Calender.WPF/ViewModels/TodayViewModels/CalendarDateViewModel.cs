@@ -52,7 +52,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SetDate(CurrentDate);
         }
 
-        private void SetDate(DateTime date)
+        public void SetDate(DateTime date)
         {
             CurrentCulture = CultureInfo.CurrentCulture;
             DateCultureInfo = DateTimeFormatInfo.CurrentInfo;
@@ -66,10 +66,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             switch (state)
             {
                 case DateChangedEnum.Increase:
-                    CurrentDate = CurrentDate.AddMonths(1);
+                    SetDate(CurrentDate.AddMonths(1));
                     break;
                 case DateChangedEnum.Decrease:
-                    CurrentDate = CurrentDate.AddMonths(-1);
+                    SetDate(CurrentDate.AddMonths(-1));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -82,10 +82,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             switch (state)
             {
                 case DateChangedEnum.Increase:
-                    CurrentDate = CurrentDate.AddDays(7);
+                    SetDate(CurrentDate.AddDays(7));
                     break;
                 case DateChangedEnum.Decrease:
-                    CurrentDate = CurrentDate.AddDays(-7);
+                    SetDate(CurrentDate.AddDays(-7));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -98,10 +98,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             switch (state)
             {
                 case DateChangedEnum.Increase:
-                    CurrentDate = CurrentDate.AddDays(1);
+                    SetDate(CurrentDate.AddDays(1));
                     break;
                 case DateChangedEnum.Decrease:
-                    CurrentDate = CurrentDate.AddDays(-1);
+                    SetDate(CurrentDate.AddDays(-1));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

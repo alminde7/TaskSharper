@@ -73,8 +73,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 if (DateTime.TryParse(navigationContext.Parameters["date"].ToString(), out var day))
                 {
                     EventsViewModel.Date = day;
-                    DateViewModel.CurrentDate = day;
-                    DateYearHeader.Date = day;
+                    DateViewModel.SetDate(day);
+                    DateYearHeader.SetDate(day);
                 }
             }
             catch
