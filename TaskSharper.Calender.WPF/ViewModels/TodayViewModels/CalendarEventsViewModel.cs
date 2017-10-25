@@ -146,9 +146,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 Backgrounds.Add(new CalendarEventsBackground
                 {
-                    Height = Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay,
+                    Height = Settings.Default.CalendarStructure_Height_1200 / TimeConstants.HoursInADay,
                     LocX = 0,
-                    LocY = i * Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay
+                    LocY = i * Settings.Default.CalendarStructure_Height_1200 / TimeConstants.HoursInADay
                 });
             }
 
@@ -173,7 +173,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             try
             {
-                var calendarEvents = await _eventManager.GetEventsAsync(Date.Date);
+                var calendarEvents = await _dataService.GetAsync(Date.Date);
                 var columnIndex = 0;
 
                 foreach (var @event in calendarEvents)
