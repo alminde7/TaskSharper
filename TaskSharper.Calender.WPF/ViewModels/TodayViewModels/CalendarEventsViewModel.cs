@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Media;
@@ -10,6 +12,7 @@ using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Constants;
@@ -22,7 +25,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
         private readonly ILogger _logger;
-        private readonly IEventManager _evenrManager;
+        private readonly IEventManager _eventManager;
         private CalendarEventsCurrentTimeLine _timeLine;
         private DateTime _date;
 
@@ -52,7 +55,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
-            _evenrManager = eventManager;
+            _eventManager = eventManager;
             _logger = logger.ForContext<CalendarEventsViewModel>();
 
             // Initialize containers
@@ -131,7 +134,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             if (Date.Date == obj.Start.Value.Date)
             {
-                _evenrManager.UpdateEvent(obj);
+                _eventManager.UpdateEvent(obj);
                 UpdateView();
             }
         }
@@ -143,9 +146,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 Backgrounds.Add(new CalendarEventsBackground
                 {
-                    Height = 50,
+                    Height = Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay,
                     LocX = 0,
-                    LocY = i * 50
+                    LocY = i * Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay
                 });
             }
 
@@ -155,7 +158,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 Height = 1,
                 LocX = 0,
-                LocY = 1200 / Time.HoursInADay * (now.Hour + now.Minute / Time.MinutesInAnHour),
+                LocY = Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay * (now.Hour + now.Minute / Time.MinutesInAnHour),
                 StrokeDashArray = DateTime.Today == Date.Date ? new DoubleCollection { 4, 0 } : new DoubleCollection { 2, 4 }
             };
 
@@ -166,9 +169,36 @@ namespace TaskSharper.Calender.WPF.ViewModels
             timer.Enabled = true;
         }
 
+        private async Task<(double simultaneousEvents, double column)> SimultaneousEvents(Event eventObj)
+        {
+            try
+            {
+                var calendarEvents = await _eventManager.GetEventsAsync(Date.Date);
+                var columnIndex = 0;
+
+                foreach (var @event in calendarEvents)
+                {
+                    if (@event.Start < eventObj.End && eventObj.Start < @event.End && @event.Start < eventObj.Start)
+                    {
+                        columnIndex++;
+                    } else if (@event.Start < eventObj.End && eventObj.Start < @event.End && @event.Start > eventObj.Start)
+                    {
+                        
+                    }
+                }
+
+                return (calendarEvents.Count(i => i.Start < eventObj.End && eventObj.Start < i.End), columnIndex);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error orcurred while getting event data");
+                return (0,0);
+            }
+        }
+
         private void UpdateTimeLine(object source, ElapsedEventArgs e)
         {
-            TimeLine.LocY = 1200 / Time.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / Time.MinutesInAnHour);
+            TimeLine.LocY = Settings.Default.CalendarStructure_Height_1200 / Time.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / Time.MinutesInAnHour);
             
             TimeLine.StrokeDashArray = DateTime.Today == Date.Date ?
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 4, 0 }) :
@@ -188,17 +218,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var calendarEvents = await _evenrManager.GetEventsAsync(Date.Date);
+                var calendarEvents = await _eventManager.GetEventsAsync(Date.Date);
 
                 foreach (var calendarEvent in calendarEvents)
                 {
                     if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
+                    var simultaneousEvents = await SimultaneousEvents(calendarEvent);
                     var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
                     {
-                        LocY = calendarEvent.Start.Value.Hour / Time.HoursInADay * 1200 +
-                               calendarEvent.Start.Value.Minute / Time.MinutesInAnHour / Time.HoursInADay * 1200, // TODO: Declare 1200 as a constant somewhere
-                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / Time.MinutesInAnHour / Time.HoursInADay * 1200,
+                        LocY = calendarEvent.Start.Value.Hour / Time.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
+                               calendarEvent.Start.Value.Minute / Time.MinutesInAnHour / Time.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
+                        SimultaneousEvents = simultaneousEvents.simultaneousEvents,
+                        Column = simultaneousEvents.column,
+                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / Time.MinutesInAnHour / Time.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
                         Event = calendarEvent
+                        // Width and LocX are set in the OnLoaded and OnSizeChanged method
                     };
                     
                     CalendarEvents.Add(viewModel);
