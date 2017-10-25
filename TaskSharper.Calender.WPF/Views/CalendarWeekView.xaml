@@ -81,7 +81,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" 
+        <ScrollViewer x:Name="ContentScrollViewer" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" 
                       PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden">
             <Border BorderBrush="Black" BorderThickness="0">
                 <Grid>
