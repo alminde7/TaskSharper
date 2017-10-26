@@ -14,7 +14,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 {
     public class CalendarEventShowDetailsViewModel : BindableBase , INavigationAware
     {
-        private readonly IEventManager _calendarService;
+        private readonly IEventRestClient _calendarService;
         private readonly IRegionManager _regionManager;
         private Event _selectedEvent;
         private bool _eventIsTypeTask;
@@ -55,7 +55,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _selectedEvent, value);
         }
 
-        public CalendarEventShowDetailsViewModel(IEventManager calendarService, IRegionManager regionManager)
+        public CalendarEventShowDetailsViewModel(IEventRestClient calendarService, IRegionManager regionManager)
         {
             _calendarService = calendarService;
             _regionManager = regionManager;
@@ -64,11 +64,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             EventDetailsClickCommand = new DelegateCommand(EventEditDetailsClick);
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             var id = navigationContext.Parameters["id"].ToString();
 
-            SelectedEvent = _calendarService.GetEvent(id);
+            SelectedEvent = await _calendarService.GetAsync(id);
 
             EventIsTypeTask = SelectedEvent.Type == EventType.Task;
             EventIsTypeAppointment = SelectedEvent.Type == EventType.Appointment;
