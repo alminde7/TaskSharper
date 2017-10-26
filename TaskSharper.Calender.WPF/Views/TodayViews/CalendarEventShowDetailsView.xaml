@@ -18,7 +18,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="{x:Type Label}" x:Key="DetailsLabelHeader">
-            <Setter Property="FontSize" Value="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}"/>
+            <Setter Property="FontSize" Value="36"/>
             <Setter Property="Margin" Value="0,3,0,0"/>
         </Style>
         <Style TargetType="{x:Type Label}" x:Key="DetailsLabelContent">
@@ -36,65 +36,122 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="StackPanel"  x:Key="VisibilityTypeTask">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding EventIsTypeTask}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding EventIsTypeTask}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="StackPanel"  x:Key="VisibilityTypeAppointment">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding EventIsTypeAppointment}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding EventIsTypeAppointment}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="StackPanel"  x:Key="VisibilityStatusConfirmed">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding EventIsStatusConfirmed}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding EventIsStatusConfirmed}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="StackPanel"  x:Key="VisibilityStatusTentative">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding EventIsStatusTentative}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding EventIsStatusTentative}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
       
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2.6*"/>
             <RowDefinition Height="20*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <Button Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentBtnStyle}">
-            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
+            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Margin="0,0,0,0" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
         </Button>
-        <StackPanel Grid.Column="1" Grid.Row="1">
-            <StackPanel Orientation="Horizontal">
-                <Label Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Title}"></Label>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Style="{StaticResource DetailsLabelHeader}" Content="{Binding SelectedEvent.Title}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="2" Grid.Row="1">
+            <StackPanel Orientation="Vertical" Margin="0,0,100,0">
+                <StackPanel Orientation="Horizontal">
+                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Description}"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <ScrollViewer PanningMode="VerticalOnly" 
+                                  PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
+                        <TextBox Width="300" FontSize="18" BorderThickness="0px" MaxHeight="500" IsEnabled="False" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True" Text="{Binding SelectedEvent.Description}"  ></TextBox>
+                    </ScrollViewer>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Start}"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.Start}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc End}"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.End}" />
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.Title}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Description}"></Label>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" >
-                <ScrollViewer PanningMode="VerticalOnly" 
-                              PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
-                    <TextBox Width="500" Height="150" FontSize="18" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True" Text="{Binding SelectedEvent.Description}"  ></TextBox>
-                </ScrollViewer>
-            </StackPanel>
-           
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Type}"></Label>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.Type}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Status}"></Label>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.Status}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Start}"></Label>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.Start}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc End}"></Label>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.End}" />
+            <StackPanel Orientation="Vertical" >
+                <StackPanel Orientation="Horizontal">
+                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Type}"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                    <StackPanel HorizontalAlignment="Center" Style="{StaticResource VisibilityTypeTask}">
+                        <fa:ImageAwesome Icon="Tasks" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
+                        <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Task}" />
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource VisibilityTypeAppointment}">
+                        <fa:ImageAwesome Icon="ListUl" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
+                        <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Appointment}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Status}"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                    <StackPanel HorizontalAlignment="Center" Style="{StaticResource VisibilityStatusConfirmed}">
+                        <fa:ImageAwesome Icon="CalendarCheckOutline" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
+                        <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Confirmed}" />
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource VisibilityStatusTentative}">
+                        <fa:ImageAwesome Icon="CalendarPlusOutline" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
+                        <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Tentative}" />
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
             <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
                 <fa:ImageAwesome Icon="Edit" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TaskOpacity}"/>
             </Button>

@@ -17,9 +17,37 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IEventManager _calendarService;
         private readonly IRegionManager _regionManager;
         private Event _selectedEvent;
+        private bool _eventIsTypeTask;
+        private bool _eventIsTypeAppointment;
+        private bool _eventIsStatusConfirmed;
+        private bool _eventIsStatusTentative;
 
         public DelegateCommand EventDetailsClickCommand { get; set; }
         public DelegateCommand BackCommand { get; set; }
+
+        public bool EventIsStatusConfirmed
+        {
+            get => _eventIsStatusConfirmed;
+            set => SetProperty(ref _eventIsStatusConfirmed, value);
+        }
+
+        public bool EventIsStatusTentative
+        {
+            get => _eventIsStatusTentative;
+            set => SetProperty(ref _eventIsStatusTentative, value);
+        }
+
+        public bool EventIsTypeTask
+        {
+            get => _eventIsTypeTask;
+            set => SetProperty(ref _eventIsTypeTask, value);
+        }
+
+        public bool EventIsTypeAppointment
+        {
+            get => _eventIsTypeAppointment;
+            set => SetProperty(ref _eventIsTypeAppointment, value);
+        }
 
         public Event SelectedEvent
         {
@@ -41,6 +69,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             var id = navigationContext.Parameters["id"].ToString();
 
             SelectedEvent = _calendarService.GetEvent(id);
+
+            EventIsTypeTask = SelectedEvent.Type == Event.EventType.Task;
+            EventIsTypeAppointment = SelectedEvent.Type == Event.EventType.Appointment;
+            EventIsStatusConfirmed = SelectedEvent.Status == Event.EventStatus.Confirmed;
+            EventIsStatusTentative = SelectedEvent.Status == Event.EventStatus.Tentative;
+
         }
 
         private void EventEditDetailsClick()

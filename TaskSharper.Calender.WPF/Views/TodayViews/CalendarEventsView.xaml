@@ -79,7 +79,8 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventClickCommand}">
+                    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
+
                         <Grid x:Name="EventsContainer">
                             <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
                                 <Label Content="{Binding Event.Title}"/>
@@ -88,18 +89,7 @@
                             <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
                                 <Label Content="{Binding Event.Description}"/>
                             </TextBlock>
-                            <Popup Grid.Row="1" Name="eventPop" IsOpen="{Binding IsPopupOpen}" StaysOpen="False">
-                                <Border BorderBrush="Blue" BorderThickness="1"
-                                        Background="AliceBlue">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="{Binding Event.Title}" FontWeight="Bold" Margin="10,5"></TextBlock>
-                                        <TextBlock Text="{Binding Event.Description}"
-                                                   Margin="10,5"
-                                                   Width="150" TextWrapping="Wrap"/>
-                                        <Button Command="{Binding EventDetailsClickCommand}">More...</Button>
-                                    </StackPanel>
-                                </Border>
-                            </Popup>
+                 
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
