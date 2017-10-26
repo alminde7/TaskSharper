@@ -29,8 +29,8 @@ namespace TaskSharper.Domain.Calendar
         /// </summary>
         public DateTime? Start
         {
-            get => _start.Value.ToLocalTime();
-            set => _start = value.Value.ToUniversalTime();
+            get => _start?.ToLocalTime();
+            set => _start = value?.ToUniversalTime();
         }
 
         private DateTime? _end;
@@ -40,8 +40,8 @@ namespace TaskSharper.Domain.Calendar
         /// </summary>
         public DateTime? End
         {
-            get => _end.Value.ToLocalTime();
-            set => _end = value.Value.ToUniversalTime();
+            get => _end?.ToLocalTime();
+            set => _end = value?.ToUniversalTime();
         }
 
         /// <summary>
