@@ -178,12 +178,25 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
                 foreach (var @event in calendarEvents)
                 {
-                    if (@event.Start < eventObj.End && eventObj.Start < @event.End && @event.Start < eventObj.Start)
+                    if (@event.Start < eventObj.End && eventObj.Start < @event.End) // If this is true, there is some kind of overlapping
                     {
-                        columnIndex++;
-                    } else if (@event.Start < eventObj.End && eventObj.Start < @event.End && @event.Start > eventObj.Start)
-                    {
-                        
+                        if (@event.Start < eventObj.Start)
+                        {
+                            columnIndex++;
+                        }
+                        if (@event.Start < eventObj.Start && eventObj.End < @event.End)
+                        {
+                            columnIndex++;
+                        }
+                        if (@event.Start == eventObj.Start && @event.End < eventObj.End)
+                        {
+                            columnIndex++;
+                        }
+                        if (!eventObj.Id.Equals(@event.Id) && @event.Start == eventObj.Start && @event.End == eventObj.End)
+                        {
+                            //columnIndex++;
+                            // TODO: Figure out what to do in this case...
+                        }
                     }
                 }
 
