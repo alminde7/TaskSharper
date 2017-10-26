@@ -70,10 +70,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             SelectedEvent = _calendarService.GetEvent(id);
 
-            EventIsTypeTask = SelectedEvent.Type == Event.EventType.Task;
-            EventIsTypeAppointment = SelectedEvent.Type == Event.EventType.Appointment;
-            EventIsStatusConfirmed = SelectedEvent.Status == Event.EventStatus.Confirmed;
-            EventIsStatusTentative = SelectedEvent.Status == Event.EventStatus.Tentative;
+            EventIsTypeTask = SelectedEvent.Type == EventType.Task;
+            EventIsTypeAppointment = SelectedEvent.Type == EventType.Appointment;
+            EventIsStatusConfirmed = SelectedEvent.Status == EventStatus.Confirmed;
+            EventIsStatusTentative = SelectedEvent.Status == EventStatus.Tentative;
 
         }
 
