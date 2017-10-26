@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json;
 using RestSharp;
 using Serilog;
 using Serilog.Context;
@@ -31,7 +32,16 @@ namespace TaskSharper.Service.RestClient
             _logger = logger.ForContext<EventRestClient>();
             _restClient.BaseUrl = new Uri(BaseUrl);
         }
-        
+
+        public Event Get(string id)
+        {
+            var request = _requestFactory.Create($"{Controller}/{id}", Method.GET);
+
+            var result = _restClient.Execute<Event>(request);
+
+            return CreateResponse(result);
+        }
+
         public async Task<Event> GetAsync(string id)
         {
             var request = _requestFactory.Create($"{Controller}/{id}", Method.GET);
@@ -79,7 +89,7 @@ namespace TaskSharper.Service.RestClient
             };
 
             var request = _requestFactory.Create(Controller, Method.POST);
-            request.AddBody(eventDto);
+            request.AddObject(eventDto);
 
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
 
@@ -89,8 +99,7 @@ namespace TaskSharper.Service.RestClient
         public async Task<Event> UpdateAsync(Event updatedEvent)
         {
             var request = _requestFactory.Create(Controller, Method.PUT);
-
-            request.AddBody(updatedEvent);
+            request.AddObject(updatedEvent);
 
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
 

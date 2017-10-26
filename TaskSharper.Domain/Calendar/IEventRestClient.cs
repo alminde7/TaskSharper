@@ -8,6 +8,7 @@ namespace TaskSharper.Domain.Calendar
 {
     public interface IEventRestClient
     {
+        Event Get(string id);
         Task<Event> GetAsync(string id);
 
         Task<IEnumerable<Event>> GetAsync(DateTime date);
