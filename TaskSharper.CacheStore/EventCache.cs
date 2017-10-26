@@ -104,9 +104,9 @@ namespace TaskSharper.CacheStore
             List<Event> events = new List<Event>();
             var diff = (end - start).Days;
 
-            if (diff == 0)
+            for (int i = 0; i <= diff; i++)
             {
-                var date = start.StartOfDay();
+                var date = start.AddDays(i).StartOfDay();
 
                 if (!Events.ContainsKey(date))
                     return null;
@@ -116,23 +116,6 @@ namespace TaskSharper.CacheStore
                         return null;
 
                     events.AddRange(Events[date].Values.Select(x => x.Event).ToList());
-                }
-            }
-            else
-            {
-                for (int i = 0; i < diff; i++)
-                {
-                    var date = start.AddDays(i).StartOfDay();
-
-                    if (!Events.ContainsKey(date))
-                        return null;
-                    else
-                    {
-                        if (Events[date].Values.Any(x => x.ForceUpdate || DataTooOld(x.Updated)))
-                            return null;
-
-                        events.AddRange(Events[date].Values.Select(x => x.Event).ToList());
-                    }
                 }
             }
 
