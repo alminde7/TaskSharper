@@ -101,17 +101,41 @@ namespace TaskSharper.CacheStore
 
         public IList<Event> GetEvents(DateTime start, DateTime end)
         {
-           
-            var eventsDictionaries = Events.Where(x => x.Key >= start.StartOfDay() && x.Key <= end.StartOfDay()).Select(x => x.Value).ToList();
-            if (eventsDictionaries.Count == 0) return null;
-
             List<Event> events = new List<Event>();
-            foreach (var calEvent in eventsDictionaries)
+            var diff = (end - start).Days;
+
+            if (diff == 0)
             {
-                if (calEvent.Values.Any(x => x.ForceUpdate || DataTooOld(x.Updated))) return null;
-                events.AddRange(calEvent.Values.Select(x => x.Event).ToList());
+                var date = start.StartOfDay();
+
+                if (!Events.ContainsKey(date))
+                    return null;
+                else
+                {
+                    if (Events[date].Values.Any(x => x.ForceUpdate || DataTooOld(x.Updated)))
+                        return null;
+
+                    events.AddRange(Events[date].Values.Select(x => x.Event).ToList());
+                }
             }
-            
+            else
+            {
+                for (int i = 0; i < diff; i++)
+                {
+                    var date = start.AddDays(i).StartOfDay();
+
+                    if (!Events.ContainsKey(date))
+                        return null;
+                    else
+                    {
+                        if (Events[date].Values.Any(x => x.ForceUpdate || DataTooOld(x.Updated)))
+                            return null;
+
+                        events.AddRange(Events[date].Values.Select(x => x.Event).ToList());
+                    }
+                }
+            }
+
             return events;
         }
 

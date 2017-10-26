@@ -8,7 +8,7 @@ using TaskSharper.Service.Config;
 
 namespace TaskSharper.Service
 {
-    class Service
+    public class Service
     {
         private IDisposable _webApp;
         private readonly string _hostUrl = $"http://+:8000";

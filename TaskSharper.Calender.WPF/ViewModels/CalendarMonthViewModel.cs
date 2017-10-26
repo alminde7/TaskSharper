@@ -2,17 +2,21 @@
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
-    public class CalendarMonthViewModel : BindableBase
+    public class CalendarMonthViewModel : BindableBase, INavigationAware
     {
         private const int DaysInWeek = 7;
         private DateTime _previousMonday;
@@ -63,7 +67,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             PrevCommand = new DelegateCommand(PrevMonth);
 
             //Event Subscriptions 
-            eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(UpdateCultureHandler);
+            eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(()=> UpdateCulture(CurrentDatetime));
 
             // Initialize view containers
             DateDays = new ObservableCollection<CalendarDateDayViewModel>();
@@ -83,28 +87,24 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
 
         #region ClickHandlers
-        private void PrevMonth()
+        private async void PrevMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(-1);
             SetMonthAndYearCulture();
             UpdateDates();
+            await UpdateViewsWithData();
         }
 
-        private void NextMonth()
+        private async void NextMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(1);
             SetMonthAndYearCulture();
             UpdateDates();
+            await UpdateViewsWithData();
         }
         #endregion
 
-
-        private void UpdateCultureHandler()
-        {
-            SetDate(CurrentDatetime);
-        }
-
-        private void SetDate(DateTime date)
+        private void UpdateCulture(DateTime date)
         {
             CurrentCulture = CultureInfo.CurrentCulture;
             CurrentDatetime = date;
@@ -178,7 +178,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             var firstDayOfMonth = CalculateDate(1, CurrentDatetime);
             FindPreviousMonday(firstDayOfMonth);
-
+            
             int weekCount = 0;
             WeekNumbers.Clear();
             for (int i = 0; i < 42; i++)
@@ -189,9 +189,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 {
                     weekCount++;
                     WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
-                    
                 }
-                    
                     
                 DateDays[i].UpdateDate(prevMonday);
 
@@ -220,6 +218,82 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             NumberOfWeeks = WeekNumbers.Count;
             UpdateIsWithinSelectedMonth();
+        }
+
+        private async Task UpdateViewsWithData()
+        {
+            var @events = await GetEvents(DateDays.First().Date, DateDays.Last().Date);
+            foreach (var eventContainer in DateDays)
+            {
+                var date = eventContainer.Date.StartOfDay();
+                if (@events.ContainsKey(date))
+                {
+                    eventContainer.UpdateView(@events[date]);
+                }
+                else
+                {
+                    eventContainer.UpdateView();
+                }
+            }
+        }
+
+        private async Task<IDictionary<DateTime, IList<Event>>> GetEvents(DateTime start, DateTime end)
+        {
+            var startdate = start.StartOfDay();
+            var enddate = end.EndOfDay();
+
+            var weekEvents = await _dataService.GetAsync(start, end);
+
+            var days = new Dictionary<DateTime, IList<Event>>();
+
+            foreach (var weekEvent in weekEvents)
+            {
+                var date = weekEvent.Start.Value.Date.StartOfDay();
+
+                var diff = (weekEvent.End.Value.Date - weekEvent.Start.Value.Date).Days;
+
+                if (diff > 0)
+                {
+                    for (int i = 0; i < diff; i++)
+                    {
+                        if (days.ContainsKey(date.AddDays(i)))
+                        {
+                            days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                        }
+                        else
+                        {
+                            days.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                        }
+                    }
+                }
+                else
+                {
+                    if (days.ContainsKey(date))
+                    {
+                        days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                    }
+                    else
+                    {
+                        days.Add(date, new List<Event>() { weekEvent });
+                    }
+                }
+            }
+
+            return days;
+        }
+
+        public async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            await UpdateViewsWithData();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
     }
 }
