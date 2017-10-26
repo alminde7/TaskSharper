@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Prism.Events;
+using TaskSharper.Calender.WPF.Events.ScrollEvents;
+using TaskSharper.Calender.WPF.Properties;
 
 namespace TaskSharper.Calender.WPF.Views
 {
@@ -20,13 +23,23 @@ namespace TaskSharper.Calender.WPF.Views
     /// </summary>
     public partial class CalendarWeekView : UserControl
     {
-        public CalendarWeekView()
+        private IEventAggregator _eventAggregator;
+        public CalendarWeekView(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<ScrollUpEvent>().Subscribe(() => Scroll(-3 * Settings.Default.CalendarEvent_Height));
+            _eventAggregator.GetEvent<ScrollDownEvent>().Subscribe(() => Scroll(3 * Settings.Default.CalendarEvent_Height));
             InitializeComponent();
         }
+
         void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void Scroll(double offset)
+        {
+            ContentScrollViewer.ScrollToVerticalOffset(ContentScrollViewer.VerticalOffset + offset);
         }
     }
 }
