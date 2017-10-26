@@ -1,6 +1,7 @@
 ﻿using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Prism.Commands;
@@ -96,35 +97,28 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
         {
             Date = date;
             IsCurrentDay = Date.Date == DateTime.Now.Date;
-            UpdateView();
         }
 
-        private void UpdateView()
+        public void UpdateView(IList<Event> events = null)
         {
-            CalendarEvents.Clear();
-            GetEvents();
-        }
-
-        public async void GetEvents()
-        {
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-
-            try
+            if (events == null)
             {
-                var calendarEvents = await EventManager.GetAsync(Date);
-
-                foreach (var calendarEvent in calendarEvents)
-                {
-                    if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-                    CalendarEvents.Add(new CalendarDayEventViewModel() { Event = calendarEvent });
-
-                }
-                _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
+                CalendarEvents.Clear();
             }
-            catch (Exception e)
+            else
             {
-                _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-                _logger.Error(e, "Failed to update view");
+                CalendarEvents.Clear();
+                GetEvents(events);
+            }
+
+        }
+
+        private void GetEvents(IList<Event> calendarEvents)
+        {
+            foreach (var calendarEvent in calendarEvents)
+            {
+                if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
+                CalendarEvents.Add(new CalendarDayEventViewModel() { Event = calendarEvent });
             }
         }
 
