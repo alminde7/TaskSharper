@@ -48,7 +48,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             DateYearHeader = new CalendarYearHeaderViewModel(_eventAggregator, CalendarTypeEnum.Week, _logger);
 
             CurrentWeek = DateTime.Now;
-
             InitializeViews();
         }
 
@@ -166,6 +165,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Publish(EventResources.ScrollButtonsEnum.Show);
             await UpdateViews();
         }
 
@@ -176,6 +176,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Publish(EventResources.ScrollButtonsEnum.Hide);
         }
 
         #endregion

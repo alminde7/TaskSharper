@@ -7,5 +7,11 @@
             Show,
             Hide
         }
+
+        public enum ScrollButtonsEnum
+        {
+            Show,
+            Hide
+        }
     }
 }
