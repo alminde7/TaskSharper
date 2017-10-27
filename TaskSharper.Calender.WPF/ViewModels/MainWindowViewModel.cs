@@ -36,7 +36,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
         {
-            eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
             _logger = logger.ForContext<MainWindowViewModel>();
@@ -51,8 +50,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             ScrollUpCommand = new DelegateCommand(ScrollUp);
             ScrollDownCommand = new DelegateCommand(ScrollDown);
             IsPopupOpen = false;
-            ScrollButtonsVisible = true;
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
         }
 
         private void ScrollUp()
@@ -69,8 +67,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void Navigate(string uri)
         {
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-            ScrollButtonsVisible = uri != "CalendarMonthView";
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri);
         }
 
@@ -135,6 +131,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     break;
                 case EventResources.SpinnerEnum.Hide:
                     SpinnerVisible = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void SetScrollButtonsVisibility(EventResources.ScrollButtonsEnum state)
+        {
+            switch (state)
+            {
+                case EventResources.ScrollButtonsEnum.Show:
+                    ScrollButtonsVisible = true;
+                    break;
+                case EventResources.ScrollButtonsEnum.Hide:
+                    ScrollButtonsVisible = false;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

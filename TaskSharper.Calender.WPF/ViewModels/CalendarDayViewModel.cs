@@ -85,6 +85,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            EventAggregator.GetEvent<ScrollButtonsEvent>().Publish(EventResources.ScrollButtonsEnum.Show);
             if (navigationContext == null || navigationContext.Parameters.ToList().Count <= 0)
             {
                 UpdateView();
@@ -110,6 +111,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            EventAggregator.GetEvent<ScrollButtonsEvent>().Publish(EventResources.ScrollButtonsEnum.Hide);
         }
 
         #endregion

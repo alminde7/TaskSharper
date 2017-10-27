@@ -14,19 +14,22 @@ namespace TaskSharper.BusinessLayer
 {
     public class EventManager : IEventManager
     {
+        private readonly INotificationPublisher _notificationPublisher;
         public ICalendarService CalendarService { get; }
         public ICacheStore Cache { get; }
         public INotification Notification { get; }
         public ILogger Logger { get; set; }
 
-        public EventManager(ICalendarService calendarService, ICacheStore cache, INotification notification, ILogger logger)
+        public EventManager(ICalendarService calendarService, ICacheStore cache, INotification notification, ILogger logger, INotificationPublisher notificationPublisher)
         {
+            _notificationPublisher = notificationPublisher;
             CalendarService = calendarService;
             Cache = cache;
             Notification = notification;
             Logger = logger.ForContext<EventManager>();
         }
-        
+
+        #region Synchronous methods
         public Event GetEvent(string id)
         {
             try
@@ -98,6 +101,7 @@ namespace TaskSharper.BusinessLayer
                 var events = Cache.GetEvents(start, end);
                 if (events == null)
                 {
+
                     events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
                     Cache.UpdateCacheStore(events, start, end);
                     Notification.Attach(events);
@@ -147,7 +151,9 @@ namespace TaskSharper.BusinessLayer
                 Logger.Error(e, "Could not fetch data from Google Calendar");
             }
         }
+        #endregion
 
+        #region Asynchronous methods
         public async Task<Event> GetEventAsync(string id)
         {
             try
@@ -280,5 +286,6 @@ namespace TaskSharper.BusinessLayer
             Cache.AddOrUpdateEvent(createdEvent);
             return createdEvent;
         }
+        #endregion
     }
 }

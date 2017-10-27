@@ -17,6 +17,7 @@ using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Notification;
+using TaskSharper.Service.Hubs;
 using TaskSharper.Shared.Logging;
 using Constants = TaskSharper.DataAccessLayer.Google.Constants;
 
@@ -59,6 +60,7 @@ namespace TaskSharper.Service.Config
 
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
             container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
+            container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>();
 
             container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI()));
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
@@ -54,14 +55,14 @@ namespace TaskSharper.Service.NotificationClient
             }
         }
 
-        public void Subscribe(Action<Event> callback)
+        public void Subscribe<T>(Action<T> callback)
         {
             if (!IsConnected)
             {
                 throw new ConnectionException($"There is no connection to hub {HubName} on server {_connection.Url}");
             }
             
-            _notificationHub.On<Event>(EventName, callback);
+            _notificationHub.On<T>(typeof(T).Name, callback);
         }
 
         public void Dispose()
