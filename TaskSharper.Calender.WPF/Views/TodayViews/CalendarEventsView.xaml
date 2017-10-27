@@ -83,11 +83,19 @@
                         <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
                             <Grid x:Name="EventsContainer">
                                 <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
-                                <Label Content="{Binding Event.Title}"/>
+                                <Label>
+                                    <Label.Content>
+                                        <AccessText TextWrapping="Wrap" Text="{Binding Event.Title}"/>
+                                    </Label.Content>
+                                </Label>
                                 </TextBlock>
 
                                 <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
-                                <Label Content="{Binding Event.Description}"/>
+                                <Label>
+                                    <Label.Content>
+                                        <AccessText TextWrapping="Wrap" Text="{Binding Event.Description}"/>
+                                    </Label.Content>
+                                </Label>
                                 </TextBlock>
 
 

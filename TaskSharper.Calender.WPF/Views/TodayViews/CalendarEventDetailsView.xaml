@@ -34,7 +34,6 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="15*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -43,7 +42,7 @@
         <Button Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentBtnStyle}">
             <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
         </Button>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SelectedEvent.Title}">
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding EditEvent.Title}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock.Style>
                 <Style>
                     <Setter Property="TextBlock.FontSize" Value="36" />
@@ -54,12 +53,16 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Title}" />
-                    <TextBox Text="{Binding EditEvent.Title}" Width="150" Margin="0,0,0,10"/>
+                    <TextBox Text="{Binding EditEvent.Title}" Width="200" Margin="0,0,0,10"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding TitleErrorMessage}" Foreground="Red"/>
                     
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Description}" />
-                    <TextBox Text="{Binding EditEvent.Description}" Width="150" Margin="0,0,0,10"/>
+                    <TextBox Text="{Binding EditEvent.Description}" Width="200" Height="180" Margin="0,0,0,10" TextWrapping="Wrap" />
 
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
+                    <components:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="50,0,0,0">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Type}" />
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Center">
                         <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetTypeAsTaskCommand}">
@@ -91,10 +94,6 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="50,0,0,0">
-                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
-                    <components:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}" />
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
                     <components:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}" />
@@ -103,7 +102,7 @@
                 </StackPanel>
             </StackPanel>
         </Viewbox>
-        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="3">
+        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
                     <fa:ImageAwesome Icon="Check" Foreground="Green"/>
