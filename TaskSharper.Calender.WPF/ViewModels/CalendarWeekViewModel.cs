@@ -60,6 +60,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Increase);
             await UpdateViews();
             _logger.ForContext("Click", typeof(WeekChangedEvent)).Information("NextWeek has been clicked");
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private async void PreviousWeek()
@@ -68,6 +69,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Decrease);
             await UpdateViews();
             _logger.ForContext("Click", typeof(WeekChangedEvent)).Information("PreviousWeek has been clicked");
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         #endregion
@@ -167,6 +169,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             await UpdateViews();
+            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

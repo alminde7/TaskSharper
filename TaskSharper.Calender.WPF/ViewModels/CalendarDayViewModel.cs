@@ -100,6 +100,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     DateYearHeader.SetDate(day);
                 }
             }
+            EventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
