@@ -9,6 +9,7 @@ using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.NotificationEvents;
 using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.ServerEvents;
@@ -85,6 +86,13 @@ namespace TaskSharper.Calender.WPF
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             });
             _notificationClient.Subscribe<FinishedGettingExternalDataEvent>(x => _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide));
+
+            _notificationClient.Subscribe<MissingConnectionEvent>(x => _eventAggregator.GetEvent<NotificationEvent>().Publish(new Notification()
+            {
+                Message = Resources.NoConnectionMessage,
+                Title = Resources.NoConnection,
+                NotificationType = NotificationTypeEnum.Error
+            }));
 
 
         }

@@ -57,6 +57,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             ScrollDownCommand = new DelegateCommand(ScrollDown);
             IsPopupOpen = false;
             _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
+            _eventAggregator.GetEvent<NotificationEvent>().Subscribe(ShowNotification);
             ScrollButtonsVisible = true;
 
             CheckServiceStatus();
@@ -147,7 +148,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _notificationType, value);
         }
 
-        private void ShowNotification(Events.Resources.Notification notification)
+        private void ShowNotification(Notification notification)
         {
             NotificationTitle = notification.Title;
             NotificationMessage = notification.Message;

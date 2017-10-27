@@ -186,6 +186,9 @@ namespace TaskSharper.BusinessLayer
             catch (HttpRequestException e)
             {
                 Logger.Error(e, "Could not fetch data from Google Calendar");
+                if (e.InnerException != null && e.InnerException.Message.Contains("www.googleapis.com"))
+                    _notificationPublisher.Publish(new MissingConnectionEvent());
+
                 return null;
             }
         }
@@ -209,6 +212,9 @@ namespace TaskSharper.BusinessLayer
             catch (HttpRequestException e)
             {
                 Logger.Error(e, "Could not fetch data from Google Calendar");
+                if (e.InnerException != null && e.InnerException.Message.Contains("www.googleapis.com"))
+                    _notificationPublisher.Publish(new MissingConnectionEvent());
+
                 return null;
             }
         }
@@ -232,6 +238,9 @@ namespace TaskSharper.BusinessLayer
             catch (HttpRequestException e)
             {
                 Logger.Error(e, "Could not fetch data from Google Calendar");
+                if (e.InnerException != null && e.InnerException.Message.Contains("www.googleapis.com"))
+                    _notificationPublisher.Publish(new MissingConnectionEvent());
+
                 return null;
             }
         }
@@ -255,8 +264,9 @@ namespace TaskSharper.BusinessLayer
             catch (HttpRequestException e)
             {
                 Logger.Error(e, "Could not fetch data from Google Calendar");
-                if(e.InnerException != null && e.InnerException.Message.Contains("www.googleapis.com"))
-                    _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
+                if (e.InnerException != null && e.InnerException.Message.Contains("www.googleapis.com"))                 
+                    _notificationPublisher.Publish(new MissingConnectionEvent());
+
                 return null;
             }
         }
@@ -280,6 +290,9 @@ namespace TaskSharper.BusinessLayer
             catch (Exception e)
             {
                 Logger.Error(e, $"Failed to update event with id {eventObj.Id}");
+                if (e.InnerException != null && e.InnerException.Message.Contains("www.googleapis.com"))
+                    _notificationPublisher.Publish(new MissingConnectionEvent());
+
                 return null;
             }
         }
@@ -296,6 +309,8 @@ namespace TaskSharper.BusinessLayer
             catch (HttpRequestException e)
             {
                 Logger.Error(e, "Could not fetch data from Google Calendar");
+                if (e.InnerException != null && e.InnerException.Message.Contains("www.googleapis.com"))
+                    _notificationPublisher.Publish(new MissingConnectionEvent());
             }
         }
 
