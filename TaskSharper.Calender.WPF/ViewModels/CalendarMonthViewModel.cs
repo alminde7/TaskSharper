@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Extensions;

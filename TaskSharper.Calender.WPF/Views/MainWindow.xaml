@@ -129,8 +129,9 @@
         </StackPanel>
 
         <Grid Grid.Row="1" Grid.Column="1">
-            <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48" Visibility="{Binding SpinnerVisible, Converter={StaticResource BoolToVis}}" />
-
+            <Grid ZIndex="100" Background="White" Opacity="0.75" Visibility="{Binding SpinnerVisible, Converter={StaticResource BoolToVis}}">
+                <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48"/>
+            </Grid>
             <ContentControl BorderBrush="Black" BorderThickness="2" 
                             x:Name="CalendarRegion"
                             Height="Auto" 
