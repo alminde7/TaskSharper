@@ -216,7 +216,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Service.cs" />
+    <Compile Include="NotificationService.cs" />
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="Events\Resources\EventResources.cs" />
