@@ -214,8 +214,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private async void SaveEvent()
         {
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-
             if (EditEvent.Start > EditEvent.End || EditEvent.Title == "")
             {
                 DateTimeErrorMessage = EditEvent.Start > EditEvent.End ? Resources.ErrorEndTimeIsEarlierThanStartTime : null;
@@ -226,8 +224,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 SelectedEvent = await _dataService.UpdateAsync(EditEvent);
                 _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
             }
-            
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private void Cancel()

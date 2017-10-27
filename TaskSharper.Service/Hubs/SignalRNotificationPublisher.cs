@@ -22,7 +22,7 @@ namespace TaskSharper.Service.Hubs
         {
             // https://stackoverflow.com/questions/16079813/how-to-use-a-variable-as-a-method-name-using-dynamic-objects
             IClientProxy proxy = _context.Clients.All;
-            proxy.Invoke(typeof(T).Name,eventMessage);
+            proxy.Invoke(typeof(T).Name, eventMessage);
         }
     }
 }
