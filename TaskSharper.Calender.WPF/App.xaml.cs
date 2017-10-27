@@ -11,6 +11,8 @@ namespace TaskSharper.Calender.WPF
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            ShutdownMode = ShutdownMode.OnLastWindowClose;
+
             // https://github.com/SeriousM/WPFLocalizationExtension
             LocalizeDictionary.Instance.SetCurrentThreadCulture = true;
             LocalizeDictionary.Instance.Culture = new CultureInfo("en-US");

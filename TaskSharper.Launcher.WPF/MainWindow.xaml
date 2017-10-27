@@ -14,9 +14,21 @@
         </Grid.RowDefinitions>
         
         <UniformGrid Grid.Row="1" Rows="1" Margin="20">
-            <Button Margin="5" Content="Calendar" Click="OnCalendarClick"/>
-            <Button Margin="5" Content="Appointments" Click="OnAppointmentsClick"/>
-            <Button Margin="5" Content="Tasks" Click="OnTasksClick"/>
+            <Button Margin="5" Click="OnCalendarClick">
+                <Viewbox Margin="10">
+                    <TextBlock Text="Calendar"></TextBlock>
+                </Viewbox>
+            </Button>
+            <Button Margin="5" Click="OnAppointmentsClick">
+                <Viewbox Margin="10">
+                    <TextBlock Text="Appointments"></TextBlock>
+                </Viewbox>
+            </Button>
+            <Button Margin="5" Click="OnTasksClick">
+                <Viewbox Margin="10">
+                    <TextBlock Text="Tasks"></TextBlock>
+                </Viewbox>
+            </Button>
         </UniformGrid>
     </Grid>
 </Window>
