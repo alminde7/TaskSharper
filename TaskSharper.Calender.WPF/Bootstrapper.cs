@@ -56,10 +56,12 @@ namespace TaskSharper.Calender.WPF
             // Singletons
             Container.RegisterInstance(typeof(ILogger), logger);
             Container.RegisterInstance(typeof(IRestClient), new RestClient());
+           
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
             Container.RegisterType<IEventRestClient, EventRestClient>();
+            Container.RegisterType<IStatusRestClient, StatusRestClient>();
 
             var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
