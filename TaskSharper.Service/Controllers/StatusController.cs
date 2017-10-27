@@ -8,12 +8,20 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Serilog;
 using Serilog.Core;
+using TaskSharper.Domain.BusinessLayer;
 
 namespace TaskSharper.Service.Controllers
 {
     public class StatusController : ApiController
     {
         public ILogger Logger { get; set; }
+        private readonly IEventManager _eventManager;
+
+        public StatusController(IEventManager eventManager, ILogger logger)
+        {
+            _eventManager = eventManager;
+            Logger = logger.ForContext<EventsController>();
+        }
 
         [HttpGet]
         [ResponseType(typeof(IHttpActionResult))]
@@ -22,5 +30,6 @@ namespace TaskSharper.Service.Controllers
             var statusmsg = "Connected to service";
             return Content(HttpStatusCode.OK, statusmsg);
         }
+        
     }
 }

@@ -31,8 +31,8 @@ namespace TaskSharper.Service.RestClient
 
             var result = await _restClient.ExecuteTaskAsync<HttpStatusCode>(request, _logger);
 
-            if(result.StatusCode == HttpStatusCode.OK)
-            return true;
+            if (result.StatusCode == HttpStatusCode.OK)
+                return true;
 
             return false;
         }
