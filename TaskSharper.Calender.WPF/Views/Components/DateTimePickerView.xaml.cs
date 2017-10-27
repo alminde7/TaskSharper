@@ -50,8 +50,7 @@ namespace TaskSharper.Calender.WPF.Views.Components
         
         private void SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            var calendar = (Calendar) sender;
-            var selectedDate = calendar.SelectedDate.Value;
+            var selectedDate = ((Calendar)sender).SelectedDate.Value;
             
             Date = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day) + ((DateTime)Date).TimeOfDay;
         }

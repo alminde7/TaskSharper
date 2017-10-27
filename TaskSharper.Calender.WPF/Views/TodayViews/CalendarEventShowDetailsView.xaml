@@ -84,9 +84,9 @@
       
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2.6*"/>
-            <RowDefinition Height="20*"/>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -95,36 +95,40 @@
         <Button Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentBtnStyle}">
             <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Margin="0,0,0,0" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
         </Button>
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Style="{StaticResource DetailsLabelHeader}" Content="{Binding SelectedEvent.Title}" />
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="2" Grid.Row="1">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
             <StackPanel Orientation="Vertical" Margin="0,0,100,0">
                 <StackPanel Orientation="Horizontal">
                     <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Description}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" >
-                    <ScrollViewer PanningMode="VerticalOnly" 
+                    <ScrollViewer PanningMode="VerticalOnly" MaxHeight="500" Width="300"
                                   PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
-                        <TextBox Width="300" FontSize="18" BorderThickness="0px" MaxHeight="500" IsEnabled="False" TextWrapping="Wrap" IsReadOnly="True" AcceptsReturn="True" Text="{Binding SelectedEvent.Description}"  ></TextBox>
+                        <Label FontSize="18">
+                            <Label.Content>
+                                <AccessText TextWrapping="Wrap" Text="{Binding SelectedEvent.Description}"/>
+                            </Label.Content>
+                        </Label>
                     </ScrollViewer>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Start}"></Label>
+                    <Label Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Start}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.Start}" />
+                    <Label Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.Start}" ContentStringFormat="dd/MM/yyyy HH:mm" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc End}"></Label>
+                    <Label Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc End}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label  Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.End}" />
+                    <Label Style="{StaticResource DetailsLabelContent}" Content="{Binding SelectedEvent.End}" ContentStringFormat="dd/MM/yyyy HH:mm" />
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Vertical" >
                 <StackPanel Orientation="Horizontal">
-                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Type}"></Label>
+                    <Label Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Type}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
                     <StackPanel HorizontalAlignment="Center" Style="{StaticResource VisibilityTypeTask}">
@@ -137,7 +141,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Status}"></Label>
+                    <Label Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Status}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
                     <StackPanel HorizontalAlignment="Center" Style="{StaticResource VisibilityStatusConfirmed}">
@@ -151,10 +155,12 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
-            <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
-                <fa:ImageAwesome Icon="Edit" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TaskOpacity}"/>
-            </Button>
-        </StackPanel>
+        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
+                    <fa:ImageAwesome Icon="Edit" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TaskOpacity}"/>
+                </Button>
+            </StackPanel>
+        </Viewbox>
     </Grid>
 </UserControl>
