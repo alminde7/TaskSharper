@@ -23,15 +23,26 @@ namespace TaskSharper.Domain.Calendar
         /// </summary>
         public string Description { get; set; }
 
+        private DateTime? _start;
         /// <summary>
         /// The (inclusive) start time of the event.
         /// </summary>
-        public DateTime? Start { get; set; }
+        public DateTime? Start
+        {
+            get => _start?.ToLocalTime();
+            set => _start = value?.ToUniversalTime();
+        }
+
+        private DateTime? _end;
 
         /// <summary>
         /// The (exclusive) end time of the event.
         /// </summary>
-        public DateTime? End { get; set; }
+        public DateTime? End
+        {
+            get => _end?.ToLocalTime();
+            set => _end = value?.ToUniversalTime();
+        }
 
         /// <summary>
         /// Date object which is only set for all day events.

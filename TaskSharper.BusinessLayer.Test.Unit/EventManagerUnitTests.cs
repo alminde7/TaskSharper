@@ -23,6 +23,7 @@ namespace TaskSharper.BusinessLayer.Unit.Test
         private ICacheStore _cache;
         private INotification _notification;
         private ILogger _logger;
+        private INotificationPublisher _notificationPublisher;
 
 
         [SetUp]
@@ -32,8 +33,9 @@ namespace TaskSharper.BusinessLayer.Unit.Test
             _cache = Substitute.For<ICacheStore>();
             _logger = Substitute.For<ILogger>();
             _notification = Substitute.For<INotification>();
+            _notificationPublisher = Substitute.For<INotificationPublisher>();
 
-            _uut = new EventManager(_calendarService, _cache, _notification, _logger);
+            _uut = new EventManager(_calendarService, _cache, _notification, _logger, _notificationPublisher);
         }
 
         [TearDown]

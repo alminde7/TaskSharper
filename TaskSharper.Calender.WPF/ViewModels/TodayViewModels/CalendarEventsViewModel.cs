@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -24,22 +25,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
+        private readonly IList<Event> _events;
         private readonly ILogger _logger;
         private readonly IEventRestClient _dataService;
         private CalendarEventsCurrentTimeLine _timeLine;
-        private DateTime _date;
 
         // Setting Date automatically results in view data being updated
-        public DateTime Date
-        {
-            get => _date;
-            set
-            {
-                _date = value;
-                UpdateView();
-            }
-        }
-        
+        public DateTime Date { get; set; }
+
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
         public ObservableCollection<CalendarEventsBackground> Backgrounds { get; set; }
 
@@ -49,12 +42,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _timeLine, value);
         }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventRestClient dataService, CalendarTypeEnum dateType, ILogger logger)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventRestClient dataService, CalendarTypeEnum dateType, ILogger logger, IList<Event> events)
         {
             // Initialze object
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
+            _events = events;
             _dataService = dataService;
             _logger = logger.ForContext<CalendarEventsViewModel>();
 
@@ -73,6 +67,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             // Set date => Automatically update data in view
             Date = date;
+            UpdateView(events);
         }
 
         #region EventHandlers
@@ -140,6 +135,41 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         #endregion
 
+        public async void UpdateView(IList<Event> events = null)
+        {
+            if (events == null)
+            {
+                CalendarEvents?.Clear();
+            }
+            else
+            {
+                CalendarEvents?.Clear();
+                await UpdateEvents(events);
+                UpdateTimeLine(null, null);
+            }
+        }
+
+        private async Task UpdateEvents(IList<Event> events)
+        {
+            foreach (var calendarEvent in events)
+            {
+                if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
+                var simultaneousEvents = await SimultaneousEvents(calendarEvent);
+                var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
+                {
+                    LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
+                           calendarEvent.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
+                    SimultaneousEvents = simultaneousEvents.simultaneousEvents,
+                    Column = simultaneousEvents.column,
+                    Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
+                    Event = calendarEvent
+                    // Width and LocX are set in the OnLoaded and OnSizeChanged method
+                };
+
+                CalendarEvents.Add(viewModel);
+            }
+        }
+
         private void InitializeView()
         {
             for (int i = 1; i < TimeConstants.HoursInADay; i = i + 2)
@@ -178,12 +208,25 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
                 foreach (var @event in calendarEvents)
                 {
-                    if (@event.Start < eventObj.End && eventObj.Start < @event.End && @event.Start < eventObj.Start)
+                    if (@event.Start < eventObj.End && eventObj.Start < @event.End) // If this is true, there is some kind of overlapping
                     {
-                        columnIndex++;
-                    } else if (@event.Start < eventObj.End && eventObj.Start < @event.End && @event.Start > eventObj.Start)
-                    {
-                        
+                        if (@event.Start < eventObj.Start)
+                        {
+                            columnIndex++;
+                        }
+                        if (@event.Start < eventObj.Start && eventObj.End < @event.End)
+                        {
+                            columnIndex++;
+                        }
+                        if (@event.Start == eventObj.Start && @event.End < eventObj.End)
+                        {
+                            columnIndex++;
+                        }
+                        if (!eventObj.Id.Equals(@event.Id) && @event.Start == eventObj.Start && @event.End == eventObj.End)
+                        {
+                            //columnIndex++;
+                            // TODO: Figure out what to do in this case...
+                        }
                     }
                 }
 
@@ -204,49 +247,28 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 4, 0 }) :
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 2, 4 });
         }
+        
 
-        public void UpdateView()
-        {
-            CalendarEvents?.Clear();
-            GetEvents();
-            UpdateTimeLine(null, null);
-        }
 
-        private async void GetEvents()
-        {
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
+        //private async void GetEvents()
+        //{
+        //    _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
 
-            try
-            {
-                var calendarEvents = await _dataService.GetAsync(Date.Date);
+        //    try
+        //    {
+        //        var calendarEvents = await _dataService.GetAsync(Date.Date);
 
-                foreach (var calendarEvent in calendarEvents)
-                {
-                    if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-                    var simultaneousEvents = await SimultaneousEvents(calendarEvent);
-                    var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
-                    {
-                        LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
-                               calendarEvent.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                        SimultaneousEvents = simultaneousEvents.simultaneousEvents,
-                        Column = simultaneousEvents.column,
-                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                        Event = calendarEvent
-                        // Width and LocX are set in the OnLoaded and OnSizeChanged method
-                    };
-                    
-                    CalendarEvents.Add(viewModel);
-                }
 
-                _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-            }
-            catch (Exception e)
-            {
-                _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-                _logger.Error(e, "Error orcurred while getting event data");
 
-            }
-        }
+        //        _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
+        //        _logger.Error(e, "Error orcurred while getting event data");
+
+        //    }
+        //}
 
     }
 

@@ -50,6 +50,7 @@
     <Compile Include="Calendar\IStatusRestClient.cs" />
     <Compile Include="Notification\INotification.cs" />
     <Compile Include="Notification\INotificationClient.cs" />
+    <Compile Include="Notification\INotificationPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestDTO\EventDto.cs" />
   </ItemGroup>

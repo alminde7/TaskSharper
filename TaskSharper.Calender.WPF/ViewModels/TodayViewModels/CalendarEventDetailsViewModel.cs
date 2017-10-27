@@ -193,7 +193,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             EventTypes = Enum.GetValues(typeof(EventType)).Cast<EventType>();
             EventStatuses = Enum.GetValues(typeof(EventStatus)).Cast<EventStatus>().Except(new List<EventStatus>{ EventStatus.Cancelled });
-
+            EditEvent = new Event()
+            {
+                Start = DateTime.Today,
+                End = DateTime.Today
+            }; // Temporarily assign an empty event so DateTimePicker can bind to a non-null object (this will be properly set in the OnNavigatedTo method)
             _eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(CultureChanged);
         }
 
@@ -235,7 +239,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             var id = navigationContext.Parameters["id"].ToString();
 
-            SelectedEvent = await _dataService.GetAsync(id);
+            SelectedEvent = _dataService.Get(id);
             EditEvent = CopySelectedEvent();
             SetType(EditEvent.Type);
             SetStatus(EditEvent.Status);

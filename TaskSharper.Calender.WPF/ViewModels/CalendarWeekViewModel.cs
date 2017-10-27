@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.Remoting.Messaging;
+using System.Threading.Tasks;
 using Prism.Events;
 using Prism.Mvvm;
 using TaskSharper.Calender.WPF.Events;
@@ -9,6 +10,7 @@ using Prism.Commands;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -30,7 +32,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand PrevCommand { get; set; }
 
 
-        public CalendarWeekViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
+        public CalendarWeekViewModel(IEventRestClient dataService, IEventAggregator eventAggregator,
+            IRegionManager regionManager, ILogger logger)
         {
             _dataService = dataService;
             _eventAggregator = eventAggregator;
@@ -39,63 +42,131 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             NextCommand = new DelegateCommand(NextWeek);
             PrevCommand = new DelegateCommand(PreviousWeek);
-            
+
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
             DateYearHeader = new CalendarYearHeaderViewModel(_eventAggregator, CalendarTypeEnum.Week, _logger);
 
             CurrentWeek = DateTime.Now;
-
             InitializeViews();
         }
 
         #region Commands
-        private void NextWeek()
-        {
-            CallContext.SetData("CorrelationId", Guid.NewGuid().ToString());
 
+        private async void NextWeek()
+        {
             CurrentWeek = CurrentWeek.Date.AddDays(7);
             _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Increase);
+            await UpdateViews();
             _logger.ForContext("Click", typeof(WeekChangedEvent)).Information("NextWeek has been clicked");
         }
-        
-        private void PreviousWeek()
-        {
-            CallContext.SetData("CorrelationId", Guid.NewGuid().ToString());
 
+        private async void PreviousWeek()
+        {
             CurrentWeek = CurrentWeek.Date.AddDays(-7);
             _eventAggregator.GetEvent<WeekChangedEvent>().Publish(DateChangedEnum.Decrease);
+            await UpdateViews();
             _logger.ForContext("Click", typeof(WeekChangedEvent)).Information("PreviousWeek has been clicked");
         }
+
         #endregion
 
         #region Bootstrap Views
+
         private void InitializeViews()
         {
             for (int i = 1; i <= DaysInWeek; i++)
             {
                 var date = CalculateDate(i);
+
+                EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager,
+                    _dataService, CalendarTypeEnum.Week, _logger, new List<Event>()));
                 DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week, _logger));
-                EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager, _dataService, CalendarTypeEnum.Week, _logger));
             }
         }
 
         private DateTime CalculateDate(int day)
         {
-            var dayOffset = day - (int)DateTime.Now.DayOfWeek;
+            var dayOffset = day - (int) DateTime.Now.DayOfWeek;
 
             var dateTime = DateTime.Now.AddDays(dayOffset);
 
             return dateTime;
         }
+
         #endregion
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+
+        private async Task UpdateViews()
         {
-            foreach (var calendarEventsViewModel in EventContainers)
+            var @events = await GetEvents(CurrentWeek);
+            foreach (var eventContainer in EventContainers)
             {
-                calendarEventsViewModel.UpdateView();
+                var date = eventContainer.Date.StartOfDay();
+                if (@events.ContainsKey(date))
+                {
+                    eventContainer.UpdateView(@events[date]);
+                }
+                else
+                {
+                    eventContainer.UpdateView();
+                }
             }
+        }
+
+        private async Task<IDictionary<DateTime, IList<Event>>> GetEvents(DateTime week)
+        {
+            var start = week.StartOfWeek().StartOfDay();
+            var end = week.EndOfWeek().EndOfDay();
+
+            var weekEvents = await _dataService.GetAsync(start, end);
+
+            var days = new Dictionary<DateTime, IList<Event>>();
+
+            if (weekEvents == null) return days;
+
+            foreach (var weekEvent in weekEvents)
+            {
+                var date = weekEvent.Start.Value.Date.StartOfDay();
+
+                var diff = (weekEvent.End.Value.Date - weekEvent.Start.Value.Date).Days;
+
+                if (diff > 0)
+                {
+                    for (int i = 0; i < diff; i++)
+                    {
+                        if (days.ContainsKey(date.AddDays(i)))
+                        {
+                            days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                        }
+                        else
+                        {
+                            days.Add(date.AddDays(i), new List<Event>() {weekEvent});
+                        }
+                    }
+                }
+                else
+                {
+                    if (days.ContainsKey(date))
+                    {
+                        days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                    }
+                    else
+                    {
+                        days.Add(date, new List<Event>() { weekEvent });
+                    }
+                }
+            }
+
+            return days;
+        }
+
+        #region Please hide
+
+        public async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Publish(EventResources.ScrollButtonsEnum.Show);
+            await UpdateViews();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -105,6 +176,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Publish(EventResources.ScrollButtonsEnum.Hide);
         }
+
+        #endregion
     }
 }

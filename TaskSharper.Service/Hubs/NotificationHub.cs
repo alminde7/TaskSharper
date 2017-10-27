@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
@@ -39,7 +40,8 @@ namespace TaskSharper.Service.Hubs
 
         public void PublishNotification(Event calEvent)
         {
-            Clients.All.EventNotification(calEvent);
+            IClientProxy proxy = Clients.All;
+            proxy.Invoke(typeof(Event).Name, calEvent);
         }
     }
 }

@@ -27,26 +27,16 @@ namespace TaskSharper.Calender.WPF
             return Container.Resolve<MainWindow>();
         }
 
-        protected override void InitializeShell()
+        protected override async void InitializeShell()
         {
+            var service = Container.Resolve<NotificationService>();
+            await service.StartContinousService();
+
             Application.Current.MainWindow.Show();
 
             // Set default Calendar on start.
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarWeek);
-
-            var service = Container.Resolve<Service>();
-            service.StartContinousService().ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    // shit went wrong
-                }
-                else
-                {
-                    // shit went good
-                }
-            });
         }
         protected override void ConfigureContainer()
         {
@@ -77,7 +67,7 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
             Container.RegisterType<INotificationClient, NotificationClient>();
 
-            Container.RegisterInstance(typeof(Service));
+            Container.RegisterInstance(typeof(NotificationService));
         }
 
         protected override ILoggerFacade CreateLogger()

@@ -200,6 +200,7 @@
     <Compile Include="Events\Resources\DateChangedEnum.cs" />
     <Compile Include="Events\Resources\Notification.cs" />
     <Compile Include="Events\Resources\NotificationTypeEnum.cs" />
+    <Compile Include="Events\ScrollButtonsEvent.cs" />
     <Compile Include="Events\ScrollEvents\ScrollDownEvent.cs" />
     <Compile Include="Events\ScrollEvents\ScrollUpEvent.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
@@ -216,7 +217,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Service.cs" />
+    <Compile Include="NotificationService.cs" />
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="Events\Resources\EventResources.cs" />

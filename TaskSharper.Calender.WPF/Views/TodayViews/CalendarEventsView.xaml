@@ -39,7 +39,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-   
+
     <Canvas Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarStructure_Height_1200}" x:Name="CalendarEvents">
         <ItemsControl ItemsSource="{Binding Backgrounds}">
             <ItemsControl.ItemsPanel>
@@ -79,32 +79,33 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
-
-                        <Grid x:Name="EventsContainer">
-                            <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
+                    <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderThickness="1">
+                        <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
+                            <Grid x:Name="EventsContainer">
+                                <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
                                 <Label Content="{Binding Event.Title}"/>
-                            </TextBlock>
+                                </TextBlock>
 
-                            <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
+                                <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
                                 <Label Content="{Binding Event.Description}"/>
-                            </TextBlock>
-                 
+                                </TextBlock>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="LayoutUpdated">
-                                <prism:InvokeCommandAction Command="{Binding OnLayoutUpdatedCommand}" CommandParameter="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="Loaded">
-                                <prism:InvokeCommandAction Command="{Binding OnLoadedCommand}" CommandParameter="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                            </Grid>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LayoutUpdated">
+                                    <prism:InvokeCommandAction Command="{Binding OnLayoutUpdatedCommand}" CommandParameter="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="Loaded">
+                                    <prism:InvokeCommandAction Command="{Binding OnLoadedCommand}" CommandParameter="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

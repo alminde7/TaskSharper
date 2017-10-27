@@ -56,6 +56,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             ScrollUpCommand = new DelegateCommand(ScrollUp);
             ScrollDownCommand = new DelegateCommand(ScrollDown);
             IsPopupOpen = false;
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
             ScrollButtonsVisible = true;
 
             CheckServiceStatus();
@@ -90,7 +91,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void Navigate(string uri)
         {
-            ScrollButtonsVisible = uri != "CalendarMonthView";
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri);
         }
 
@@ -164,6 +164,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     break;
                 case EventResources.SpinnerEnum.Hide:
                     SpinnerVisible = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void SetScrollButtonsVisibility(EventResources.ScrollButtonsEnum state)
+        {
+            switch (state)
+            {
+                case EventResources.ScrollButtonsEnum.Show:
+                    ScrollButtonsVisible = true;
+                    break;
+                case EventResources.ScrollButtonsEnum.Hide:
+                    ScrollButtonsVisible = false;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
