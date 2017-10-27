@@ -199,6 +199,7 @@
     <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
     <Compile Include="Events\Resources\DateChangedEnum.cs" />
     <Compile Include="Events\Resources\Notification.cs" />
+    <Compile Include="Events\Resources\NotificationTypeEnum.cs" />
     <Compile Include="Events\ScrollEvents\ScrollDownEvent.cs" />
     <Compile Include="Events\ScrollEvents\ScrollUpEvent.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />

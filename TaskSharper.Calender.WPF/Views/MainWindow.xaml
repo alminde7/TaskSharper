@@ -52,6 +52,52 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="{x:Type Button}" x:Key="CloseNotificationButton">
+            <Setter Property="Background" Value="#5AA1E3" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="0" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <Path x:Name="PathIcon" Width="15" Height="25" HorizontalAlignment="Left" Margin="17,0,0,0" />
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#5ca2e8" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter TargetName="PathIcon" Property="Fill" Value="AliceBlue" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#80bdf2" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="StackPanel"  x:Key="PopUpBackground">
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding NotificationType}" Value="2">
+                    <Setter Property="Background" Value="#ff4264"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NotificationType}" Value="1">
+                    <Setter Property="Background" Value="#fca635"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NotificationType}" Value="0">
+                    <Setter Property="Background" Value="AliceBlue"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -93,7 +139,7 @@
                             prism:RegionManager.RegionName="CalendarRegion">
             </ContentControl>
         </Grid>
-        
+
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
@@ -141,14 +187,13 @@
                 <fa:ImageAwesome Icon="ArrowDown" Height="70" Margin="10,0,0,0" Foreground="White" />
             </Button>
         </Grid>
-
         <Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
             <Border BorderBrush="#5ca2e8" BorderThickness="1"
                     Background="AliceBlue">
-                <StackPanel Orientation="Vertical" Width="200" Height="100">
-                    <TextBlock Text="{Binding NotificationTitle}"  Height="20" FontWeight="Bold" Margin="10,5"></TextBlock>
-                    <TextBlock Text="{Binding NotificationMessage}"  Height="40" FontWeight="Bold" Margin="10,5"></TextBlock>
-                    <Button Command="{Binding CloseNotificationCommand}">Close</Button>
+                <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
+                    <TextBlock Text="{Binding NotificationTitle}" FontSize="18" Height="20" FontWeight="Bold" Margin="10,5"></TextBlock>
+                    <TextBlock Text="{Binding NotificationMessage}" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,50"></TextBlock>
+                    <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="{lex:Loc Close}"  Command="{Binding CloseNotificationCommand}"></Button>
                 </StackPanel>
             </Border>
         </Popup>
