@@ -6,8 +6,12 @@ namespace TaskSharper.Domain.Notification
 {
     public interface INotificationClient
     {
+        bool IsConnected { get; }
+        int ConnectionRetries { get; set; }
+        int ConnectionIntervalInMs { get; set; }
+
         Task Connect();
-        void Subscribe(Action<Event> callback);
+        void Subscribe<T>(Action<T> callback);
         void Dispose();
     }
 }

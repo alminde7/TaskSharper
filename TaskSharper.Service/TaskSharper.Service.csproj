@@ -168,6 +168,7 @@
     <Compile Include="Config\WebApiConfig.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
+    <Compile Include="Hubs\SignalRNotificationPublisher.cs" />
     <Compile Include="Middleware\CorrelationIdMiddleware.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
