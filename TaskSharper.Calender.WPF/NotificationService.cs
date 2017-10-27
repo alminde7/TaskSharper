@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
 using Serilog;
+using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.NotificationEvents;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
+using TaskSharper.Domain.ServerEvents;
 using TaskSharper.Service.NotificationClient.Exceptions;
 
 namespace TaskSharper.Calender.WPF
@@ -77,6 +79,12 @@ namespace TaskSharper.Calender.WPF
                     Title = x.Title
                 });
             });
+
+            _notificationClient.Subscribe<GettingExternalDataEvent>(x =>
+            {
+                _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
+            });
+            _notificationClient.Subscribe<FinishedGettingExternalDataEvent>(x => _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide));
 
 
         }

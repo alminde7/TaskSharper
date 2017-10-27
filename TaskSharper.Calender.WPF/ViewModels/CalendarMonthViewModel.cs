@@ -90,22 +90,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
         #region ClickHandlers
         private async void PrevMonth()
         {
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             CurrentDatetime = CurrentDatetime.AddMonths(-1);
             SetMonthAndYearCulture();
             UpdateDates();
             await UpdateViewsWithData();
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         private async void NextMonth()
         {
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             CurrentDatetime = CurrentDatetime.AddMonths(1);
             SetMonthAndYearCulture();
             UpdateDates();
             await UpdateViewsWithData();
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
         #endregion
 
@@ -290,7 +286,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             await UpdateViewsWithData();
-            _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
