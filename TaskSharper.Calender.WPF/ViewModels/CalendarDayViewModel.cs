@@ -43,7 +43,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             // Initialize views
             EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, _regionManager, dataService,
-                CalendarTypeEnum.Day, Logger, new List<Event>());
+                CalendarTypeEnum.Day, Logger);
             DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator, CalendarTypeEnum.Day, Logger);
             DateYearHeader = new CalendarYearHeaderViewModel(EventAggregator, CalendarTypeEnum.Day, Logger);
 

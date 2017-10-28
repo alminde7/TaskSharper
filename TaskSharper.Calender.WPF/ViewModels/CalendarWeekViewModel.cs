@@ -83,7 +83,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 var date = CalculateDate(i);
 
                 EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager,
-                    _dataService, CalendarTypeEnum.Week, _logger, new List<Event>()));
+                    _dataService, CalendarTypeEnum.Week, _logger));
                 DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week, _logger));
             }
         }

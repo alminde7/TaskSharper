@@ -44,18 +44,20 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
             _eventAggregator.GetEvent<NotificationEvent>().Subscribe(HandleNotificationEvent);
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
+
             NavigateCommand = new DelegateCommand<string>(Navigate);
             CloseNotificationCommand = new DelegateCommand(ClosePopUp);
-
-            NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
+
             ScrollUpCommand = new DelegateCommand(ScrollUp);
             ScrollDownCommand = new DelegateCommand(ScrollDown);
+
             IsPopupOpen = false;
-            _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
             ScrollButtonsVisible = true;
 
-            CheckServiceStatus();
+            // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
+            //CheckServiceStatus();
         }
 
         private async void CheckServiceStatus() 
