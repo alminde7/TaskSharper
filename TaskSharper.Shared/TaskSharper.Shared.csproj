@@ -70,6 +70,7 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Constants\HttpConstants.cs" />
     <Compile Include="Constants\TimeConstants.cs" />
+    <Compile Include="Exceptions\ConnectionException.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />

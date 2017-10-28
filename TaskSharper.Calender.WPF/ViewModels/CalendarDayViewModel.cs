@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.NotificationEvents;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -29,8 +33,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ICommand NextCommand { get; set; }
         public ICommand PrevCommand { get; set; }
 
-        public CalendarDayViewModel(IEventAggregator eventAggregator, IEventRestClient dataService,
-            IRegionManager regionManager, ILogger logger)
+        public CalendarDayViewModel(IEventAggregator eventAggregator, IEventRestClient dataService, IRegionManager regionManager, ILogger logger)
         {
             _regionManager = regionManager;
             EventAggregator = eventAggregator;
@@ -71,14 +74,42 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private async void UpdateView()
         {
-            var date = await GetEvents(CurrentDay);
-            EventsViewModel.UpdateView(date);
+            var data = await GetEvents(CurrentDay);
+            if (data != null)
+            {
+                ApplicationStatus.InternetConnection = true;
+                EventsViewModel.UpdateView(data);
+            }
         }
 
         public async Task<IList<Event>> GetEvents(DateTime date)
         {
-            var data = await DataService.GetAsync(date);
-            return data.ToList();
+            try
+            {
+                var data = await DataService.GetAsync(date);
+                return data.ToList();
+            }
+            catch (ConnectionException e)
+            {
+                EventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+                return null;
+            }
+            catch (ArgumentException e)
+            {
+                // Client error exception
+                return null;
+            }
+            catch (HttpException e)
+            {
+                // Internal server error
+                return null;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
         #region NavigationAware implementation

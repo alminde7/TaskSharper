@@ -13,7 +13,7 @@ using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.ServerEvents;
-using TaskSharper.Service.NotificationClient.Exceptions;
+using TaskSharper.Shared.Exceptions;
 
 namespace TaskSharper.Calender.WPF
 {

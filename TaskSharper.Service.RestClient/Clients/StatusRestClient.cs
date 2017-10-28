@@ -7,7 +7,7 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Service.RestClient.Extensions;
 using TaskSharper.Service.RestClient.Factories;
 
-namespace TaskSharper.Service.RestClient
+namespace TaskSharper.Service.RestClient.Clients
 {
     public class StatusRestClient : IStatusRestClient
     {

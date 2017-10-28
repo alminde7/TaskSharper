@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -33,6 +34,10 @@ namespace TaskSharper.Service.Controllers
                 var calEvent = await _eventManager.GetEventAsync(id);
                 return Content(HttpStatusCode.OK, calEvent);
             }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode)599, e);
+            }
             catch (Exception e)
             {
                 var errmsg = $"Failed to retrieve events for id {id}";
@@ -52,6 +57,10 @@ namespace TaskSharper.Service.Controllers
             {
                 var data = await _eventManager.GetEventsAsync(from, to);
                 return Content(HttpStatusCode.OK, data);
+            }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode)599, e);
             }
             catch (Exception e)
             {
@@ -85,6 +94,10 @@ namespace TaskSharper.Service.Controllers
                 var createdEvent = await _eventManager.CreateEventAsync(newEvent);
                 return Content(HttpStatusCode.Created, createdEvent);
             }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode) 599, e);
+            }
             catch (Exception e)
             {
                 var errmsg = $"Failed to create event";
@@ -102,6 +115,10 @@ namespace TaskSharper.Service.Controllers
                 var updatedEvent = await _eventManager.UpdateEventAsync(calEvent);
                 return Content(HttpStatusCode.Created, updatedEvent);
             }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode)599, e);
+            }
             catch (Exception e)
             {
                 var errmsg = $"Failed to update event with id: {calEvent.Id}";
@@ -118,6 +135,10 @@ namespace TaskSharper.Service.Controllers
             {
                 await _eventManager.DeleteEventAsync(id);
                 return Ok();
+            }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode)599, e);
             }
             catch (Exception e)
             {

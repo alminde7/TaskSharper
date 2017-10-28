@@ -191,6 +191,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Config\ApplicationStatus.cs" />
     <Compile Include="Config\ViewConstants.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
     <Compile Include="Events\CultureChangedEvent.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Events\NotificationEvents\NotificationEvent.cs" />
     <Compile Include="Events\Resources\CalendarTypeEnum.cs" />
     <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
+    <Compile Include="Events\Resources\ConnectionErrorNotification.cs" />
     <Compile Include="Events\Resources\DateChangedEnum.cs" />
     <Compile Include="Events\Resources\Notification.cs" />
     <Compile Include="Events\Resources\NotificationTypeEnum.cs" />

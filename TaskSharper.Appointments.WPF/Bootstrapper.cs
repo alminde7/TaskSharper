@@ -12,6 +12,7 @@ using TaskSharper.Shared.Logging;
 using Microsoft.Practices.Unity;
 using RestSharp;
 using Serilog;
+using TaskSharper.Service.RestClient.Clients;
 
 namespace TaskSharper.Appointments.WPF
 {
