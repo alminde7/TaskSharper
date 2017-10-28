@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using MoreLinq;
 using Prism.Events;
 using Prism.Mvvm;
 using TaskSharper.Calender.WPF.Events;
@@ -129,13 +131,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             try
             {
-                var weekEvents = await _dataService.GetAsync(start, end);
-
                 var days = new Dictionary<DateTime, IList<Event>>();
-
+                var weekEvents = await _dataService.GetAsync(start, end);
                 if (weekEvents == null) return days;
 
-                foreach (var weekEvent in weekEvents)
+                var uniqueEvents = weekEvents.DistinctBy(x => x.Id).ToList();
+
+                foreach (var weekEvent in uniqueEvents)
                 {
                     var date = weekEvent.Start.Value.Date.StartOfDay();
 
@@ -151,7 +153,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                             }
                             else
                             {
-                                days.Add(date.AddDays(i), new List<Event>() {weekEvent});
+                                days.Add(date.AddDays(i), new List<Event>() { weekEvent });
                             }
                         }
                     }

@@ -30,7 +30,7 @@ namespace TaskSharper.Service.RestClient.Clients
             var request = _requestFactory.Create(Controller, Method.GET);
 
             var result = await _restClient.ExecuteTaskAsync<HttpStatusCode>(request, _logger);
-
+            
             if (result.StatusCode == HttpStatusCode.OK)
                 return true;
 

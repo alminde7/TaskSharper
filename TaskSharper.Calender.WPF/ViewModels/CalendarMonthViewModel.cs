@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using MoreLinq;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
@@ -251,11 +252,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             try
             {
-                var weekEvents = await _dataService.GetAsync(start, end);
-                
                 var days = new Dictionary<DateTime, IList<Event>>();
+                var monthEvents = await _dataService.GetAsync(start, end);
+                if (monthEvents == null) return days;
 
-                foreach (var weekEvent in weekEvents)
+                var uniqueEvents = monthEvents.DistinctBy(x => x.Id).ToList();
+
+                foreach (var weekEvent in uniqueEvents)
                 {
                     var date = weekEvent.Start.Value.Date.StartOfDay();
 

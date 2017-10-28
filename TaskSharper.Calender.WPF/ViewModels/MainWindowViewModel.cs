@@ -57,7 +57,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             ScrollButtonsVisible = true;
 
             // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
-            //CheckServiceStatus();
+            CheckServiceStatus();
         }
 
         private async void CheckServiceStatus() 
