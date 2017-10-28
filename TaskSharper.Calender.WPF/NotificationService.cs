@@ -87,14 +87,6 @@ namespace TaskSharper.Calender.WPF
             });
             _notificationClient.Subscribe<FinishedGettingExternalDataEvent>(x => _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide));
 
-            _notificationClient.Subscribe<MissingConnectionEvent>(x => _eventAggregator.GetEvent<NotificationEvent>().Publish(new Notification()
-            {
-                Message = Resources.NoConnectionMessage,
-                Title = Resources.NoConnection,
-                NotificationType = NotificationTypeEnum.Error
-            }));
-
-
         }
     }
 }
