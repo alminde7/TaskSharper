@@ -7,12 +7,17 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
+using MoreLinq;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Calender.WPF.Events;
+using TaskSharper.Calender.WPF.Events.NotificationEvents;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
 using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -224,63 +229,91 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private async Task UpdateViewsWithData()
         {
             var @events = await GetEvents(DateDays.First().Date, DateDays.Last().Date);
-            foreach (var eventContainer in DateDays)
+            if (@events != null)
             {
-                var date = eventContainer.Date.StartOfDay();
-                if (@events.ContainsKey(date))
+                ApplicationStatus.InternetConnection = true;
+
+                foreach (var eventContainer in DateDays)
                 {
-                    eventContainer.UpdateView(@events[date]);
-                }
-                else
-                {
-                    eventContainer.UpdateView();
+                    var date = eventContainer.Date.StartOfDay();
+                    if (@events.ContainsKey(date))
+                    {
+                        eventContainer.UpdateView(@events[date]);
+                    }
+                    else
+                    {
+                        eventContainer.UpdateView();
+                    }
                 }
             }
         }
 
         private async Task<IDictionary<DateTime, IList<Event>>> GetEvents(DateTime start, DateTime end)
         {
-            var startdate = start.StartOfDay();
-            var enddate = end.EndOfDay();
-
-            var weekEvents = await _dataService.GetAsync(start, end);
-
-            var days = new Dictionary<DateTime, IList<Event>>();
-
-            foreach (var weekEvent in weekEvents)
+            try
             {
-                var date = weekEvent.Start.Value.Date.StartOfDay();
+                var days = new Dictionary<DateTime, IList<Event>>();
+                var monthEvents = await _dataService.GetAsync(start, end);
+                if (monthEvents == null) return days;
 
-                var diff = (weekEvent.End.Value.Date - weekEvent.Start.Value.Date).Days;
+                var uniqueEvents = monthEvents.DistinctBy(x => x.Id).ToList();
 
-                if (diff > 0)
+                foreach (var weekEvent in uniqueEvents)
                 {
-                    for (int i = 0; i < diff; i++)
+                    var date = weekEvent.Start.Value.Date.StartOfDay();
+
+                    var diff = (weekEvent.End.Value.Date - weekEvent.Start.Value.Date).Days;
+
+                    if (diff > 0)
                     {
-                        if (days.ContainsKey(date.AddDays(i)))
+                        for (int i = 0; i < diff; i++)
+                        {
+                            if (days.ContainsKey(date.AddDays(i)))
+                            {
+                                days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                            }
+                            else
+                            {
+                                days.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (days.ContainsKey(date))
                         {
                             days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
                         }
                         else
                         {
-                            days.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                            days.Add(date, new List<Event>() { weekEvent });
                         }
                     }
                 }
-                else
-                {
-                    if (days.ContainsKey(date))
-                    {
-                        days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
-                    }
-                    else
-                    {
-                        days.Add(date, new List<Event>() { weekEvent });
-                    }
-                }
-            }
 
-            return days;
+                return days;
+            }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+                return null;
+            }
+            catch (ArgumentException e)
+            {
+                // Client error exception
+                return null;
+            }
+            catch (HttpException e)
+            {
+                // Internal server error
+                return null;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)

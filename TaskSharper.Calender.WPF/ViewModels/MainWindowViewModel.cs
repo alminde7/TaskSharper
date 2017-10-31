@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Net;
-using System.Threading;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -13,8 +11,6 @@ using TaskSharper.Calender.WPF.Events.NotificationEvents;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.Events.ScrollEvents;
 using TaskSharper.Calender.WPF.Properties;
-using TaskSharper.Calender.WPF.Views;
-using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using WPFLocalizeExtension.Engine;
 
@@ -47,19 +43,20 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _statusRestClient = statusRestClient;
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
-            _eventAggregator.GetEvent<NotificationEvent>().Subscribe(ShowNotification);
+            _eventAggregator.GetEvent<NotificationEvent>().Subscribe(HandleNotificationEvent);
+            _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
+
             NavigateCommand = new DelegateCommand<string>(Navigate);
             CloseNotificationCommand = new DelegateCommand(ClosePopUp);
-
-            NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
+
             ScrollUpCommand = new DelegateCommand(ScrollUp);
             ScrollDownCommand = new DelegateCommand(ScrollDown);
+
             IsPopupOpen = false;
-            _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
-            _eventAggregator.GetEvent<NotificationEvent>().Subscribe(ShowNotification);
             ScrollButtonsVisible = true;
 
+            // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
             CheckServiceStatus();
         }
 
@@ -98,6 +95,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void ClosePopUp()
         {
             IsPopupOpen = false;
+            SetSpinnerVisibility(EventResources.SpinnerEnum.Hide);
         }
 
         public bool IsPopupOpen
@@ -148,8 +146,29 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _notificationType, value);
         }
 
+        private void HandleNotificationEvent(Notification notification)
+        {
+            if (notification is ConnectionErrorNotification)
+            {
+                if (ApplicationStatus.InternetConnection)
+                {
+                    ShowNotification(notification);
+                    ApplicationStatus.InternetConnection = false;
+                }
+                else
+                {
+                    SetSpinnerVisibility(EventResources.SpinnerEnum.Hide);
+                }
+            }
+            else
+            {
+                ShowNotification(notification);
+            }
+        }
+
         private void ShowNotification(Notification notification)
         {
+            SetSpinnerVisibility(EventResources.SpinnerEnum.Show);
             NotificationTitle = notification.Title;
             NotificationMessage = notification.Message;
             NotificationType = notification.NotificationType;

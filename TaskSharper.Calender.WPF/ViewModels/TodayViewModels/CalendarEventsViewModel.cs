@@ -25,12 +25,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly CalendarTypeEnum _dateType;
-        private readonly IList<Event> _events;
         private readonly ILogger _logger;
         private readonly IEventRestClient _dataService;
         private CalendarEventsCurrentTimeLine _timeLine;
-
-        // Setting Date automatically results in view data being updated
+        
         public DateTime Date { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
@@ -42,13 +40,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _timeLine, value);
         }
 
-        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventRestClient dataService, CalendarTypeEnum dateType, ILogger logger, IList<Event> events)
+        public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventRestClient dataService, CalendarTypeEnum dateType, ILogger logger)
         {
             // Initialze object
+            Date = date;
+
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _dateType = dateType;
-            _events = events;
             _dataService = dataService;
             _logger = logger.ForContext<CalendarEventsViewModel>();
 
@@ -64,10 +63,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             // Initialize view
             InitializeView();
-
-            // Set date => Automatically update data in view
-            Date = date;
-            UpdateView(events);
         }
 
         #region EventHandlers
@@ -135,26 +130,27 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         #endregion
 
-        public async void UpdateView(IList<Event> events = null)
+        public void UpdateView(IList<Event> events = null)
         {
             if (events == null)
             {
                 CalendarEvents?.Clear();
+                UpdateTimeLine(null, null);
             }
             else
             {
                 CalendarEvents?.Clear();
-                await UpdateEvents(events);
+                UpdateEvents(events);
                 UpdateTimeLine(null, null);
             }
         }
 
-        private async Task UpdateEvents(IList<Event> events)
+        private void UpdateEvents(IList<Event> events)
         {
             foreach (var calendarEvent in events)
             {
                 if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-                var simultaneousEvents = await SimultaneousEvents(calendarEvent);
+                var simultaneousEvents = SimultaneousEvents(calendarEvent, events);
                 var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
                 {
                     LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
@@ -199,44 +195,35 @@ namespace TaskSharper.Calender.WPF.ViewModels
             timer.Enabled = true;
         }
 
-        private async Task<(double simultaneousEvents, double column)> SimultaneousEvents(Event eventObj)
+        private (double simultaneousEvents, double column) SimultaneousEvents(Event eventObj, IList<Event> events)
         {
-            try
-            {
-                var calendarEvents = await _dataService.GetAsync(Date.Date);
-                var columnIndex = 0;
+            var columnIndex = 0;
 
-                foreach (var @event in calendarEvents)
+            foreach (var @event in events)
+            {
+                if (@event.Start < eventObj.End && eventObj.Start < @event.End) // If this is true, there is some kind of overlapping
                 {
-                    if (@event.Start < eventObj.End && eventObj.Start < @event.End) // If this is true, there is some kind of overlapping
+                    if (@event.Start < eventObj.Start)
                     {
-                        if (@event.Start < eventObj.Start)
-                        {
-                            columnIndex++;
-                        }
-                        if (@event.Start < eventObj.Start && eventObj.End < @event.End)
-                        {
-                            columnIndex++;
-                        }
-                        if (@event.Start == eventObj.Start && @event.End < eventObj.End)
-                        {
-                            columnIndex++;
-                        }
-                        if (!eventObj.Id.Equals(@event.Id) && @event.Start == eventObj.Start && @event.End == eventObj.End)
-                        {
-                            //columnIndex++;
-                            // TODO: Figure out what to do in this case...
-                        }
+                        columnIndex++;
+                    }
+                    if (@event.Start < eventObj.Start && eventObj.End < @event.End)
+                    {
+                        columnIndex++;
+                    }
+                    if (@event.Start == eventObj.Start && @event.End < eventObj.End)
+                    {
+                        columnIndex++;
+                    }
+                    if (!eventObj.Id.Equals(@event.Id) && @event.Start == eventObj.Start && @event.End == eventObj.End)
+                    {
+                        //columnIndex++;
+                        // TODO: Figure out what to do in this case...
                     }
                 }
+            }
 
-                return (calendarEvents.Count(i => i.Start < eventObj.End && eventObj.Start < i.End), columnIndex);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Error orcurred while getting event data");
-                return (0,0);
-            }
+            return (events.Count(i => i.Start < eventObj.End && eventObj.Start < i.End), columnIndex);
         }
 
         private void UpdateTimeLine(object source, ElapsedEventArgs e)
@@ -247,28 +234,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 4, 0 }) :
                 Application.Current.Dispatcher.Invoke(() => TimeLine.StrokeDashArray = new DoubleCollection { 2, 4 });
         }
-        
-
-
-        //private async void GetEvents()
-        //{
-        //    _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
-
-        //    try
-        //    {
-        //        var calendarEvents = await _dataService.GetAsync(Date.Date);
-
-
-
-        //        _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
-        //        _logger.Error(e, "Error orcurred while getting event data");
-
-        //    }
-        //}
 
     }
 

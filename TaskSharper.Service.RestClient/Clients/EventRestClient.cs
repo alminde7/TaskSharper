@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web;
-using Newtonsoft.Json;
 using RestSharp;
 using Serilog;
 using Serilog.Context;
@@ -13,9 +11,10 @@ using TaskSharper.Domain.RestDTO;
 using TaskSharper.Service.RestClient.Extensions;
 using TaskSharper.Service.RestClient.Factories;
 using TaskSharper.Shared.Constants;
+using TaskSharper.Shared.Exceptions;
 using TaskSharper.Shared.Extensions;
 
-namespace TaskSharper.Service.RestClient
+namespace TaskSharper.Service.RestClient.Clients
 {
     public class EventRestClient : IEventRestClient
     {
@@ -120,15 +119,21 @@ namespace TaskSharper.Service.RestClient
             //TODO:: Seek a better solution for this - maybe create an enricher
             using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, response.Request.GetCorrelationId()))
             {
-                var statusCode = response.StatusCode;
+                var statusCode = (int)response.StatusCode;
 
-                if ((int)statusCode >= 400 && (int)statusCode < 500) // User did something wrong
+                switch (statusCode)
+                {
+                    case 599:
+                        throw new ConnectionException("No internetconnection");
+                }
+
+                if (statusCode >= 400 && statusCode < 500) // User did something wrong
                 {
                     var exception = new ArgumentException(response.ErrorMessage);
                     _logger.Error(exception, "Request faild");
                     throw exception;
                 }
-                else if ((int)statusCode >= 500) // Application did something wrong
+                else if (statusCode >= 500) // Application did something wrong
                 {
                     var exception = new HttpException(response.ErrorMessage);
                     _logger.Error(exception, "Request faild");
@@ -146,15 +151,21 @@ namespace TaskSharper.Service.RestClient
             //TODO:: Seek a better solution for this - maybe create an enricher
             using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, response.Request.GetCorrelationId()))
             {
-                var statusCode = response.StatusCode;
+                var statusCode = (int)response.StatusCode;
 
-                if ((int)statusCode >= 400 && (int)statusCode < 500) // User did something wrong
+                switch (statusCode)
+                {
+                    case 599:
+                        throw new ConnectionException("No internetconnection");
+                }
+
+                if (statusCode >= 400 && statusCode < 500) // User did something wrong
                 {
                     var exception = new ArgumentException(response.ErrorMessage);
                     _logger.Error(exception, "Request faild");
                     throw exception;
                 }
-                else if ((int)statusCode >= 500) // Application did something wrong
+                else if (statusCode >= 500) // Application did something wrong
                 {
                     var exception = new HttpException(response.ErrorMessage);
                     _logger.Error(exception, "Request faild");

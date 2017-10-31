@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using TaskSharper.Calender.WPF.Properties;
+
 namespace TaskSharper.Calender.WPF.Events.Resources
 {
     public class Notification

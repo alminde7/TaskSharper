@@ -11,6 +11,7 @@ using TaskSharper.Service.RestClient;
 using TaskSharper.Service.RestClient.Factories;
 using TaskSharper.Shared.Logging;
 using Microsoft.Practices.Unity;
+using TaskSharper.Service.RestClient.Clients;
 
 namespace TaskSharper.Tasks.WPF
 {

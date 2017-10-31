@@ -14,6 +14,7 @@ using TaskSharper.Domain.Notification;
 using TaskSharper.Service.NotificationClient;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
 using TaskSharper.Service.RestClient;
+using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.Service.RestClient.Factories;
 
 namespace TaskSharper.Calender.WPF

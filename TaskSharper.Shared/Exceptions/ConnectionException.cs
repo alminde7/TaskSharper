@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TaskSharper.Service.NotificationClient.Exceptions
+namespace TaskSharper.Shared.Exceptions
 {
     public class ConnectionException : Exception
     {

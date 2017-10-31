@@ -7,7 +7,7 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Service.RestClient.Extensions;
 using TaskSharper.Service.RestClient.Factories;
 
-namespace TaskSharper.Service.RestClient
+namespace TaskSharper.Service.RestClient.Clients
 {
     public class StatusRestClient : IStatusRestClient
     {
@@ -30,7 +30,7 @@ namespace TaskSharper.Service.RestClient
             var request = _requestFactory.Create(Controller, Method.GET);
 
             var result = await _restClient.ExecuteTaskAsync<HttpStatusCode>(request, _logger);
-
+            
             if (result.StatusCode == HttpStatusCode.OK)
                 return true;
 
