@@ -90,7 +90,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarAllDayEventContainerView HorizontalAlignment="Stretch"></views:CalendarAllDayEventContainerView>
+                    <views:CalendarAllDayEventContainerView HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="0.25,0,0,0.1" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
