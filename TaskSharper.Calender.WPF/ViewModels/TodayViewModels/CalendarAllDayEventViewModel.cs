@@ -21,19 +21,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DateTime Date;
         private Event _event;
         public DelegateCommand EventDetailsClickCommand { get; set; }
-
-        private double _scrollPosition;
-
+        
         public Event Event
         {
             get => _event;
             set => SetProperty(ref _event, value);
-        }
-
-        public double ScrollPosition
-        {
-            get => _scrollPosition;
-            set => SetProperty(ref _scrollPosition, value);
         }
 
         public CalendarAllDayEventViewModel(DateTime date, IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
@@ -43,7 +35,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator = eventAggregator;
             _logger = logger;
             EventDetailsClickCommand = new DelegateCommand(EventDetailsClick);
-            ScrollPosition = 0;
         }
 
         private void Navigate(string uri)
