@@ -13,15 +13,15 @@ namespace TaskSharper.CacheStore
     {
         public ILogger Logger { get; set; }
         public ConcurrentDictionary<DateTime, Dictionary<string, CacheData>> Events { get; }
+
+        // TODO:: DELETE
         public DateTime LastUpdated { get; set; }
-        public TimeSpan UpdatedOffset { get; set; }
+        public TimeSpan UpdatedOffset { get; set; } = TimeSpan.FromMinutes(5);
 
         public EventCache(ILogger logger)
         {
             Logger = logger.ForContext<EventCache>();
             Events = new ConcurrentDictionary<DateTime, Dictionary<string, CacheData>>();
-
-            UpdatedOffset = TimeSpan.FromMinutes(5);
         }
 
         /// <summary>
@@ -31,6 +31,7 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasData(DateTime date)
         {
+            // TODO:: Take updated time into consideration
             return Events.ContainsKey(date.StartOfDay());
         }
 
@@ -42,6 +43,7 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasEvent(string id, DateTime date)
         {
+            // TODO:: Take updated time into consideration
             if (HasData(date.StartOfDay()))
             {
                 return Events[date.StartOfDay()].ContainsKey(id);
@@ -56,6 +58,7 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasEvent(string id)
         {
+            // TODO:: Take updated time into consideration
             return Events.Any(x => x.Value.ContainsKey(id));
         }
 
@@ -91,7 +94,10 @@ namespace TaskSharper.CacheStore
         /// Returns all events on a given date
         /// </summary>
         /// <param name="date"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// Return <see cref="null"/> 
+        /// Return <see cref="IList{Event}"/> 
+        /// </returns>
         public IList<Event> GetEvents(DateTime date)
         {
             if (HasData(date.StartOfDay()))
@@ -106,6 +112,15 @@ namespace TaskSharper.CacheStore
             return null;
         }
 
+        /// <summary>
+        /// Returns all events on a given date
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns>
+        /// Return <see cref="null"/> 
+        /// Return <see cref="IList{Event}"/> 
+        /// </returns>
         public IList<Event> GetEvents(DateTime start, DateTime end)
         {
             List<Event> events = new List<Event>();

@@ -152,17 +152,20 @@ namespace TaskSharper.CacheStore.Test.Unit
         public void UpdateCacheStore_AddListWithOneEventOnOneDate_EventContainerHasEventWithSpecifiedId()
         {
             string id = "123";
-            var date = new DateTime(2017, 3, 3);
+            var start = new DateTime(2017, 3, 3);
+            var end = new DateTime(2017, 3, 3).AddHours(2);
+
             var list = new List<Event>()
             {
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = id
                 }
             };
 
-            _uut.UpdateCacheStore(list, date, null);
+            _uut.UpdateCacheStore(list, start, end);
 
             Assert.True(_uut.HasEvent(id));
         }
@@ -179,7 +182,7 @@ namespace TaskSharper.CacheStore.Test.Unit
                 }
             };
 
-            Assert.Throws<ArgumentNullException>(()=> _uut.UpdateCacheStore(list, date, null));
+            Assert.Throws<InvalidOperationException>(()=> _uut.UpdateCacheStore(list, date, null));
         }
 
         [Test]
@@ -187,17 +190,19 @@ namespace TaskSharper.CacheStore.Test.Unit
         {
             var updated = _uut.LastUpdated;
             string id = "123";
-            var date = new DateTime(2017, 3, 3);
+            var start = new DateTime(2017, 3, 3);
+            var end = new DateTime(2017, 3, 3).AddHours(2);
             var list = new List<Event>()
             {
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = id
                 }
             };
 
-            _uut.UpdateCacheStore(list, date, null);
+            _uut.UpdateCacheStore(list, start, end);
 
             Assert.AreNotEqual(updated, _uut.LastUpdated);
         }
@@ -208,30 +213,33 @@ namespace TaskSharper.CacheStore.Test.Unit
             string id = "123";
             var d1 = "The first description";
             var d2 = "The second description";
-            var date = new DateTime(2017, 3, 3);
+            var start = new DateTime(2017, 3, 3);
+            var end = new DateTime(2017, 3, 3).AddHours(2);
             var firstList = new List<Event>()
             {
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Description = d1,
                     Id = id
                 }
             };
 
-            _uut.UpdateCacheStore(firstList, date, null);
+            _uut.UpdateCacheStore(firstList, start, end);
 
             var secondList = new List<Event>()
             {
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Description = d2,
                     Id = id
                 }
             };
 
-            _uut.UpdateCacheStore(secondList, date, null);
+            _uut.UpdateCacheStore(secondList, start, end);
 
             Assert.That(_uut.GetEvent(id).Description, Is.EqualTo(d2));
         }
@@ -257,59 +265,67 @@ namespace TaskSharper.CacheStore.Test.Unit
         [Test]
         public void GetEvents_3EventsAddedToDate_ReturnsListWith3Items()
         {
-            var date = new DateTime(2017, 3, 3);
+            var start = new DateTime(2017, 3, 3);
+            var end = new DateTime(2017, 3, 3).AddHours(2);
 
             var list = new List<Event>()
             {
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = "123"
                 },
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = "234"
                 },
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = "345"
                 }
             };
 
-            _uut.UpdateCacheStore(list, date, null);
+            _uut.UpdateCacheStore(list, start, end);
 
-            Assert.That(_uut.GetEvents(date).Count, Is.EqualTo(3));
+            Assert.That(_uut.GetEvents(start).Count, Is.EqualTo(3));
         }
 
         [Test]
         public void GetEvents_3EventsAddedToDateWithOnly1UniqueId_ReturnsListWith1Item()
         {
-            var date = new DateTime(2017, 3, 3);
+            var start = new DateTime(2017, 3, 3);
+            var end = new DateTime(2017, 3, 3).AddHours(2);
 
             var list = new List<Event>()
             {
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = "123"
                 },
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = "123"
                 },
                 new Event()
                 {
-                    Start = date,
+                    Start = start,
+                    End = end,
                     Id = "123"
                 }
             };
 
-            _uut.UpdateCacheStore(list, date, null);
+            _uut.UpdateCacheStore(list, start, end);
 
-            Assert.That(_uut.GetEvents(date).Count, Is.EqualTo(1));
+            Assert.That(_uut.GetEvents(start).Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -334,7 +350,8 @@ namespace TaskSharper.CacheStore.Test.Unit
                 list.Add(new Event()
                 {
                     Id = i.ToString(),
-                    Start = date1.AddDays(i)
+                    Start = date1.AddDays(i),
+                    End = date1.AddDays(i).AddHours(2)
                 });
             }
 
@@ -356,7 +373,8 @@ namespace TaskSharper.CacheStore.Test.Unit
                 list.Add(new Event()
                 {
                     Id = i.ToString(),
-                    Start = startDate.Date.AddDays(-i)
+                    Start = startDate.Date.AddDays(-i),
+                    End = startDate.Date.AddDays(-i).AddHours(2)
                 });
             }
 
@@ -395,7 +413,8 @@ namespace TaskSharper.CacheStore.Test.Unit
             var calEvent = new Event()
             {
                 Id = id,
-                Start = date
+                Start = date,
+                End = date.AddHours(2)
             };
 
             var list = new List<Event>()
@@ -416,7 +435,8 @@ namespace TaskSharper.CacheStore.Test.Unit
             var calEvent = new Event()
             {
                 Id = "321",
-                Start = date
+                Start = date,
+                End = date.AddHours(2)
             };
 
             var list = new List<Event>()
@@ -443,7 +463,8 @@ namespace TaskSharper.CacheStore.Test.Unit
             var calEvent = new Event()
             {
                 Id = id,
-                Start = date
+                Start = date,
+                End = date.AddHours(2)
             };
 
             var list = new List<Event>()
