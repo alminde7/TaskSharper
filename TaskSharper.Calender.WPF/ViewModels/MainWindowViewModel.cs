@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Globalization;
+using System.Media;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -72,7 +76,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     Message = Resources.NoConnectionMessage,
                     NotificationType = NotificationTypeEnum.Error
                 };
-                ShowNotification(notificationStatus);
+                await ShowNotification(notificationStatus);
             }
         }
         private void ScrollUp()
@@ -146,13 +150,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _notificationType, value);
         }
 
-        private void HandleNotificationEvent(Notification notification)
+        private async void HandleNotificationEvent(Notification notification)
         {
             if (notification is ConnectionErrorNotification)
             {
                 if (ApplicationStatus.InternetConnection)
                 {
-                    ShowNotification(notification);
+                    await ShowNotification(notification);
                     ApplicationStatus.InternetConnection = false;
                 }
                 else
@@ -162,17 +166,28 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
             else
             {
-                ShowNotification(notification);
+                await ShowNotification(notification);
             }
         }
 
-        private void ShowNotification(Notification notification)
+        private Task ShowNotification(Notification notification)
         {
             SetSpinnerVisibility(EventResources.SpinnerEnum.Show);
             NotificationTitle = notification.Title;
             NotificationMessage = notification.Message;
             NotificationType = notification.NotificationType;
+            
             IsPopupOpen = true;
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
+            {
+                var path = "Media/WindowsNotifyCalendar.wav";
+                SoundPlayer notificationSound = new SoundPlayer(path);
+                notificationSound.Load();
+                notificationSound.Play();
+            });
+            
+
+            return Task.CompletedTask;
         }
 
         private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
