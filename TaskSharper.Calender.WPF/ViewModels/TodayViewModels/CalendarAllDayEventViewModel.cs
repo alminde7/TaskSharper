@@ -21,11 +21,23 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DateTime Date;
         private Event _event;
         public DelegateCommand EventDetailsClickCommand { get; set; }
+
+        private string _eventTypeAndTitle;
         
         public Event Event
         {
             get => _event;
-            set => SetProperty(ref _event, value);
+            set
+            {
+                EventTypeAndTitle = $"{value.Type.ToString()}: {value.Title}";
+                SetProperty(ref _event, value);
+            }
+        }
+
+        public string EventTypeAndTitle
+        {
+            get => _eventTypeAndTitle;
+            set => SetProperty(ref _eventTypeAndTitle, value);
         }
 
         public CalendarAllDayEventViewModel(DateTime date, IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)

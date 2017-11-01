@@ -4,20 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters">
+             xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
+             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties">
 
     <UserControl.Resources>
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
-        <Style x:Key="EventTypeStyle" TargetType="TextBlock">
+        <Style x:Key="EventTypeStyle" TargetType="StackPanel">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
-                    <Setter Property="Background" Value="DarkOliveGreen"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorAppointment}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Task}" Value="true">
-                    <Setter Property="Background" Value="CornflowerBlue"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorTask}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}" Value="true">
-                    <Setter Property="Background" Value="DarkOliveGreen"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorNone}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -48,11 +49,11 @@
         </ItemsControl.ItemContainerStyle>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border BorderBrush="Black" BorderThickness="0.25">
+                <Border BorderBrush="Black" BorderThickness="0.25" Margin="2">
                     <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
-                        <TextBlock Style="{StaticResource EventTypeStyle}">
-                            <Label Content="{Binding Event.Title}" />
-                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Style="{StaticResource EventTypeStyle}" HorizontalAlignment="Stretch">
+                            <Label Content="{Binding EventTypeAndTitle}" />
+                        </StackPanel>
                     </Button>
                 </Border>
             </DataTemplate>
