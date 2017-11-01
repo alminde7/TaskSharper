@@ -26,6 +26,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ILogger Logger { get; }
 
         public CalendarEventsViewModel EventsViewModel { get; set; }
+        public CalendarAllDayEventViewModel AllDayEvent { get; set; }
         public CalendarDateViewModel DateViewModel { get; set; }
         public CalendarYearHeaderViewModel DateYearHeader { get; set; }
         public DateTime CurrentDay { get; set; }
@@ -44,6 +45,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             // Initialize views
             EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, _regionManager, dataService,
                 CalendarTypeEnum.Day, Logger);
+            AllDayEvent = new CalendarAllDayEventViewModel(CurrentDay, regionManager, eventAggregator, logger);
             DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator, CalendarTypeEnum.Day, Logger);
             DateYearHeader = new CalendarYearHeaderViewModel(EventAggregator, CalendarTypeEnum.Day, Logger);
 
@@ -75,40 +77,48 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private async void UpdateView()
         {
             var data = await GetEvents(CurrentDay);
-            if (data != null)
+            if (data.normalEvents != null)
             {
                 ApplicationStatus.InternetConnection = true;
-                EventsViewModel.UpdateView(data);
+                EventsViewModel.UpdateView(data.normalEvents);
+            }
+            if (data.allDayEvents != null)
+            {
+                ApplicationStatus.InternetConnection = true;
+                AllDayEvent.Event = data.allDayEvents.FirstOrDefault();
             }
         }
 
-        public async Task<IList<Event>> GetEvents(DateTime date)
+        public async Task<(IList<Event> normalEvents, IList<Event> allDayEvents)> GetEvents(DateTime date)
         {
             try
             {
                 var data = await DataService.GetAsync(date);
-                return data.ToList();
+                var normalEvents = data.Where(e => !e.AllDayEvent.HasValue);
+                var allDayEvents = data.Where(e => e.AllDayEvent.HasValue);
+
+                return (normalEvents.ToList(), allDayEvents.ToList());
             }
             catch (ConnectionException e)
             {
                 EventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
-                return null;
+                return (null,null);
             }
             catch (ArgumentException e)
             {
                 // Client error exception
-                return null;
+                return (null, null);
             }
             catch (HttpException e)
             {
                 // Internal server error
-                return null;
+                return (null, null);
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return (null, null);
             }
         }
 

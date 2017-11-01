@@ -62,7 +62,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl ItemsSource="{Binding AllDayEvents}">
+        <!--<ItemsControl ItemsSource="{Binding AllDayEvents}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -80,7 +80,7 @@
                     <views:CalendarAllDayEventView Width="Auto" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="0.25,0,0,0"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        </ItemsControl>-->
         <ItemsControl ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
-             d:DesignHeight="50" d:DesignWidth="100">
+             xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters">
 
     <UserControl.Resources>
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>

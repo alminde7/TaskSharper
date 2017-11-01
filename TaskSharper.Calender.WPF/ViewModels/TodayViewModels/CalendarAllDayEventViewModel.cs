@@ -18,6 +18,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
         private readonly ILogger _logger;
+        public DateTime Date;
         private Event _event;
         public DelegateCommand EventDetailsClickCommand { get; set; }
 
@@ -35,8 +36,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _scrollPosition, value);
         }
 
-        public CalendarAllDayEventViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
+        public CalendarAllDayEventViewModel(DateTime date, IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
         {
+            Date = date;
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
             _logger = logger;
