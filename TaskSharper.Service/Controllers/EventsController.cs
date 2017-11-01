@@ -12,6 +12,7 @@ using TaskSharper.Domain.RestDTO;
 
 namespace TaskSharper.Service.Controllers
 {
+    [Attributes.Log]
     public class EventsController : ApiController
     {
         private readonly IEventManager _eventManager;

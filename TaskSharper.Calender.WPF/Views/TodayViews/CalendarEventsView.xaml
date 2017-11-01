@@ -13,16 +13,16 @@
 
     <UserControl.Resources>
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
-        <Style x:Key="EventTypeStyle" TargetType="TextBlock">
+        <Style x:Key="EventTypeStyle" TargetType="Grid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
-                    <Setter Property="Background" Value="DarkOliveGreen"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorAppointment}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Task}" Value="true">
-                    <Setter Property="Background" Value="CornflowerBlue"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorTask}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}" Value="true">
-                    <Setter Property="Background" Value="DarkOliveGreen"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorNone}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -79,30 +79,37 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="0.5">
+                    <Border BorderBrush="Black" BorderThickness="0.5" Margin="2">
                         <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
-                            <Grid x:Name="EventsContainer">
-                                <TextBlock Grid.Row="0" Style="{StaticResource EventTypeStyle}">
-                                <Label>
-                                    <Label.Content>
-                                        <AccessText TextWrapping="Wrap" Text="{Binding Event.Title}"/>
-                                    </Label.Content>
-                                </Label>
-                                </TextBlock>
-
-                                <TextBlock Grid.Row="1" Style="{StaticResource EventTypeStyle}">
-                                <Label>
-                                    <Label.Content>
-                                        <AccessText TextWrapping="Wrap" Text="{Binding Event.Description}"/>
-                                    </Label.Content>
-                                </Label>
-                                </TextBlock>
-
-
+                            <Grid x:Name="EventsContainer" Style="{StaticResource EventTypeStyle}">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0">
+                                    <Label>
+                                        <Label.Content>
+                                            <AccessText TextWrapping="Wrap" Text="{Binding Event.Title}"/>
+                                        </Label.Content>
+                                    </Label>
+                                </TextBlock>
+
+                                <TextBlock Grid.Row="1">
+                                    <Label>
+                                        <Label.Content>
+                                            <AccessText TextWrapping="Wrap" Text="{Binding Event.Description}"/>
+                                        </Label.Content>
+                                    </Label>
+                                </TextBlock>
+                                
+                                <TextBlock Grid.Row="2" HorizontalAlignment="Right">
+                                    <Label>
+                                        <Label.Content>
+                                            <AccessText TextWrapping="Wrap" Text="{Binding Event.Type}"/>
+                                        </Label.Content>
+                                    </Label>
+                                </TextBlock>
                             </Grid>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LayoutUpdated">
