@@ -82,7 +82,7 @@
 
         </Grid>
 
-        <views:CalendarAllDayEventView Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" DataContext="{Binding AllDayEvent}"></views:CalendarAllDayEventView>
+        <views:CalendarAllDayEventContainerView Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" DataContext="{Binding AllDayEventContainer}"></views:CalendarAllDayEventContainerView>
         
         <ScrollViewer x:Name="ContentScrollViewer" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="UIElement_OnManipulationBoundaryFeedback" PanningRatio="1" PanningDeceleration="500">
             <Grid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,7 +27,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ILogger Logger { get; }
 
         public CalendarEventsViewModel EventsViewModel { get; set; }
-        public CalendarAllDayEventViewModel AllDayEvent { get; set; }
+        public CalendarAllDayEventContainerViewModel AllDayEventContainer { get; set; }
         public CalendarDateViewModel DateViewModel { get; set; }
         public CalendarYearHeaderViewModel DateYearHeader { get; set; }
         public DateTime CurrentDay { get; set; }
@@ -45,7 +46,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             // Initialize views
             EventsViewModel = new CalendarEventsViewModel(CurrentDay, eventAggregator, _regionManager, dataService,
                 CalendarTypeEnum.Day, Logger);
-            AllDayEvent = new CalendarAllDayEventViewModel(CurrentDay, regionManager, eventAggregator, logger);
+            AllDayEventContainer = new CalendarAllDayEventContainerViewModel(CurrentDay, regionManager, eventAggregator, logger);
             DateViewModel = new CalendarDateViewModel(CurrentDay, eventAggregator, CalendarTypeEnum.Day, Logger);
             DateYearHeader = new CalendarYearHeaderViewModel(EventAggregator, CalendarTypeEnum.Day, Logger);
 
@@ -85,7 +86,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             if (data.allDayEvents != null)
             {
                 ApplicationStatus.InternetConnection = true;
-                AllDayEvent.Event = data.allDayEvents.FirstOrDefault();
+                AllDayEventContainer.SetAllDayEvents(data.allDayEvents.ToList());
             }
         }
 

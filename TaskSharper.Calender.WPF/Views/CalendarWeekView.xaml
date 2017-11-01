@@ -82,7 +82,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl ItemsSource="{Binding AllDayEvents}" Grid.Row="2" Grid.Column="1">
+        <ItemsControl ItemsSource="{Binding AllDayEventContainers}" Grid.Row="2" Grid.Column="1">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="1"/>
@@ -90,7 +90,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <views:CalendarAllDayEventView HorizontalAlignment="Stretch"></views:CalendarAllDayEventView>
+                    <views:CalendarAllDayEventContainerView HorizontalAlignment="Stretch"></views:CalendarAllDayEventContainerView>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

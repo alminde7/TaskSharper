@@ -30,7 +30,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly ILogger _logger;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
-        public ObservableCollection<CalendarAllDayEventViewModel> AllDayEvents { get; set; }
+        public ObservableCollection<CalendarAllDayEventContainerViewModel> AllDayEventContainers { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
         public CalendarYearHeaderViewModel DateYearHeader { get; set; }
         public DateTime CurrentWeek { get; set; }
@@ -50,7 +50,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             PrevCommand = new DelegateCommand(PreviousWeek);
 
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
-            AllDayEvents = new ObservableCollection<CalendarAllDayEventViewModel>();
+            AllDayEventContainers = new ObservableCollection<CalendarAllDayEventContainerViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
             DateYearHeader = new CalendarYearHeaderViewModel(_eventAggregator, CalendarTypeEnum.Week, _logger);
 
@@ -89,7 +89,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager,
                     _dataService, CalendarTypeEnum.Week, _logger));
                 DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week, _logger));
-                AllDayEvents.Add(new CalendarAllDayEventViewModel(date, _regionManager, _eventAggregator, _logger));
+                AllDayEventContainers.Add(new CalendarAllDayEventContainerViewModel(date, _regionManager, _eventAggregator, _logger));
             }
         }
 
@@ -129,16 +129,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 ApplicationStatus.InternetConnection = true;
 
-                foreach (var allDayEvent in AllDayEvents)
+                foreach (var allDayEventContainer in AllDayEventContainers)
                 {
-                    var date = allDayEvent.Date.StartOfDay();
+                    var date = allDayEventContainer.Date.StartOfDay();
                     if (@events.allDayEvents.ContainsKey(date))
                     {
-                        allDayEvent.Event = @events.allDayEvents[date].FirstOrDefault();
+                        allDayEventContainer.SetAllDayEvents(@events.allDayEvents[date].ToList());
                     }
                     else
                     {
-                        allDayEvent.Event = null;
+                        allDayEventContainer.SetAllDayEvents();
                     }
                 }
             }
