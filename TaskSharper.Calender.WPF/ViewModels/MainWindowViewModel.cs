@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows.Controls;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -28,6 +29,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private string _notificationTitle;
         private string _notificationMessage;
         private NotificationTypeEnum _notificationType;
+        private MediaElement _notificationSound;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
         public DelegateCommand CloseNotificationCommand { get; set; }
@@ -41,6 +43,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator = eventAggregator;
             _logger = logger.ForContext<MainWindowViewModel>();
             _statusRestClient = statusRestClient;
+
+            _notificationSound = new MediaElement
+            {
+                LoadedBehavior = MediaState.Manual,
+                UnloadedBehavior = MediaState.Manual,
+                Source = new Uri("Media/WindowsNotifyCalendar.wav", UriKind.Relative),
+                Volume = 10
+            };
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
             _eventAggregator.GetEvent<NotificationEvent>().Subscribe(HandleNotificationEvent);
@@ -171,8 +181,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SetSpinnerVisibility(EventResources.SpinnerEnum.Show);
             NotificationTitle = notification.Title;
             NotificationMessage = notification.Message;
-            NotificationType = notification.NotificationType;
+            NotificationType = notification.NotificationType;     
             IsPopupOpen = true;
+            _notificationSound.Play();
         }
 
         private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
