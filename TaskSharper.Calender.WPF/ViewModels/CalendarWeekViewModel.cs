@@ -166,20 +166,29 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
                     for (int i = 0; i <= diff; i++)
                     {
-                        if (days.ContainsKey(date.AddDays(i)) || allDayEventDays.ContainsKey(date.AddDays(i)))
+                        if (weekEvent.AllDayEvent.HasValue)
                         {
-                            if (weekEvent.AllDayEvent.HasValue)
+                            if (allDayEventDays.ContainsKey(date.AddDays(i)))
+                            {
                                 allDayEventDays[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                            }
                             else
-                                days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                            {
+                                allDayEventDays.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                            }
                         }
                         else
                         {
-                            if (weekEvent.AllDayEvent.HasValue)
-                                allDayEventDays.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                            if (days.ContainsKey(date.AddDays(i)))
+                            {
+                                days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                            }
                             else
+                            {
                                 days.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                            }
                         }
+                        
                     }
                 }
 

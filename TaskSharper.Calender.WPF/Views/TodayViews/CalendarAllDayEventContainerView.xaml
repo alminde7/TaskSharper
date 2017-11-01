@@ -48,7 +48,7 @@
         </ItemsControl.ItemContainerStyle>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderThickness="1">
+                <Border BorderBrush="Black" BorderThickness="0.25">
                     <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
                         <TextBlock Style="{StaticResource EventTypeStyle}">
                             <Label Content="{Binding Event.Title}" />
