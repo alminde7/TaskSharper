@@ -104,7 +104,7 @@
                                 </TextBlock>
                                 
                                 <TextBlock Grid.Row="2" HorizontalAlignment="Right">
-                                    <Label>
+                                    <Label FontStyle="Italic">
                                         <Label.Content>
                                             <AccessText TextWrapping="Wrap" Text="{Binding Event.Type}"/>
                                         </Label.Content>
