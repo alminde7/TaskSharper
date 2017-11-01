@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Serilog;
 using TaskSharper.DataAccessLayer.Google;
@@ -33,283 +32,207 @@ namespace TaskSharper.BusinessLayer
         #region Synchronous methods
         public Event GetEvent(string id)
         {
-            try
+            var calEvent = Cache.GetEvent(id);
+            if (calEvent == null)
             {
-                var calEvent = Cache.GetEvent(id);
-                if (calEvent == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.AddOrUpdateEvent(calEvent);
-                    Notification.Attach(calEvent);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return calEvent;
+                calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
+                Cache.AddOrUpdateEvent(calEvent);
+                Notification.Attach(calEvent);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
+
+            return calEvent;
         }
 
         public Event GetEvent(string id, DateTime date)
         {
-            try
+            var calEvent = Cache.GetEvent(id, date);
+            if (calEvent == null)
             {
-                var calEvent = Cache.GetEvent(id, date);
-                if (calEvent == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.AddOrUpdateEvent(calEvent);
-                    Notification.Attach(calEvent);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return calEvent;
+                calEvent = CalendarService.GetEvent(id, Constants.DefaultGoogleCalendarId);
+                Cache.AddOrUpdateEvent(calEvent);
+                Notification.Attach(calEvent);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
+
+            return calEvent;
         }
 
         public IList<Event> GetEvents(DateTime start)
         {
-            try
+            var events = Cache.GetEvents(start);
+            if (events == null)
             {
-                var events = Cache.GetEvents(start);
-                if (events == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.UpdateCacheStore(events, start, null);
-                    Notification.Attach(events);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return events;
-            }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
+                events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                Cache.UpdateCacheStore(events, start, null);
+                Notification.Attach(events);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
 
+            return events;
         }
 
         public IList<Event> GetEvents(DateTime start, DateTime end)
         {
-            try
+            var events = Cache.GetEvents(start, end);
+            if (events == null)
             {
-                var events = Cache.GetEvents(start, end);
-                if (events == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.UpdateCacheStore(events, start, end);
-                    Notification.Attach(events);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return events;
+                events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                Cache.UpdateCacheStore(events, start, end);
+                Notification.Attach(events);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
+
+            return events;
         }
 
         public Event UpdateEvent(Event eventObj)
         {
-            try
-            {
-                _notificationPublisher.Publish(new GettingExternalDataEvent());
-                var updatedEvent = CalendarService.UpdateEvent(eventObj, Constants.DefaultGoogleCalendarId);
-                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                Cache.AddOrUpdateEvent(updatedEvent);
-                Notification.Attach(updatedEvent);
-                return updatedEvent;
-            }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, $"Failed to update event with id {eventObj.Id}");
-                return null;
-            }
+            _notificationPublisher.Publish(new GettingExternalDataEvent());
+
+            var updatedEvent = CalendarService.UpdateEvent(eventObj, Constants.DefaultGoogleCalendarId);
+            Cache.AddOrUpdateEvent(updatedEvent);
+            Notification.Attach(updatedEvent);
+
+            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
+            return updatedEvent;
         }
 
         public void UpdateCacheStore(DateTime start, DateTime end)
         {
-            try
-            {
-                _notificationPublisher.Publish(new GettingExternalDataEvent());
-                var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                Cache.UpdateCacheStore(events, start, end);
-                Notification.Attach(events);
-                Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
-            }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-            }
+            _notificationPublisher.Publish(new GettingExternalDataEvent());
+
+            var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+            Cache.UpdateCacheStore(events, start, end);
+            Notification.Attach(events);
+
+            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
+            Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
+
         }
         #endregion
 
         #region Asynchronous methods
         public async Task<Event> GetEventAsync(string id)
         {
-            try
+            var calEvent = Cache.GetEvent(id);
+            if (calEvent == null)
             {
-                var calEvent = Cache.GetEvent(id);
-                if (calEvent == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.AddOrUpdateEvent(calEvent);
-                    Notification.Attach(calEvent);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return calEvent;
+                calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
+                Cache.AddOrUpdateEvent(calEvent);
+                Notification.Attach(calEvent);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
+
+            return calEvent;
         }
 
         public async Task<Event> GetEventAsync(string id, DateTime date)
         {
-            try
+            var calEvent = Cache.GetEvent(id, date);
+            if (calEvent == null)
             {
-                var calEvent = Cache.GetEvent(id, date);
-                if (calEvent == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.AddOrUpdateEvent(calEvent);
-                    Notification.Attach(calEvent);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return calEvent;
+                calEvent = await CalendarService.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
+                Cache.AddOrUpdateEvent(calEvent);
+                Notification.Attach(calEvent);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
+
+            return calEvent;
         }
 
         public async Task<IList<Event>> GetEventsAsync(DateTime start)
         {
-            try
+            var events = Cache.GetEvents(start);
+            if (events == null)
             {
-                var events = Cache.GetEvents(start);
-                if (events == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    events = await CalendarService.GetEventsAsync(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.UpdateCacheStore(events, start, null);
-                    Notification.Attach(events);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return events;
+                events = await CalendarService.GetEventsAsync(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                Cache.UpdateCacheStore(events, start, null);
+                Notification.Attach(events);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
+
+            return events;
         }
 
         public async Task<IList<Event>> GetEventsAsync(DateTime start, DateTime end)
         {
-            try
+            var events = Cache.GetEvents(start, end);
+            if (events == null)
             {
-                var events = Cache.GetEvents(start, end);
-                if (events == null)
-                {
-                    _notificationPublisher.Publish(new GettingExternalDataEvent());
-                    events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                    _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                    Cache.UpdateCacheStore(events, start, end);
-                    Notification.Attach(events);
-                }
+                _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                return events;
+                events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(),
+                    Constants.DefaultGoogleCalendarId);
+                Cache.UpdateCacheStore(events, start, end);
+                Notification.Attach(events);
+
+                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
+
+            return events;
         }
 
         public async Task<Event> UpdateEventAsync(Event eventObj)
         {
-            try
-            {
-                _notificationPublisher.Publish(new GettingExternalDataEvent());
-                var updatedEvent = await CalendarService.UpdateEventAsync(eventObj, Constants.DefaultGoogleCalendarId);
-                _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
-                Cache.AddOrUpdateEvent(updatedEvent);
-                Notification.Attach(updatedEvent);
-                return updatedEvent;
-            }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-                return null;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, $"Failed to update event with id {eventObj.Id}");
-                return null;
-            }
+            _notificationPublisher.Publish(new GettingExternalDataEvent());
+
+            var updatedEvent = await CalendarService.UpdateEventAsync(eventObj, Constants.DefaultGoogleCalendarId);
+            Cache.AddOrUpdateEvent(updatedEvent);
+            Notification.Attach(updatedEvent);
+
+            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
+            return updatedEvent;
         }
 
         public async Task UpdateCacheStoreAsync(DateTime start, DateTime end)
         {
-            try
-            {
-                var events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
-                Cache.UpdateCacheStore(events, start, end);
-                Notification.Attach(events);
-                Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
-            }
-            catch (HttpRequestException e)
-            {
-                Logger.Error(e, "Could not fetch data from Google Calendar");
-            }
+            var events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+            Cache.UpdateCacheStore(events, start, end);
+            Notification.Attach(events);
+            Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
+
         }
 
         public async Task DeleteEventAsync(string id)
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
+
             await CalendarService.DeleteEventAsync(id, Constants.DefaultGoogleCalendarId);
-            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             Cache.RemoveEvent(id);
+
+            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
         }
 
         public async Task<Event> CreateEventAsync(Event newEvent)
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
+
             var createdEvent = await CalendarService.InsertEventAsync(newEvent, Constants.DefaultGoogleCalendarId);
-            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             Cache.AddOrUpdateEvent(createdEvent);
+
+            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             return createdEvent;
         }
         #endregion

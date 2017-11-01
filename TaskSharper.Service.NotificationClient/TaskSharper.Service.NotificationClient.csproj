@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\ConnectionException.cs" />
     <Compile Include="HubConnectionClient\HubConnectionProxy.cs" />
     <Compile Include="HubConnectionClient\IHubConnectionProxy.cs" />
     <Compile Include="NotificationClient.cs" />

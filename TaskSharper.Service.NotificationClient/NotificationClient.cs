@@ -6,8 +6,8 @@ using Microsoft.AspNet.SignalR.Client;
 using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
-using TaskSharper.Service.NotificationClient.Exceptions;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
+using TaskSharper.Shared.Exceptions;
 using Timer = System.Timers.Timer;
 
 namespace TaskSharper.Service.NotificationClient

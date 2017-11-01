@@ -14,6 +14,7 @@ using TaskSharper.Domain.Notification;
 using TaskSharper.Service.NotificationClient;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
 using TaskSharper.Service.RestClient;
+using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.Service.RestClient.Factories;
 
 namespace TaskSharper.Calender.WPF
@@ -56,10 +57,12 @@ namespace TaskSharper.Calender.WPF
             // Singletons
             Container.RegisterInstance(typeof(ILogger), logger);
             Container.RegisterInstance(typeof(IRestClient), new RestClient());
+           
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
             Container.RegisterType<IEventRestClient, EventRestClient>();
+            Container.RegisterType<IStatusRestClient, StatusRestClient>();
 
             var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);

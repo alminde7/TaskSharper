@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
+using MoreLinq;
 using Prism.Events;
 using Prism.Mvvm;
 using TaskSharper.Calender.WPF.Events;
@@ -9,7 +12,10 @@ using TaskSharper.Calender.WPF.Events.Resources;
 using Prism.Commands;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Config;
+using TaskSharper.Calender.WPF.Events.NotificationEvents;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
 using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -32,8 +38,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand PrevCommand { get; set; }
 
 
-        public CalendarWeekViewModel(IEventRestClient dataService, IEventAggregator eventAggregator,
-            IRegionManager regionManager, ILogger logger)
+        public CalendarWeekViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
         {
             _dataService = dataService;
             _eventAggregator = eventAggregator;
@@ -80,7 +85,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 var date = CalculateDate(i);
 
                 EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager,
-                    _dataService, CalendarTypeEnum.Week, _logger, new List<Event>()));
+                    _dataService, CalendarTypeEnum.Week, _logger));
                 DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week, _logger));
             }
         }
@@ -100,16 +105,21 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private async Task UpdateViews()
         {
             var @events = await GetEvents(CurrentWeek);
-            foreach (var eventContainer in EventContainers)
+            if (@events != null)
             {
-                var date = eventContainer.Date.StartOfDay();
-                if (@events.ContainsKey(date))
+                ApplicationStatus.InternetConnection = true;
+
+                foreach (var eventContainer in EventContainers)
                 {
-                    eventContainer.UpdateView(@events[date]);
-                }
-                else
-                {
-                    eventContainer.UpdateView();
+                    var date = eventContainer.Date.StartOfDay();
+                    if (@events.ContainsKey(date))
+                    {
+                        eventContainer.UpdateView(@events[date]);
+                    }
+                    else
+                    {
+                        eventContainer.UpdateView();
+                    }
                 }
             }
         }
@@ -119,49 +129,73 @@ namespace TaskSharper.Calender.WPF.ViewModels
             var start = week.StartOfWeek().StartOfDay();
             var end = week.EndOfWeek().EndOfDay();
 
-            var weekEvents = await _dataService.GetAsync(start, end);
-
-            var days = new Dictionary<DateTime, IList<Event>>();
-
-            if (weekEvents == null) return days;
-
-            foreach (var weekEvent in weekEvents)
+            try
             {
-                var date = weekEvent.Start.Value.Date.StartOfDay();
+                var days = new Dictionary<DateTime, IList<Event>>();
+                var weekEvents = await _dataService.GetAsync(start, end);
+                if (weekEvents == null) return days;
 
-                var diff = (weekEvent.End.Value.Date - weekEvent.Start.Value.Date).Days;
+                var uniqueEvents = weekEvents.DistinctBy(x => x.Id).ToList();
 
-                if (diff > 0)
+                foreach (var weekEvent in uniqueEvents)
                 {
-                    for (int i = 0; i < diff; i++)
+                    var date = weekEvent.Start.Value.Date.StartOfDay();
+
+                    var diff = (weekEvent.End.Value.Date - weekEvent.Start.Value.Date).Days;
+
+                    if (diff > 0)
                     {
-                        if (days.ContainsKey(date.AddDays(i)))
+                        for (int i = 0; i < diff; i++)
+                        {
+                            if (days.ContainsKey(date.AddDays(i)))
+                            {
+                                days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                            }
+                            else
+                            {
+                                days.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (days.ContainsKey(date))
                         {
                             days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
                         }
                         else
                         {
-                            days.Add(date.AddDays(i), new List<Event>() {weekEvent});
+                            days.Add(date, new List<Event>() {weekEvent});
                         }
                     }
                 }
-                else
-                {
-                    if (days.ContainsKey(date))
-                    {
-                        days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
-                    }
-                    else
-                    {
-                        days.Add(date, new List<Event>() { weekEvent });
-                    }
-                }
-            }
 
-            return days;
+                return days;
+            }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+                return null;
+            }
+            catch (ArgumentException e)
+            {
+                // Client error exception
+                return null;
+            }
+            catch (HttpException e)
+            {
+                // Internal server error
+                return null;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
-        #region Please hide
+        #region INavigationAware implementation
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {

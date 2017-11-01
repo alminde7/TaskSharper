@@ -50,13 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventRestClient.cs" />
+    <Compile Include="Clients\EventRestClient.cs" />
     <Compile Include="Extensions\RestRequestExtensions.cs" />
     <Compile Include="Factories\IRestRequestFactory.cs" />
     <Compile Include="Factories\RestClientFactory.cs" />
     <Compile Include="Factories\RestRequestFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\RestClientExtensions.cs" />
+    <Compile Include="Clients\StatusRestClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

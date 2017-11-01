@@ -132,6 +132,9 @@
   <data name="Changed" xml:space="preserve">
     <value>Ændret</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Luk</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Fuldført</value>
   </data>
@@ -185,6 +188,12 @@
   </data>
   <data name="Month" xml:space="preserve">
     <value>Måned</value>
+  </data>
+  <data name="NoConnection" xml:space="preserve">
+    <value>Ingen netværk</value>
+  </data>
+  <data name="NoConnectionMessage" xml:space="preserve">
+    <value>Det var ikke muligt at oprettet forbindelse til serveren. </value>
   </data>
   <data name="November" xml:space="preserve">
     <value>November</value>
