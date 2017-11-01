@@ -31,10 +31,9 @@ To succesfully startup the application with Google Calendar Authentication, ther
 
 1. Go to OneNote page _Bachelor -> Documentation -> Google API authentication_
 2. Download the file called _Client_secret.json_
-3. Copy this file into the root of _TaskSharper.Calendar.WPF_ (in the same directory as the .csproj file)
-4. Open Visual Studio and import the file into the project _TaskSharper.Calendar.WPF_
-5. Click on the file and open its properties
-6. Set `Copy to Output Directory` to `Copy always`
+3. Create a new folder in {Your user folder}/Documents/TaskShaper/.credentials
+4. Copy the file into ./credentials folder
+5. Open Visual Studio as administrator
 
 The first time this application is started on a new computer, Google will at startup prompt for a Google Account (username/password). The application will save a file containing 
 a _client secret_ and a _refresh token_, eliminating the need to specifiy an account once again in the future.
