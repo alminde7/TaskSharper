@@ -30,6 +30,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly ILogger _logger;
 
         public ObservableCollection<CalendarDateViewModel> DateHeaders { get; set; }
+        public ObservableCollection<CalendarAllDayEventContainerViewModel> AllDayEventContainers { get; set; }
         public ObservableCollection<CalendarEventsViewModel> EventContainers { get; set; }
         public CalendarYearHeaderViewModel DateYearHeader { get; set; }
         public DateTime CurrentWeek { get; set; }
@@ -49,6 +50,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             PrevCommand = new DelegateCommand(PreviousWeek);
 
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
+            AllDayEventContainers = new ObservableCollection<CalendarAllDayEventContainerViewModel>();
             EventContainers = new ObservableCollection<CalendarEventsViewModel>();
             DateYearHeader = new CalendarYearHeaderViewModel(_eventAggregator, CalendarTypeEnum.Week, _logger);
 
@@ -87,6 +89,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 EventContainers.Add(new CalendarEventsViewModel(date, _eventAggregator, _regionManager,
                     _dataService, CalendarTypeEnum.Week, _logger));
                 DateHeaders.Add(new CalendarDateViewModel(date, _eventAggregator, CalendarTypeEnum.Week, _logger));
+                AllDayEventContainers.Add(new CalendarAllDayEventContainerViewModel(date, _regionManager, _eventAggregator, _logger));
             }
         }
 
@@ -105,16 +108,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private async Task UpdateViews()
         {
             var @events = await GetEvents(CurrentWeek);
-            if (@events != null)
+            if (@events.normalEvents != null)
             {
                 ApplicationStatus.InternetConnection = true;
 
                 foreach (var eventContainer in EventContainers)
                 {
                     var date = eventContainer.Date.StartOfDay();
-                    if (@events.ContainsKey(date))
+                    if (@events.normalEvents.ContainsKey(date))
                     {
-                        eventContainer.UpdateView(@events[date]);
+                        eventContainer.UpdateView(@events.normalEvents[date]);
                     }
                     else
                     {
@@ -122,9 +125,26 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     }
                 }
             }
+            if (@events.allDayEvents != null)
+            {
+                ApplicationStatus.InternetConnection = true;
+
+                foreach (var allDayEventContainer in AllDayEventContainers)
+                {
+                    var date = allDayEventContainer.Date.StartOfDay();
+                    if (@events.allDayEvents.ContainsKey(date))
+                    {
+                        allDayEventContainer.SetAllDayEvents(@events.allDayEvents[date].ToList());
+                    }
+                    else
+                    {
+                        allDayEventContainer.SetAllDayEvents();
+                    }
+                }
+            }
         }
 
-        private async Task<IDictionary<DateTime, IList<Event>>> GetEvents(DateTime week)
+        private async Task<(IDictionary<DateTime, IList<Event>> normalEvents, IDictionary<DateTime, IList<Event>> allDayEvents)> GetEvents(DateTime week)
         {
             var start = week.StartOfWeek().StartOfDay();
             var end = week.EndOfWeek().EndOfDay();
@@ -132,8 +152,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             try
             {
                 var days = new Dictionary<DateTime, IList<Event>>();
+                var allDayEventDays = new Dictionary<DateTime, IList<Event>>();
                 var weekEvents = await _dataService.GetAsync(start, end);
-                if (weekEvents == null) return days;
+                if (weekEvents == null) return (days,allDayEventDays);
 
                 var uniqueEvents = weekEvents.DistinctBy(x => x.Id).ToList();
 
@@ -143,55 +164,46 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
                     var diff = (weekEvent.End.Value.Date - weekEvent.Start.Value.Date).Days;
 
-                    if (diff > 0)
+                    for (int i = 0; i <= diff; i++)
                     {
-                        for (int i = 0; i < diff; i++)
+                        if (days.ContainsKey(date.AddDays(i)) || allDayEventDays.ContainsKey(date.AddDays(i)))
                         {
-                            if (days.ContainsKey(date.AddDays(i)))
-                            {
-                                days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
-                            }
+                            if (weekEvent.AllDayEvent.HasValue)
+                                allDayEventDays[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
                             else
-                            {
-                                days.Add(date.AddDays(i), new List<Event>() { weekEvent });
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (days.ContainsKey(date))
-                        {
-                            days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
+                                days[weekEvent.Start.Value.StartOfDay()].Add(weekEvent);
                         }
                         else
                         {
-                            days.Add(date, new List<Event>() {weekEvent});
+                            if (weekEvent.AllDayEvent.HasValue)
+                                allDayEventDays.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                            else
+                                days.Add(date.AddDays(i), new List<Event>() { weekEvent });
                         }
                     }
                 }
 
-                return days;
+                return (days,allDayEventDays);
             }
             catch (ConnectionException e)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
-                return null;
+                return (null, null);
             }
             catch (ArgumentException e)
             {
                 // Client error exception
-                return null;
+                return (null, null);
             }
             catch (HttpException e)
             {
                 // Internal server error
-                return null;
+                return (null, null);
 
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return null;
+                return (null, null);
             }
         }
 

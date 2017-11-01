@@ -81,7 +81,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-      
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -98,14 +98,14 @@
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Style="{StaticResource DetailsLabelHeader}" Content="{Binding SelectedEvent.Title}" />
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
             <StackPanel Orientation="Vertical" Margin="0,0,100,0">
                 <StackPanel Orientation="Horizontal">
                     <Label  Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc Description}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" >
                     <ScrollViewer PanningMode="VerticalOnly" MaxHeight="500" Width="300"
-                                  PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
+                                          PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
                         <Label FontSize="18">
                             <Label.Content>
                                 <AccessText TextWrapping="Wrap" Text="{Binding SelectedEvent.Description}"/>
