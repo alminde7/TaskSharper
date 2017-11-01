@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Google.Apis.Calendar.v3.Data;
@@ -32,6 +33,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var googleEvent = new GoogleEvent
             {
+                Start = new EventDateTime() { DateTime = DateTime.Today },
+                End = new EventDateTime() { DateTime = DateTime.Today },
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                 {
                     Shared = new Dictionary<string, string>
@@ -52,6 +55,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
 
             var googleEvent = new GoogleEvent
             {
+                Start = new EventDateTime() { DateTime = DateTime.Today },
+                End = new EventDateTime() { DateTime = DateTime.Today },
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                 {
                     Shared = new Dictionary<string, string>
@@ -69,7 +74,11 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         [Test]
         public void GoogleEventParser_FromGoogleEventToCalendarEvent_TypeIsNotSet_TypeIsSetToNoneAsEnumMember()
         {
-            var parsed = Helpers.GoogleEventParser(new GoogleEvent());
+            var parsed = Helpers.GoogleEventParser(new GoogleEvent()
+            {
+                Start = new EventDateTime() { DateTime = DateTime.Today },
+                End = new EventDateTime() { DateTime = DateTime.Today }
+            });
 
             Assert.That(parsed.Type, Is.EqualTo(EventType.None));
         }
@@ -79,6 +88,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var googleEvent = new GoogleEvent
             {
+                Start = new EventDateTime() { DateTime = DateTime.Today },
+                End = new EventDateTime() { DateTime = DateTime.Today },
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                 {
                     Shared = new Dictionary<string, string>
@@ -98,6 +109,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var googleEvent = new GoogleEvent
             {
+                Start = new EventDateTime() { DateTime = DateTime.Today },
+                End = new EventDateTime() { DateTime = DateTime.Today },
                 Reminders =
                     new GoogleEvent.RemindersData()
                     {
@@ -115,6 +128,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         {
             var googleEvent = new GoogleEvent
             {
+                Start = new EventDateTime() { DateTime = DateTime.Today },
+                End = new EventDateTime() { DateTime = DateTime.Today },
                 Reminders =
                     new GoogleEvent.RemindersData()
                     {
@@ -138,6 +153,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             {
                 new GoogleEvent
                 {
+                    Start = new EventDateTime() { DateTime = DateTime.Today },
+                    End = new EventDateTime() { DateTime = DateTime.Today },
                     ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                     {
                         Shared = new Dictionary<string, string>
@@ -160,6 +177,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             {
                 new GoogleEvent
                 {
+                    Start = new EventDateTime() { DateTime = DateTime.Today },
+                    End = new EventDateTime() { DateTime = DateTime.Today },
                     ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                     {
                         Shared = new Dictionary<string, string>
@@ -178,7 +197,11 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
         [Test]
         public void GoogleEventParser_FromListOfGoogleEventsToListOfCalendarEvents_TypeIsNotSet_TypeIsSetToNoneAsEnumMember()
         {
-            var parsed = Helpers.GoogleEventParser(new List<GoogleEvent>(){new GoogleEvent()});
+            var parsed = Helpers.GoogleEventParser(new List<GoogleEvent>(){new GoogleEvent()
+            {
+                Start = new EventDateTime() { DateTime = DateTime.Today },
+                End = new EventDateTime() { DateTime = DateTime.Today }
+            }});
 
             Assert.That(parsed.First().Type, Is.EqualTo(EventType.None));
         }
@@ -190,6 +213,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             {
                 new GoogleEvent
                 {
+                    Start = new EventDateTime() { DateTime = DateTime.Today },
+                    End = new EventDateTime() { DateTime = DateTime.Today },
                     ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                     {
                         Shared = new Dictionary<string, string>
@@ -212,6 +237,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             {
                 new GoogleEvent
                 {
+                    Start = new EventDateTime() { DateTime = DateTime.Today },
+                    End = new EventDateTime() { DateTime = DateTime.Today },
                     Reminders =
                         new GoogleEvent.RemindersData()
                         {
@@ -232,6 +259,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             {
                 new GoogleEvent
                 {
+                    Start = new EventDateTime() { DateTime = DateTime.Today },
+                    End = new EventDateTime() { DateTime = DateTime.Today },
                     Reminders =
                         new GoogleEvent.RemindersData()
                         {
