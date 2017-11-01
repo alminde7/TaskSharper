@@ -250,6 +250,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 Description = SelectedEvent.Description,
                 Start = SelectedEvent.Start,
                 End = SelectedEvent.End,
+                AllDayEvent = SelectedEvent.AllDayEvent,
                 Status = SelectedEvent.Status,
                 Type = SelectedEvent.Type,
                 Created = SelectedEvent.Created,

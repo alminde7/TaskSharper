@@ -17,8 +17,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Id = googleEvent.Id,
                 Title = googleEvent.Summary,
                 Description = googleEvent.Description,
-                Start = googleEvent.Start?.DateTime,
-                End = googleEvent.End?.DateTime,
+                Start = googleEvent.Start?.DateTime ?? DateTime.Parse(googleEvent.Start?.Date),
+                End = googleEvent.End?.DateTime ?? DateTime.Parse(googleEvent.End?.Date).AddTicks(-1),
                 AllDayEvent = googleEvent.Start != null && googleEvent.Start?.DateTime == null ? DateTime.Parse(googleEvent.Start?.Date) : (DateTime?) null,
                 Status = Enum.TryParse(googleEvent.Status?.First().ToString().ToUpper() + googleEvent.Status?.Substring(1), out EventStatus statusValue) ? statusValue : EventStatus.Confirmed,
                 Created = googleEvent.Created,
@@ -37,8 +37,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Id = googleEvent.Id,
                 Title = googleEvent.Summary,
                 Description = googleEvent.Description,
-                Start = googleEvent.Start?.DateTime,
-                End = googleEvent.End?.DateTime,
+                Start = googleEvent.Start?.DateTime ?? DateTime.Parse(googleEvent.Start?.Date),
+                End = googleEvent.End?.DateTime ?? DateTime.Parse(googleEvent.End?.Date).AddTicks(-1),
                 AllDayEvent = googleEvent.Start != null && googleEvent.Start?.DateTime == null ? DateTime.Parse(googleEvent.Start?.Date) : (DateTime?) null,
                 Status = Enum.TryParse(googleEvent.Status?.First().ToString().ToUpper() + googleEvent.Status?.Substring(1), out EventStatus statusValue) ? statusValue : EventStatus.Confirmed,
                 Created = googleEvent.Created,
@@ -57,8 +57,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Id = eventObj.Id,
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
-                Start = new EventDateTime {DateTime = eventObj.Start, Date = eventObj.AllDayEvent?.ToString()},
-                End = new EventDateTime {DateTime = eventObj.End},
+                Start = eventObj.AllDayEvent.HasValue ? new EventDateTime {Date = eventObj.AllDayEvent.Value.ToString("yyyy-MM-dd") } : new EventDateTime {DateTime = eventObj.Start},
+                End = eventObj.AllDayEvent.HasValue ? new EventDateTime { Date = eventObj.AllDayEvent.Value.AddDays(1).ToString("yyyy-MM-dd") } : new EventDateTime {DateTime = eventObj.End},
                 Status = eventObj.Status.ToString().ToLower(),
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData
                 {
@@ -86,8 +86,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Id = eventObj.Id,
                 Summary = eventObj.Title,
                 Description = eventObj.Description,
-                Start = new EventDateTime { DateTime = eventObj.Start, Date = eventObj.AllDayEvent?.ToString() },
-                End = new EventDateTime { DateTime = eventObj.End },
+                Start = eventObj.AllDayEvent.HasValue ? new EventDateTime { Date = eventObj.AllDayEvent.Value.ToString("yyyy-MM-dd") } : new EventDateTime { DateTime = eventObj.Start },
+                End = eventObj.AllDayEvent.HasValue ? new EventDateTime { Date = eventObj.AllDayEvent.Value.AddDays(1).ToString("yyyy-MM-dd") } : new EventDateTime { DateTime = eventObj.End },
                 Status = eventObj.Status.ToString().ToLower(),
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>
                 {

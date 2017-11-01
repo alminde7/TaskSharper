@@ -87,7 +87,7 @@
                 <views:CalendarTimelineView Grid.Column="0"
                                             HorizontalAlignment="Stretch"
                                                 Width="Auto"/>
-
+                
                 <views:CalendarEventsView Grid.Column="1" 
                                               Width="Auto"
                                           HorizontalAlignment="Stretch"

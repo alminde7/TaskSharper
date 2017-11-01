@@ -14,6 +14,7 @@ using Serilog;
 using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.Properties;
+using TaskSharper.Calender.WPF.ViewModels;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Constants;
@@ -34,6 +35,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DateTime Date { get; set; }
 
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
+        public ObservableCollection<CalendarAllDayEventViewModel> AllDayEvents { get; set; }
         public ObservableCollection<CalendarEventsBackground> Backgrounds { get; set; }
 
         public CalendarEventsCurrentTimeLine TimeLine
@@ -54,6 +56,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             // Initialize containers
             CalendarEvents = new ObservableCollection<CalendarEventViewModel>();
+            AllDayEvents = new ObservableCollection<CalendarAllDayEventViewModel>();
             Backgrounds = new ObservableCollection<CalendarEventsBackground>();
 
             // Subscribe to events
@@ -140,10 +143,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             if (events == null)
             {
                 CalendarEvents?.Clear();
+                AllDayEvents?.Clear();
             }
             else
             {
                 CalendarEvents?.Clear();
+                AllDayEvents?.Clear();
                 await UpdateEvents(events);
                 UpdateTimeLine(null, null);
             }
@@ -154,19 +159,30 @@ namespace TaskSharper.Calender.WPF.ViewModels
             foreach (var calendarEvent in events)
             {
                 if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-                var simultaneousEvents = await SimultaneousEvents(calendarEvent);
-                var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
-                {
-                    LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
-                           calendarEvent.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                    SimultaneousEvents = simultaneousEvents.simultaneousEvents,
-                    Column = simultaneousEvents.column,
-                    Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                    Event = calendarEvent
-                    // Width and LocX are set in the OnLoaded and OnSizeChanged method
-                };
 
-                CalendarEvents.Add(viewModel);
+                if (calendarEvent.AllDayEvent.HasValue)
+                {
+                    AllDayEvents.Add(new CalendarAllDayEventViewModel(_regionManager, _eventAggregator, _logger)
+                    {
+                        Event = calendarEvent
+                    });
+                }
+                else
+                {
+                    var simultaneousEvents = await SimultaneousEvents(calendarEvent);
+                    var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
+                    {
+                        LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
+                               calendarEvent.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
+                        SimultaneousEvents = simultaneousEvents.simultaneousEvents,
+                        Column = simultaneousEvents.column,
+                        Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
+                        Event = calendarEvent
+                        // Width and LocX are set in the OnLoaded and OnSizeChanged method
+                    };
+
+                    CalendarEvents.Add(viewModel);
+                }
             }
         }
 

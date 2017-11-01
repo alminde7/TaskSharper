@@ -62,6 +62,25 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <ItemsControl ItemsSource="{Binding AllDayEvents}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Top" Value="{Binding Path=VerticalOffset, ElementName=ContentScrollViewer}"/>
+                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=CalendarEvents}"/>
+                    <Setter Property="Canvas.ZIndex" Value="2"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:CalendarAllDayEventView Width="Auto" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="0.25,0,0,0"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <ItemsControl ItemsSource="{Binding CalendarEvents}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
