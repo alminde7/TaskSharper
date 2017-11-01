@@ -49,7 +49,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 LoadedBehavior = MediaState.Manual,
                 UnloadedBehavior = MediaState.Manual,
                 Source = new Uri("Media/WindowsNotifyCalendar.wav", UriKind.Relative),
-                Volume = 10
+                Volume = Settings.Default.SoundVolume
             };
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
