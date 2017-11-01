@@ -267,9 +267,6 @@
     <Compile Include="Views\TodayViews\CalendarAllDayEventContainerView.xaml.cs">
       <DependentUpon>CalendarAllDayEventContainerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TodayViews\CalendarAllDayEventView.xaml.cs">
-      <DependentUpon>CalendarAllDayEventView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\TodayViews\CalendarEventDetailsView.xaml.cs">
       <DependentUpon>CalendarEventDetailsView.xaml</DependentUpon>
     </Compile>
@@ -324,10 +321,6 @@
     <Page Include="Views\TodayViews\CalendarAllDayEventContainerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\TodayViews\CalendarAllDayEventView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TodayViews\CalendarEventDetailsView.xaml">
       <SubType>Designer</SubType>
