@@ -19,7 +19,7 @@ public interface INotificationClient
     void Dispose();
 }
 ```
-Buildin to the client is a connection retry functionality, which mean that it will try to establish 
+Built-in to the client is a connection retry functionality, which mean that it will try to establish 
 connection to the server a specified amount of times. `ConnectionRetries` sspecifies the number of 
 times the client will try to connect before giving in, the default value is 5. `ConnectionIntervalInMs`
 is the amount of time waited between earch retry, default value is 1000 ms.
