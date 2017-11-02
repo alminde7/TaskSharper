@@ -16,7 +16,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 {
     public class AppointmentCardContainerViewModel : BindableBase, INavigationAware
     {
-        private readonly IEventRestClient _dataService;
+        private readonly IAppointmentRestClient _dataService;
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
@@ -42,7 +42,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             }
         }
 
-        public AppointmentCardContainerViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
+        public AppointmentCardContainerViewModel(IAppointmentRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
         {
             _dataService = dataService;
             _eventAggregator = eventAggregator;
@@ -74,12 +74,12 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 
         private async Task UpdateView()
         {
-            var start = DateTime.Today.Date;
+            var start = DateTime.Today.AddDays(-7).Date;
             var end = DateTime.Today.AddDays(7).Date;
             var events = await _dataService.GetAsync(start, end);
 
             AppointmentCards?.Clear();
-            foreach (var @event in events.Where(e => e.Type == EventType.Appointment))
+            foreach (var @event in events)
             {
                 AppointmentCards?.Add(new AppointmentCardViewModel(_dataService, _eventAggregator, _regionManager, _logger)
                 {

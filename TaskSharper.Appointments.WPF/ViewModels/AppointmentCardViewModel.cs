@@ -15,7 +15,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 {
     public class AppointmentCardViewModel : BindableBase
     {
-        private readonly IEventRestClient _dataService;
+        private readonly IAppointmentRestClient _dataService;
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
@@ -48,7 +48,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             set => SetProperty(ref _backgroundOpacity, value);
         }
 
-        public AppointmentCardViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
+        public AppointmentCardViewModel(IAppointmentRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
         {
             _dataService = dataService;
             _eventAggregator = eventAggregator;

@@ -10,6 +10,7 @@ using System.Web.Http.Description;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.RestDTO;
 
 namespace TaskSharper.Service.Controllers
 {
@@ -78,6 +79,84 @@ namespace TaskSharper.Service.Controllers
             catch (Exception e)
             {
                 var errmsg = $"Failed to retrieve events between dates {from} and {to}";
+                Logger.Error(e, errmsg);
+                return Content(HttpStatusCode.InternalServerError, errmsg);
+            }
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(Event))]
+        public async Task<IHttpActionResult> Post(EventDto calEvent)
+        {
+            if (!IsValidTimespan(calEvent.End, calEvent.Start))
+                return Content(HttpStatusCode.BadRequest, "Invalid timespan");
+            if (string.IsNullOrWhiteSpace(calEvent.Title))
+                return Content(HttpStatusCode.BadRequest, "No title provided");
+
+            try
+            {
+                var newEvent = new Event()
+                {
+                    Title = calEvent.Title,
+                    Description = calEvent.Description,
+                    Start = calEvent.Start,
+                    End = calEvent.End,
+                    Status = calEvent.EventStatus,
+                    Type = EventType.Appointment
+                };
+
+                var createdEvent = await _eventManager.CreateEventAsync(newEvent);
+                return Content(HttpStatusCode.Created, createdEvent);
+            }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode)599, e);
+            }
+            catch (Exception e)
+            {
+                var errmsg = $"Failed to create event";
+                Logger.Error(e, errmsg);
+                return Content(HttpStatusCode.InternalServerError, errmsg);
+            }
+        }
+
+        [HttpPut]
+        [ResponseType(typeof(Event))]
+        public async Task<IHttpActionResult> Put(Event calEvent)
+        {
+            try
+            {
+                var updatedEvent = await _eventManager.UpdateEventAsync(calEvent);
+                return Content(HttpStatusCode.Created, updatedEvent);
+            }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode)599, e);
+            }
+            catch (Exception e)
+            {
+                var errmsg = $"Failed to update event with id: {calEvent.Id}";
+                Logger.Error(e, errmsg);
+                return Content(HttpStatusCode.InternalServerError, errmsg);
+            }
+
+        }
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(string id)
+        {
+            try
+            {
+                await _eventManager.DeleteEventAsync(id);
+                return Ok();
+            }
+            catch (HttpRequestException e)
+            {
+                return Content((HttpStatusCode)599, e);
+            }
+            catch (Exception e)
+            {
+                var errmsg = $"Failed to delete event with id: {id}";
                 Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
