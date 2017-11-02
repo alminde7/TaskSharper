@@ -3,7 +3,35 @@
 This package contains an object for communcating with the TaskSharper.Service SignalR socket connection. 
 
 ## NotificationClient
-Comming soon...
+NotificationClient is an object that helps estabilishing connection to the socket server, aswell as 
+providing a method for subscribing to events. 
+
+The client implements _INotificationClient_ which has the following members:
+```csharp
+public interface INotificationClient
+{
+    bool IsConnected { get; }
+    int ConnectionRetries { get; set; }
+    int ConnectionIntervalInMs { get; set; }
+
+    Task Connect();
+    void Subscribe<T>(Action<T> callback);
+    void Dispose();
+}
+```
+Buildin to the client is a connection retry functionality, which mean that it will try to establish 
+connection to the server a specified amount of times. `ConnectionRetries` sspecifies the number of 
+times the client will try to connect before giving in, the default value is 5. `ConnectionIntervalInMs`
+is the amount of time waited between earch retry, default value is 1000 ms.
+
+`Connect()` will establish the connection to the server. 
+
+`Subscribe<T>(callback)` configures a 
+subscription on the server. `T` is the event that the client subscribes to, and can be both simple
+and complex types.
+
+`Dispose` will shut down the connection to the server.    
+
 
 ## HubConnectionProxy
 HubConnectionProxy is a proxy for the SignalR HubConnection. The reason for creating a wrapper around 
