@@ -121,9 +121,9 @@
     <value>TaskSharperAppointments</value>
   </data>
   <data name="Appointment" xml:space="preserve">
-    <value>Appointment</value>
+    <value>Aftale</value>
   </data>
   <data name="Appointments" xml:space="preserve">
-    <value>Appointments</value>
+    <value>Aftaler</value>
   </data>
 </root>
