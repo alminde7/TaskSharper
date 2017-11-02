@@ -63,8 +63,6 @@ namespace TaskSharper.Service.Config
             container.RegisterInstance(typeof(CalendarService), googleService);
             //container.RegisterInstance(typeof(ILogger), logger);
             container.RegisterInstance(typeof(INotification), notificationObject);
-            
-
         }
     }
 }

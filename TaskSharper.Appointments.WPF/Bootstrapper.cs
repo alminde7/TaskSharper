@@ -54,7 +54,7 @@ namespace TaskSharper.Appointments.WPF
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
-            Container.RegisterType<IEventRestClient, EventRestClient>();
+            Container.RegisterType<IAppointmentRestClient, EventRestClient>(new InjectionConstructor("appointments", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IStatusRestClient, StatusRestClient>();
 
             var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");
