@@ -30,7 +30,19 @@ is the amount of time waited between earch retry, default value is 1000 ms.
 subscription on the server. `T` is the event that the client subscribes to, and can be both simple
 and complex types.
 
-`Dispose` will shut down the connection to the server.    
+`Dispose` will shut down the connection to the server.
+
+An example of a subscription can be seen here:
+```csharp
+var logger = new Logger();
+IHubConnectionProxy hubConnectionProxy = new HubConnectionProxy();
+INotificationClient notificationClient = new NotificationClient(hubConnectionProxy, logger);
+
+notificationClient.Subscribe<string>(x =>
+{
+    Console.Writeline(x);
+});
+```
 
 
 ## HubConnectionProxy
