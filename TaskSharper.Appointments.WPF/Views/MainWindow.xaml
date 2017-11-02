@@ -118,7 +118,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Viewbox Grid.Row="0" Grid.Column="1">
-                <Label Content="Appointments" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Label Content="{lex:Loc Appointments}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>
             
             <Border Padding="10" Grid.Row="1" Grid.Column="1"  BorderBrush="CornflowerBlue" BorderThickness="2" CornerRadius="4">
@@ -143,7 +143,7 @@
                     Command="{Binding CloseApplicationCommand}"
                     Margin="2,2,2,0"
                     Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="TimesCircleOutline" Margin="10,0,0,0" Foreground="Red"/>
+                <fa:ImageAwesome Icon="TimesCircleOutline" Margin="10,0,0,0" Foreground="DarkRed"/>
             </Button>
         </Grid>
         <!--<Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
