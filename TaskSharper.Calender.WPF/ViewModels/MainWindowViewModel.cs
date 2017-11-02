@@ -108,7 +108,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             if (_notificationQueue.Count > 0)
                 ShowNotification(_notificationQueue.Dequeue());
-
         }
 
         public bool IsPopupOpen
