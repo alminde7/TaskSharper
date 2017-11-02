@@ -55,26 +55,7 @@ namespace TaskSharper.Notification
         {
             foreach (var calEvent in calEvents)
             {
-                if (calEvent.Status == EventStatus.Completed || calEvent.Status == EventStatus.Cancelled) continue;
-
-                var notificationList = new List<NotificationObject>();
-
-                if (NotificationOffsets != null)
-                {
-                    foreach (var notificationOffset in NotificationOffsets)
-                    {
-                        if (calEvent.Start.Value + TimeSpan.FromMinutes(notificationOffset) < DateTime.Now) continue; // Notification time is in the past - no reason to add notification
-
-                        var obj = CreateNotification(calEvent, calEvent.Start.Value.AddMinutes(notificationOffset));
-                        notificationList.Add(obj);
-                    }
-                }
-                else // No Notification offsets provided
-                {
-                    notificationList.Add(CreateNotification(calEvent, calEvent.Start.Value));
-                }
-
-                EventNotifications.AddOrUpdate(calEvent.Id, notificationList);
+                Attach(calEvent);
             }
         }
 
@@ -90,10 +71,7 @@ namespace TaskSharper.Notification
         {
             foreach (var eventId in eventIds)
             {
-                if (EventNotifications.ContainsKey(eventId))
-                {
-                    EventNotifications.TryRemove(eventId, out _);
-                }
+                Detatch(eventId);
             }
         }
 
@@ -114,6 +92,7 @@ namespace TaskSharper.Notification
             };
             timer.Start();
 
+            notObj.Timer = timer;
             return notObj;
 
         }
