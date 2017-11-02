@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Media;
 using System.Threading.Tasks;
@@ -32,6 +34,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private string _notificationTitle;
         private string _notificationMessage;
         private NotificationTypeEnum _notificationType;
+        private Queue<Notification> _notificationQueue;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
         public DelegateCommand CloseNotificationCommand { get; set; }
@@ -59,6 +62,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             IsPopupOpen = false;
             ScrollButtonsVisible = true;
+
+            _notificationQueue = new Queue<Notification>();
 
             // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
             CheckServiceStatus();
@@ -100,6 +105,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             IsPopupOpen = false;
             SetSpinnerVisibility(EventResources.SpinnerEnum.Hide);
+
+            if (_notificationQueue.Count > 0)
+                ShowNotification(_notificationQueue.Dequeue());
         }
 
         public bool IsPopupOpen
@@ -111,7 +119,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void ChangeLanguage(string culture)
         {
             _logger.ForContext("Click", typeof(MainWindowViewModel)).Information("Change language clicked with culture {@Culture}", culture);
-            if (LocalizeDictionary.Instance.Culture.Name != culture)
+            if(LocalizeDictionary.Instance.Culture.Name != culture)
             {
                 _logger.ForContext("Language", typeof(MainWindowViewModel)).Information("Changed culture to {@Culture}", culture);
                 LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
@@ -152,11 +160,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private async void HandleNotificationEvent(Notification notification)
         {
+            _logger.ForContext("Notification received", typeof(MainWindowViewModel)).Information(
+                "Title: {@Title} Message: {@Message} NotificationType: {@NotificationType}",
+                notification.Title, notification.Message, notification.NotificationType);
+
             if (notification is ConnectionErrorNotification)
             {
                 if (ApplicationStatus.InternetConnection)
                 {
-                    await ShowNotification(notification);
+                    _notificationQueue.Enqueue(notification);
+                    if(IsPopupOpen == false)
+                        await ShowNotification(_notificationQueue.Dequeue());
+                    
                     ApplicationStatus.InternetConnection = false;
                 }
                 else
@@ -166,7 +181,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
             else
             {
-                await ShowNotification(notification);
+                _notificationQueue.Enqueue(notification);
+                if (IsPopupOpen == false)
+                    await ShowNotification(_notificationQueue.Dequeue());
             }
         }
 
@@ -185,7 +202,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 notificationSound.Load();
                 notificationSound.Play();
             });
-            
 
             return Task.CompletedTask;
         }
