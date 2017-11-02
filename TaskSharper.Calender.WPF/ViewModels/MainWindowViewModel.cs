@@ -180,8 +180,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
             IsPopupOpen = true;
             System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                var path = "Media/WindowsNotifyCalendar.wav";
-                SoundPlayer notificationSound = new SoundPlayer(path);
+                const string path = "Media/WindowsNotifyCalendar.wav";
+                var notificationSound = new SoundPlayer(path);
                 notificationSound.Load();
                 notificationSound.Play();
             });
