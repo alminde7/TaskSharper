@@ -88,13 +88,13 @@
             <Setter Property="Background" Value="AliceBlue"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding NotificationType}" Value="2">
-                    <Setter Property="Background" Value="#ff4264"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorRed}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding NotificationType}" Value="1">
-                    <Setter Property="Background" Value="#fca635"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorOrange}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding NotificationType}" Value="0">
-                    <Setter Property="Background" Value="AliceBlue"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=AliceBlue}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>

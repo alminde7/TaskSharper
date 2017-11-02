@@ -121,5 +121,32 @@ namespace TaskSharper.Calender.WPF.Properties {
                 return ((int)(this["SoundVolume"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#ff4264")]
+        public string ColorRed {
+            get {
+                return ((string)(this["ColorRed"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#fca635")]
+        public string ColorOrange {
+            get {
+                return ((string)(this["ColorOrange"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#f0f8ff")]
+        public string AliceBlue {
+            get {
+                return ((string)(this["AliceBlue"]));
+            }
+        }
     }
 }
