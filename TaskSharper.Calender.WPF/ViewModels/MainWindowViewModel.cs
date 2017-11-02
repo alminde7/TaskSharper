@@ -162,14 +162,18 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private async void HandleNotificationEvent(Notification notification)
         {
+            _logger.ForContext("Notification received", typeof(MainWindowViewModel)).Information(
+                "Title: {@Title} Message: {@Message} NotificationType: {@NotificationType}",
+                notification.Title, notification.Message, notification.NotificationType);
+
             if (notification is ConnectionErrorNotification)
             {
                 if (ApplicationStatus.InternetConnection)
                 {
                     _notificationQueue.Enqueue(notification);
                     if(IsPopupOpen == false)
-                        await ShowNotification(notification);
-
+                        await ShowNotification(_notificationQueue.Dequeue());
+                    
                     ApplicationStatus.InternetConnection = false;
                 }
                 else
@@ -181,7 +185,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 _notificationQueue.Enqueue(notification);
                 if (IsPopupOpen == false)
-                    await ShowNotification(notification);
+                    await ShowNotification(_notificationQueue.Dequeue());
             }
         }
 
@@ -200,7 +204,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 notificationSound.Load();
                 notificationSound.Play();
             });
-            
+
             return Task.CompletedTask;
         }
 
