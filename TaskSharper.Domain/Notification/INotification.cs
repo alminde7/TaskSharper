@@ -7,7 +7,6 @@ namespace TaskSharper.Domain.Notification
     public interface INotification
     {
         IEnumerable<int> NotificationOffsets { get; set; }
-        Action<Event> Callback { get; set; }
 
         void Attach(Event calEvent);
         void Attach(IEnumerable<Event> calEvent);

@@ -219,7 +219,7 @@ namespace TaskSharper.BusinessLayer
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            await CalendarService.DeleteEventAsync(id, Constants.DefaultGoogleCalendarId);
+            await CalendarService.DeleteEventAsync(Constants.DefaultGoogleCalendarId, id);
             Cache.RemoveEvent(id);
 
             _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());

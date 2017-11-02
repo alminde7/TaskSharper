@@ -23,11 +23,10 @@ namespace TaskSharper.Service
             app.UseCors(CorsOptions.AllowAll);
 
             
-            var not = UnityConfig.GetContainer().Resolve<INotification>();
             var logger = UnityConfig.GetContainer().Resolve<ILogger>();
 
             // https://docs.microsoft.com/en-us/aspnet/signalr/overview/advanced/dependency-injection
-            GlobalHost.DependencyResolver.Register(typeof(NotificationHub), () => new NotificationHub(not, logger));
+            GlobalHost.DependencyResolver.Register(typeof(NotificationHub), () => new NotificationHub(logger));
 
             // This is to enable logging from LogAttribute. The logger cannot be dependencyinjected
             Log.Logger = logger;

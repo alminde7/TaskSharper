@@ -13,17 +13,17 @@ namespace TaskSharper.Notification
     public class EventNotification : INotification
     {
         public ILogger Logger { get; set; }
-        public Action<Event> Callback { get; set; }
         public IEnumerable<int> NotificationOffsets { get; set; }
+        public INotificationPublisher NotificationPublisher { get; }
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
-        public EventNotification(IEnumerable<int> notificationOffsets, ILogger logger, Action<Event> notificationCallback = null)
+        public EventNotification(IEnumerable<int> notificationOffsets, ILogger logger, INotificationPublisher notificationPublisher)
         {
             EventNotifications = new ConcurrentDictionary<string, IList<NotificationObject>>();
             Logger = logger.ForContext<EventNotification>();
 
             NotificationOffsets = notificationOffsets;
-            Callback = notificationCallback;
+            NotificationPublisher = notificationPublisher;
         }
 
         public void Attach(Event calEvent)
@@ -101,27 +101,20 @@ namespace TaskSharper.Notification
         {
             var notObj = new NotificationObject();
             var data = CalculateTimeToFire(notificationTime); // Calculate in milliseconds the time to fire the notification
-
-            if (Callback != null)
+            
+            // Initialize timer
+            var timer = new Timer();
+            timer.Interval = data;
+            timer.AutoReset = false;
+            timer.Elapsed += (sender, args) =>
             {
-                // Initialize timer
-                var timer = new Timer();
-                timer.Interval = data;
-                timer.AutoReset = false;
-                timer.Elapsed += (sender, args) =>
-                {
-                    Callback(calEvent);
-                    timer.Close();
-                    notObj.HasFired = true;
-                };
-                timer.Start();
+                NotificationPublisher.Publish(calEvent);
+                timer.Close();
+                notObj.HasFired = true;
+            };
+            timer.Start();
 
-                return notObj;
-            }
-            else
-            {
-                throw new ArgumentNullException($"There is no Callback provided");
-            }
+            return notObj;
 
         }
         

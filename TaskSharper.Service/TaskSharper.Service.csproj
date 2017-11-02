@@ -34,23 +34,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Apis, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.29.1\lib\net45\Google.Apis.dll</HintPath>
+    <Reference Include="Google.Apis, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.30.0\lib\net45\Google.Apis.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Auth, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Auth.1.29.1\lib\net45\Google.Apis.Auth.dll</HintPath>
+    <Reference Include="Google.Apis.Auth, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.30.0\lib\net45\Google.Apis.Auth.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Auth.1.29.1\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.30.0\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Calendar.v3, Version=1.29.1.971, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Calendar.v3.1.29.1.971\lib\net45\Google.Apis.Calendar.v3.dll</HintPath>
+    <Reference Include="Google.Apis.Calendar.v3, Version=1.30.0.1032, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Calendar.v3.1.30.0.1032\lib\net45\Google.Apis.Calendar.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Core, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Core.1.29.1\lib\net45\Google.Apis.Core.dll</HintPath>
+    <Reference Include="Google.Apis.Core, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.30.0\lib\net45\Google.Apis.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.PlatformServices, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.29.1\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.30.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -166,6 +166,7 @@
     <Compile Include="Config\SwaggerConfig.cs" />
     <Compile Include="Config\UnityConfig.cs" />
     <Compile Include="Config\WebApiConfig.cs" />
+    <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />

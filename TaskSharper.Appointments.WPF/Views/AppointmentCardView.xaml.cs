@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TaskSharper.Appointments.WPF
+namespace TaskSharper.Appointments.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AppointmentCardView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AppointmentCardView : UserControl
     {
-        public MainWindow()
+        public AppointmentCardView()
         {
             InitializeComponent();
         }
