@@ -6,7 +6,6 @@ namespace TaskSharper.Domain.Cache
 {
     public interface ICacheStore
     {
-        DateTime LastUpdated { get; }
         TimeSpan UpdatedOffset { get; set; }
 
         IList<Event> GetEvents(DateTime date);

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Timers;
 using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Shared.Extensions;
+using TaskSharper.Shared.Wrappers;
 
 namespace TaskSharper.Notification
 {
@@ -17,6 +19,8 @@ namespace TaskSharper.Notification
         public INotificationPublisher NotificationPublisher { get; }
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
+        private Timer DailyCleanUpTimer { get; set; }
+
         public EventNotification(IEnumerable<int> notificationOffsets, ILogger logger, INotificationPublisher notificationPublisher)
         {
             EventNotifications = new ConcurrentDictionary<string, IList<NotificationObject>>();
@@ -24,10 +28,53 @@ namespace TaskSharper.Notification
 
             NotificationOffsets = notificationOffsets;
             NotificationPublisher = notificationPublisher;
+            
+            var timerbuilder = new TimerBuilder()
+                .Create();
+            timerbuilder
+                .Create()
+                .AutoReset()
+                .SetDailyScheduler(new TimeSpan(0, 2, 0, 0), CleanUp)
+                .Start();
+
+            DailyCleanUpTimer = new Timer().StartDailyScheduler(new TimeSpan(0,2,0,0), CleanUp);
+        }
+
+        private void CleanUp()
+        {
+            try
+            {
+                foreach (var eventNotification in EventNotifications)
+                {
+                    foreach (var notificationObject in eventNotification.Value)
+                    {
+                        if (notificationObject.HasFired)
+                        {
+                            eventNotification.Value.Remove(notificationObject);
+                        }
+                    }
+
+                    if (eventNotification.Value.Count <= 0)
+                    {
+                        EventNotifications.TryRemove(eventNotification.Key, out _);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ForContext("CleanUp", typeof(EventNotification)).Error(e, "Error while doing daily cleaning of notification");
+            }
         }
 
         public void Attach(Event calEvent)
         {
+            // Remove event if it already exist - to ensure that updated events is removed from notifications. 
+            if (EventNotifications.ContainsKey(calEvent.Id))
+            {
+                EventNotifications.TryRemove(calEvent.Id, out _);
+            }
+
+            // If event has been completed, do not add. 
             if (calEvent.Status == EventStatus.Completed ||  calEvent.Status == EventStatus.Cancelled) return;
 
             var notificationList = new List<NotificationObject>();
@@ -43,7 +90,7 @@ namespace TaskSharper.Notification
                     notificationList.Add(obj);
                 }
             }
-            else // No Notification offsets provided
+            else // No Notification offsets provided - notify at start time of event
             {
                 notificationList.Add(CreateNotification(calEvent, calEvent.Start.Value));
             }
