@@ -16,14 +16,60 @@ namespace TaskSharper.WPF.Common.Components.Notification
         private string _notificationTitle;
         private string _notificationMessage;
         private NotificationTypeEnum _notificationType;
+        private bool _spinnerVisible;
 
         public DelegateCommand CloseNotificationCommand { get; set; }
 
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
 
+        public string NotificationTitle
+        {
+            get => _notificationTitle;
+            set => SetProperty(ref _notificationTitle, value);
+        }
+        public string NotificationMessage
+        {
+            get => _notificationMessage;
+            set => SetProperty(ref _notificationMessage, value);
+        }
+        public bool SpinnerVisible
+        {
+            get => _spinnerVisible;
+            set => SetProperty(ref _spinnerVisible, value);
+        }
+
+        public bool IsPopupOpen
+        {
+            get => _isPopupOpen;
+            set => SetProperty(ref _isPopupOpen, value);
+        }
+
+        private void ClosePopUp()
+        {
+            IsPopupOpen = false;
+            SetSpinnerVisibility(EventResources.SpinnerEnum.Hide);
+        }
+
+        private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
+        {
+            switch (state)
+            {
+                case EventResources.SpinnerEnum.Show:
+                    SpinnerVisible = true;
+                    break;
+                case EventResources.SpinnerEnum.Hide:
+                    SpinnerVisible = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
         public NotificationViewModel()
         {
-            
+            NotificationTitle = "test";
+            NotificationMessage = "test1234";
+            IsPopupOpen = true;
         }
     }
 }

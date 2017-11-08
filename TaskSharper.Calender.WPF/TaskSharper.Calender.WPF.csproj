@@ -442,6 +442,10 @@
       <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
       <Name>TaskSharper.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.WPF.Common\TaskSharper.WPF.Common.csproj">
+      <Project>{4044c93a-c605-4561-ab0d-375d4a05a9d7}</Project>
+      <Name>TaskSharper.WPF.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\Components\" />

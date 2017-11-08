@@ -16,6 +16,7 @@
 
         mc:Ignorable="d"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:notification="clr-namespace:TaskSharper.WPF.Common.Components.Notification;assembly=TaskSharper.WPF.Common"
         Title="TaskSharperCalendar" Height="936.818" Width="1309">
     <Window.Resources>
         <Flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSourceConverter" />
@@ -188,7 +189,8 @@
                 <fa:ImageAwesome Icon="ArrowDown" Height="70" Margin="10,0,0,0" Foreground="White" />
             </Button>
         </Grid>
-        <Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
+        
+        <!--<Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
             <Border BorderBrush="#5ca2e8" BorderThickness="1"
                     Background="AliceBlue">
                 <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
@@ -197,7 +199,10 @@
                     <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="{lex:Loc Close}"  Command="{Binding CloseNotificationCommand}"></Button>
                 </StackPanel>
             </Border>
-        </Popup>
+        </Popup>-->
 
     </Grid>
 </Window>
+
+
+
