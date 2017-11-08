@@ -29,21 +29,16 @@ namespace TaskSharper.Notification
             NotificationOffsets = notificationOffsets;
             NotificationPublisher = notificationPublisher;
             
-            var timerbuilder = new TimerBuilder()
-                .Create();
-            timerbuilder
-                .Create()
-                .AutoReset()
-                .SetDailyScheduler(new TimeSpan(0, 2, 0, 0), CleanUp)
-                .Start();
-
-            DailyCleanUpTimer = new Timer().StartDailyScheduler(new TimeSpan(0,2,0,0), CleanUp);
+            DailyCleanUpTimer = new Timer()
+                .SetDailyScheduler(new TimeSpan(0,2,0,0), CleanUp)
+                .StartTimer();
         }
 
         private void CleanUp()
         {
             try
             {
+                Logger.ForContext("CleanUp", typeof(EventNotification)).Information("Doing daily cleaning for notifications");
                 foreach (var eventNotification in EventNotifications)
                 {
                     foreach (var notificationObject in eventNotification.Value)
@@ -126,7 +121,7 @@ namespace TaskSharper.Notification
         {
             var notObj = new NotificationObject();
             var data = CalculateTimeToFire(notificationTime); // Calculate in milliseconds the time to fire the notification
-            
+
             // Initialize timer
             var timer = new Timer();
             timer.Interval = data;
@@ -139,9 +134,7 @@ namespace TaskSharper.Notification
             };
             timer.Start();
 
-            notObj.Timer = timer;
             return notObj;
-
         }
         
         private double CalculateTimeToFire(DateTime notificationTime)

@@ -24,13 +24,16 @@ namespace TaskSharper.CacheStore
             Logger = logger.ForContext<EventCache>();
             Events = new ConcurrentDictionary<DateTime, Dictionary<string, CacheData>>();
 
-            DailyCleanUpTimer = new Timer().StartDailyScheduler(new TimeSpan(0,2,0,0), CleanUp);
+            DailyCleanUpTimer = new Timer()
+                .SetDailyScheduler(new TimeSpan(0,2,0,0), CleanUp)
+                .StartTimer();
         }
 
         private void CleanUp()
         {
             try
             {
+                Logger.ForContext("CleanUp", typeof(EventCache)).Information("Doing daily cleaning for cache");
                 Events.Clear();
             }
             catch (Exception e)
