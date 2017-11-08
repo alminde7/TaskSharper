@@ -57,6 +57,7 @@
       <DependentUpon>NotificationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Notification\NotificationViewModel.cs" />
+    <Compile Include="Config\ApplicationStatus.cs" />
     <Compile Include="Events\CultureChangedEvent.cs" />
     <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
     <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
@@ -103,7 +104,11 @@
       <Name>TaskSharper.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Media\WindowsNotifyCalendar.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Components\Notification\NotificationView.xaml">
       <SubType>Designer</SubType>

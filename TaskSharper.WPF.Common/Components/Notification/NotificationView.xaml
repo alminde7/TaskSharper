@@ -1,4 +1,4 @@
-﻿<Window x:Class="TaskSharper.WPF.Common.Components.Notification.NotificationView"
+﻿<UserControl x:Class="TaskSharper.WPF.Common.Components.Notification.NotificationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,7 +11,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              
              xmlns:fa="http://schemas.fontawesome.io/icons/">
-    <Window.Resources>
+    <UserControl.Resources>
         <Style TargetType="{x:Type Button}" x:Key="CloseNotificationButton">
             <Setter Property="Background" Value="#5AA1E3" />
             <Setter Property="Foreground" Value="White" />
@@ -58,7 +58,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-    </Window.Resources>
+    </UserControl.Resources>
     <Grid>
         <Popup Name="NotificationPopUp" IsOpen="{Binding IsPopupOpen}" Placement="Absolute" StaysOpen="True">
             <Border BorderBrush="#5ca2e8" BorderThickness="1"
@@ -71,4 +71,4 @@
             </Border>
         </Popup>
     </Grid>
-</Window>
+</UserControl>

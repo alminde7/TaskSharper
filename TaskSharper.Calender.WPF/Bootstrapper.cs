@@ -2,6 +2,7 @@
 using System.Windows;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
+using Prism.Events;
 using Prism.Logging;
 using Prism.Regions;
 using RestSharp;
@@ -42,6 +43,11 @@ namespace TaskSharper.Calender.WPF
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
+
+
+            //EventAggregator
+            var singletonEventAggregator = new EventAggregator();
+            Container.RegisterInstance(typeof(IEventAggregator), singletonEventAggregator,new ContainerControlledLifetimeManager());
 
             // Register views
             Container.RegisterTypeForNavigation<CalendarDayView>(ViewConstants.VIEW_CalendarDay);
