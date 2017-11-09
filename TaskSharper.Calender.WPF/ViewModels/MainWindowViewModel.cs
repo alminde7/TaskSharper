@@ -56,8 +56,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             ScrollButtonsVisible = true;
 
-            _notificationQueue = new Queue<Notification>();
-
             // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
             CheckServiceStatus();
         }
