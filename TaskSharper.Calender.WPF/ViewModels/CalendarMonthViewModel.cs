@@ -12,13 +12,13 @@ using MoreLinq;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.NotificationEvents;
-using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Exceptions;
 using TaskSharper.Shared.Extensions;
+using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

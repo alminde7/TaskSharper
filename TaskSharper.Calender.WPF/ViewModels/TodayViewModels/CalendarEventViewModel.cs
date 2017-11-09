@@ -7,8 +7,8 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
-using TaskSharper.Calender.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Events;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

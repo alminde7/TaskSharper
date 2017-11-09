@@ -60,7 +60,13 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Popup Name="NotificationPopUp" IsOpen="{Binding IsPopupOpen}" Placement="Absolute" StaysOpen="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Popup Name="NotificationPopUp" Grid.Row="0" Grid.Column="0" IsOpen="{Binding IsPopupOpen}" StaysOpen="True">
             <Border BorderBrush="#5ca2e8" BorderThickness="1"
                     Background="AliceBlue">
                 <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">

@@ -3,8 +3,10 @@ using System.Globalization;
 using Prism.Events;
 using Prism.Mvvm;
 using Serilog;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.DateChangedEvents;
+using TaskSharper.WPF.Common.Events.Resources;
+
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

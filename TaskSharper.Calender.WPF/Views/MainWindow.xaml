@@ -188,7 +188,10 @@
                 <fa:ImageAwesome Icon="ArrowDown" Height="70" Margin="10,0,0,0" Foreground="White" />
             </Button>
         </Grid>
-        <notification:NotificationView Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" ></notification:NotificationView>
+        <StackPanel Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Center" Margin="0,0,200,200" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0">
+            <notification:NotificationView></notification:NotificationView>
+        </StackPanel>
+        
     </Grid>
 </Window>
 

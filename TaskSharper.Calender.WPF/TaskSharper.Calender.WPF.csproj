@@ -200,22 +200,6 @@
     <Compile Include="Config\ApplicationStatus.cs" />
     <Compile Include="Config\ViewConstants.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
-    <Compile Include="Events\CultureChangedEvent.cs" />
-    <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
-    <Compile Include="Events\EventChangedEvent.cs" />
-    <Compile Include="Events\EventClickedEvent.cs" />
-    <Compile Include="Events\NotificationEvents\NotificationEvent.cs" />
-    <Compile Include="Events\Resources\CalendarTypeEnum.cs" />
-    <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
-    <Compile Include="Events\Resources\ConnectionErrorNotification.cs" />
-    <Compile Include="Events\Resources\DateChangedEnum.cs" />
-    <Compile Include="Events\Resources\Notification.cs" />
-    <Compile Include="Events\Resources\NotificationTypeEnum.cs" />
-    <Compile Include="Events\ScrollButtonsEvent.cs" />
-    <Compile Include="Events\ScrollEvents\ScrollDownEvent.cs" />
-    <Compile Include="Events\ScrollEvents\ScrollUpEvent.cs" />
-    <Compile Include="Events\SpinnerEvent.cs" />
-    <Compile Include="Events\DateChangedEvents\WeekChangedEvent.cs" />
     <Compile Include="Properties\Resources.en-US.Designer.cs">
       <DependentUpon>Resources.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -231,7 +215,6 @@
     <Compile Include="NotificationService.cs" />
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
-    <Compile Include="Events\Resources\EventResources.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarDateDayViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarDayEventViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarWeekDayViewModel.cs" />

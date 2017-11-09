@@ -10,12 +10,12 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.NotificationEvents;
-using TaskSharper.Calender.WPF.Events.Resources;
-using TaskSharper.Calender.WPF.Events.ScrollEvents;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
+using TaskSharper.WPF.Common.Events.ScrollEvents;
 using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.Calender.WPF.ViewModels

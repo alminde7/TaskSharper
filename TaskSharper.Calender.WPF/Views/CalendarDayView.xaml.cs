@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using Prism.Events;
-using TaskSharper.Calender.WPF.Events.ScrollEvents;
 using TaskSharper.Calender.WPF.Properties;
+using TaskSharper.WPF.Common.Events.ScrollEvents;
 
 namespace TaskSharper.Calender.WPF.Views
 { 

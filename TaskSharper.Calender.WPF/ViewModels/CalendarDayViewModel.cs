@@ -11,11 +11,13 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.NotificationEvents;
-using TaskSharper.Calender.WPF.Events.Resources;
+
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Exceptions;
+using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.DateChangedEvents;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

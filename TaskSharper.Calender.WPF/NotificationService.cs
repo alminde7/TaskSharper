@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 using Prism.Events;
 using RestSharp.Extensions;
 using Serilog;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.NotificationEvents;
-using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.ServerEvents;
 using TaskSharper.Shared.Exceptions;
+using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF
 {
