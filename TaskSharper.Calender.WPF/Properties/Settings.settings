@@ -35,5 +35,14 @@
     <Setting Name="SoundVolume" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="ColorRed" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#ff4264</Value>
+    </Setting>
+    <Setting Name="ColorOrange" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#fca635</Value>
+    </Setting>
+    <Setting Name="AliceBlue" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#f0f8ff</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

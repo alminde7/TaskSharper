@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Media;
 using System.Threading.Tasks;
@@ -54,6 +56,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             ScrollButtonsVisible = true;
 
+            _notificationQueue = new Queue<Notification>();
+
             // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
             CheckServiceStatus();
         }
@@ -93,7 +97,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void ChangeLanguage(string culture)
         {
             _logger.ForContext("Click", typeof(MainWindowViewModel)).Information("Change language clicked with culture {@Culture}", culture);
-            if (LocalizeDictionary.Instance.Culture.Name != culture)
+            if(LocalizeDictionary.Instance.Culture.Name != culture)
             {
                 _logger.ForContext("Language", typeof(MainWindowViewModel)).Information("Changed culture to {@Culture}", culture);
                 LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
