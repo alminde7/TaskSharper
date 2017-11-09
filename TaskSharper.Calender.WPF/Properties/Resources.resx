@@ -195,6 +195,12 @@
   <data name="NoConnectionMessage" xml:space="preserve">
     <value>Not able to establish connection to the server</value>
   </data>
+  <data name="NotificationPastEvent" xml:space="preserve">
+    <value>This {0} happen {1} min ago</value>
+  </data>
+  <data name="NotificationPressentEvent" xml:space="preserve">
+    <value>This {0} will happen in {1} min</value>
+  </data>
   <data name="November" xml:space="preserve">
     <value>November</value>
   </data>

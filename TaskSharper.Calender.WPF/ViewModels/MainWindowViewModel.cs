@@ -44,7 +44,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
             _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
-            _eventAggregator.GetEvent<NotificationEvent>().Subscribe(test);
+ 
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
@@ -58,10 +58,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             CheckServiceStatus();
         }
 
-        private void test(Notification notification)
-        {
-            Console.WriteLine(notification.Message);
-        }
         private async void CheckServiceStatus() 
         {
             var statusResult = await _statusRestClient.IsAliveAsync();
@@ -102,8 +98,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 _logger.ForContext("Language", typeof(MainWindowViewModel)).Information("Changed culture to {@Culture}", culture);
                 LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
                 _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
-                // NotificationTitle = Resources.NoConnection;
-                // NotificationMessage = Resources.NoConnectionMessage;
             }
         }
 

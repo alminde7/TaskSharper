@@ -78,7 +78,10 @@ namespace TaskSharper.Calender.WPF
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new Notification()
                 {
                     Message = x.Description,
-                    Title = x.Title
+                    Title = x.Title,
+                    Status = x.Status,
+                    Start = x.Start,
+                    Type = x.Type
                 });
             });
 

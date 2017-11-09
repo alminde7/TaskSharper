@@ -295,6 +295,24 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This {0} happen {1} min ago.
+        /// </summary>
+        public static string NotificationPastEvent {
+            get {
+                return ResourceManager.GetString("NotificationPastEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This {0} will happen in {1} min.
+        /// </summary>
+        public static string NotificationPressentEvent {
+            get {
+                return ResourceManager.GetString("NotificationPressentEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to November.
         /// </summary>
         public static string November {

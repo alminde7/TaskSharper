@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationName" xml:space="preserve">
-    <value>TaskSharper Calendar</value>
+    <value>TaskSharperCalendar</value>
   </data>
   <data name="Appointment" xml:space="preserve">
-    <value>Aftale</value>
+    <value>Appointment</value>
   </data>
   <data name="April" xml:space="preserve">
     <value>April</value>
@@ -130,85 +130,73 @@
     <value>August</value>
   </data>
   <data name="Changed" xml:space="preserve">
-    <value>Ændret</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Luk</value>
+    <value>Changed</value>
   </data>
   <data name="Completed" xml:space="preserve">
-    <value>Fuldført</value>
+    <value>Completed</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value>Bekræftet</value>
+    <value>Confirmed</value>
   </data>
   <data name="Created" xml:space="preserve">
-    <value>Oprettet</value>
+    <value>Created</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>Dag</value>
+    <value>Day</value>
   </data>
   <data name="December" xml:space="preserve">
     <value>December</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Beskrivelse</value>
+    <value>Description</value>
   </data>
   <data name="End" xml:space="preserve">
-    <value>Slut</value>
+    <value>End</value>
   </data>
   <data name="ErrorEndTimeIsEarlierThanStartTime" xml:space="preserve">
-    <value>Start tid kan ikke være senere end slut tid.</value>
+    <value>Start time cannot be later than end time.</value>
   </data>
   <data name="ErrorTitleNotSet" xml:space="preserve">
-    <value>Titel skal udfyldes.</value>
+    <value>Title cannot be empty.</value>
   </data>
   <data name="February" xml:space="preserve">
-    <value>Februar</value>
+    <value>February</value>
   </data>
   <data name="Friday" xml:space="preserve">
-    <value>Fredag</value>
+    <value>Friday</value>
   </data>
   <data name="January" xml:space="preserve">
-    <value>Januar</value>
+    <value>January</value>
   </data>
   <data name="July" xml:space="preserve">
-    <value>Juli</value>
+    <value>July</value>
   </data>
   <data name="June" xml:space="preserve">
-    <value>Juni</value>
+    <value>June</value>
   </data>
   <data name="March" xml:space="preserve">
-    <value>Marts</value>
+    <value>March</value>
   </data>
   <data name="May" xml:space="preserve">
-    <value>Maj</value>
+    <value>May</value>
   </data>
   <data name="Monday" xml:space="preserve">
-    <value>Mandag</value>
+    <value>Monday</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Måned</value>
+    <value>Month</value>
   </data>
-  <data name="NoConnection" xml:space="preserve">
-    <value>Ingen netværk</value>
-  </data>
-  <data name="NoConnectionMessage" xml:space="preserve">
-    <value>Det var ikke muligt at oprettet forbindelse til serveren. </value>
-  </data>
-  <data name="NotificationPastEvent" xml:space="preserve">
-    <value>Denne {0} fandt sted for  {1} min siden.</value>
-  </data>
-  <data name="NotificationPressentEvent" xml:space="preserve">
-    <value>Denne {0} finder sted om  {1} min</value>
+  <data name="NotificationEventPastText" xml:space="preserve">
+    <value>d</value>
   </data>
   <data name="November" xml:space="preserve">
     <value>November</value>
   </data>
   <data name="October" xml:space="preserve">
-    <value>Oktober</value>
+    <value>October</value>
   </data>
   <data name="Saturday" xml:space="preserve">
-    <value>Lørdag</value>
+    <value>Saturday</value>
   </data>
   <data name="September" xml:space="preserve">
     <value>September</value>
@@ -220,42 +208,42 @@
     <value>Status</value>
   </data>
   <data name="Sunday" xml:space="preserve">
-    <value>Søndag</value>
+    <value>Sunday</value>
   </data>
   <data name="Task" xml:space="preserve">
-    <value>Opgave</value>
+    <value>Task</value>
   </data>
   <data name="Tentative" xml:space="preserve">
-    <value>Foreløbig</value>
+    <value>Tentative</value>
   </data>
   <data name="This_month" xml:space="preserve">
-    <value>Denne måned</value>
+    <value>This month</value>
   </data>
   <data name="This_week" xml:space="preserve">
-    <value>Denne uge</value>
+    <value>This week</value>
   </data>
   <data name="Thursday" xml:space="preserve">
-    <value>Torsdag</value>
+    <value>Thursday</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Titel</value>
+    <value>Title</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>I dag</value>
+    <value>Today</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
-    <value>Tirsdag</value>
+    <value>Tuesday</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
   <data name="Updated" xml:space="preserve">
-    <value>Opdateret</value>
+    <value>Updated</value>
   </data>
   <data name="Wednesday" xml:space="preserve">
-    <value>Onsdag</value>
+    <value>Wednesday</value>
   </data>
   <data name="Week" xml:space="preserve">
-    <value>Uge</value>
+    <value>Week</value>
   </data>
 </root>

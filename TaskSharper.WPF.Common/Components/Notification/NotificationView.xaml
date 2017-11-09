@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="400"
              
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
+             lex:LocalizeDictionary.DesignCulture="en-US"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+             
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              
@@ -70,9 +75,10 @@
             <Border BorderBrush="#5ca2e8" BorderThickness="1"
                     Background="AliceBlue">
                 <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
-                    <TextBlock Text="{Binding NotificationTitle}" FontSize="18" Height="20" FontWeight="Bold" Margin="10,5"></TextBlock>
-                    <TextBlock Text="{Binding NotificationMessage}" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,50"></TextBlock>
-                    <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="Close"  Command="{Binding CloseNotificationCommand}"></Button>
+                    <TextBlock Text="{Binding NotificationTitle}" FontSize="18" Height="30" FontWeight="Bold" Margin="10,5"></TextBlock>
+                    <TextBlock Text="{Binding NotificationMessage}" FontSize="16"  Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" ></TextBlock>
+                    <TextBlock Text="{Binding NotificationStart}" FontSize="16" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10"></TextBlock>
+                    <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="{lex:Loc Close}"  Command="{Binding CloseNotificationCommand}"></Button>
                 </StackPanel>
             </Border>
         </Popup>
