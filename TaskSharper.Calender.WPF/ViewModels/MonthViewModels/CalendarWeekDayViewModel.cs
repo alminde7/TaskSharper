@@ -2,8 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Globalization;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.Resources;
+using TaskSharper.WPF.Common.Events;
 
 namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 {

@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
+using RestSharp.Extensions;
 using Serilog;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.NotificationEvents;
-using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.ServerEvents;
 using TaskSharper.Shared.Exceptions;
+using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF
 {
@@ -77,7 +78,10 @@ namespace TaskSharper.Calender.WPF
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new Notification()
                 {
                     Message = x.Description,
-                    Title = x.Title
+                    Title = x.Title,
+                    Status = x.Status,
+                    Start = x.Start,
+                    Type = x.Type
                 });
             });
 

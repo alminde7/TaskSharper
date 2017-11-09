@@ -2,6 +2,7 @@
 using System.Windows;
 using Prism.Unity;
 using Microsoft.Practices.Unity;
+using Prism.Events;
 using Prism.Logging;
 using Prism.Regions;
 using RestSharp;
@@ -43,6 +44,11 @@ namespace TaskSharper.Calender.WPF
         {
             base.ConfigureContainer();
 
+
+            //EventAggregator
+            var singletonEventAggregator = new EventAggregator();
+            Container.RegisterInstance(typeof(IEventAggregator), singletonEventAggregator,new ContainerControlledLifetimeManager());
+
             // Register views
             Container.RegisterTypeForNavigation<CalendarDayView>(ViewConstants.VIEW_CalendarDay);
             Container.RegisterTypeForNavigation<CalendarWeekView>(ViewConstants.VIEW_CalendarWeek);
@@ -61,7 +67,7 @@ namespace TaskSharper.Calender.WPF
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
-            Container.RegisterType<IEventRestClient, EventRestClient>();
+            Container.RegisterType<IEventRestClient, EventRestClient>(new InjectionConstructor("events", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IStatusRestClient, StatusRestClient>();
 
             var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");

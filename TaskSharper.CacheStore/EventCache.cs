@@ -2,10 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Serilog;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Extensions;
+using TaskSharper.Shared.Wrappers;
 
 namespace TaskSharper.CacheStore
 {
@@ -13,15 +15,31 @@ namespace TaskSharper.CacheStore
     {
         public ILogger Logger { get; set; }
         public ConcurrentDictionary<DateTime, Dictionary<string, CacheData>> Events { get; }
-
-        // TODO:: DELETE
-        public DateTime LastUpdated { get; set; }
         public TimeSpan UpdatedOffset { get; set; } = TimeSpan.FromMinutes(5);
+
+        private Timer DailyCleanUpTimer { get; set; }
 
         public EventCache(ILogger logger)
         {
             Logger = logger.ForContext<EventCache>();
             Events = new ConcurrentDictionary<DateTime, Dictionary<string, CacheData>>();
+
+            DailyCleanUpTimer = new Timer()
+                .SetDailyScheduler(new TimeSpan(0,2,0,0), CleanUp)
+                .StartTimer();
+        }
+
+        private void CleanUp()
+        {
+            try
+            {
+                Logger.ForContext("CleanUp", typeof(EventCache)).Information("Doing daily cleaning for cache");
+                Events.Clear();
+            }
+            catch (Exception e)
+            {
+                Logger.ForContext("CleanUp", typeof(EventCache)).Error(e, "Error while doing daily cleaning of cache");
+            }
         }
 
         /// <summary>
@@ -31,7 +49,6 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasData(DateTime date)
         {
-            // TODO:: Take updated time into consideration
             return Events.ContainsKey(date.StartOfDay());
         }
 
@@ -43,7 +60,6 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasEvent(string id, DateTime date)
         {
-            // TODO:: Take updated time into consideration
             if (HasData(date.StartOfDay()))
             {
                 return Events[date.StartOfDay()].ContainsKey(id);
@@ -58,7 +74,6 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public bool HasEvent(string id)
         {
-            // TODO:: Take updated time into consideration
             return Events.Any(x => x.Value.ContainsKey(id));
         }
 
@@ -86,8 +101,6 @@ namespace TaskSharper.CacheStore
                     Events[date.AddDays(i)].AddOrUpdate(calEvent.Id, new CacheData(calEvent, DateTime.Now, false));
                 }
             }
-
-            LastUpdated = DateTime.Now;
         }
 
         /// <summary>

@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF Clients", "WPF Clients"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Launcher.WPF", "TaskSharper.Launcher.WPF\TaskSharper.Launcher.WPF.csproj", "{4444EB61-5ABF-442C-9BE3-772AE768F099}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.WPF.Common", "TaskSharper.WPF.Common\TaskSharper.WPF.Common.csproj", "{4044C93A-C605-4561-AB0D-375D4A05A9D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,10 @@ Global
 		{4444EB61-5ABF-442C-9BE3-772AE768F099}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4444EB61-5ABF-442C-9BE3-772AE768F099}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4444EB61-5ABF-442C-9BE3-772AE768F099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4044C93A-C605-4561-AB0D-375D4A05A9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4044C93A-C605-4561-AB0D-375D4A05A9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4044C93A-C605-4561-AB0D-375D4A05A9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4044C93A-C605-4561-AB0D-375D4A05A9D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +139,7 @@ Global
 		{1903E410-7EDA-4F46-ACCB-C05B724D5BE2} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
 		{E6CDD4F6-396A-4FD5-93AA-79CEDC8AB033} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
 		{4444EB61-5ABF-442C-9BE3-772AE768F099} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
+		{4044C93A-C605-4561-AB0D-375D4A05A9D7} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2610FE-FBAE-448B-ACAB-893FDB66EB45}

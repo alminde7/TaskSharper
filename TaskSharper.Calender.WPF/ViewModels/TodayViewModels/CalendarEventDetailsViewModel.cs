@@ -6,11 +6,10 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.Resources;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Events;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

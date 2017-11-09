@@ -45,9 +45,11 @@
     <Compile Include="Calendar\Event.cs" />
     <Compile Include="Calendar\EventStatus.cs" />
     <Compile Include="Calendar\EventType.cs" />
+    <Compile Include="Calendar\IAppointmentRestClient.cs" />
     <Compile Include="Calendar\ICalendarService.cs" />
     <Compile Include="Calendar\IEventRestClient.cs" />
     <Compile Include="Calendar\IStatusRestClient.cs" />
+    <Compile Include="Calendar\ITaskRestClient.cs" />
     <Compile Include="Notification\INotification.cs" />
     <Compile Include="Notification\INotificationClient.cs" />
     <Compile Include="Notification\INotificationPublisher.cs" />

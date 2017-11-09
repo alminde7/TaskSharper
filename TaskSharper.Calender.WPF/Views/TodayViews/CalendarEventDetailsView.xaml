@@ -7,10 +7,10 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
-             xmlns:components="clr-namespace:TaskSharper.Calender.WPF.Views.Components"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:dateTimePicker="clr-namespace:TaskSharper.WPF.Common.Components.DateTimePicker;assembly=TaskSharper.WPF.Common"
              lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.Calender.WPF"
              lex:LocalizeDictionary.DesignCulture="en-US"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -60,7 +60,7 @@
                     <TextBox Text="{Binding EditEvent.Description}" Width="200" Height="180" Margin="0,0,0,10" TextWrapping="Wrap" />
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
-                    <components:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}" />
+                    <dateTimePicker:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="50,0,0,0">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Type}" />
@@ -96,7 +96,7 @@
                     </StackPanel>
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
-                    <components:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}" />
+                    <dateTimePicker:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}" />
 
                     <TextBlock Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>
                 </StackPanel>

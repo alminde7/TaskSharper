@@ -58,23 +58,23 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.29.1\lib\net45\Google.Apis.dll</HintPath>
+    <Reference Include="Google.Apis, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.30.0\lib\net45\Google.Apis.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Auth, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Auth.1.29.1\lib\net45\Google.Apis.Auth.dll</HintPath>
+    <Reference Include="Google.Apis.Auth, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.30.0\lib\net45\Google.Apis.Auth.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Auth.1.29.1\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.30.0\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Calendar.v3, Version=1.29.1.976, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Calendar.v3.1.29.1.976\lib\net45\Google.Apis.Calendar.v3.dll</HintPath>
+    <Reference Include="Google.Apis.Calendar.v3, Version=1.30.0.1032, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Calendar.v3.1.30.0.1032\lib\net45\Google.Apis.Calendar.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Core, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Core.1.29.1\lib\net45\Google.Apis.Core.dll</HintPath>
+    <Reference Include="Google.Apis.Core, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.30.0\lib\net45\Google.Apis.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.PlatformServices, Version=1.29.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.29.1\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.30.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.30.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -162,6 +162,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TaskSharper.WPF.Common">
+      <HintPath>..\TaskSharper.WPF.Common\bin\Debug\TaskSharper.WPF.Common.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WPFLocalizeExtension, Version=2.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WpfLocalizeExtension.2.3.2\lib\net35\WPFLocalizeExtension.dll</HintPath>
@@ -200,22 +203,6 @@
     <Compile Include="Config\ApplicationStatus.cs" />
     <Compile Include="Config\ViewConstants.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
-    <Compile Include="Events\CultureChangedEvent.cs" />
-    <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
-    <Compile Include="Events\EventChangedEvent.cs" />
-    <Compile Include="Events\EventClickedEvent.cs" />
-    <Compile Include="Events\NotificationEvents\NotificationEvent.cs" />
-    <Compile Include="Events\Resources\CalendarTypeEnum.cs" />
-    <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
-    <Compile Include="Events\Resources\ConnectionErrorNotification.cs" />
-    <Compile Include="Events\Resources\DateChangedEnum.cs" />
-    <Compile Include="Events\Resources\Notification.cs" />
-    <Compile Include="Events\Resources\NotificationTypeEnum.cs" />
-    <Compile Include="Events\ScrollButtonsEvent.cs" />
-    <Compile Include="Events\ScrollEvents\ScrollDownEvent.cs" />
-    <Compile Include="Events\ScrollEvents\ScrollUpEvent.cs" />
-    <Compile Include="Events\SpinnerEvent.cs" />
-    <Compile Include="Events\DateChangedEvents\WeekChangedEvent.cs" />
     <Compile Include="Properties\Resources.en-US.Designer.cs">
       <DependentUpon>Resources.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -229,9 +216,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="NotificationService.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
-    <Compile Include="Events\Resources\EventResources.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarDateDayViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarDayEventViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarWeekDayViewModel.cs" />
@@ -246,9 +233,6 @@
     <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AppointmentViewModel.cs" />
-    <Compile Include="Views\Components\DateTimePickerView.xaml.cs">
-      <DependentUpon>DateTimePickerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MonthViews\CalendarDateDayView.xaml.cs">
       <DependentUpon>CalendarDateDayView.xaml</DependentUpon>
     </Compile>
@@ -294,10 +278,6 @@
       <DependentUpon>CalendarDayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CalendarDayViewModel.cs" />
-    <Page Include="Views\Components\DateTimePickerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MonthViews\CalendarDateDayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -443,9 +423,7 @@
       <Name>TaskSharper.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Media\WindowsNotifyCalendar.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

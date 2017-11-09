@@ -12,12 +12,12 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
-using TaskSharper.Calender.WPF.Events;
-using TaskSharper.Calender.WPF.Events.NotificationEvents;
-using TaskSharper.Calender.WPF.Events.Resources;
-using TaskSharper.Calender.WPF.Events.ScrollEvents;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
+using TaskSharper.WPF.Common.Events.ScrollEvents;
 using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -30,14 +30,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly ILogger _logger;
         private bool _spinnerVisible;
         private bool _scrollButtonsVisible;
-        private bool _isPopupOpen;
-        private string _notificationTitle;
-        private string _notificationMessage;
-        private NotificationTypeEnum _notificationType;
-        private Queue<Notification> _notificationQueue;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
-        public DelegateCommand CloseNotificationCommand { get; set; }
+        
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
         public DelegateCommand ScrollUpCommand { get; set; }
         public DelegateCommand ScrollDownCommand { get; set; }
@@ -50,20 +45,16 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _statusRestClient = statusRestClient;
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
-            _eventAggregator.GetEvent<NotificationEvent>().Subscribe(HandleNotificationEvent);
             _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
+ 
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
-            CloseNotificationCommand = new DelegateCommand(ClosePopUp);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
 
             ScrollUpCommand = new DelegateCommand(ScrollUp);
             ScrollDownCommand = new DelegateCommand(ScrollDown);
 
-            IsPopupOpen = false;
             ScrollButtonsVisible = true;
-
-            _notificationQueue = new Queue<Notification>();
 
             // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
             CheckServiceStatus();
@@ -81,7 +72,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     Message = Resources.NoConnectionMessage,
                     NotificationType = NotificationTypeEnum.Error
                 };
-                await ShowNotification(notificationStatus);
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(notificationStatus);
             }
         }
         private void ScrollUp()
@@ -101,21 +92,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri);
         }
 
-        private void ClosePopUp()
-        {
-            IsPopupOpen = false;
-            SetSpinnerVisibility(EventResources.SpinnerEnum.Hide);
-
-            if (_notificationQueue.Count > 0)
-                ShowNotification(_notificationQueue.Dequeue());
-        }
-
-        public bool IsPopupOpen
-        {
-            get => _isPopupOpen;
-            set => SetProperty(ref _isPopupOpen, value);
-        }
-
         private void ChangeLanguage(string culture)
         {
             _logger.ForContext("Click", typeof(MainWindowViewModel)).Information("Change language clicked with culture {@Culture}", culture);
@@ -124,8 +100,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 _logger.ForContext("Language", typeof(MainWindowViewModel)).Information("Changed culture to {@Culture}", culture);
                 LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
                 _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
-                NotificationTitle = Resources.NoConnection;
-                NotificationMessage = Resources.NoConnectionMessage;
             }
         }
 
@@ -139,71 +113,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             get => _scrollButtonsVisible;
             set => SetProperty(ref _scrollButtonsVisible, value);
-        }
-
-        public string NotificationTitle
-        {
-            get => _notificationTitle;
-            set => SetProperty(ref _notificationTitle, value);
-        }
-        public string NotificationMessage
-        {
-            get => _notificationMessage;
-            set => SetProperty(ref _notificationMessage, value);
-        }
-
-        public NotificationTypeEnum NotificationType
-        {
-            get => _notificationType;
-            set => SetProperty(ref _notificationType, value);
-        }
-
-        private async void HandleNotificationEvent(Notification notification)
-        {
-            _logger.ForContext("Notification received", typeof(MainWindowViewModel)).Information(
-                "Title: {@Title} Message: {@Message} NotificationType: {@NotificationType}",
-                notification.Title, notification.Message, notification.NotificationType);
-
-            if (notification is ConnectionErrorNotification)
-            {
-                if (ApplicationStatus.InternetConnection)
-                {
-                    _notificationQueue.Enqueue(notification);
-                    if(IsPopupOpen == false)
-                        await ShowNotification(_notificationQueue.Dequeue());
-                    
-                    ApplicationStatus.InternetConnection = false;
-                }
-                else
-                {
-                    SetSpinnerVisibility(EventResources.SpinnerEnum.Hide);
-                }
-            }
-            else
-            {
-                _notificationQueue.Enqueue(notification);
-                if (IsPopupOpen == false)
-                    await ShowNotification(_notificationQueue.Dequeue());
-            }
-        }
-
-        private Task ShowNotification(Notification notification)
-        {
-            SetSpinnerVisibility(EventResources.SpinnerEnum.Show);
-            NotificationTitle = notification.Title;
-            NotificationMessage = notification.Message;
-            NotificationType = notification.NotificationType;
-            
-            IsPopupOpen = true;
-            System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
-            {
-                const string path = "Media/WindowsNotifyCalendar.wav";
-                var notificationSound = new SoundPlayer(path);
-                notificationSound.Load();
-                notificationSound.Play();
-            });
-
-            return Task.CompletedTask;
         }
 
         private void SetSpinnerVisibility(EventResources.SpinnerEnum state)

@@ -16,16 +16,17 @@ using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Service.RestClient.Clients
 {
-    public class EventRestClient : IEventRestClient
+    public class EventRestClient : IAppointmentRestClient, ITaskRestClient
     {
         private readonly IRestClient _restClient;
         private readonly IRestRequestFactory _requestFactory;
         private readonly ILogger _logger;
         private const string BaseUrl = "http://localhost:8000/api/";
-        private const string Controller = "events";
+        private readonly string Controller;
 
-        public EventRestClient(IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
+        public EventRestClient(string controller, IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
         {
+            Controller = controller;
             _restClient = restClient;
             _requestFactory = requestFactory;
             _logger = logger.ForContext<EventRestClient>();

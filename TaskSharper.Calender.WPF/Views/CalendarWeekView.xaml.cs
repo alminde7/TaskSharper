@@ -13,8 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Prism.Events;
-using TaskSharper.Calender.WPF.Events.ScrollEvents;
 using TaskSharper.Calender.WPF.Properties;
+using TaskSharper.WPF.Common.Events.ScrollEvents;
 
 namespace TaskSharper.Calender.WPF.Views
 {

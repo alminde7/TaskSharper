@@ -13,14 +13,11 @@ namespace TaskSharper.Service.Hubs
 {
     public class NotificationHub : Hub
     {
-        private readonly INotification _eventNotification;
         private readonly ILogger _logger;
 
-        public NotificationHub(INotification eventNotification, ILogger logger)
+        public NotificationHub(ILogger logger)
         {
-            _eventNotification = eventNotification;
             _logger = logger;
-            _eventNotification.Callback = PublishNotification;
         }
 
         public override Task OnConnected()
