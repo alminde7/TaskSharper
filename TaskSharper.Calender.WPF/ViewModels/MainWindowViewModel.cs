@@ -32,8 +32,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private string _notificationTitle;
         private string _notificationMessage;
         private NotificationTypeEnum _notificationType;
-
-        public DelegateCommand<string> NavigateCommand { get; set; }
+        
         public DelegateCommand CloseNotificationCommand { get; set; }
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
         public DelegateCommand ScrollUpCommand { get; set; }
@@ -49,8 +48,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
             _eventAggregator.GetEvent<NotificationEvent>().Subscribe(HandleNotificationEvent);
             _eventAggregator.GetEvent<ScrollButtonsEvent>().Subscribe(SetScrollButtonsVisibility);
-
-            NavigateCommand = new DelegateCommand<string>(Navigate);
+            
             CloseNotificationCommand = new DelegateCommand(ClosePopUp);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
 

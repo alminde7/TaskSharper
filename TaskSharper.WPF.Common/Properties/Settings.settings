@@ -1,7 +1,36 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TaskSharper.WPF.Common.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PrimaryColor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#5ca2e8</Value>
+    </Setting>
+    <Setting Name="Header1Size" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">24</Value>
+    </Setting>
+    <Setting Name="NotSelectedOpacity" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="SelectedOpacity" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="HiddenOpacity" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PrimaryFont1Size" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">18</Value>
+    </Setting>
+    <Setting Name="ColorNone" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#dd4b39</Value>
+    </Setting>
+    <Setting Name="ColorAppointment" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#00b140</Value>
+    </Setting>
+    <Setting Name="ColorTask" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#6495ed</Value>
+    </Setting>
+    <Setting Name="SoundVolume" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

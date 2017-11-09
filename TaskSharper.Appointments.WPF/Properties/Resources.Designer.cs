@@ -86,5 +86,23 @@ namespace TaskSharper.Appointments.WPF.Properties {
                 return ResourceManager.GetString("Appointments", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start time cannot be later than end time..
+        /// </summary>
+        public static string ErrorEndTimeIsEarlierThanStartTime {
+            get {
+                return ResourceManager.GetString("ErrorEndTimeIsEarlierThanStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title cannot be empty..
+        /// </summary>
+        public static string ErrorTitleNotSet {
+            get {
+                return ResourceManager.GetString("ErrorTitleNotSet", resourceCulture);
+            }
+        }
     }
 }

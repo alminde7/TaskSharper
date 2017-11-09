@@ -8,6 +8,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
 
@@ -20,16 +21,17 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
 
-        private Event _event;
+        private Event _appointment;
         private bool _isSelected;
         private double _backgroundOpacity;
 
         public DelegateCommand SelectAppointmentCommand { get; set; }
+        public DelegateCommand EditAppointmentCommand { get; set; }
 
-        public Event Event
+        public Event Appointment
         {
-            get => _event;
-            set => SetProperty(ref _event, value);
+            get => _appointment;
+            set => SetProperty(ref _appointment, value);
         }
 
         public bool IsSelected
@@ -56,6 +58,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             _logger = logger.ForContext<AppointmentCardViewModel>();
 
             SelectAppointmentCommand = new DelegateCommand(SelectAppointment);
+            EditAppointmentCommand = new DelegateCommand(EditAppointment);
 
             _eventAggregator.GetEvent<AppointmentSelectedEvent>().Subscribe(eventObj =>
             {
@@ -65,7 +68,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
                 }
                 else
                 {
-                    if (eventObj.Id != Event.Id)
+                    if (eventObj.Id != Appointment.Id)
                     {
                         IsSelected = false;
                     }
@@ -73,9 +76,18 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             });
         }
 
+        private void EditAppointment()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Id", Appointment.Id);
+            navigationParameters.Add("Type", EventType.Appointment);
+            navigationParameters.Add("Region", ViewConstants.REGION_Main);
+            _regionManager.RequestNavigate(ViewConstants.REGION_Main, ViewConstants.VIEW_ModifyAppointmentView, navigationParameters);
+        }
+
         private void SelectAppointment()
         {
-            _eventAggregator.GetEvent<AppointmentSelectedEvent>().Publish(Event);
+            _eventAggregator.GetEvent<AppointmentSelectedEvent>().Publish(Appointment);
             IsSelected = true;
         }
     }

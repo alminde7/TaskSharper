@@ -29,7 +29,9 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         private readonly IStatusRestClient _statusRestClient;
         private bool _spinnerVisible;
         private bool _isAppointmentSelected;
-        
+
+        public DelegateCommand<string> NavigateCommand { get; set; }
+        public DelegateCommand BackCommand { get; set; }
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
         public DelegateCommand CloseApplicationCommand { get; set; }
         public DelegateCommand ScrollUpCommand { get; set; }
@@ -56,11 +58,18 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
             _eventAggregator.GetEvent<AppointmentSelectedEvent>().Subscribe(eventObj => IsAppointmentSelected = true);
-            
+
+            NavigateCommand = new DelegateCommand<string>(Navigate);
+            BackCommand = new DelegateCommand(Back);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
             CloseApplicationCommand = new DelegateCommand(CloseApplication);
             ScrollUpCommand = new DelegateCommand(ScrollUp);
             ScrollDownCommand = new DelegateCommand(ScrollDown);
+        }
+
+        private void Back()
+        {
+            _regionManager.Regions[ViewConstants.REGION_Main].NavigationService.Journal.GoBack();
         }
 
         private void ChangeLanguage(string culture)

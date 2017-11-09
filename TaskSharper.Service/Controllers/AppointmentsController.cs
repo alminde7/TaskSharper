@@ -88,7 +88,7 @@ namespace TaskSharper.Service.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Post(EventDto calEvent)
         {
-            if (!IsValidTimespan(calEvent.End, calEvent.Start))
+            if (!IsValidTimespan(calEvent.Start, calEvent.End))
                 return Content(HttpStatusCode.BadRequest, "Invalid timespan");
             if (string.IsNullOrWhiteSpace(calEvent.Title))
                 return Content(HttpStatusCode.BadRequest, "No title provided");
@@ -162,9 +162,9 @@ namespace TaskSharper.Service.Controllers
             }
         }
 
-        private bool IsValidTimespan(DateTime to, DateTime from)
+        private bool IsValidTimespan(DateTime from, DateTime to)
         {
-            if ((from - to).Ticks < 0) return false;
+            if ((from - to).Ticks > 0) return false;
             return true;
         }
     }

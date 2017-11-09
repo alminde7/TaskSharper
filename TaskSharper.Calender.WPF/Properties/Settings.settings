@@ -20,7 +20,7 @@
     <Setting Name="SelectedOpacity" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="PrimaryFont1Size" Type="System.String" Scope="Application">
+    <Setting Name="PrimaryFont1Size" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">18</Value>
     </Setting>
     <Setting Name="ColorNone" Type="System.String" Scope="Application">

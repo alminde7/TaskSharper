@@ -17,6 +17,7 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Views;
 using TaskSharper.Service.RestClient.Clients;
+using TaskSharper.WPF.Common.Components.EventModification;
 
 namespace TaskSharper.Appointments.WPF
 {
@@ -43,6 +44,7 @@ namespace TaskSharper.Appointments.WPF
 
             // Register views
             Container.RegisterTypeForNavigation<AppointmentCardContainerView>(ViewConstants.VIEW_AppointmentOverview);
+            Container.RegisterTypeForNavigation<EventModificationView>(ViewConstants.VIEW_ModifyAppointmentView);
             //Container.RegisterTypeForNavigation<>(ViewConstants.VIEW_AppointmentDetails);
 
             // Register other dependencies
@@ -54,6 +56,7 @@ namespace TaskSharper.Appointments.WPF
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
+            Container.RegisterType<IEventRestClient, EventRestClient>(new InjectionConstructor("events", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IAppointmentRestClient, EventRestClient>(new InjectionConstructor("appointments", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IStatusRestClient, StatusRestClient>();
 
