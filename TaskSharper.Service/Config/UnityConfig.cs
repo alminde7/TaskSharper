@@ -23,7 +23,8 @@ using Constants = TaskSharper.DataAccessLayer.Google.Constants;
 
 namespace TaskSharper.Service.Config
 {
-    public class UnityConfig
+    // http://csharpindepth.com/articles/general/singleton.aspx#cctor
+    public sealed class UnityConfig
     {
         private static readonly Lazy<IUnityContainer> Container = new Lazy<IUnityContainer>(() =>
         {
