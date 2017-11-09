@@ -1,13 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TaskSharper.Calender.WPF.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TaskSharper.WPF.Common.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="CalendarEvent_Height" Type="System.Double" Scope="Application">
-      <Value Profile="(Default)">50</Value>
-    </Setting>
-    <Setting Name="CalendarStructure_Height_1200" Type="System.Double" Scope="Application">
-      <Value Profile="(Default)">1200</Value>
-    </Setting>
     <Setting Name="PrimaryColor" Type="System.String" Scope="Application">
       <Value Profile="(Default)">#5ca2e8</Value>
     </Setting>
@@ -20,7 +14,10 @@
     <Setting Name="SelectedOpacity" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="PrimaryFont1Size" Type="System.String" Scope="Application">
+    <Setting Name="HiddenOpacity" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PrimaryFont1Size" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">18</Value>
     </Setting>
     <Setting Name="ColorNone" Type="System.String" Scope="Application">

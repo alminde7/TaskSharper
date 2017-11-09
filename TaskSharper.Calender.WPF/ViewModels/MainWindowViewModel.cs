@@ -30,7 +30,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool _scrollButtonsVisible;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
-        public DelegateCommand CloseNotificationCommand { get; set; }
+        
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
         public DelegateCommand ScrollUpCommand { get; set; }
         public DelegateCommand ScrollDownCommand { get; set; }

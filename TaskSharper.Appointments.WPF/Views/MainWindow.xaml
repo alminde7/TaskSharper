@@ -16,6 +16,7 @@
         mc:Ignorable="d"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:p="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common"
         Title="TaskSharperAppointments" Height="936.818" Width="1309">
     <Window.Resources>
         <Flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSourceConverter" />
@@ -106,17 +107,20 @@
             </Button>
         </StackPanel>
 
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0 5 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="8*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <Button x:Name="BackButton" Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentBtnStyle}">
+                <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
+            </Button>
             <Viewbox Grid.Row="0" Grid.Column="1">
                 <Label Content="{lex:Loc Appointments}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>

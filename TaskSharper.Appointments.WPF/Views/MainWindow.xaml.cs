@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Prism.Events;
+using TaskSharper.WPF.Common.Events.ViewEvents;
 
 namespace TaskSharper.Appointments.WPF.Views
 {
@@ -20,7 +22,7 @@ namespace TaskSharper.Appointments.WPF.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(IEventAggregator eventAggregator)
         {
             InitializeComponent();
 
@@ -50,6 +52,21 @@ namespace TaskSharper.Appointments.WPF.Views
                         }
                     }
                 };
+
+            eventAggregator.GetEvent<BackButtonEvent>().Subscribe(status =>
+            {
+                switch (status)
+                {
+                    case BackButtonStatus.Show:
+                        BackButton.Visibility = Visibility.Visible;
+                        break;
+                    case BackButtonStatus.Hide:
+                        BackButton.Visibility = Visibility.Collapsed;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(status), status, null);
+                }
+            });
         }
     }
 }

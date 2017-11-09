@@ -9,8 +9,10 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Events.ViewEvents;
 
 namespace TaskSharper.Appointments.WPF.ViewModels
 {
@@ -25,6 +27,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 
         public ObservableCollection<AppointmentCardViewModel> AppointmentCards { get; set; }
 
+        public DelegateCommand AddAppointmentCommand { get; set; }
         public DelegateCommand DeleteAppointmentCommand { get; set; }
 
         public bool IsAppointmentSelected
@@ -51,6 +54,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 
             AppointmentCards = new ObservableCollection<AppointmentCardViewModel>();
 
+            AddAppointmentCommand = new DelegateCommand(NavigateToAddAppointment);
             DeleteAppointmentCommand = new DelegateCommand(DeleteAppointment);
 
             _eventAggregator.GetEvent<AppointmentSelectedEvent>().Subscribe(eventObj =>
@@ -59,12 +63,21 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             });
         }
 
+        private void NavigateToAddAppointment()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Type", EventType.Appointment);
+            navigationParameters.Add("Region", ViewConstants.REGION_Main);
+            _regionManager.RequestNavigate(ViewConstants.REGION_Main, ViewConstants.VIEW_ModifyAppointmentView, navigationParameters);
+        }
+
         private async void DeleteAppointment()
         {
             try
             {
                 await _dataService.DeleteAsync(SelectedAppointment.Id);
                 await UpdateView();
+                IsAppointmentSelected = false;
             }
             catch (Exception e)
             {
@@ -83,13 +96,14 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             {
                 AppointmentCards?.Add(new AppointmentCardViewModel(_dataService, _eventAggregator, _regionManager, _logger)
                 {
-                    Event = @event
+                    Appointment = @event
                 });
             }
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
+            _eventAggregator.GetEvent<BackButtonEvent>().Publish(BackButtonStatus.Hide);
             await UpdateView();
         }
 
@@ -100,7 +114,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            
+            _eventAggregator.GetEvent<BackButtonEvent>().Publish(BackButtonStatus.Show);
         }
     }
 }

@@ -25,24 +25,6 @@ namespace TaskSharper.WPF.Common.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public double CalendarEvent_Height {
-            get {
-                return ((double)(this["CalendarEvent_Height"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
-        public double CalendarStructure_Height_1200 {
-            get {
-                return ((double)(this["CalendarStructure_Height_1200"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("#5ca2e8")]
         public string PrimaryColor {
             get {
@@ -79,10 +61,19 @@ namespace TaskSharper.WPF.Common.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("18")]
-        public string PrimaryFont1Size {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double HiddenOpacity {
             get {
-                return ((string)(this["PrimaryFont1Size"]));
+                return ((double)(this["HiddenOpacity"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("18")]
+        public int PrimaryFont1Size {
+            get {
+                return ((int)(this["PrimaryFont1Size"]));
             }
         }
         

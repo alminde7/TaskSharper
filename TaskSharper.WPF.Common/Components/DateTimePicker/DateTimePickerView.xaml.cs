@@ -1,23 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using TaskSharper.Shared.Constants;
 
-namespace TaskSharper.Calender.WPF.Views.Components
+namespace TaskSharper.WPF.Common.Components.DateTimePicker
 {
     /// <summary>
     /// Interaction logic for DateTimePickerView.xaml
@@ -46,22 +36,28 @@ namespace TaskSharper.Calender.WPF.Views.Components
         }
 
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(object), typeof(DateTimePickerView), new PropertyMetadata(null));
-        
+            DependencyProperty.Register("Date", typeof(object), typeof(DateTimePickerView), new PropertyMetadata(null, DatePropertyChanged));
+
+        private static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var s = 1;
+        }
+
         private void SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedDate = ((Calendar)sender).SelectedDate.Value;
-            
-            Date = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day) + ((DateTime)Date).TimeOfDay;
+            var date = (DateTime?) Date;
+            Date = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day) + date?.TimeOfDay;
         }
 
         private void CalendarLoaded(object sender, RoutedEventArgs e)
         {
-            DatePickerCalendar.SelectedDate = (DateTime) Date;
-            DatePickerCalendar.DisplayDate = ((DateTime) Date).Date;
+            var date = (DateTime?) Date;
+            DatePickerCalendar.SelectedDate = date ?? DateTime.Today;
+            DatePickerCalendar.DisplayDate = date?.Date ?? DateTime.Today;
 
-            HourListBox.SelectedIndex = ((DateTime)Date).Hour;
-            MinuteListBox.SelectedIndex = ((DateTime) Date).Minute;
+            HourListBox.SelectedIndex = date?.Hour ?? DateTime.Today.Hour;
+            MinuteListBox.SelectedIndex = date?.Minute ?? DateTime.Today.Minute;
 
             HourListBox.ScrollToCenterOfView(HourListBox.Items[HourListBox.SelectedIndex]);
             MinuteListBox.ScrollToCenterOfView(MinuteListBox.Items[MinuteListBox.SelectedIndex]);
@@ -70,7 +66,8 @@ namespace TaskSharper.Calender.WPF.Views.Components
         private void HourChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedHour = (int) ((ListBox) sender).SelectedItem;
-            var currentDate = (DateTime) Date;
+            var date = (DateTime?) Date;
+            var currentDate = date ?? DateTime.Today;
 
             Date = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, selectedHour, currentDate.Minute, currentDate.Second);
             HourListBox.ScrollToCenterOfView(HourListBox.SelectedItem);
@@ -79,7 +76,8 @@ namespace TaskSharper.Calender.WPF.Views.Components
         private void MinuteChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedMinute = (int)((ListBox)sender).SelectedItem;
-            var currentDate = (DateTime)Date;
+            var date = (DateTime?)Date;
+            var currentDate = date ?? DateTime.Today;
 
             Date = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, selectedMinute, currentDate.Second);
             MinuteListBox.ScrollToCenterOfView(MinuteListBox.SelectedItem);

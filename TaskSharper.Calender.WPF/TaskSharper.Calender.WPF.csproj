@@ -213,6 +213,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="NotificationService.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\CalendarMonthViewModel.cs" />
     <Compile Include="ViewModels\CalendarWeekViewModel.cs" />
     <Compile Include="ViewModels\MonthViewModels\CalendarDateDayViewModel.cs" />
@@ -229,9 +230,6 @@
     <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AppointmentViewModel.cs" />
-    <Compile Include="Views\Components\DateTimePickerView.xaml.cs">
-      <DependentUpon>DateTimePickerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MonthViews\CalendarDateDayView.xaml.cs">
       <DependentUpon>CalendarDateDayView.xaml</DependentUpon>
     </Compile>
@@ -277,10 +275,6 @@
       <DependentUpon>CalendarDayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CalendarDayViewModel.cs" />
-    <Page Include="Views\Components\DateTimePickerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MonthViews\CalendarDateDayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -430,9 +424,7 @@
       <Name>TaskSharper.WPF.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Media\WindowsNotifyCalendar.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
