@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TaskSharper.Tasks.WPF
+namespace TaskSharper.Tasks.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TaskCardView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TaskCardView : UserControl
     {
-        public MainWindow()
+        public TaskCardView()
         {
             InitializeComponent();
         }

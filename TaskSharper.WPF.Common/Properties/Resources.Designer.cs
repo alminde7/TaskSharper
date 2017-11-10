@@ -385,6 +385,15 @@ namespace TaskSharper.WPF.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tasks.
+        /// </summary>
+        public static string Tasks {
+            get {
+                return ResourceManager.GetString("Tasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tentative.
         /// </summary>
         public static string Tentative {

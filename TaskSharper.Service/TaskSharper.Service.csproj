@@ -169,6 +169,7 @@
     <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Hubs\SignalRNotificationPublisher.cs" />
     <Compile Include="Middleware\CorrelationIdMiddleware.cs" />

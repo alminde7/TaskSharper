@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Prism.Regions;
 using Prism.Unity;
 using RestSharp;
@@ -11,7 +12,12 @@ using TaskSharper.Service.RestClient;
 using TaskSharper.Service.RestClient.Factories;
 using TaskSharper.Shared.Logging;
 using Microsoft.Practices.Unity;
+using Prism.Logging;
+using TaskSharper.Appointments.WPF;
 using TaskSharper.Service.RestClient.Clients;
+using TaskSharper.Tasks.WPF.Config;
+using TaskSharper.Tasks.WPF.Views;
+using TaskSharper.WPF.Common.Components.EventModification;
 
 namespace TaskSharper.Tasks.WPF
 {
@@ -22,16 +28,24 @@ namespace TaskSharper.Tasks.WPF
             return Container.Resolve<MainWindow>();
         }
 
-        protected override void InitializeShell()
+        protected override async void InitializeShell()
         {
+            var service = Container.Resolve<NotificationService>();
+            await service.StartContinousService();
+
             Application.Current.MainWindow.Show();
+            // Set default Calendar on start.
+            var regionManager = Container.Resolve<IRegionManager>();
+            regionManager.RequestNavigate(ViewConstants.REGION_Main, ViewConstants.VIEW_TaskOverview);
         }
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
 
             // Register views
-        
+            Container.RegisterTypeForNavigation<TaskCardContainerView>(ViewConstants.VIEW_TaskOverview);
+            Container.RegisterTypeForNavigation<EventModificationView>(ViewConstants.VIEW_ModifyTaskView);
+            //Container.RegisterTypeForNavigation<>(ViewConstants.VIEW_AppointmentDetails);
 
             // Register other dependencies
             var logger = LogConfiguration.ConfigureWPF();
@@ -42,11 +56,42 @@ namespace TaskSharper.Tasks.WPF
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
-            Container.RegisterType<IEventRestClient, EventRestClient>();
+            Container.RegisterType<IEventRestClient, EventRestClient>(new InjectionConstructor("events", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
+            Container.RegisterType<ITaskRestClient, EventRestClient>(new InjectionConstructor("tasks", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
+            Container.RegisterType<IStatusRestClient, StatusRestClient>();
 
             var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
             Container.RegisterType<INotificationClient, NotificationClient>();
+        }
+
+        protected override ILoggerFacade CreateLogger()
+        {
+            return new SerilogLogger();
+        }
+    }
+
+    public class SerilogLogger : ILoggerFacade
+    {
+        public void Log(string message, Category category, Priority priority)
+        {
+            switch (category)
+            {
+                case Category.Debug:
+                    Serilog.Log.Logger.Debug(message);
+                    break;
+                case Category.Exception:
+                    Serilog.Log.Logger.Error(message);
+                    break;
+                case Category.Info:
+                    Serilog.Log.Logger.Information(message);
+                    break;
+                case Category.Warn:
+                    Serilog.Log.Logger.Warning(message);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(category), category, null);
+            }
         }
     }
 }
