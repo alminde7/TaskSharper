@@ -213,6 +213,9 @@
   <data name="Task" xml:space="preserve">
     <value>Task</value>
   </data>
+  <data name="Tasks" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
   <data name="Tentative" xml:space="preserve">
     <value>Tentative</value>
   </data>

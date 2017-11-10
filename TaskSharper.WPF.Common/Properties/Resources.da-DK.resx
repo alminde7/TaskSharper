@@ -225,6 +225,9 @@
   <data name="Task" xml:space="preserve">
     <value>Opgave</value>
   </data>
+  <data name="Tasks" xml:space="preserve">
+    <value>Opgaver</value>
+  </data>
   <data name="Tentative" xml:space="preserve">
     <value>Foreløbig</value>
   </data>
