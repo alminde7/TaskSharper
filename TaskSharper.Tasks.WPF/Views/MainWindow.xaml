@@ -122,7 +122,7 @@
                 <Label Content="{lex:Loc Tasks}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>
 
-            <Border Padding="10" Grid.Row="1" Grid.Column="1"  BorderBrush="CornflowerBlue" BorderThickness="2" CornerRadius="4">
+            <Border Padding="10" Grid.Row="1" Grid.Column="1"  BorderBrush="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" BorderThickness="2" CornerRadius="4">
                 <Grid>
                     <Grid ZIndex="100" Background="White" Opacity="0.75" Visibility="{Binding SpinnerVisible, Converter={StaticResource BoolToVis}}">
                         <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48"/>
@@ -144,7 +144,7 @@
                     Command="{Binding CloseApplicationCommand}"
                     Margin="2,2,2,0"
                     Style="{StaticResource TransparentBtnStyle}">
-                    <fa:ImageAwesome Icon="TimesCircleOutline" Margin="10,0,0,0" Foreground="DarkRed"/>
+                    <fa:ImageAwesome Icon="Home" Margin="10,0,0,0" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
                 </Button>
             </Grid>
             <!--<Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
