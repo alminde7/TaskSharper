@@ -46,38 +46,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="{x:Type Button}" x:Key="NavigationButton">
-            <Setter Property="Background" Value="#5AA1E3" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="SnapsToDevicePixels" Value="True" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="8" Background="{TemplateBinding Background}">
-                            <Grid>
-                                <Path x:Name="PathIcon" Width="15" Height="25" HorizontalAlignment="Left" Margin="17,0,0,0" />
-                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                            </Grid>
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#5ca2e8" />
-                                <Setter Property="Foreground" Value="White" />
-                                <Setter TargetName="PathIcon" Property="Fill" Value="AliceBlue" />
-                            </Trigger>
-
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#80bdf2" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -124,8 +92,8 @@
             <Viewbox Grid.Row="0" Grid.Column="1">
                 <Label Content="{lex:Loc Appointments}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>
-            
-            <Border Padding="10" Grid.Row="1" Grid.Column="1"  BorderBrush="CornflowerBlue" BorderThickness="2" CornerRadius="4">
+
+            <Border Padding="10" Grid.Row="1" Grid.Column="1"  BorderBrush="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" BorderThickness="2" CornerRadius="4">
                 <Grid>
                     <Grid ZIndex="100" Background="White" Opacity="0.75" Visibility="{Binding SpinnerVisible, Converter={StaticResource BoolToVis}}">
                         <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48"/>
@@ -147,7 +115,7 @@
                     Command="{Binding CloseApplicationCommand}"
                     Margin="2,2,2,0"
                     Style="{StaticResource TransparentBtnStyle}">
-                <fa:ImageAwesome Icon="TimesCircleOutline" Margin="10,0,0,0" Foreground="DarkRed"/>
+                    <fa:ImageAwesome Icon="Home" Margin="10,0,0,0" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
             </Button>
         </Grid>
         <!--<Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">

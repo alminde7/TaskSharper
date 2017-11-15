@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Media;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Prism.Commands;
@@ -34,6 +35,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand<string> NavigateCommand { get; set; }
         
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
+        public DelegateCommand CloseApplicationCommand { get; set; }
         public DelegateCommand ScrollUpCommand { get; set; }
         public DelegateCommand ScrollDownCommand { get; set; }
 
@@ -50,6 +52,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
+            CloseApplicationCommand = new DelegateCommand(CloseApplication);
 
             ScrollUpCommand = new DelegateCommand(ScrollUp);
             ScrollDownCommand = new DelegateCommand(ScrollDown);
@@ -101,6 +104,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
                 _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
             }
+        }
+
+        private void CloseApplication()
+        {
+            Application.Current.Shutdown();
         }
 
         public bool SpinnerVisible
