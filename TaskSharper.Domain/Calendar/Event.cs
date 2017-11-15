@@ -90,5 +90,10 @@ namespace TaskSharper.Domain.Calendar
         /// Reminders for the event. In minutes.
         /// </summary>
         public List<int?> Reminders { get; set; }
+
+        /// <summary>
+        /// Marks whether or not the event is finished. Only applicable for Tasks.
+        /// </summary>
+        public bool MarkedAsDone { get; set; }
     }
 }

@@ -26,7 +26,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
                 Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out EventType typeValue) ? typeValue : EventType.None,
-                Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList()
+                Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList(),
+                MarkedAsDone = bool.TryParse(googleEvent.ExtendedProperties?.Shared.FirstOrDefault(i => i.Key == "MarkedAsDone").Value, out bool markedAsDoneValue) && markedAsDoneValue
             };
         }
 
@@ -46,7 +47,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
                 Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out EventType typeValue) ? typeValue : EventType.None,
-                Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList()
+                Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList(),
+                MarkedAsDone = bool.TryParse(googleEvent.ExtendedProperties?.Shared.FirstOrDefault(i => i.Key == "MarkedAsDone").Value, out bool markedAsDoneValue) && markedAsDoneValue
             }).ToList();
         }
 
@@ -64,7 +66,8 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 {
                     Shared = new Dictionary<string, string>
                     {
-                        { "Type", eventObj.Type.ToString() }
+                        { "Type", eventObj.Type.ToString() },
+                        { "MarkedAsDone", eventObj.MarkedAsDone.ToString() }
                     }
                 },
                 Reminders = new GoogleEvent.RemindersData
@@ -91,8 +94,10 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Status = eventObj.Status.ToString().ToLower(),
                 ExtendedProperties = new GoogleEvent.ExtendedPropertiesData { Shared = new Dictionary<string, string>
                 {
-                    { "Type", eventObj.Type.ToString() }
-                }},
+                    { "Type", eventObj.Type.ToString() },
+                    { "MarkedAsDone", eventObj.MarkedAsDone.ToString() }
+                }
+                },
                 Reminders = new GoogleEvent.RemindersData
                 {
                     Overrides = eventObj.Reminders?.Select(reminder => new EventReminder

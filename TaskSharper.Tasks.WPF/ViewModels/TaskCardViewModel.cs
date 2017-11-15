@@ -27,6 +27,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
 
         public DelegateCommand SelectTaskCommand { get; set; }
         public DelegateCommand EditTaskCommand { get; set; }
+        public DelegateCommand SaveTaskStateCommand { get; set; }
 
         public Event Task
         {
@@ -59,6 +60,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
 
             SelectTaskCommand = new DelegateCommand(SelectTask);
             EditTaskCommand = new DelegateCommand(EditTask);
+            SaveTaskStateCommand = new DelegateCommand(SaveTaskState);
 
             _eventAggregator.GetEvent<TaskSelectedEvent>().Subscribe(eventObj =>
             {
@@ -74,6 +76,11 @@ namespace TaskSharper.Tasks.WPF.ViewModels
                     }
                 }
             });
+        }
+
+        private async void SaveTaskState()
+        {
+            Task = await _dataService.UpdateAsync(Task);
         }
 
         private void EditTask()
