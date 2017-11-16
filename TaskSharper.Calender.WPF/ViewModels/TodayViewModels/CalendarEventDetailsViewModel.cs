@@ -253,7 +253,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 Status = SelectedEvent.Status,
                 Type = SelectedEvent.Type,
                 Created = SelectedEvent.Created,
-                Updated = SelectedEvent.Updated
+                Updated = SelectedEvent.Updated,
+                Category = SelectedEvent.Category
             };
         }
 

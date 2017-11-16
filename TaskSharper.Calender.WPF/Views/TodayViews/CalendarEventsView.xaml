@@ -102,14 +102,26 @@
                                         </Label.Content>
                                     </Label>
                                 </TextBlock>
-                                
-                                <TextBlock Grid.Row="2" HorizontalAlignment="Right">
-                                    <Label FontStyle="Italic">
-                                        <Label.Content>
-                                            <AccessText TextWrapping="Wrap" Text="{Binding Event.Type}"/>
-                                        </Label.Content>
-                                    </Label>
-                                </TextBlock>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" HorizontalAlignment="Left">
+                                        <Label FontStyle="Italic">
+                                            <Label.Content>
+                                                <AccessText TextWrapping="Wrap" Text="{Binding Event.Category.Name}"/>
+                                            </Label.Content>
+                                        </Label>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Right">
+                                        <Label FontStyle="Italic">
+                                            <Label.Content>
+                                                <AccessText TextWrapping="Wrap" Text="{Binding Event.Type}"/>
+                                            </Label.Content>
+                                        </Label>
+                                    </TextBlock>
+                                </Grid>
                             </Grid>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LayoutUpdated">

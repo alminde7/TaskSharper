@@ -75,7 +75,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         {
             try
             {
-                await _dataService.DeleteAsync(SelectedAppointment.Id);
+                await _dataService.DeleteAsync(SelectedAppointment.Id, SelectedAppointment.Category.Id);
                 await UpdateView();
                 IsAppointmentSelected = false;
             }

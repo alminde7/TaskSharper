@@ -19,6 +19,8 @@ namespace TaskSharper.Domain.Calendar
 
         Task<Event> UpdateAsync(Event updatedEvent);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(string id, string calendarId);
+
+        Task<IEnumerable<EventCategory>> GetAsync();
     }
 }

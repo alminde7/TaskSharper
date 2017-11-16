@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\EventModification\CategoryViewModel.cs" />
     <Compile Include="Components\Notification\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
     </Compile>
@@ -106,6 +107,7 @@
     <Compile Include="Events\ScrollEvents\ScrollUpEvent.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
     <Compile Include="Events\ViewEvents\BackButtonEvent.cs" />
+    <Compile Include="Media\CategoryToIconConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

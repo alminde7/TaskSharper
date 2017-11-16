@@ -43,7 +43,7 @@
             </Viewbox>
 
             <Viewbox Grid.Column="1" Margin="5">
-                <fa:ImageAwesome Icon="Coffee" Foreground="CornflowerBlue" />
+                <fa:ImageAwesome Icon="{Binding Category}" Foreground="CornflowerBlue" />
             </Viewbox>
 
             <Grid Grid.Column="2" Margin="5,0,0,0">

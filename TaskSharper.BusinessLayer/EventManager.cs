@@ -71,7 +71,7 @@ namespace TaskSharper.BusinessLayer
             {
                 _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start.StartOfDay(), start.EndOfDay());
                 Cache.UpdateCacheStore(events, start, null);
                 Notification.Attach(events);
 
@@ -88,7 +88,7 @@ namespace TaskSharper.BusinessLayer
             {
                 _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay());
                 Cache.UpdateCacheStore(events, start, end);
                 Notification.Attach(events);
 
@@ -102,7 +102,7 @@ namespace TaskSharper.BusinessLayer
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            var updatedEvent = CalendarService.UpdateEvent(eventObj, Constants.DefaultGoogleCalendarId);
+            var updatedEvent = CalendarService.UpdateEvent(eventObj);
             Cache.AddOrUpdateEvent(updatedEvent);
             Notification.Attach(updatedEvent);
 
@@ -114,7 +114,7 @@ namespace TaskSharper.BusinessLayer
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+            var events = CalendarService.GetEvents(start.StartOfDay(), end.EndOfDay());
             Cache.UpdateCacheStore(events, start, end);
             Notification.Attach(events);
 
@@ -166,7 +166,7 @@ namespace TaskSharper.BusinessLayer
             {
                 _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                events = await CalendarService.GetEventsAsync(start.StartOfDay(), start.EndOfDay(), Constants.DefaultGoogleCalendarId);
+                events = await CalendarService.GetEventsAsync(start.StartOfDay(), start.EndOfDay());
                 Cache.UpdateCacheStore(events, start, null);
                 Notification.Attach(events);
 
@@ -183,8 +183,7 @@ namespace TaskSharper.BusinessLayer
             {
                 _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-                events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(),
-                    Constants.DefaultGoogleCalendarId);
+                events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay());
                 Cache.UpdateCacheStore(events, start, end);
                 Notification.Attach(events);
 
@@ -198,7 +197,7 @@ namespace TaskSharper.BusinessLayer
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            var updatedEvent = await CalendarService.UpdateEventAsync(eventObj, Constants.DefaultGoogleCalendarId);
+            var updatedEvent = await CalendarService.UpdateEventAsync(eventObj);
             Cache.AddOrUpdateEvent(updatedEvent);
             Notification.Attach(updatedEvent);
 
@@ -208,18 +207,18 @@ namespace TaskSharper.BusinessLayer
 
         public async Task UpdateCacheStoreAsync(DateTime start, DateTime end)
         {
-            var events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay(), Constants.DefaultGoogleCalendarId);
+            var events = await CalendarService.GetEventsAsync(start.StartOfDay(), end.EndOfDay());
             Cache.UpdateCacheStore(events, start, end);
             Notification.Attach(events);
             Logger.Information("Cache has been updated with {@NrOfEvents} events from {@Start} to {@End}", events.Count, start, end);
 
         }
 
-        public async Task DeleteEventAsync(string id)
+        public async Task DeleteEventAsync(string id, string calendarId)
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            await CalendarService.DeleteEventAsync(Constants.DefaultGoogleCalendarId, id);
+            await CalendarService.DeleteEventAsync(calendarId, id);
             Cache.RemoveEvent(id);
 
             _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
@@ -229,12 +228,31 @@ namespace TaskSharper.BusinessLayer
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            var createdEvent = await CalendarService.InsertEventAsync(newEvent, Constants.DefaultGoogleCalendarId);
+            var createdEvent = await CalendarService.InsertEventAsync(newEvent);
             Cache.AddOrUpdateEvent(createdEvent);
 
             _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             return createdEvent;
         }
+
+        public List<EventCategory> GetCategories()
+        {
+            _notificationPublisher.Publish(new GettingExternalDataEvent());
+            var categories = CalendarService.GetCategories();
+
+            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
+            return categories;
+        }
+
+        public async Task<List<EventCategory>> GetCategoriesAsync()
+        {
+            _notificationPublisher.Publish(new GettingExternalDataEvent());
+            var categories = await CalendarService.GetCategoriesAsync();
+
+            _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
+            return categories;
+        }
+
         #endregion
     }
 }
