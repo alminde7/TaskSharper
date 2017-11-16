@@ -26,6 +26,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
                 Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out EventType typeValue) ? typeValue : EventType.None,
+                Category = new EventCategory { Id = googleEvent.Organizer.Email, Name = googleEvent.Organizer.DisplayName },
                 Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList(),
                 MarkedAsDone = bool.TryParse(googleEvent.ExtendedProperties?.Shared.FirstOrDefault(i => i.Key == "MarkedAsDone").Value, out bool markedAsDoneValue) && markedAsDoneValue
             };
@@ -47,6 +48,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
                 Updated = googleEvent.Updated,
                 Recurrence = googleEvent.Recurrence,
                 Type = Enum.TryParse(googleEvent.ExtendedProperties?.Shared["Type"], out EventType typeValue) ? typeValue : EventType.None,
+                Category = new EventCategory { Id = googleEvent.Organizer.Email, Name = googleEvent.Organizer.DisplayName },
                 Reminders = googleEvent.Reminders?.Overrides?.Select(i => i.Minutes).ToList(),
                 MarkedAsDone = bool.TryParse(googleEvent.ExtendedProperties?.Shared.FirstOrDefault(i => i.Key == "MarkedAsDone").Value, out bool markedAsDoneValue) && markedAsDoneValue
             }).ToList();

@@ -13,6 +13,7 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Events;
 using TaskSharper.WPF.Common.Events.ViewEvents;
+using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Tasks.WPF.ViewModels
 {
@@ -24,6 +25,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         private readonly ILogger _logger;
         private bool _isTaskSelected;
         private Event _selectedTask;
+        private string _category;
 
         public ObservableCollection<TaskCardViewModel> TaskCards { get; set; }
 
@@ -41,8 +43,15 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             set
             {
                 IsTaskSelected = value != null;
+                Category = CategoryToIconConverter.ConvertToFontAwesomeIcon(value?.Category.Name, (EventType)value?.Type);
                 SetProperty(ref _selectedTask, value);
             }
+        }
+
+        public string Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
         }
 
         public TaskCardContainerViewModel(ITaskRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
@@ -75,7 +84,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         {
             try
             {
-                await _dataService.DeleteAsync(SelectedTask.Id);
+                await _dataService.DeleteAsync(SelectedTask.Id, SelectedTask.Category.Id);
                 await UpdateView();
                 IsTaskSelected = false;
             }
@@ -92,7 +101,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             var events = await _dataService.GetAsync(start, end);
 
             TaskCards?.Clear();
-            foreach (var @event in events)
+            foreach (var @event in events.OrderBy(o => o.Start))
             {
                 TaskCards?.Add(new TaskCardViewModel(_dataService, _eventAggregator, _regionManager, _logger)
                 {

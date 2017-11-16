@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,8 @@ namespace TaskSharper.WPF.Common.Components.EventModification
         public DelegateCommand SetTypeAsTaskCommand { get; set; }
         public DelegateCommand SetStatusAsTentativeCommand { get; set; }
         public DelegateCommand SetStatusAsConfirmedCommand { get; set; }
+
+        public ObservableCollection<CategoryViewModel> Categories { get; set; }
 
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
@@ -191,6 +194,8 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             _dataService = dataService;
             _eventAggregator = eventAggregator;
 
+            Categories = new ObservableCollection<CategoryViewModel>();
+
             BackCommand = new DelegateCommand(Back);
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
@@ -286,6 +291,18 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                 case EventType.Task:
                     IsTaskTypeVisible = true;
                     break;
+            }
+
+            var categories = await _dataService.GetAsync();
+            Categories?.Clear();
+            foreach (var eventCategory in categories)
+            {
+                Categories?.Add(new CategoryViewModel(_regionManager, _eventAggregator, _dataService)
+                {
+                    Id = eventCategory.Id,
+                    Category = eventCategory.Name,
+                    Type = Event.Type
+                });
             }
         }
 

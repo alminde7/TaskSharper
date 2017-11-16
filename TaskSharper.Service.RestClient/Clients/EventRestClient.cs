@@ -85,11 +85,12 @@ namespace TaskSharper.Service.RestClient.Clients
                 EventStatus = newEvent.Status,
                 EventType = newEvent.Type,
                 Start = newEvent.Start.Value,
-                End = newEvent.End.Value
+                End = newEvent.End.Value,
+                EventCategory = newEvent.Category
             };
 
             var request = _requestFactory.Create(Controller, Method.POST);
-            request.AddObject(eventDto);
+            request.AddJsonBody(eventDto);
 
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
 
@@ -99,20 +100,29 @@ namespace TaskSharper.Service.RestClient.Clients
         public async Task<Event> UpdateAsync(Event updatedEvent)
         {
             var request = _requestFactory.Create(Controller, Method.PUT);
-            request.AddObject(updatedEvent);
+            request.AddJsonBody(updatedEvent);
 
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
 
             return result.Data;
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, string calendarId)
         {
-            var request = _requestFactory.Create($"{Controller}/{id}", Method.DELETE);
+            var request = _requestFactory.Create($"{Controller}/{id}?calendarId={calendarId}", Method.DELETE);
 
             var result = await _restClient.ExecuteTaskAsync(request);
 
             CreateResponse(result);
+        }
+
+        public async Task<IEnumerable<EventCategory>> GetAsync()
+        {
+            var request = _requestFactory.Create("Categories", Method.GET);
+            var result = await _restClient.ExecuteTaskAsync<List<EventCategory>>(request, _logger);
+
+            return CreateResponse(result);
+
         }
 
         private T CreateResponse<T>(IRestResponse<T> response)

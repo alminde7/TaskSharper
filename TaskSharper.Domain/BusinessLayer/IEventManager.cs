@@ -21,7 +21,10 @@ namespace TaskSharper.Domain.BusinessLayer
         Task<Event> UpdateEventAsync(Event eventObj);
         Task UpdateCacheStoreAsync(DateTime start, DateTime end);
 
-        Task DeleteEventAsync(string id);
+        Task DeleteEventAsync(string id, string calendarId);
         Task<Event> CreateEventAsync(Event newEvent);
+
+        List<EventCategory> GetCategories();
+        Task<List<EventCategory>> GetCategoriesAsync();
     }
 }

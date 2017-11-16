@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -102,7 +104,8 @@ namespace TaskSharper.Service.Controllers
                     Start = calEvent.Start,
                     End = calEvent.End,
                     Status = calEvent.EventStatus,
-                    Type = EventType.Task
+                    Type = EventType.Task,
+                    Category = calEvent.EventCategory
                 };
 
                 var createdEvent = await _eventManager.CreateEventAsync(newEvent);
@@ -135,7 +138,7 @@ namespace TaskSharper.Service.Controllers
             }
             catch (Exception e)
             {
-                var errmsg = $"Failed to update event with id: {calEvent.Id}";
+                var errmsg = $"Failed to update event with id: {calEvent}";
                 Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
@@ -143,11 +146,11 @@ namespace TaskSharper.Service.Controllers
         }
 
         [HttpDelete]
-        public async Task<IHttpActionResult> Delete(string id)
+        public async Task<IHttpActionResult> Delete(string id, string calendarId)
         {
             try
             {
-                await _eventManager.DeleteEventAsync(id);
+                await _eventManager.DeleteEventAsync(id, calendarId);
                 return Ok();
             }
             catch (HttpRequestException e)
