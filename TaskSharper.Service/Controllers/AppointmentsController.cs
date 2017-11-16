@@ -102,7 +102,8 @@ namespace TaskSharper.Service.Controllers
                     Start = calEvent.Start,
                     End = calEvent.End,
                     Status = calEvent.EventStatus,
-                    Type = EventType.Appointment
+                    Type = EventType.Appointment,
+                    Category = calEvent.EventCategory
                 };
 
                 var createdEvent = await _eventManager.CreateEventAsync(newEvent);

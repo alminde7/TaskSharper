@@ -94,17 +94,17 @@
 
                     <TextBlock Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>
                 </StackPanel>
-                <StackPanel>
+                <StackPanel Margin="30,0,0,0">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Category}" />
                     <ItemsControl ItemsSource="{Binding Categories}" Width="Auto">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel/>
+                                <UniformGrid Columns="2"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Style="{StaticResource TransparentBtnStyle}" Margin="0,5,0,0" Command="{Binding SetCategoryCommand}" CommandParameter="{Binding Category}">
+                                <Button Style="{StaticResource TransparentBtnStyle}" Margin="10" Command="{Binding SetCategoryCommand}">
                                     <StackPanel Orientation="Vertical">
                                         <fa:ImageAwesome Icon="{Binding CategoryIcon}" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding CategoryOpacity}"/>
                                         <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{Binding Category}" />

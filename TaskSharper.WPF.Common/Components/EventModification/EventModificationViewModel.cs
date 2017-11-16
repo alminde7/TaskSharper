@@ -213,6 +213,12 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                 End = DateTime.Today
             }; // Temporarily assign an empty event so DateTimePicker can bind to a non-null object (this will be properly set in the OnNavigatedTo method)
             _eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(CultureChanged);
+            _eventAggregator.GetEvent<CategoryClickedEvent>().Subscribe(CategoryClicked);
+        }
+
+        private void CategoryClicked(EventCategory category)
+        {
+            Event.Category = category;
         }
 
         private void CultureChanged()
@@ -297,12 +303,19 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             Categories?.Clear();
             foreach (var eventCategory in categories)
             {
-                Categories?.Add(new CategoryViewModel(_regionManager, _eventAggregator, _dataService)
+                var categoryViewModel = new CategoryViewModel(_regionManager, _eventAggregator, _dataService)
                 {
                     Id = eventCategory.Id,
-                    Category = eventCategory.Name,
-                    Type = Event.Type
-                });
+                    Type = Event.Type,
+                    Category = eventCategory.Name
+                };
+                
+                if (_modificationType == ModificationType.Edit && Event.Category.Id == eventCategory.Id)
+                {
+                    categoryViewModel.CategoryOpacity = Settings.Default.SelectedOpacity;
+                }
+
+                Categories?.Add(categoryViewModel);
             }
         }
 

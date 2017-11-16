@@ -101,7 +101,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             var events = await _dataService.GetAsync(start, end);
 
             TaskCards?.Clear();
-            foreach (var @event in events.OrderBy(o => o.Start))
+            foreach (var @event in events.OrderBy(o => o.Start).ThenBy(o => o.End))
             {
                 TaskCards?.Add(new TaskCardViewModel(_dataService, _eventAggregator, _regionManager, _logger)
                 {

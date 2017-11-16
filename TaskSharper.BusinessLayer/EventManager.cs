@@ -197,6 +197,12 @@ namespace TaskSharper.BusinessLayer
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
+            var oldEvent = await GetEventAsync(eventObj.Id);
+            if (oldEvent.Category.Id != eventObj.Category.Id)
+            {
+                await CalendarService.ChangeCategoryAsync(eventObj.Id, oldEvent.Category.Id, eventObj.Category.Id);
+            }
+
             var updatedEvent = await CalendarService.UpdateEventAsync(eventObj);
             Cache.AddOrUpdateEvent(updatedEvent);
             Notification.Attach(updatedEvent);

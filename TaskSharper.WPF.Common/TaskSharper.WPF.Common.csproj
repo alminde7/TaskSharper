@@ -89,6 +89,7 @@
       <DependentUpon>EventModificationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\EventModification\EventModificationViewModel.cs" />
+    <Compile Include="Events\CategoryClickedEvent.cs" />
     <Compile Include="Events\CultureChangedEvent.cs" />
     <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
     <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />

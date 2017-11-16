@@ -24,5 +24,7 @@ namespace TaskSharper.Domain.Calendar
 
         List<EventCategory> GetCategories();
         Task<List<EventCategory>> GetCategoriesAsync();
+        Event ChangeCategory(string eventId, string categoryId, string newCategoryId);
+        Task<Event> ChangeCategoryAsync(string eventId, string categoryId, string newCategoryId);
     }
 }
