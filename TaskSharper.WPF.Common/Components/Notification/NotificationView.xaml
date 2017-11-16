@@ -6,16 +6,14 @@
              xmlns:local="clr-namespace:TaskSharper.WPF.Common.Components.Notification"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="400"
-             
+                     
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
              lex:LocalizeDictionary.DesignCulture="en-US"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
-             
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             
-             xmlns:fa="http://schemas.fontawesome.io/icons/">
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}" x:Key="CloseNotificationButton">
             <Setter Property="Background" Value="#5AA1E3" />
@@ -69,7 +67,7 @@
             <RowDefinition Height="*" ></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
         <Popup Name="NotificationPopUp" Grid.Row="0" Grid.Column="0" IsOpen="{Binding IsPopupOpen}" StaysOpen="True">
             <Border BorderBrush="#5ca2e8" BorderThickness="1"
@@ -78,6 +76,9 @@
                     <TextBlock Text="{Binding NotificationTitle}" FontSize="18" Height="30" FontWeight="Bold" Margin="10,5"></TextBlock>
                     <TextBlock Text="{Binding NotificationMessage}" FontSize="16"  Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" ></TextBlock>
                     <TextBlock Text="{Binding NotificationStart}" FontSize="16" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10"></TextBlock>
+                    <Viewbox Width="50" Height="60"  Margin="5">
+                        <fa:ImageAwesome Icon="{Binding Category}" Foreground="CornflowerBlue" />
+                    </Viewbox>
                     <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="{lex:Loc Close}"  Command="{Binding CloseNotificationCommand}"></Button>
                 </StackPanel>
             </Border>

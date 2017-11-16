@@ -42,10 +42,10 @@ namespace TaskSharper.Shared.Logging
                 .WriteTo.RollingFile($"{Config.TaskSharperLogStore}/log-{{Date}}.txt")
                 .MinimumLevel.Information();
 
-            if (ConnectionHelper.CheckConnectionElasticsearch(_elasticSearchUrl))
-            {
-                logger.AddElasticsearch(_elasticSearchUrl);
-            }
+            //if (ConnectionHelper.CheckConnectionElasticsearch(_elasticSearchUrl))
+            //{
+            //    logger.AddElasticsearch(_elasticSearchUrl);
+            //}
 
             return logger;
         }
