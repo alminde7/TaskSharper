@@ -307,5 +307,29 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             var calendarList = await GetCalendarsAsync();
             return calendarList.Select(calendarListEntry => new EventCategory { Id = calendarListEntry.Id, Name = calendarListEntry.Summary }).ToList();
         }
+
+        public Event ChangeCategory(string eventId, string categoryId, string newCategoryId)
+        {
+            var request = _service.Events.Move(categoryId, eventId, newCategoryId);
+            Logger.Information("Changing Calendar for event with ID {Id} from {OldCalendar} to {NewCalendar}", eventId, categoryId, newCategoryId);
+
+            var response = request.Execute();
+            var retval = Helpers.Helpers.GoogleEventParser(response);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+
+            return retval;
+        }
+
+        public async Task<Event> ChangeCategoryAsync(string eventId, string categoryId, string newCategoryId)
+        {
+            var request = _service.Events.Move(categoryId, eventId, newCategoryId);
+            Logger.Information("Changing Calendar for event with ID {Id} from {OldCalendar} to {NewCalendar}", eventId, categoryId, newCategoryId);
+
+            var response = await request.ExecuteAsync();
+            var retval = Helpers.Helpers.GoogleEventParser(response);
+            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+
+            return retval;
+        }
     }
 }

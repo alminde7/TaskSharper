@@ -29,6 +29,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly ILogger _logger;
         private readonly IEventRestClient _dataService;
         private CalendarEventsCurrentTimeLine _timeLine;
+        private List<string> _columnAlreadyUpdatedList;
         
         public DateTime Date { get; set; }
 
@@ -45,6 +46,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             // Initialze object
             Date = date;
+            _columnAlreadyUpdatedList = new List<string>();
 
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
@@ -148,6 +150,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void UpdateEvents(IList<Event> events)
         {
+            _columnAlreadyUpdatedList?.Clear();
             foreach (var calendarEvent in events)
             {
                 if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
@@ -218,8 +221,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     }
                     if (!eventObj.Id.Equals(@event.Id) && @event.Start == eventObj.Start && @event.End == eventObj.End)
                     {
-                        //columnIndex++;
-                        // TODO: Figure out what to do in this case...
+                        if (!_columnAlreadyUpdatedList.Exists(i => i == eventObj.Id + @event.Id) && !_columnAlreadyUpdatedList.Exists(i => i == @event.Id + eventObj.Id))
+                        {
+                            columnIndex++;
+                            _columnAlreadyUpdatedList.Add(eventObj.Id + @event.Id);
+                        }
                     }
                 }
             }

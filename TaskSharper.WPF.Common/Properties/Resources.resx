@@ -129,6 +129,9 @@
   <data name="August" xml:space="preserve">
     <value>August</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
   <data name="Changed" xml:space="preserve">
     <value>Changed</value>
   </data>
