@@ -1,4 +1,6 @@
-﻿namespace TaskSharper.WPF.Common.Events.Resources
+﻿using TaskSharper.Domain.Calendar;
+
+namespace TaskSharper.WPF.Common.Events.Resources
 {
     public class ConnectionErrorNotification : Notification
     {
@@ -7,6 +9,7 @@
             Title = Properties.Resources.NoConnection;
             Message = Properties.Resources.NoConnectionMessage;
             NotificationType = NotificationTypeEnum.Error;
+            Category = new EventCategory() {Id = "", Name = ""};
         }
     }
 }
