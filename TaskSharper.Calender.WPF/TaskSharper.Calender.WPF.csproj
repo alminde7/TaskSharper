@@ -200,6 +200,7 @@
     <Compile Include="Config\ApplicationStatus.cs" />
     <Compile Include="Config\ViewConstants.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
+    <Compile Include="Helpers\EventLocation\EventLocationData.cs" />
     <Compile Include="Properties\Resources.en-US.Designer.cs">
       <DependentUpon>Resources.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
