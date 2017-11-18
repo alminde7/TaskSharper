@@ -42,7 +42,10 @@
   <ItemGroup>
     <Compile Include="BusinessLayer\IEventManager.cs" />
     <Compile Include="Cache\ICacheStore.cs" />
+    <Compile Include="Cache\IEventCache.cs" />
+    <Compile Include="Cache\IEventCategoryCache.cs" />
     <Compile Include="Calendar\Event.cs" />
+    <Compile Include="Calendar\EventCategory.cs" />
     <Compile Include="Calendar\EventStatus.cs" />
     <Compile Include="Calendar\EventType.cs" />
     <Compile Include="Calendar\IAppointmentRestClient.cs" />

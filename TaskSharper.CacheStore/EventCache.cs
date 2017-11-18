@@ -11,7 +11,7 @@ using TaskSharper.Shared.Wrappers;
 
 namespace TaskSharper.CacheStore
 {
-    public class EventCache : ICacheStore
+    public class EventCache : IEventCache
     {
         public ILogger Logger { get; set; }
         public ConcurrentDictionary<DateTime, Dictionary<string, CacheData<Event>>> Events { get; }
@@ -119,7 +119,7 @@ namespace TaskSharper.CacheStore
                 
                 if (data.Any(x => x.ForceUpdate || DataTooOld(x.Updated))) return null;
 
-                return data.Select(x => x.Event).ToList();
+                return data.Select(x => x.Data).ToList();
             }
 
             return null;
@@ -150,7 +150,7 @@ namespace TaskSharper.CacheStore
                     if (Events[date].Values.Any(x => x.ForceUpdate || DataTooOld(x.Updated)))
                         return null;
 
-                    events.AddRange(Events[date].Values.Select(x => x.Event).ToList());
+                    events.AddRange(Events[date].Values.Select(x => x.Data).ToList());
                 }
             }
 
@@ -174,7 +174,7 @@ namespace TaskSharper.CacheStore
 
             if (data.ForceUpdate || DataTooOld(data.Updated)) return null;
 
-            return Events[date][id].Event;
+            return Events[date][id].Data;
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace TaskSharper.CacheStore
                 if (cacheData.ForceUpdate || DataTooOld(cacheData.Updated)) return null;
             }
             
-            return cacheData?.Event;
+            return cacheData?.Data;
         }
 
         /// <summary>

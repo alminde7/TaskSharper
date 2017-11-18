@@ -98,10 +98,4 @@ namespace TaskSharper.Domain.Calendar
         /// </summary>
         public bool MarkedAsDone { get; set; }
     }
-
-    public class EventCategory
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
 }

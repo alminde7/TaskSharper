@@ -21,10 +21,10 @@ namespace TaskSharper.Service.Controllers
         public CategoriesController(IEventManager eventManager, ILogger logger)
         {
             _eventManager = eventManager;
-            Logger = logger.ForContext<EventsController>();
+            Logger = logger.ForContext<CategoriesController>();
         }
 
-        [HttpGet]
+        [HttpGet]   
         [ResponseType(typeof(List<EventCategory>))]
         public async Task<IHttpActionResult> Get()
         {
