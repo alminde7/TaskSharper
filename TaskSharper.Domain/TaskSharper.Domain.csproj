@@ -50,6 +50,12 @@
     <Compile Include="Calendar\IEventRestClient.cs" />
     <Compile Include="Calendar\IStatusRestClient.cs" />
     <Compile Include="Calendar\ITaskRestClient.cs" />
+    <Compile Include="Configuration\CacheConfiguration.cs" />
+    <Compile Include="Configuration\ICacheConfiguration.cs" />
+    <Compile Include="Configuration\ILoggingConfiguration.cs" />
+    <Compile Include="Configuration\INotificationConfiguration.cs" />
+    <Compile Include="Configuration\LoggingConfiguration.cs" />
+    <Compile Include="Configuration\NotificationConfiguration.cs" />
     <Compile Include="Notification\INotification.cs" />
     <Compile Include="Notification\INotificationClient.cs" />
     <Compile Include="Notification\INotificationPublisher.cs" />

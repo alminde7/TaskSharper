@@ -15,6 +15,7 @@ using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Notification;
 using TaskSharper.Service.Hubs;
@@ -64,6 +65,10 @@ namespace TaskSharper.Service.Config
             container.RegisterInstance(typeof(CalendarService), googleService);
             //container.RegisterInstance(typeof(ILogger), logger);
             container.RegisterInstance(typeof(INotification), notificationObject);
+
+            container.RegisterInstance(typeof(ICacheConfiguration), new CacheConfiguration());
+            container.RegisterInstance(typeof(ILoggingConfiguration), new LoggingConfiguration());
+            container.RegisterInstance(typeof(INotificationConfiguration), new NotificationConfiguration());
         }
     }
 }

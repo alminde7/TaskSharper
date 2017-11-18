@@ -14,7 +14,7 @@ namespace TaskSharper.CacheStore
     public class EventCache : ICacheStore
     {
         public ILogger Logger { get; set; }
-        public ConcurrentDictionary<DateTime, Dictionary<string, CacheData>> Events { get; }
+        public ConcurrentDictionary<DateTime, Dictionary<string, CacheData<Event>>> Events { get; }
         public TimeSpan UpdatedOffset { get; set; } = TimeSpan.FromMinutes(5);
 
         private Timer DailyCleanUpTimer { get; set; }
@@ -22,7 +22,7 @@ namespace TaskSharper.CacheStore
         public EventCache(ILogger logger)
         {
             Logger = logger.ForContext<EventCache>();
-            Events = new ConcurrentDictionary<DateTime, Dictionary<string, CacheData>>();
+            Events = new ConcurrentDictionary<DateTime, Dictionary<string, CacheData<Event>>>();
 
             DailyCleanUpTimer = new Timer()
                 .SetDailyScheduler(new TimeSpan(0,2,0,0), CleanUp)
@@ -98,7 +98,7 @@ namespace TaskSharper.CacheStore
 
                 for (int i = 0; i <= diff; i++)
                 {
-                    Events[date.AddDays(i)].AddOrUpdate(calEvent.Id, new CacheData(calEvent, DateTime.Now, false));
+                    Events[date.AddDays(i)].AddOrUpdate(calEvent.Id, new CacheData<Event>(calEvent, DateTime.Now, false));
                 }
             }
         }
@@ -184,7 +184,7 @@ namespace TaskSharper.CacheStore
         /// <returns></returns>
         public Event GetEvent(string id)
         {
-            CacheData cacheData = null;
+            CacheData<Event> cacheData = null;
             var dummy = Events.FirstOrDefault(x => x.Value.TryGetValue(id, out cacheData));
 
             if (cacheData != null)
@@ -218,7 +218,7 @@ namespace TaskSharper.CacheStore
                 }
             } // removes event if exist
             
-            Events[date].AddOrUpdate(calendarEvent.Id, new CacheData(calendarEvent, DateTime.Now, false));
+            Events[date].AddOrUpdate(calendarEvent.Id, new CacheData<Event>(calendarEvent, DateTime.Now, false));
         }
 
         public void RemoveEvent(string id)
@@ -247,7 +247,7 @@ namespace TaskSharper.CacheStore
                     var date = start.StartOfDay().AddDays(index);
                     if (!Events.ContainsKey(date))
                     {
-                        Events.TryAdd(date, new Dictionary<string, CacheData>());
+                        Events.TryAdd(date, new Dictionary<string, CacheData<Event>>());
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace TaskSharper.CacheStore
                 var date = start.StartOfDay();
                 if (!Events.ContainsKey(date))
                 {
-                    Events.TryAdd(date, new Dictionary<string, CacheData>());
+                    Events.TryAdd(date, new Dictionary<string, CacheData<Event>>());
                 }
             }
         }
