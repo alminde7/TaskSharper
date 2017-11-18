@@ -5,13 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4044C93A-C605-4561-AB0D-375D4A05A9D7}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>TaskSharper.WPF.Common</RootNamespace>
     <AssemblyName>TaskSharper.WPF.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FontAwesome.WPF">
@@ -72,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\EventModification\CategoryViewModel.cs" />
     <Compile Include="Components\Notification\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
     </Compile>
@@ -84,6 +89,7 @@
       <DependentUpon>EventModificationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\EventModification\EventModificationViewModel.cs" />
+    <Compile Include="Events\CategoryClickedEvent.cs" />
     <Compile Include="Events\CultureChangedEvent.cs" />
     <Compile Include="Events\DateChangedEvents\DayChangedEvent.cs" />
     <Compile Include="Events\DateChangedEvents\MonthChangedEvent.cs" />
@@ -102,6 +108,7 @@
     <Compile Include="Events\ScrollEvents\ScrollUpEvent.cs" />
     <Compile Include="Events\SpinnerEvent.cs" />
     <Compile Include="Events\ViewEvents\BackButtonEvent.cs" />
+    <Compile Include="Media\CategoryToIconConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

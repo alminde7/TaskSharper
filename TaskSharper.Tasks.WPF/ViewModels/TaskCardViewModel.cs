@@ -11,6 +11,7 @@ using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Events;
+using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Tasks.WPF.ViewModels
 {
@@ -22,16 +23,28 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         private readonly ILogger _logger;
 
         private Event _task;
+        private string _category;
         private bool _isSelected;
         private double _backgroundOpacity;
 
         public DelegateCommand SelectTaskCommand { get; set; }
         public DelegateCommand EditTaskCommand { get; set; }
+        public DelegateCommand SaveTaskStateCommand { get; set; }
 
         public Event Task
         {
             get => _task;
-            set => SetProperty(ref _task, value);
+            set
+            {
+                Category = CategoryToIconConverter.ConvertToFontAwesomeIcon(value?.Category.Name, (EventType)value?.Type);
+                SetProperty(ref _task, value);
+            }
+        }
+
+        public string Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
         }
 
         public bool IsSelected
@@ -59,6 +72,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
 
             SelectTaskCommand = new DelegateCommand(SelectTask);
             EditTaskCommand = new DelegateCommand(EditTask);
+            SaveTaskStateCommand = new DelegateCommand(SaveTaskState);
 
             _eventAggregator.GetEvent<TaskSelectedEvent>().Subscribe(eventObj =>
             {
@@ -74,6 +88,11 @@ namespace TaskSharper.Tasks.WPF.ViewModels
                     }
                 }
             });
+        }
+
+        private async void SaveTaskState()
+        {
+            Task = await _dataService.UpdateAsync(Task);
         }
 
         private void EditTask()

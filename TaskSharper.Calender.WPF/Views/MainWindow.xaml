@@ -16,6 +16,7 @@
         mc:Ignorable="d"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:notification="clr-namespace:TaskSharper.WPF.Common.Components.Notification;assembly=TaskSharper.WPF.Common"
+        xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common"
         Title="TaskSharperCalendar" Height="936.818" Width="1309">
     <Window.Resources>
         <Flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSourceConverter" />
@@ -98,6 +99,17 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="TransparentBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -145,48 +157,64 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0"
-                    Command="{Binding ScrollUpCommand}"
+            <Grid Grid.Row="0">
+                <Button
+                    Command="{Binding CloseApplicationCommand}"
                     Margin="2,2,2,0"
-                    Style="{StaticResource NavigationButton}"
-                    Height="100"
-                    Visibility="{Binding ScrollButtonsVisible, Converter={StaticResource BoolToVis}}">
-                <fa:ImageAwesome Icon="ArrowUp" Margin="10,0,0,0" Height="70" Foreground="White" />
+                    Style="{StaticResource TransparentBtnStyle}">
+                <fa:ImageAwesome Icon="Home" Margin="2,0,0,1" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}"/>
             </Button>
-            <DockPanel Grid.Row="1"></DockPanel>
-            <Button Grid.Row="2" Content="{lex:Loc Day}"
-                    Command="{Binding NavigateCommand}" CommandParameter="CalendarDayView" 
-                    Margin="2"
-                    Style="{StaticResource NavigationButton}"
-                    Height="100">
-            </Button>
-            <Button Grid.Row="3" Content="{lex:Loc Week}" 
-                    Command="{Binding NavigateCommand}" CommandParameter="CalendarWeekView" 
-                    Margin="2"
-                    Style="{StaticResource NavigationButton}"
-                    Height="100">
-            </Button>
-            <Button Grid.Row="4" Content="{lex:Loc Month}" 
-                    Command="{Binding NavigateCommand}" CommandParameter="CalendarMonthView" 
-                    Margin="2"
-                    Style="{StaticResource NavigationButton}"
-                    Height="100">
-            </Button>
-            <DockPanel Grid.Row="5"></DockPanel>
-            <Button Grid.Row="6"
-                    Command="{Binding ScrollDownCommand}"
-                    Margin="2,3,2,0"
-                    Style="{StaticResource NavigationButton}"
-                    Height="100"
-                    Visibility="{Binding ScrollButtonsVisible, Converter={StaticResource BoolToVis}}">
-                <fa:ImageAwesome Icon="ArrowDown" Height="70" Margin="10,0,0,0" Foreground="White" />
-            </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="1"
+                        Command="{Binding ScrollUpCommand}"
+                        Margin="2,2,2,0"
+                        Style="{StaticResource NavigationButton}"
+                        Height="100"
+                        Visibility="{Binding ScrollButtonsVisible, Converter={StaticResource BoolToVis}}">
+                    <fa:ImageAwesome Icon="ArrowUp" Margin="10,0,0,0" Height="70" Foreground="White" />
+                </Button>
+                <Button Grid.Row="3" Content="{lex:Loc Day}"
+                        Command="{Binding NavigateCommand}" CommandParameter="CalendarDayView" 
+                        Margin="2"
+                        Style="{StaticResource NavigationButton}"
+                        Height="100">
+                </Button>
+                <Button Grid.Row="4" Content="{lex:Loc Week}" 
+                        Command="{Binding NavigateCommand}" CommandParameter="CalendarWeekView" 
+                        Margin="2"
+                        Style="{StaticResource NavigationButton}"
+                        Height="100">
+                </Button>
+                <Button Grid.Row="5" Content="{lex:Loc Month}" 
+                        Command="{Binding NavigateCommand}" CommandParameter="CalendarMonthView" 
+                        Margin="2"
+                        Style="{StaticResource NavigationButton}"
+                        Height="100">
+                </Button>
+                <Button Grid.Row="7"
+                        Command="{Binding ScrollDownCommand}"
+                        Margin="2,3,2,0"
+                        Style="{StaticResource NavigationButton}"
+                        Height="100"
+                        Visibility="{Binding ScrollButtonsVisible, Converter={StaticResource BoolToVis}}">
+                    <fa:ImageAwesome Icon="ArrowDown" Height="70" Margin="10,0,0,0" Foreground="White" />
+                </Button>
+            </Grid>
+            
+            
         </Grid>
         <StackPanel Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Center" Margin="0,0,200,200" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0">
             <notification:NotificationView></notification:NotificationView>

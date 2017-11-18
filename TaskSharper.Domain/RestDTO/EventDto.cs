@@ -11,5 +11,6 @@ namespace TaskSharper.Domain.RestDTO
         public DateTime End { get; set; }
         public EventType EventType { get; set; }
         public EventStatus EventStatus { get; set; }
+        public EventCategory EventCategory { get; set; }
     }
 }

@@ -75,7 +75,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         {
             try
             {
-                await _dataService.DeleteAsync(SelectedAppointment.Id);
+                await _dataService.DeleteAsync(SelectedAppointment.Id, SelectedAppointment.Category.Id);
                 await UpdateView();
                 IsAppointmentSelected = false;
             }
@@ -92,7 +92,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             var events = await _dataService.GetAsync(start, end);
 
             AppointmentCards?.Clear();
-            foreach (var @event in events)
+            foreach (var @event in events.OrderBy(o => o.Start).ThenBy(o => o.End))
             {
                 AppointmentCards?.Add(new AppointmentCardViewModel(_dataService, _eventAggregator, _regionManager, _logger)
                 {

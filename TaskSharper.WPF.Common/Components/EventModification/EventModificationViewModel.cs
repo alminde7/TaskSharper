@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,8 @@ namespace TaskSharper.WPF.Common.Components.EventModification
         public DelegateCommand SetTypeAsTaskCommand { get; set; }
         public DelegateCommand SetStatusAsTentativeCommand { get; set; }
         public DelegateCommand SetStatusAsConfirmedCommand { get; set; }
+
+        public ObservableCollection<CategoryViewModel> Categories { get; set; }
 
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
@@ -191,6 +194,8 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             _dataService = dataService;
             _eventAggregator = eventAggregator;
 
+            Categories = new ObservableCollection<CategoryViewModel>();
+
             BackCommand = new DelegateCommand(Back);
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
@@ -208,6 +213,12 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                 End = DateTime.Today
             }; // Temporarily assign an empty event so DateTimePicker can bind to a non-null object (this will be properly set in the OnNavigatedTo method)
             _eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(CultureChanged);
+            _eventAggregator.GetEvent<CategoryClickedEvent>().Subscribe(CategoryClicked);
+        }
+
+        private void CategoryClicked(EventCategory category)
+        {
+            Event.Category = category;
         }
 
         private void CultureChanged()
@@ -286,6 +297,25 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                 case EventType.Task:
                     IsTaskTypeVisible = true;
                     break;
+            }
+
+            var categories = await _dataService.GetAsync();
+            Categories?.Clear();
+            foreach (var eventCategory in categories)
+            {
+                var categoryViewModel = new CategoryViewModel(_regionManager, _eventAggregator, _dataService)
+                {
+                    Id = eventCategory.Id,
+                    Type = Event.Type,
+                    Category = eventCategory.Name
+                };
+                
+                if (_modificationType == ModificationType.Edit && Event.Category.Id == eventCategory.Id)
+                {
+                    categoryViewModel.CategoryOpacity = Settings.Default.SelectedOpacity;
+                }
+
+                Categories?.Add(categoryViewModel);
             }
         }
 

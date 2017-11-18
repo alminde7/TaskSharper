@@ -102,7 +102,8 @@ namespace TaskSharper.Service.Controllers
                     Start = calEvent.Start,
                     End = calEvent.End,
                     Status = calEvent.EventStatus,
-                    Type = EventType.Appointment
+                    Type = EventType.Appointment,
+                    Category = calEvent.EventCategory
                 };
 
                 var createdEvent = await _eventManager.CreateEventAsync(newEvent);
@@ -143,11 +144,11 @@ namespace TaskSharper.Service.Controllers
         }
 
         [HttpDelete]
-        public async Task<IHttpActionResult> Delete(string id)
+        public async Task<IHttpActionResult> Delete(string id, string calendarId)
         {
             try
             {
-                await _eventManager.DeleteEventAsync(id);
+                await _eventManager.DeleteEventAsync(id, calendarId);
                 return Ok();
             }
             catch (HttpRequestException e)

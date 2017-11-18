@@ -81,7 +81,8 @@ namespace TaskSharper.Calender.WPF
                     Title = x.Title,
                     Status = x.Status,
                     Start = x.Start,
-                    Type = x.Type
+                    Type = x.Type,
+                    Category = x.Category
                 });
             });
 

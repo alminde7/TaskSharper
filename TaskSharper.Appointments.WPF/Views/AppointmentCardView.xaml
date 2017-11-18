@@ -38,7 +38,7 @@
             </Grid.ColumnDefinitions>
 
             <Viewbox Grid.Column="0" Margin="5">
-                <fa:ImageAwesome Icon="Coffee" Foreground="CornflowerBlue" />
+                <fa:ImageAwesome Icon="{Binding Category}" Foreground="CornflowerBlue" />
             </Viewbox>
 
             <Grid Grid.Column="1" Margin="5,0,0,0">
@@ -54,12 +54,12 @@
                 </Viewbox>
             </Grid>
             <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                <Label Content="Start" HorizontalContentAlignment="Center" />
+                <Label Content="{lex:Loc Start}" HorizontalContentAlignment="Center" />
                 <TextBlock Text="{Binding Appointment.Start, StringFormat=dd/MM/yyyy}" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding Appointment.Start, StringFormat=HH:mm}" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Grid.Column="3" HorizontalAlignment="Center">
-                <Label Content="End" HorizontalContentAlignment="Center" />
+                <Label Content="{lex:Loc End}" HorizontalContentAlignment="Center" />
                 <TextBlock Text="{Binding Appointment.End, StringFormat=dd/MM/yyyy}" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding Appointment.End, StringFormat=HH:mm}" HorizontalAlignment="Center"/>
             </StackPanel>

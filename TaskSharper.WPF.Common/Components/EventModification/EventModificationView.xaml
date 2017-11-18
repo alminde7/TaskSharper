@@ -94,9 +94,29 @@
 
                     <TextBlock Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>
                 </StackPanel>
+                <StackPanel Margin="30,0,0,0">
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Category}" />
+                    <ItemsControl ItemsSource="{Binding Categories}" Width="Auto">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="2"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource TransparentBtnStyle}" Margin="10" Command="{Binding SetCategoryCommand}">
+                                    <StackPanel Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="{Binding CategoryIcon}" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding CategoryOpacity}"/>
+                                        <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{Binding Category}" />
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
             </StackPanel>
         </Viewbox>
-        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="2">
+        <Viewbox Stretch="Uniform" Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Command="{Binding SaveEventCommand}" Style="{StaticResource TransparentBtnStyle}">
                     <fa:ImageAwesome Icon="Check" Foreground="Green"/>

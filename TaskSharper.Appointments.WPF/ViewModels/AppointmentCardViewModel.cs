@@ -11,6 +11,7 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Appointments.WPF.ViewModels
 {
@@ -22,6 +23,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         private readonly ILogger _logger;
 
         private Event _appointment;
+        private string _category;
         private bool _isSelected;
         private double _backgroundOpacity;
 
@@ -31,7 +33,17 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         public Event Appointment
         {
             get => _appointment;
-            set => SetProperty(ref _appointment, value);
+            set
+            {
+                Category = CategoryToIconConverter.ConvertToFontAwesomeIcon(value?.Category.Name, (EventType)value?.Type);
+                SetProperty(ref _appointment, value);
+            }
+        }
+
+        public string Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
         }
 
         public bool IsSelected

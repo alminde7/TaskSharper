@@ -162,9 +162,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TaskSharper.WPF.Common">
-      <HintPath>..\TaskSharper.WPF.Common\bin\Debug\TaskSharper.WPF.Common.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WPFLocalizeExtension, Version=2.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WpfLocalizeExtension.2.3.2\lib\net35\WPFLocalizeExtension.dll</HintPath>
@@ -421,6 +418,10 @@
     <ProjectReference Include="..\TaskSharper.Shared\TaskSharper.Shared.csproj">
       <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
       <Name>TaskSharper.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.WPF.Common\TaskSharper.WPF.Common.csproj">
+      <Project>{4044c93a-c605-4561-ab0d-375d4a05a9d7}</Project>
+      <Name>TaskSharper.WPF.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

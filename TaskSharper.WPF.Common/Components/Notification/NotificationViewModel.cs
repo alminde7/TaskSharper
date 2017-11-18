@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using TaskSharper.Domain.Calendar;
 using TaskSharper.WPF.Common.Config;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.NotificationEvents;
 using TaskSharper.WPF.Common.Events.Resources;
+using TaskSharper.WPF.Common.Media;
 using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.WPF.Common.Components.Notification
@@ -20,6 +22,7 @@ namespace TaskSharper.WPF.Common.Components.Notification
         private string _notificationMessage;
         private string _notificationStart;
         private string _notificationEventType;
+        private string _category;
         private IEventAggregator _eventAggregator;
         private NotificationTypeEnum _notificationType;
         private bool _spinnerVisible;
@@ -50,6 +53,11 @@ namespace TaskSharper.WPF.Common.Components.Notification
         {
             get => _notificationMessage;
             set => SetProperty(ref _notificationMessage, value);
+        }
+        public string Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
         }
         public bool SpinnerVisible
         {
@@ -124,6 +132,15 @@ namespace TaskSharper.WPF.Common.Components.Notification
             NotificationMessage = notification.Message;
             NotificationEventType = notification.Type.ToString();
             NotificationType = notification.NotificationType;
+            if (notification.Category != null)
+            {
+                Category = CategoryToIconConverter.ConvertToFontAwesomeIcon(notification.Category.Name,
+                    notification.Type);
+            }
+            else
+            {
+                Category = "Info";
+            }
 
             if (notification.Start != null)
             {

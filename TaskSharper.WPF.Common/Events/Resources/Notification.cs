@@ -10,6 +10,7 @@ namespace TaskSharper.WPF.Common.Events.Resources
         public DateTime? Start { get; set; }
         public EventStatus Status { get; set; }
         public EventType Type { get; set; }
-        public NotificationTypeEnum NotificationType { get; set; } 
+        public NotificationTypeEnum NotificationType { get; set; }
+        public EventCategory Category { get; set; }
     }
 }
