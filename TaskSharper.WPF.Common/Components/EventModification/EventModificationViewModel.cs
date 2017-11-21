@@ -243,7 +243,7 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             TouchKeyboardProcess = TouchKeyboardProcess.HasExited || TouchKeyboardProcess == null ? Process.Start(touchKeyboardPath) : null;
         }
 
-        private async void SaveEvent()
+        public async void SaveEvent()
         {
             bool error = false;
             if (string.IsNullOrEmpty(Event.Title))
