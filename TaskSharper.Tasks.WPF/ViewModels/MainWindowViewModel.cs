@@ -33,8 +33,6 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         public DelegateCommand BackCommand { get; set; }
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
         public DelegateCommand CloseApplicationCommand { get; set; }
-        public DelegateCommand ScrollUpCommand { get; set; }
-        public DelegateCommand ScrollDownCommand { get; set; }
 
         public bool SpinnerVisible
         {
@@ -64,8 +62,6 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             BackCommand = new DelegateCommand(Back);
             ChangeLanguageCommand = new DelegateCommand<string>(ChangeLanguage);
             CloseApplicationCommand = new DelegateCommand(CloseApplication);
-            ScrollUpCommand = new DelegateCommand(ScrollUp);
-            ScrollDownCommand = new DelegateCommand(ScrollDown);
         }
 
         private void Back()
@@ -94,16 +90,6 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         private void Navigate(string uri)
         {
             _regionManager.RequestNavigate(ViewConstants.REGION_Main, uri);
-        }
-
-        private void ScrollUp()
-        {
-            _eventAggregator.GetEvent<ScrollUpEvent>().Publish();
-        }
-
-        private void ScrollDown()
-        {
-            _eventAggregator.GetEvent<ScrollDownEvent>().Publish();
         }
 
         private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
