@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
@@ -69,6 +70,12 @@ namespace TaskSharper.Notification.Test.Unit
             Assert.That(_uut.EventNotifications.Count, Is.EqualTo(0));
         }
 
+        [Test]
+        public void EventNotifications_AttachEventWithNoIdToEventNotification_ReturnsNullReferanceException()
+        {
+            Assert.Throws<ArgumentNullException>(() => _uut.Attach(new Event() {Start = DateTime.Now}));
+        }
+
         // Attach EventList
 
         [Test]
@@ -126,6 +133,17 @@ namespace TaskSharper.Notification.Test.Unit
             Assert.That(_uut.EventNotifications.Count, Is.EqualTo(0));
         }
 
+        //// Cleanup 
+
+        //[Test]
+        //public void EventNotifications_CleanupEventsFromEventNotification_ReturnZeroEvents()
+        //{
+        //    _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now });
+        //    _uut.Attach(new Event() { Id = "Event2", Start = DateTime.Now });
+
+
+        //    Assert.That(_uut.EventNotifications.Count, Is.EqualTo(0));
+        //}
 
     }
 }
