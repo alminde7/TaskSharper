@@ -254,6 +254,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 var days = new Dictionary<DateTime, IList<Event>>();
                 var monthEvents = await _dataService.GetAsync(start, end);
+                monthEvents = monthEvents.OrderBy(o => o.Start).ThenBy(o => o.End);
                 if (monthEvents == null) return days;
 
                 var uniqueEvents = monthEvents.DistinctBy(x => x.Id).ToList();
