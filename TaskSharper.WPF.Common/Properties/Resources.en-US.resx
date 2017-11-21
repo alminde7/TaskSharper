@@ -159,6 +159,12 @@
   <data name="ErrorEndTimeIsEarlierThanStartTime" xml:space="preserve">
     <value>Start time cannot be later than end time.</value>
   </data>
+  <data name="ErrorEventSpansAccrossMultipleDays" xml:space="preserve">
+    <value>Can only create an event within the same day.</value>
+  </data>
+  <data name="ErrorStartTimeIsBeforeTodaysDate" xml:space="preserve">
+    <value>Cannot create an event in the past.</value>
+  </data>
   <data name="ErrorTitleNotSet" xml:space="preserve">
     <value>Title cannot be empty.</value>
   </data>

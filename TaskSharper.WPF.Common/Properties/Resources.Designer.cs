@@ -196,6 +196,24 @@ namespace TaskSharper.WPF.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can only create an event within the same day..
+        /// </summary>
+        public static string ErrorEventSpansAccrossMultipleDays {
+            get {
+                return ResourceManager.GetString("ErrorEventSpansAccrossMultipleDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot create an event in the past..
+        /// </summary>
+        public static string ErrorStartTimeIsBeforeTodaysDate {
+            get {
+                return ResourceManager.GetString("ErrorStartTimeIsBeforeTodaysDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title cannot be empty..
         /// </summary>
         public static string ErrorTitleNotSet {
