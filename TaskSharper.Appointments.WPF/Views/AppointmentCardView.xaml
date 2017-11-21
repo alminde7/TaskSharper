@@ -55,12 +55,12 @@
             </Grid>
             <StackPanel Grid.Column="2" HorizontalAlignment="Center">
                 <Label Content="{lex:Loc Start}" HorizontalContentAlignment="Center" />
-                <TextBlock Text="{Binding Appointment.Start, StringFormat=dd/MM/yyyy}" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Appointment.Start, StringFormat=dd MMMM}" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding Appointment.Start, StringFormat=HH:mm}" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Grid.Column="3" HorizontalAlignment="Center">
                 <Label Content="{lex:Loc End}" HorizontalContentAlignment="Center" />
-                <TextBlock Text="{Binding Appointment.End, StringFormat=dd/MM/yyyy}" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Appointment.End, StringFormat=dd MMMM}" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding Appointment.End, StringFormat=HH:mm}" HorizontalAlignment="Center"/>
             </StackPanel>
             <Viewbox Grid.Column="4" Margin="5" HorizontalAlignment="Right">

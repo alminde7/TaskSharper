@@ -12,6 +12,7 @@ using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Events;
+using TaskSharper.WPF.Common.Events.ScrollEvents;
 using TaskSharper.WPF.Common.Events.ViewEvents;
 using TaskSharper.WPF.Common.Media;
 
@@ -31,6 +32,8 @@ namespace TaskSharper.Tasks.WPF.ViewModels
 
         public DelegateCommand AddTaskCommand { get; set; }
         public DelegateCommand DeleteTaskCommand { get; set; }
+        public DelegateCommand ScrollUpCommand { get; set; }
+        public DelegateCommand ScrollDownCommand { get; set; }
 
         public bool IsTaskSelected
         {
@@ -65,6 +68,8 @@ namespace TaskSharper.Tasks.WPF.ViewModels
 
             AddTaskCommand = new DelegateCommand(NavigateToAddTask);
             DeleteTaskCommand = new DelegateCommand(DeleteTask);
+            ScrollUpCommand = new DelegateCommand(ScrollUp);
+            ScrollDownCommand = new DelegateCommand(ScrollDown);
 
             _eventAggregator.GetEvent<TaskSelectedEvent>().Subscribe(eventObj =>
             {
@@ -108,6 +113,16 @@ namespace TaskSharper.Tasks.WPF.ViewModels
                     Task = @event
                 });
             }
+        }
+
+        private void ScrollUp()
+        {
+            _eventAggregator.GetEvent<ScrollUpEvent>().Publish();
+        }
+
+        private void ScrollDown()
+        {
+            _eventAggregator.GetEvent<ScrollDownEvent>().Publish();
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
