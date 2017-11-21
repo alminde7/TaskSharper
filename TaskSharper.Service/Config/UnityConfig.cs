@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Microsoft.Practices.Unity;
 using Serilog;
-using Serilog.Core;
 using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
 using TaskSharper.DataAccessLayer.Google.Authentication;
@@ -54,7 +50,8 @@ namespace TaskSharper.Service.Config
             container.RegisterType<ICalendarService, GoogleCalendarService>();
 
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
-            container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IEventCache, EventCache>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IEventCategoryCache, EventCategoriesCache>(new ContainerControlledLifetimeManager());
             container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>();
 
             container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI()));

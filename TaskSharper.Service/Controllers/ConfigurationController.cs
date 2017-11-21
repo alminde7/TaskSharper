@@ -6,6 +6,7 @@ using Microsoft.AspNet.SignalR.Json;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Configuration;
 using TaskSharper.Service.Config;
 
@@ -13,12 +14,14 @@ namespace TaskSharper.Service.Controllers
 {
     public class ConfigurationController : ApiController
     {
+        private readonly IEventManager _eventManager;
         private readonly LoggingConfiguration _loggingConfig;
         private readonly NotificationConfiguration _notificationConfiguration;
         private readonly CacheConfiguration _cacheConfiguration;
 
-        public ConfigurationController(ICacheConfiguration cacheConfig, ILoggingConfiguration loggingConfig, INotificationConfiguration notificationInformation)
+        public ConfigurationController(ICacheConfiguration cacheConfig, ILoggingConfiguration loggingConfig, INotificationConfiguration notificationInformation, IEventManager eventManager)
         {
+            _eventManager = eventManager;
             _loggingConfig = loggingConfig as LoggingConfiguration;
             _notificationConfiguration = notificationInformation as NotificationConfiguration;
             _cacheConfiguration = cacheConfig as CacheConfiguration;
@@ -69,6 +72,27 @@ namespace TaskSharper.Service.Controllers
                 return InternalServerError(e);
             }
         }
+
+        //[HttpPost]
+        //[Route("/api/configuration/notification")]
+        //public IHttpActionResult Post(NotificationConfiguration configuration)
+        //{
+        //    return Ok();
+        //}
+
+        //[HttpPost]
+        //[Route("/api/configuration/cache")]
+        //public IHttpActionResult Post(CacheConfiguration configuration)
+        //{
+        //    return Ok();
+        //}
+
+        //[HttpPost]
+        //[Route("/api/configuration/logging")]
+        //public IHttpActionResult Post(LoggingConfiguration configuration)
+        //{
+        //    return Ok();
+        //}
 
         private bool ValidateConfiguration()
         {

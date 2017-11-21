@@ -6,19 +6,19 @@ using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.CacheStore
 {
-    public class CalendarCategoriesCache : IEventCategoryCache
+    public class EventCategoriesCache : IEventCategoryCache
     {
         private readonly ILogger _logger;
 
         private CacheData<IList<EventCategory>> EventCategoriesCacheData { get; set; }
 
-        public CalendarCategoriesCache(ILogger logger)
+        public EventCategoriesCache(ILogger logger)
         {
-            _logger = logger.ForContext<CalendarCategoriesCache>();
+            _logger = logger.ForContext<EventCategoriesCache>();
         }
 
 
-        public TimeSpan UpdatedOffset { get; set; }
+        public TimeSpan UpdatedOffset { get; set; } = TimeSpan.FromHours(2);
         public IList<EventCategory> GetEventCategories()
         {
             if (EventCategoriesCacheData == null || EventCategoriesCacheData.ForceUpdate || DataTooOld(EventCategoriesCacheData.Updated) )
