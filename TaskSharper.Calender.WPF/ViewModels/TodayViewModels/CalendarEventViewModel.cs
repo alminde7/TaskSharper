@@ -32,7 +32,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _locY;
         private double _locX;
         public double Column { get; set; } // Not binding to this anywhere, only used for LocX
-        public double WidthModifier { get; set; } // Not binding to this anywhere, only used for LocX
+        public double TotalColumns { get; set; } // Not binding to this anywhere, only used for LocX
+        public double ColumnSpan { get; set; }
 
         public Event Event
         {
@@ -83,14 +84,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void OnLoaded(object containerWidth)
         {
-            Width = (double) containerWidth * WidthModifier;
-            LocX = Column * (double)containerWidth * WidthModifier;
+            Width = (double) containerWidth * 1 / TotalColumns * (ColumnSpan + 1);
+            LocX = Column * (double)containerWidth * 1 / TotalColumns;
         }
 
         private void OnLayoutUpdated(object containerWidth)
         {
-            Width = (double)containerWidth * WidthModifier;
-            LocX = Column * (double)containerWidth * WidthModifier;
+            Width = (double)containerWidth * 1 / TotalColumns * (ColumnSpan + 1);
+            LocX = Column * (double)containerWidth * 1 / TotalColumns;
         }
 
         private void LogEventClick()

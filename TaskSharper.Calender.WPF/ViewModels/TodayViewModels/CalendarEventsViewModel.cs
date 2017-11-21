@@ -11,6 +11,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Helpers.EventLocation;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -151,23 +152,25 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void UpdateEvents(IList<Event> events)
         {
             _columnAlreadyUpdatedList?.Clear();
-            var eventLocations = UpdateEventLocation(events);
-            foreach (var calendarEvent in events)
+            var eventLocations = EventLocation.FindLayout(events.ToList());
+            foreach (var column in eventLocations)
             {
-                if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-                var simultaneousEvents = SimultaneousEvents(calendarEvent, events);
-                var location = eventLocations.Find(i => i.Event.Id == calendarEvent.Id);
-                var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
+                foreach (var calendarEvent in column)
                 {
-                    LocY = location.PosY,
-                    WidthModifier = location.WidthModifier,
-                    Column = location.Column,
-                    Height = location.Height,
-                    Event = calendarEvent
-                    // Width and LocX are set in the OnLoaded and OnSizeChanged method
-                };
+                    if (!calendarEvent.Event.Start.HasValue || !calendarEvent.Event.End.HasValue) continue;
+                    var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
+                    {
+                        LocY = calendarEvent.PosY,
+                        TotalColumns = calendarEvent.TotalColumns,
+                        Column = calendarEvent.Column,
+                        Height = calendarEvent.Height,
+                        Event = calendarEvent.Event,
+                        ColumnSpan = calendarEvent.ColumnSpan
+                        // Width and LocX are set in the OnLoaded and OnSizeChanged method
+                    };
 
-                CalendarEvents.Add(viewModel);
+                    CalendarEvents.Add(viewModel);
+                }
             }
         }
 
@@ -198,119 +201,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             // Set the Interval to 1 minute.
             timer.Interval = (double) 60 * 1000;
             timer.Enabled = true;
-        }
-
-        private (double simultaneousEvents, double column) SimultaneousEvents(Event eventObj, IList<Event> events)
-        {
-            var columnIndex = 0;
-
-            foreach (var @event in events)
-            {
-                if (@event.Start < eventObj.End && eventObj.Start < @event.End) // If this is true, there is some kind of overlapping
-                {
-                    if (@event.Start < eventObj.Start)
-                    {
-                        columnIndex++;
-                    }
-                    if (@event.Start < eventObj.Start && eventObj.End < @event.End)
-                    {
-                        columnIndex++;
-                    }
-                    if (@event.Start == eventObj.Start && @event.End < eventObj.End)
-                    {
-                        columnIndex++;
-                    }
-                    if (!eventObj.Id.Equals(@event.Id) && @event.Start == eventObj.Start && @event.End == eventObj.End)
-                    {
-                        if (!_columnAlreadyUpdatedList.Exists(i => i == eventObj.Id + @event.Id) && !_columnAlreadyUpdatedList.Exists(i => i == @event.Id + eventObj.Id))
-                        {
-                            columnIndex++;
-                            _columnAlreadyUpdatedList.Add(eventObj.Id + @event.Id);
-                        }
-                    }
-                }
-            }
-
-            return (events.Count(i => i.Start < eventObj.End && eventObj.Start < i.End), columnIndex);
-        }
-
-        private List<EventLocationData> UpdateEventLocation(IList<Event> events)
-        {
-            var eventLocations = new List<EventLocationData>();
-
-            foreach (var @event in events.OrderBy(o => o.Start).ThenBy(o => o.End))
-            {
-                var location = new EventLocationData
-                {
-                    EventId = @event.Id,
-                    Event = @event,
-                    Height = (@event.End.Value - @event.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                    PosY = @event.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 + @event.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                    Column = 0,
-                    WidthModifier = 1,
-                    OverlappingWith = new List<Event>()
-                };
-                double overlappingEvents = 1;
-                foreach (var eventLocation in eventLocations)
-                {
-                    if (@event.Start < eventLocation.Event.End && eventLocation.Event.Start < @event.End) // If this is true, there is some kind of overlapping
-                    {
-                        eventLocation.OverlappingWith.Add(@event);
-                        var ev = eventLocations.FirstOrDefault(i => i.EventId == @event.Id);
-                        if (ev != null && !ev.OverlappingWith.Contains(@event))
-                        {
-                            ev.OverlappingWith.Add(@event);
-                        }
-                        overlappingEvents++;
-
-                        if (@event.Start < eventLocation.Event.Start)
-                        {
-                            eventLocation.Column++;
-                            
-                        }
-                        else if (@event.Start < eventLocation.Event.Start && eventLocation.Event.End < @event.End)
-                        {
-                            eventLocation.Column++;
-                        }
-                        else if (@event.Start == eventLocation.Event.Start && @event.End < eventLocation.Event.End)
-                        {
-                            eventLocation.Column++;
-                        }
-                        else if (@event.Start == eventLocation.Event.Start && @event.End == eventLocation.Event.End)
-                        {
-                            eventLocation.Column++;
-                        }
-                        else
-                        {
-                            location.Column++;
-                        }
-
-                        /*if (eventLocation.WidthModifier > 1 / overlappingEvents)
-                        {
-                            eventLocation.WidthModifier = 1 / overlappingEvents;
-                        }*/
-                    }
-                }
-                
-
-                location.WidthModifier = 1 / overlappingEvents;
-                
-                eventLocations.Add(location);
-
-                // Loop through again to set the correct width
-                foreach (var eventLocation in eventLocations)
-                {
-                    if (@event.Start < eventLocation.Event.End && eventLocation.Event.Start < @event.End)
-                    {
-                        if (eventLocation.WidthModifier > 1 / overlappingEvents)
-                        {
-                            eventLocation.WidthModifier = 1 / overlappingEvents;
-                        }
-                    }
-                }
-            }
-
-            return eventLocations;
         }
 
         private void UpdateTimeLine(object source, ElapsedEventArgs e)
@@ -380,15 +270,5 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _strokeDashArray, value);
         }
     }
-
-    public class EventLocationData
-    {
-        public string EventId { get; set; }
-        public Event Event { get; set; }
-        public List<Event> OverlappingWith { get; set; }
-        public double Column { get; set; } // Column
-        public double PosY { get; set; }
-        public double WidthModifier { get; set; } // Because Width is set in "OnLoaded", the Width cannot be set, but we can set what the modifier should be (eg. 0.5 is half the width of the container)
-        public double Height { get; set; }
-    }
+    
 }
