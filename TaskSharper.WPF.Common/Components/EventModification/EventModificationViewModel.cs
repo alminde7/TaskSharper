@@ -223,8 +223,19 @@ namespace TaskSharper.WPF.Common.Components.EventModification
 
         private void CultureChanged()
         {
-            if (TitleErrorMessage != null) TitleErrorMessage = Resources.ErrorTitleNotSet;
-            if (DateTimeErrorMessage != null) DateTimeErrorMessage = Resources.ErrorEndTimeIsEarlierThanStartTime;
+            if (Event.Start > Event.End || string.IsNullOrEmpty(Event.Title))
+            {
+                DateTimeErrorMessage = Event.Start > Event.End ? Resources.ErrorEndTimeIsEarlierThanStartTime : null;
+                TitleErrorMessage = string.IsNullOrEmpty(Event.Title) ? Resources.ErrorTitleNotSet : null;
+            }
+            if (Event.Start < DateTime.Today)
+            {
+                DateTimeErrorMessage = Resources.ErrorStartTimeIsBeforeTodaysDate;
+            }
+            if (Event.End?.Date > Event.Start?.Date)
+            {
+                DateTimeErrorMessage = Resources.ErrorEventSpansAccrossMultipleDays;
+            }
         }
 
         private void ToggleKeyboard()
@@ -234,12 +245,28 @@ namespace TaskSharper.WPF.Common.Components.EventModification
 
         private async void SaveEvent()
         {
-            if (Event.Start > Event.End || string.IsNullOrEmpty(Event.Title))
+            bool error = false;
+            if (string.IsNullOrEmpty(Event.Title))
             {
-                DateTimeErrorMessage = Event.Start > Event.End ? Resources.ErrorEndTimeIsEarlierThanStartTime : null;
-                TitleErrorMessage = string.IsNullOrEmpty(Event.Title) ? Resources.ErrorTitleNotSet : null;
+                TitleErrorMessage = Resources.ErrorTitleNotSet;
+                error = true;
             }
-            else
+            if (Event.Start > Event.End)
+            {
+                DateTimeErrorMessage = Resources.ErrorEndTimeIsEarlierThanStartTime;
+                error = true;
+            }
+            if (Event.Start < DateTime.Today)
+            {
+                DateTimeErrorMessage = Resources.ErrorStartTimeIsBeforeTodaysDate;
+                error = true;
+            }
+            if (Event.End?.Date > Event.Start?.Date)
+            {
+                DateTimeErrorMessage = Resources.ErrorEventSpansAccrossMultipleDays;
+                error = true;
+            }
+            if (!error)
             {
                 switch (_modificationType)
                 {

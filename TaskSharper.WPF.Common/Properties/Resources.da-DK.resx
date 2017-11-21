@@ -162,6 +162,12 @@
   <data name="ErrorEndTimeIsEarlierThanStartTime" xml:space="preserve">
     <value>Start tid kan ikke være senere end slut tid.</value>
   </data>
+  <data name="ErrorEventSpansAccrossMultipleDays" xml:space="preserve">
+    <value>Kan kun oprette en begivenhed, der ligger på samme dag.</value>
+  </data>
+  <data name="ErrorStartTimeIsBeforeTodaysDate" xml:space="preserve">
+    <value>Kan ikke oprette en begivenhed i fortiden.</value>
+  </data>
   <data name="ErrorTitleNotSet" xml:space="preserve">
     <value>Titel skal udfyldes.</value>
   </data>
