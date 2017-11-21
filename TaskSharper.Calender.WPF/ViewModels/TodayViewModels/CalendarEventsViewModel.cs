@@ -11,6 +11,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using TaskSharper.Calender.WPF.Helpers.EventLocation;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -151,22 +152,25 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private void UpdateEvents(IList<Event> events)
         {
             _columnAlreadyUpdatedList?.Clear();
-            foreach (var calendarEvent in events)
+            var eventLocations = EventLocation.FindLayout(events.ToList());
+            foreach (var column in eventLocations)
             {
-                if (!calendarEvent.Start.HasValue || !calendarEvent.End.HasValue) continue;
-                var simultaneousEvents = SimultaneousEvents(calendarEvent, events);
-                var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
+                foreach (var calendarEvent in column)
                 {
-                    LocY = calendarEvent.Start.Value.Hour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200 +
-                           calendarEvent.Start.Value.Minute / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                    SimultaneousEvents = simultaneousEvents.simultaneousEvents,
-                    Column = simultaneousEvents.column,
-                    Height = (calendarEvent.End.Value - calendarEvent.Start.Value).TotalMinutes / TimeConstants.MinutesInAnHour / TimeConstants.HoursInADay * Settings.Default.CalendarStructure_Height_1200,
-                    Event = calendarEvent
-                    // Width and LocX are set in the OnLoaded and OnSizeChanged method
-                };
+                    if (!calendarEvent.Event.Start.HasValue || !calendarEvent.Event.End.HasValue) continue;
+                    var viewModel = new CalendarEventViewModel(_regionManager, _eventAggregator, _logger)
+                    {
+                        LocY = calendarEvent.PosY,
+                        TotalColumns = calendarEvent.TotalColumns,
+                        Column = calendarEvent.Column,
+                        Height = calendarEvent.Height,
+                        Event = calendarEvent.Event,
+                        ColumnSpan = calendarEvent.ColumnSpan
+                        // Width and LocX are set in the OnLoaded and OnSizeChanged method
+                    };
 
-                CalendarEvents.Add(viewModel);
+                    CalendarEvents.Add(viewModel);
+                }
             }
         }
 
@@ -197,40 +201,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             // Set the Interval to 1 minute.
             timer.Interval = (double) 60 * 1000;
             timer.Enabled = true;
-        }
-
-        private (double simultaneousEvents, double column) SimultaneousEvents(Event eventObj, IList<Event> events)
-        {
-            var columnIndex = 0;
-
-            foreach (var @event in events)
-            {
-                if (@event.Start < eventObj.End && eventObj.Start < @event.End) // If this is true, there is some kind of overlapping
-                {
-                    if (@event.Start < eventObj.Start)
-                    {
-                        columnIndex++;
-                    }
-                    if (@event.Start < eventObj.Start && eventObj.End < @event.End)
-                    {
-                        columnIndex++;
-                    }
-                    if (@event.Start == eventObj.Start && @event.End < eventObj.End)
-                    {
-                        columnIndex++;
-                    }
-                    if (!eventObj.Id.Equals(@event.Id) && @event.Start == eventObj.Start && @event.End == eventObj.End)
-                    {
-                        if (!_columnAlreadyUpdatedList.Exists(i => i == eventObj.Id + @event.Id) && !_columnAlreadyUpdatedList.Exists(i => i == @event.Id + eventObj.Id))
-                        {
-                            columnIndex++;
-                            _columnAlreadyUpdatedList.Add(eventObj.Id + @event.Id);
-                        }
-                    }
-                }
-            }
-
-            return (events.Count(i => i.Start < eventObj.End && eventObj.Start < i.End), columnIndex);
         }
 
         private void UpdateTimeLine(object source, ElapsedEventArgs e)
@@ -300,4 +270,5 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _strokeDashArray, value);
         }
     }
+    
 }

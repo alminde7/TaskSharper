@@ -12,6 +12,7 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Events.ScrollEvents;
 using TaskSharper.WPF.Common.Events.ViewEvents;
 
 namespace TaskSharper.Appointments.WPF.ViewModels
@@ -29,6 +30,8 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 
         public DelegateCommand AddAppointmentCommand { get; set; }
         public DelegateCommand DeleteAppointmentCommand { get; set; }
+        public DelegateCommand ScrollUpCommand { get; set; }
+        public DelegateCommand ScrollDownCommand { get; set; }
 
         public bool IsAppointmentSelected
         {
@@ -56,6 +59,8 @@ namespace TaskSharper.Appointments.WPF.ViewModels
 
             AddAppointmentCommand = new DelegateCommand(NavigateToAddAppointment);
             DeleteAppointmentCommand = new DelegateCommand(DeleteAppointment);
+            ScrollUpCommand = new DelegateCommand(ScrollUp);
+            ScrollDownCommand = new DelegateCommand(ScrollDown);
 
             _eventAggregator.GetEvent<AppointmentSelectedEvent>().Subscribe(eventObj =>
             {
@@ -99,6 +104,16 @@ namespace TaskSharper.Appointments.WPF.ViewModels
                     Appointment = @event
                 });
             }
+        }
+
+        private void ScrollUp()
+        {
+            _eventAggregator.GetEvent<ScrollUpEvent>().Publish();
+        }
+
+        private void ScrollDown()
+        {
+            _eventAggregator.GetEvent<ScrollDownEvent>().Publish();
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
