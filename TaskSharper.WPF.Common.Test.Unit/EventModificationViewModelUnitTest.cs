@@ -81,7 +81,6 @@ namespace TaskSharper.WPF.Common.Test.Unit
         [Test]
         public void SaveEvent_EventIsWithoutErrorAndModificationTypeIsOfTypeCreate_CreateMethodOnDataServiceIsCalled()
         {
-            // Arrange
             var parameters = new NavigationParameters();
             parameters.Add("Type", EventType.Task);
             
