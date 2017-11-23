@@ -10,6 +10,7 @@ namespace TaskSharper.Configuration.Settings
         protected string FilePath;
         public async Task<T> Load()
         {
+            // https://www.newtonsoft.com/json/help/html/DeserializeWithJsonSerializerFromFile.htm
             try
             {
                 T model;
@@ -36,6 +37,7 @@ namespace TaskSharper.Configuration.Settings
 
         public void Save(T obj)
         {
+            // https://www.newtonsoft.com/json/help/html/SerializeWithJsonSerializerToFile.htm
             using (StreamWriter file = File.CreateText(FilePath))
             {
                 JsonSerializer serializer = new JsonSerializer();
