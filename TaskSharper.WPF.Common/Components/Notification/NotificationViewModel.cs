@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.WPF.Common.Config;
 using TaskSharper.WPF.Common.Events;
@@ -27,6 +28,7 @@ namespace TaskSharper.WPF.Common.Components.Notification
         private NotificationTypeEnum _notificationType;
         private Event _event;
         private readonly IEventRestClient _dataService;
+        private readonly ILogger _logger;
         private bool _spinnerVisible;
         private CultureInfo _culture;
 
@@ -87,11 +89,12 @@ namespace TaskSharper.WPF.Common.Components.Notification
             set => SetProperty(ref _notificationType, value);
         }
 
-        public NotificationViewModel(IEventAggregator eventAggregator, IEventRestClient dataService)
+        public NotificationViewModel(IEventAggregator eventAggregator, ILogger logger, IEventRestClient dataService)
         {
             IsPopupOpen = false;
             _eventAggregator = eventAggregator;
             _dataService = dataService;
+            _logger = logger;
             _eventAggregator.GetEvent<NotificationEvent>().Subscribe(HandleNotificationEvent);
             eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(UpdateCultureHandler);
             CloseNotificationCommand = new DelegateCommand(ClosePopUp);
@@ -126,16 +129,8 @@ namespace TaskSharper.WPF.Common.Components.Notification
                 }
             }
             else
-            {
-                if (notification.Event.Type == EventType.Task && notification.Event.MarkedAsDone)
-                {
-                    // is also checked from service. 
-                }
-                else
-                {
+            {  
                     await ShowNotification(notification);
-                }
-                
             }
         }
 
@@ -232,9 +227,8 @@ namespace TaskSharper.WPF.Common.Components.Notification
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    throw;
-                } 
+                    _logger.ForContext("Error", typeof(NotificationViewModel)).Information("An error occured when trying to play notification sound: {0}", e.Message);
+                }
             });
 
             return Task.CompletedTask;
