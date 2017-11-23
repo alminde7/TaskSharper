@@ -129,8 +129,11 @@ namespace TaskSharper.WPF.Common.Components.Notification
                 }
             }
             else
-            {  
+            {
+                if(!notification.Event.MarkedAsDone)
+                {
                     await ShowNotification(notification);
+                }
             }
         }
 
