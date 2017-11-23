@@ -79,10 +79,7 @@ namespace TaskSharper.Calender.WPF
                 {
                     Message = x.Description,
                     Title = x.Title,
-                    Status = x.Status,
-                    Start = x.Start,
-                    Type = x.Type,
-                    Category = x.Category
+                    Event = x
                 });
             });
 

@@ -6,7 +6,6 @@ using Microsoft.Owin.Cors;
 using Microsoft.Practices.Unity;
 using Owin;
 using Serilog;
-using TaskSharper.Domain.Notification;
 using TaskSharper.Service.Config;
 using TaskSharper.Service.Hubs;
 using TaskSharper.Service.Middleware;
@@ -21,7 +20,6 @@ namespace TaskSharper.Service
 
             // TODO:: Restrict access
             app.UseCors(CorsOptions.AllowAll);
-
             
             var logger = UnityConfig.GetContainer().Resolve<ILogger>();
 

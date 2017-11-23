@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Timers;
 using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Shared.Extensions;
-using TaskSharper.Shared.Wrappers;
 
 namespace TaskSharper.Notification
 {
@@ -70,7 +67,7 @@ namespace TaskSharper.Notification
             }
 
             // If event has been completed, do not add. 
-            if (calEvent.Status == EventStatus.Completed ||  calEvent.Status == EventStatus.Cancelled) return;
+            if (calEvent.Status == EventStatus.Completed || calEvent.Status == EventStatus.Cancelled || calEvent.MarkedAsDone) return;
 
             var notificationList = new List<NotificationObject>();
             

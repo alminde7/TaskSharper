@@ -159,6 +159,12 @@
   <data name="ErrorEndTimeIsEarlierThanStartTime" xml:space="preserve">
     <value>Start time cannot be later than end time.</value>
   </data>
+  <data name="ErrorEventSpansAccrossMultipleDays" xml:space="preserve">
+    <value>Can only create an event within the same day.</value>
+  </data>
+  <data name="ErrorStartTimeIsBeforeTodaysDate" xml:space="preserve">
+    <value>Cannot create an event in the past.</value>
+  </data>
   <data name="ErrorTitleNotSet" xml:space="preserve">
     <value>Title cannot be empty.</value>
   </data>
@@ -191,6 +197,15 @@
   </data>
   <data name="NotificationEventPastText" xml:space="preserve">
     <value>d</value>
+  </data>
+  <data name="NotificationNowEvent" xml:space="preserve">
+    <value>From {0}</value>
+  </data>
+  <data name="NotificationPastEvent" xml:space="preserve">
+    <value>This {0} happen {1} min ago. From {2}</value>
+  </data>
+  <data name="NotificationPressentEvent" xml:space="preserve">
+    <value>This {0} will happen in {1} min. From {2}</value>
   </data>
   <data name="November" xml:space="preserve">
     <value>November</value>

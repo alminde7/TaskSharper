@@ -41,7 +41,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                     {
                         { "Type", "Task" }
                     }
-                }
+                },
+                Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test"}
             };
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
@@ -63,7 +64,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                     {
                         { "Type", "Appointment" }
                     }
-                }
+                },
+                Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test" }
             };
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
@@ -77,7 +79,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             var parsed = Helpers.GoogleEventParser(new GoogleEvent()
             {
                 Start = new EventDateTime() { DateTime = DateTime.Today },
-                End = new EventDateTime() { DateTime = DateTime.Today }
+                End = new EventDateTime() { DateTime = DateTime.Today },
+                Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test" }
             });
 
             Assert.That(parsed.Type, Is.EqualTo(EventType.None));
@@ -96,7 +99,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                     {
                         { "Type", "InvalidString" }
                     }
-                }
+                },
+                Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test" }
             };
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
@@ -112,10 +116,11 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                 Start = new EventDateTime() { DateTime = DateTime.Today },
                 End = new EventDateTime() { DateTime = DateTime.Today },
                 Reminders =
-                    new GoogleEvent.RemindersData()
-                    {
-                        Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
-                    }
+                new GoogleEvent.RemindersData()
+                {
+                    Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
+                },
+                Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test" }
             };
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
@@ -131,10 +136,11 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                 Start = new EventDateTime() { DateTime = DateTime.Today },
                 End = new EventDateTime() { DateTime = DateTime.Today },
                 Reminders =
-                    new GoogleEvent.RemindersData()
-                    {
-                        Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
-                    }
+                new GoogleEvent.RemindersData()
+                {
+                    Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
+                },
+                Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test" }
             };
 
             var parsed = Helpers.GoogleEventParser(googleEvent);
@@ -161,7 +167,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                         {
                             {"Type", "Task"}
                         }
-                    }
+                    },
+                    Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test"}
                 }
             };
 
@@ -185,7 +192,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                         {
                             { "Type", "Appointment" }
                         }
-                    }
+                    },
+                    Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test"}
                 }
             };
 
@@ -200,7 +208,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
             var parsed = Helpers.GoogleEventParser(new List<GoogleEvent>(){new GoogleEvent()
             {
                 Start = new EventDateTime() { DateTime = DateTime.Today },
-                End = new EventDateTime() { DateTime = DateTime.Today }
+                End = new EventDateTime() { DateTime = DateTime.Today },
+                Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test"}
             }});
 
             Assert.That(parsed.First().Type, Is.EqualTo(EventType.None));
@@ -221,7 +230,8 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                         {
                             { "Type", "InvalidString" }
                         }
-                    }
+                    },
+                    Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test"}
                 }
             };
 
@@ -240,10 +250,11 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                     Start = new EventDateTime() { DateTime = DateTime.Today },
                     End = new EventDateTime() { DateTime = DateTime.Today },
                     Reminders =
-                        new GoogleEvent.RemindersData()
-                        {
-                            Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
-                        }
+                    new GoogleEvent.RemindersData()
+                    {
+                        Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
+                    },
+                    Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test"}
                 }
             };
 
@@ -262,10 +273,11 @@ namespace TaskSharper.DataAccessLayer.Test.Unit
                     Start = new EventDateTime() { DateTime = DateTime.Today },
                     End = new EventDateTime() { DateTime = DateTime.Today },
                     Reminders =
-                        new GoogleEvent.RemindersData()
-                        {
-                            Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
-                        }
+                    new GoogleEvent.RemindersData()
+                    {
+                        Overrides = new List<EventReminder>() { new EventReminder() { Minutes = 10 } }
+                    },
+                    Organizer = new GoogleEvent.OrganizerData { Id = "1", Email = "Test", DisplayName = "Test"}
                 }
             };
 

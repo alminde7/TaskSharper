@@ -30,7 +30,7 @@ namespace TaskSharper.Service.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Get(string id)
         {
-            if (string.IsNullOrEmpty(id)) return Content(HttpStatusCode.BadRequest, "Invalid id");
+            if (string.IsNullOrEmpty(id)) return BadRequest("Invalid id");
 
             try
             {
@@ -39,7 +39,7 @@ namespace TaskSharper.Service.Controllers
                 {
                     throw new KeyNotFoundException();
                 }
-                return Content(HttpStatusCode.OK, calEvent);
+                return Ok(calEvent);
             }
             catch (HttpRequestException e)
             {
@@ -64,13 +64,13 @@ namespace TaskSharper.Service.Controllers
         public async Task<IHttpActionResult> Get(DateTime from, DateTime to)
         {
             if (!IsValidTimespan(from, to))
-                return Content(HttpStatusCode.BadRequest, "'To' date must be later than 'from' date");
+                return BadRequest("'To' date must be later than 'from' date");
 
             try
             {
                 var data = await _eventManager.GetEventsAsync(from, to);
                 var appointments = data.Where(e => e.Type == EventType.Appointment);
-                return Content(HttpStatusCode.OK, appointments);
+                return Ok(appointments);
             }
             catch (HttpRequestException e)
             {
@@ -89,9 +89,9 @@ namespace TaskSharper.Service.Controllers
         public async Task<IHttpActionResult> Post(EventDto calEvent)
         {
             if (!IsValidTimespan(calEvent.Start, calEvent.End))
-                return Content(HttpStatusCode.BadRequest, "Invalid timespan");
+                return BadRequest("Invalid timespan");
             if (string.IsNullOrWhiteSpace(calEvent.Title))
-                return Content(HttpStatusCode.BadRequest, "No title provided");
+                return BadRequest("No title provided");
 
             try
             {
@@ -107,7 +107,7 @@ namespace TaskSharper.Service.Controllers
                 };
 
                 var createdEvent = await _eventManager.CreateEventAsync(newEvent);
-                return Content(HttpStatusCode.Created, createdEvent);
+                return Created("/api/appointments/" + createdEvent.Id, createdEvent);
             }
             catch (HttpRequestException e)
             {
@@ -128,7 +128,7 @@ namespace TaskSharper.Service.Controllers
             try
             {
                 var updatedEvent = await _eventManager.UpdateEventAsync(calEvent);
-                return Content(HttpStatusCode.Created, updatedEvent);
+                return Created("/api/appointments/" + updatedEvent.Id, updatedEvent);
             }
             catch (HttpRequestException e)
             {
@@ -146,6 +146,9 @@ namespace TaskSharper.Service.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(string id, string calendarId)
         {
+            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(calendarId))
+                return BadRequest("Invalid id or calendarId");
+
             try
             {
                 await _eventManager.DeleteEventAsync(id, calendarId);
@@ -165,7 +168,7 @@ namespace TaskSharper.Service.Controllers
 
         private bool IsValidTimespan(DateTime from, DateTime to)
         {
-            if ((from - to).Ticks > 0) return false;
+            if ((to - from).Ticks <= 0) return false;
             return true;
         }
     }

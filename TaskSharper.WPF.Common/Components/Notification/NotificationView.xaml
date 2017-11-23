@@ -61,6 +61,18 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button"  x:Key="CompleteTaskButton">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Background" Value="#5AA1E3" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding NotificationEventType}" Value="Task">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -79,6 +91,7 @@
                     <Viewbox Width="50" Height="60"  Margin="5">
                         <fa:ImageAwesome Icon="{Binding Category}" Foreground="CornflowerBlue" />
                     </Viewbox>
+                    <Button Style="{StaticResource CompleteTaskButton}" Height="40" Content="{lex:Loc Completed}" Command="{Binding CompleteTaskCommand}" ></Button>
                     <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="{lex:Loc Close}"  Command="{Binding CloseNotificationCommand}"></Button>
                 </StackPanel>
             </Border>

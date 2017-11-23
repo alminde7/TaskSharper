@@ -195,6 +195,9 @@
   <data name="NoConnectionMessage" xml:space="preserve">
     <value>Not able to establish connection to the server</value>
   </data>
+  <data name="NotificationNowEvent" xml:space="preserve">
+    <value>From {0}</value>
+  </data>
   <data name="NotificationPastEvent" xml:space="preserve">
     <value>This {0} happen {1} min ago</value>
   </data>
