@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E329AF7F-27B3-46EF-80A4-D7993B662CAD}</ProjectGuid>
+    <ProjectGuid>{65925425-E77F-40A0-9A46-28E406A1D6B2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaskSharper.Domain</RootNamespace>
-    <AssemblyName>TaskSharper.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>TaskSharper.Configuration</RootNamespace>
+    <AssemblyName>TaskSharper.Configuration</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,7 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,35 +44,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLayer\IEventManager.cs" />
-    <Compile Include="Cache\ICacheStore.cs" />
-    <Compile Include="Cache\IEventCache.cs" />
-    <Compile Include="Cache\IEventCategoryCache.cs" />
-    <Compile Include="Calendar\Event.cs" />
-    <Compile Include="Calendar\EventCategory.cs" />
-    <Compile Include="Calendar\EventStatus.cs" />
-    <Compile Include="Calendar\EventType.cs" />
-    <Compile Include="Calendar\IAppointmentRestClient.cs" />
-    <Compile Include="Calendar\ICalendarService.cs" />
-    <Compile Include="Calendar\IEventRestClient.cs" />
-    <Compile Include="Calendar\IStatusRestClient.cs" />
-    <Compile Include="Calendar\ITaskRestClient.cs" />
-    <Compile Include="Configuration\AppointmentsSettings.cs" />
-    <Compile Include="Configuration\CacheSettings.cs" />
-    <Compile Include="Configuration\ClientSettings.cs" />
-    <Compile Include="Configuration\ElasticsearchConfig.cs" />
-    <Compile Include="Configuration\LoggingSettings.cs" />
-    <Compile Include="Configuration\NotificationSettings.cs" />
-    <Compile Include="Configuration\ServiceSettings.cs" />
-    <Compile Include="Configuration\TasksSettings.cs" />
-    <Compile Include="Notification\INotification.cs" />
-    <Compile Include="Notification\INotificationClient.cs" />
-    <Compile Include="Notification\INotificationPublisher.cs" />
+    <Compile Include="Config\ClientConfig.cs" />
+    <Compile Include="Config\LoggingConfig.cs" />
+    <Compile Include="Settings\ClientSettingsHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestDTO\EventDto.cs" />
-    <Compile Include="ServerEvents\GettingExternalDataEvent.cs" />
-    <Compile Include="ServerEvents\MissingConnectionEvent.cs" />
+    <Compile Include="Config\ServiceConfig.cs" />
+    <Compile Include="Settings\LoggingSettingsHandler.cs" />
+    <Compile Include="Settings\ServiceSettingsHandler.cs" />
+    <Compile Include="Settings\SettingsHandler.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
+      <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
+      <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Shared\TaskSharper.Shared.csproj">
+      <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>
+      <Name>TaskSharper.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

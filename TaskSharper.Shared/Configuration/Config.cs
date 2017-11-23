@@ -15,6 +15,8 @@ namespace TaskSharper.Shared.Configuration
 
         public static readonly string TaskSharperLogStore = SetupFileSystem.GetLogPath();
 
+        public static readonly string TaskSharperConfigStore = SetupFileSystem.GetConfigPath();
+
     }
 
     public class SetupFileSystem
@@ -53,6 +55,18 @@ namespace TaskSharper.Shared.Configuration
             }
 
             return pathToLog;
+        }
+
+        public static string GetConfigPath()
+        {
+            var pathToConfig = Path.Combine(SetupBasePath(), "Config");
+
+            if (!Directory.Exists(pathToConfig))
+            {
+                Directory.CreateDirectory(pathToConfig);
+            }
+
+            return pathToConfig;
         }
     }
 }

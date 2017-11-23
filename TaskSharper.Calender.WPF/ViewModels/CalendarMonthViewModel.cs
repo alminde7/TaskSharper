@@ -310,7 +310,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 // Internal server error
                 return null;
-
             }
             catch (Exception e)
             {

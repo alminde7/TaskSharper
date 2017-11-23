@@ -6,12 +6,12 @@ using Microsoft.Practices.Unity;
 using Serilog;
 using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
+using TaskSharper.Configuration.Config;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
-using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Notification;
 using TaskSharper.Service.Hubs;
@@ -37,9 +37,12 @@ namespace TaskSharper.Service.Config
 
         private static void RegisterTypes(IUnityContainer container)
         {
-            // Create logger
-            var logger = LogConfiguration.ConfigureAPI();
+            var logSettings = LoggingConfig.Get();
 
+            // Create logger
+            var logger = LogConfiguration.ConfigureAPI(logSettings);
+            Log.Logger = logger;
+            
             // Create Google Authentication object
             var googleService = new CalendarService(new BaseClientService.Initializer()
             {
@@ -54,18 +57,14 @@ namespace TaskSharper.Service.Config
             container.RegisterType<IEventCategoryCache, EventCategoriesCache>(new ContainerControlledLifetimeManager());
             container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>();
 
-            container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI()));
+            container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI(logSettings)));
 
             //Create Notification object
-            var notificationObject = new EventNotification(new List<int>() { -15, -5, 0, 5, 10, 15 }, logger, container.Resolve<INotificationPublisher>());
+            var notificationObject = new EventNotification(new List<int>() { -15,-5,0,5,10,15 }, logger, container.Resolve<INotificationPublisher>());
 
             container.RegisterInstance(typeof(CalendarService), googleService);
             //container.RegisterInstance(typeof(ILogger), logger);
             container.RegisterInstance(typeof(INotification), notificationObject);
-
-            container.RegisterInstance(typeof(ICacheConfiguration), new CacheConfiguration());
-            container.RegisterInstance(typeof(ILoggingConfiguration), new LoggingConfiguration());
-            container.RegisterInstance(typeof(INotificationConfiguration), new NotificationConfiguration());
         }
     }
 }
