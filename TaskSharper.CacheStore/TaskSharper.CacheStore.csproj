@@ -49,6 +49,8 @@
     <Compile Include="CacheData.cs" />
     <Compile Include="EventCategoriesCache.cs" />
     <Compile Include="EventCache.cs" />
+    <Compile Include="NullCache\NullEventCache.cs" />
+    <Compile Include="NullCache\NullEventCategoryCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

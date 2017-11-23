@@ -16,7 +16,13 @@ namespace TaskSharper.Configuration.Settings
                 using (StreamReader file = File.OpenText(FilePath))
                 {
                     var jsonString = await file.ReadToEndAsync();
-                    model = JsonConvert.DeserializeObject<T>(jsonString);
+                    model = JsonConvert.DeserializeObject<T>(jsonString, new JsonSerializerSettings()
+                    {
+                        // https://stackoverflow.com/questions/29113063/json-net-why-does-it-add-to-list-instead-of-overwriting
+                        // Settings this will replace all values in object instead of appending to it. 
+                        // Needed because of lists.
+                        ObjectCreationHandling = ObjectCreationHandling.Replace
+                    });
                 }
                 return model;
             }

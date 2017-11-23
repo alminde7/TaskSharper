@@ -28,7 +28,8 @@ namespace TaskSharper.Service.Middleware
             }
             catch (Exception)
             {
-                // Do nothing - dont break the pipeline
+                // Should not ever throw, however if it does, we will not break the request pipeline.
+                // The correlationId is less important than the customer experience.
             }
             
             await Next.Invoke(context);
