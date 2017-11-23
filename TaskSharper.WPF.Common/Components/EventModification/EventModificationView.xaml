@@ -47,14 +47,14 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Title}" />
-                    <TextBox Text="{Binding Event.Title}" Width="200" Margin="0,0,0,10"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding TitleErrorMessage}" Foreground="Red"/>
+                    <TextBox x:Name="TitleTextBox" Text="{Binding Event.Title}" Width="200" Margin="0,0,0,10"/>
+                    <TextBlock x:Name="TitleErrorTextBox" HorizontalAlignment="Center" Text="{Binding TitleErrorMessage}" Foreground="Red"/>
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Description}" />
-                    <TextBox Text="{Binding Event.Description}" Width="200" Height="180" Margin="0,0,0,10" TextWrapping="Wrap" />
+                    <TextBox x:Name="DescriptionTextBox" Text="{Binding Event.Description}" Width="200" Height="180" Margin="0,0,0,10" TextWrapping="Wrap" />
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
-                    <dateTimePicker:DateTimePickerView Date="{Binding Event.Start, Mode=TwoWay}" />
+                    <dateTimePicker:DateTimePickerView x:Name="StartTimePicker" Date="{Binding Event.Start, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="50,0,0,0">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Type}" />
@@ -90,9 +90,9 @@
                     </StackPanel>
 
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
-                    <dateTimePicker:DateTimePickerView Date="{Binding Event.End, Mode=TwoWay}" />
+                    <dateTimePicker:DateTimePickerView x:Name="EndTimePicker" Date="{Binding Event.End, Mode=TwoWay}" />
 
-                    <TextBlock Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>
+                    <TextBlock x:Name="DateTimeErrorTextBox" Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>
                 </StackPanel>
                 <StackPanel Margin="30,0,0,0">
                     <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Category}" />

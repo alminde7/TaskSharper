@@ -89,8 +89,8 @@
             <Button x:Name="BackButton" Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentBtnStyle}">
                 <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
             </Button>
-            <Viewbox Grid.Row="0" Grid.Column="1">
-                <Label Content="{lex:Loc Appointments}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Viewbox x:Name="ApplicationTitleViewBox" Grid.Row="0" Grid.Column="1">
+                <Label x:Name="ApplicationTitle" Content="{lex:Loc Appointments}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>
 
             <Border Padding="10" Grid.Row="1" Grid.Column="1"  BorderBrush="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" BorderThickness="2" CornerRadius="4">
