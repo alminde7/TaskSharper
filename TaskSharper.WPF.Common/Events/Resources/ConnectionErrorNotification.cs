@@ -9,7 +9,6 @@ namespace TaskSharper.WPF.Common.Events.Resources
             Title = Properties.Resources.NoConnection;
             Message = Properties.Resources.NoConnectionMessage;
             NotificationType = NotificationTypeEnum.Error;
-            Category = new EventCategory() {Id = "", Name = ""};
         }
     }
 }

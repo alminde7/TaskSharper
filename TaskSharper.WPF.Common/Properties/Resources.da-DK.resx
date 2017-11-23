@@ -204,11 +204,14 @@
   <data name="NoConnectionMessage" xml:space="preserve">
     <value>Det var ikke muligt at oprettet forbindelse til serveren. </value>
   </data>
+  <data name="NotificationNowEvent" xml:space="preserve">
+    <value>Fra {0}</value>
+  </data>
   <data name="NotificationPastEvent" xml:space="preserve">
-    <value>Denne {0} fandt sted for  {1} min siden.</value>
+    <value>Denne {0} fandt sted for  {1} min siden. Fra {2} </value>
   </data>
   <data name="NotificationPressentEvent" xml:space="preserve">
-    <value>Denne {0} finder sted om  {1} min</value>
+    <value>Denne {0} finder sted om  {1} min Fra {2}</value>
   </data>
   <data name="November" xml:space="preserve">
     <value>November</value>

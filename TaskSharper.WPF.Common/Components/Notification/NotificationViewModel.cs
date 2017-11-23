@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.WPF.Common.Config;
 using TaskSharper.WPF.Common.Events;
@@ -25,10 +26,15 @@ namespace TaskSharper.WPF.Common.Components.Notification
         private string _category;
         private IEventAggregator _eventAggregator;
         private NotificationTypeEnum _notificationType;
+        private Event _event;
+        private readonly IEventRestClient _dataService;
+        private readonly ILogger _logger;
         private bool _spinnerVisible;
         private CultureInfo _culture;
 
         public DelegateCommand CloseNotificationCommand { get; set; }
+
+        public DelegateCommand CompleteTaskCommand { get; set; }
 
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
 
@@ -42,6 +48,12 @@ namespace TaskSharper.WPF.Common.Components.Notification
         {
             get => _notificationEventType;
             set => SetProperty(ref _notificationEventType, value);
+        }
+
+        public Event NotificationEvent
+        {
+            get => _event;
+            set => SetProperty(ref _event, value);
         }
 
         public string NotificationTitle
@@ -77,13 +89,16 @@ namespace TaskSharper.WPF.Common.Components.Notification
             set => SetProperty(ref _notificationType, value);
         }
 
-        public NotificationViewModel(IEventAggregator eventAggregator)
+        public NotificationViewModel(IEventAggregator eventAggregator, ILogger logger, IEventRestClient dataService)
         {
             IsPopupOpen = false;
             _eventAggregator = eventAggregator;
+            _dataService = dataService;
+            _logger = logger;
             _eventAggregator.GetEvent<NotificationEvent>().Subscribe(HandleNotificationEvent);
             eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(UpdateCultureHandler);
             CloseNotificationCommand = new DelegateCommand(ClosePopUp);
+            CompleteTaskCommand = new DelegateCommand(CompleteTask);
         }
 
         private void UpdateCultureHandler()
@@ -115,8 +130,21 @@ namespace TaskSharper.WPF.Common.Components.Notification
             }
             else
             {
-                await ShowNotification(notification);
+                if(!notification.Event.MarkedAsDone)
+                {
+                    await ShowNotification(notification);
+                }
             }
+        }
+
+        private void CompleteTask()
+        {
+            if(NotificationEvent != null)
+            NotificationEvent.MarkedAsDone = true;
+
+            _dataService.UpdateAsync(NotificationEvent);
+
+            ClosePopUp();
         }
 
         private void ClosePopUp()
@@ -130,54 +158,80 @@ namespace TaskSharper.WPF.Common.Components.Notification
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             NotificationTitle = notification.Title;
             NotificationMessage = notification.Message;
-            NotificationEventType = notification.Type.ToString();
+            NotificationEventType = notification.Event.Type.ToString();
             NotificationType = notification.NotificationType;
-            if (notification.Category != null)
+            NotificationEvent = notification.Event;
+
+            if (notification.Event.Category != null)
             {
-                Category = CategoryToIconConverter.ConvertToFontAwesomeIcon(notification.Category.Name,
-                    notification.Type);
+                Category = CategoryToIconConverter.ConvertToFontAwesomeIcon(notification.Event.Category.Name,
+                    notification.Event.Type);
             }
             else
             {
                 Category = "Info";
             }
 
-            if (notification.Start != null)
+            if (notification.Event.Start != null)
             {
-                string dateTimeMin = "";
-                if (DateTime.Now > notification.Start.Value)
+                if (notification.Event.End != null)
                 {
-                    TimeSpan substractedDateTime = DateTime.Now.Subtract(notification.Start.Value);
-                    dateTimeMin = new DateTime(substractedDateTime.Ticks).ToString("mm");
-                    if (dateTimeMin.StartsWith("0"))
-                        dateTimeMin = dateTimeMin.TrimStart('0');
+                    var startToEndTime = notification.Event.Start.Value.ToString("HH:mm") + "-" +
+                                         notification.Event.End.Value.ToString("HH:mm");
 
-                    var textFormat = LocalizeDictionary.Instance
-                        .GetLocalizedObject("NotificationPastEvent", null, LocalizeDictionary.Instance.Culture)
-                        .ToString();
-                    NotificationStart = string.Format(textFormat, NotificationEventType.ToLower(),
-                        dateTimeMin);
+                    if (DateTime.Now.Minute == notification.Event.Start.Value.Minute)
+                    {
+                        var textFormat = LocalizeDictionary.Instance
+                            .GetLocalizedObject("NotificationNowEvent", null, LocalizeDictionary.Instance.Culture)
+                            .ToString();
+
+                        NotificationStart = string.Format(textFormat, startToEndTime);
+                    }
+                    else
+                    {
+                        var dateTimeMin = "";
+                        if (DateTime.Now > notification.Event.Start.Value)
+                        {
+                            TimeSpan substractedDateTime = DateTime.Now.Subtract(notification.Event.Start.Value);
+                            dateTimeMin = new DateTime(substractedDateTime.Ticks).ToString("mm");
+                            if (dateTimeMin.StartsWith("0"))
+                                dateTimeMin = dateTimeMin.TrimStart('0');
+
+                            var textFormat = LocalizeDictionary.Instance
+                                .GetLocalizedObject("NotificationPastEvent", null, LocalizeDictionary.Instance.Culture)
+                                .ToString();
+                            NotificationStart = string.Format(textFormat, NotificationEventType.ToLower(),
+                                dateTimeMin, startToEndTime);
+                        }
+                        else if (DateTime.Now < notification.Event.Start.Value)
+                        {
+                            TimeSpan substractedDateTime = notification.Event.Start.Value.Subtract(DateTime.Now);
+                            dateTimeMin = new DateTime(substractedDateTime.Ticks).AddMinutes(1).ToString("mm");
+                            if (dateTimeMin.StartsWith("0"))
+                                dateTimeMin = dateTimeMin.TrimStart('0');
+
+                            var textFormat = LocalizeDictionary.Instance
+                                .GetLocalizedObject("NotificationPressentEvent", null, LocalizeDictionary.Instance.Culture)
+                                .ToString();
+                            NotificationStart = string.Format(textFormat, NotificationEventType.ToLower(), dateTimeMin, startToEndTime);
+                        }
+                    }
                 }
-                else
-                {
-                    TimeSpan substractedDateTime = notification.Start.Value.Subtract(DateTime.Now);
-                    dateTimeMin = new DateTime(substractedDateTime.Ticks).AddMinutes(1).ToString("mm");
-                    if (dateTimeMin.StartsWith("0"))
-                        dateTimeMin = dateTimeMin.TrimStart('0');
-
-                    var textFormat = LocalizeDictionary.Instance
-                        .GetLocalizedObject("NotificationPastEvent", null, LocalizeDictionary.Instance.Culture)
-                        .ToString();
-                    NotificationStart = string.Format(textFormat, NotificationEventType.ToLower(), dateTimeMin);
-                }   
             }
             IsPopupOpen = true;
             System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                var path = "Media/WindowsNotifyCalendar.wav";
+                var path = AppDomain.CurrentDomain.BaseDirectory + "/Media/WindowsNotifyCalendar.wav";
                 SoundPlayer notificationSound = new SoundPlayer(path);
-                notificationSound.Load();
-                notificationSound.Play();
+                try
+                {
+                    notificationSound.Load();
+                    notificationSound.Play();
+                }
+                catch (Exception e)
+                {
+                    _logger.ForContext("Error", typeof(NotificationViewModel)).Information("An error occured when trying to play notification sound: {0}", e.Message);
+                }
             });
 
             return Task.CompletedTask;
