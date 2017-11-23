@@ -322,7 +322,16 @@ namespace TaskSharper.WPF.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This {0} happen {1} min ago.
+        ///   Looks up a localized string similar to From {0}.
+        /// </summary>
+        public static string NotificationNowEvent {
+            get {
+                return ResourceManager.GetString("NotificationNowEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This {0} happen {1} min ago. From {2}.
         /// </summary>
         public static string NotificationPastEvent {
             get {
@@ -331,7 +340,7 @@ namespace TaskSharper.WPF.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This {0} will happen in {1} min.
+        ///   Looks up a localized string similar to This {0} will happen in {1} min. From {2}.
         /// </summary>
         public static string NotificationPressentEvent {
             get {

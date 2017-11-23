@@ -198,6 +198,15 @@
   <data name="NotificationEventPastText" xml:space="preserve">
     <value>d</value>
   </data>
+  <data name="NotificationNowEvent" xml:space="preserve">
+    <value>From {0}</value>
+  </data>
+  <data name="NotificationPastEvent" xml:space="preserve">
+    <value>This {0} happen {1} min ago. From {2}</value>
+  </data>
+  <data name="NotificationPressentEvent" xml:space="preserve">
+    <value>This {0} will happen in {1} min. From {2}</value>
+  </data>
   <data name="November" xml:space="preserve">
     <value>November</value>
   </data>
