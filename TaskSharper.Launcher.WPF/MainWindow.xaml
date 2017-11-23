@@ -14,17 +14,17 @@
         </Grid.RowDefinitions>
         
         <UniformGrid Grid.Row="1" Rows="1" Margin="20">
-            <Button Margin="5" Click="OnCalendarClick">
+            <Button x:Name="CalendarApplicationButton" Margin="5" Click="OnCalendarClick">
                 <Viewbox Margin="10">
                     <TextBlock Text="Calendar"></TextBlock>
                 </Viewbox>
             </Button>
-            <Button Margin="5" Click="OnAppointmentsClick">
+            <Button x:Name="AppointmentApplicationButton" Margin="5" Click="OnAppointmentsClick">
                 <Viewbox Margin="10">
                     <TextBlock Text="Appointments"></TextBlock>
                 </Viewbox>
             </Button>
-            <Button Margin="5" Click="OnTasksClick">
+            <Button x:Name="TaskApplicationButton" Margin="5" Click="OnTasksClick">
                 <Viewbox Margin="10">
                     <TextBlock Text="Tasks"></TextBlock>
                 </Viewbox>
