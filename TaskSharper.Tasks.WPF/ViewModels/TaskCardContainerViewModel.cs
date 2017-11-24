@@ -96,11 +96,11 @@ namespace TaskSharper.Tasks.WPF.ViewModels
                 await UpdateView();
                 IsTaskSelected = false;
             }
-            catch (ConnectionException e)
+            catch (ConnectionException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
             }
@@ -120,11 +120,11 @@ namespace TaskSharper.Tasks.WPF.ViewModels
                 var result = await _dataService.GetAsync(start, end);
                 events = result.ToList();
             }
-            catch (ConnectionException e)
+            catch (ConnectionException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
             }

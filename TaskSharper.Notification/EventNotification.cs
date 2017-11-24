@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Timers;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Configuration.Notification;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Shared.Extensions;
 
@@ -12,18 +13,18 @@ namespace TaskSharper.Notification
     public class EventNotification : INotification
     {
         public ILogger Logger { get; set; }
-        public IEnumerable<int> NotificationOffsets { get; set; }
+        public NotificationSettings NotificationSettings { get; set; }
         public INotificationPublisher NotificationPublisher { get; }
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
         private Timer DailyCleanUpTimer { get; set; }
 
-        public EventNotification(IEnumerable<int> notificationOffsets, ILogger logger, INotificationPublisher notificationPublisher)
+        public EventNotification(NotificationSettings settings, ILogger logger, INotificationPublisher notificationPublisher)
         {
             EventNotifications = new ConcurrentDictionary<string, IList<NotificationObject>>();
             Logger = logger.ForContext<EventNotification>();
 
-            NotificationOffsets = notificationOffsets;
+            NotificationSettings = settings;
             NotificationPublisher = notificationPublisher;
             
             DailyCleanUpTimer = new Timer()
@@ -69,14 +70,21 @@ namespace TaskSharper.Notification
             // If event has been completed, do not add. 
             if (calEvent.Status == EventStatus.Completed || calEvent.Status == EventStatus.Cancelled || calEvent.MarkedAsDone) return;
 
+            // Check whether notification for the specific event type is enabled
+            if (!IsNotificationsEnabled(calEvent, NotificationSettings)) return;
+
             var notificationList = new List<NotificationObject>();
+
+            // Get notification offsets based on the event type.
+            var notificationOffsets = GetNotificationOffsetsForEventType(calEvent.Type, NotificationSettings);
             
-            if (NotificationOffsets != null)
+            if (notificationOffsets != null)
             {
-                foreach (var notificationOffset in NotificationOffsets)
+                foreach (var notificationOffset in notificationOffsets)
                 {
-                    if (calEvent.Start.Value + TimeSpan.FromMinutes(notificationOffset) < DateTime.Now) continue; // Notification time is in the past - no reason to add notification
-                    if (calEvent.Start.Value > DateTime.Now.AddDays(20)) continue; // later than 20 days in future is not allowed.
+                    if (NotificationIsInThePast(calEvent.Start.Value + TimeSpan.FromMinutes(notificationOffset))) continue;
+
+                    if (NotificationIsToLongInTheFuture(calEvent.Start.Value)) continue; 
 
                     var obj = CreateNotification(calEvent, calEvent.Start.Value.AddMinutes(notificationOffset));
                     notificationList.Add(obj);
@@ -139,5 +147,50 @@ namespace TaskSharper.Notification
             var timeToFire = (notificationTime - DateTime.Now).TotalMilliseconds;
             return Math.Abs(timeToFire);
         } // Calculated in milliseconds
+
+        private List<int> GetNotificationOffsetsForEventType(EventType type, NotificationSettings settings)
+        {
+            switch (type)
+            {
+                case EventType.None:
+                    return settings.NoneType.NotificationOffsets;
+                case EventType.Appointment:
+                    return settings.Appointments.NotificationOffsets;
+                case EventType.Task:
+                    return settings.Tasks.NotificationOffsets;
+                default:
+                    return null;
+            }
+        }
+
+        private bool NotificationIsInThePast(DateTime notificationTime)
+        {
+            return notificationTime < DateTime.Now;
+        }
+
+        private bool NotificationIsToLongInTheFuture(DateTime notificationTime)
+        {
+            // Hardcoded maximum of 20 days because of the limitation of an int. 
+            // Could use long, but a user will properbly use the application
+            // at some point during the 20 days, which mean that the notification
+            // will be updated.
+            return notificationTime > DateTime.Now.AddDays(20);
+        }
+
+        private bool IsNotificationsEnabled(Event calEvent, NotificationSettings setting)
+        {
+            switch (calEvent.Type)
+            {
+                case EventType.None:
+                    return setting.NoneType.EnableNoneTypetNotifications;
+                case EventType.Appointment:
+                    return setting.Appointments.EnableAppointmentNotifications;
+                case EventType.Task:
+                    return setting.Tasks.EnableTaskNotifications;
+                default:
+                    return true;
+            }
+        }
     }
+
 }

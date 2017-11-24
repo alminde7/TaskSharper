@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using Serilog;
-using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
 using TaskSharper.Shared.Exceptions;
-using Timer = System.Timers.Timer;
 
 namespace TaskSharper.Service.NotificationClient
 {
     public class NotificationClient : IDisposable, INotificationClient
     {
         private const string HubName = "NotificationHub";
-        private const string EventName = "EventNotification";
 
         private readonly IHubProxy _notificationHub;
         private readonly IHubConnectionProxy _connection;

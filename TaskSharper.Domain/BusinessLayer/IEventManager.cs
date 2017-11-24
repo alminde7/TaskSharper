@@ -24,7 +24,7 @@ namespace TaskSharper.Domain.BusinessLayer
         Task DeleteEventAsync(string id, string calendarId);
         Task<Event> CreateEventAsync(Event newEvent);
 
-        List<EventCategory> GetCategories();
-        Task<List<EventCategory>> GetCategoriesAsync();
+        IList<EventCategory> GetCategories();
+        Task<IList<EventCategory>> GetCategoriesAsync();
     }
 }

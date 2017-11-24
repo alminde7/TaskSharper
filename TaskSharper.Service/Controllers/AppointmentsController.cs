@@ -24,7 +24,7 @@ namespace TaskSharper.Service.Controllers
         public AppointmentsController(IEventManager eventManager, ILogger logger)
         {
             _eventManager = eventManager;
-            Logger = logger.ForContext<EventsController>();
+            Logger = logger.ForContext<AppointmentsController>();
         }
 
         [HttpGet]

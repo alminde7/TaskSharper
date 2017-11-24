@@ -14,15 +14,14 @@ namespace TaskSharper.Service.RestClient.Clients
         private readonly IRestClient _restClient;
         private readonly IRestRequestFactory _requestFactory;
         private readonly ILogger _logger;
-        private const string BaseUrl = "http://localhost:8000/api/";
         private const string Controller = "status";
 
-        public StatusRestClient(IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
+        public StatusRestClient(string serverUrl, IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
         {
             _restClient = restClient;
             _requestFactory = requestFactory;
             _logger = logger.ForContext<EventRestClient>();
-            _restClient.BaseUrl = new Uri(BaseUrl);
+            _restClient.BaseUrl = new Uri(serverUrl);
         }
 
         public async Task<bool> IsAliveAsync()

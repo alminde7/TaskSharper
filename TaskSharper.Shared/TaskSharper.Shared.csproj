@@ -83,6 +83,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
+      <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
+      <Name>TaskSharper.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

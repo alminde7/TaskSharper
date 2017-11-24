@@ -36,13 +36,8 @@ namespace TaskSharper.WPF.Common.Components.DateTimePicker
         }
 
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(object), typeof(DateTimePickerView), new PropertyMetadata(null, DatePropertyChanged));
-
-        private static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var s = 1;
-        }
-
+            DependencyProperty.Register("Date", typeof(object), typeof(DateTimePickerView), new PropertyMetadata(null));
+        
         private void SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedDate = ((Calendar)sender).SelectedDate.Value;

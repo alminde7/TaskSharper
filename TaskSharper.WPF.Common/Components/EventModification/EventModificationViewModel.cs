@@ -286,11 +286,11 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                             break;
                     }
                 }
-                catch (ConnectionException e)
+                catch (ConnectionException)
                 {
                     _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
                 }
-                catch (UnauthorizedAccessException e)
+                catch (UnauthorizedAccessException)
                 {
                     _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
                 }
@@ -353,11 +353,11 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                 var result = await _dataService.GetAsync();
                 categories = result.ToList();
             }
-            catch (ConnectionException e)
+            catch (ConnectionException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
             }
