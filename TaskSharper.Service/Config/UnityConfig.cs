@@ -7,7 +7,6 @@ using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
 using TaskSharper.CacheStore.NullCache;
 using TaskSharper.Configuration.Config;
-using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.BusinessLayer;
@@ -16,6 +15,7 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Notification;
+using TaskSharper.Notification.NullNofications;
 using TaskSharper.Service.Hubs;
 using TaskSharper.Shared.Logging;
 using Constants = TaskSharper.DataAccessLayer.Google.Constants;
@@ -83,7 +83,7 @@ namespace TaskSharper.Service.Config
         {
             if (settings.EnableNotifications)
             {
-                var notificationObject = new EventNotification(settings.Tasks.NotificationOffsets, container.Resolve<ILogger>(), container.Resolve<INotificationPublisher>());
+                var notificationObject = new EventNotification(settings, container.Resolve<ILogger>(), container.Resolve<INotificationPublisher>());
                 container.RegisterInstance(typeof(INotification), notificationObject);
             }
             else

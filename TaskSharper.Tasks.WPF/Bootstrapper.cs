@@ -60,7 +60,7 @@ namespace TaskSharper.Tasks.WPF
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
             Container.RegisterType<ITaskRestClient, EventRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, "tasks", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
-            Container.RegisterType<IStatusRestClient, StatusRestClient>();
+            Container.RegisterType<IStatusRestClient, StatusRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
 
             var hubConnectionClient = new HubConnectionProxy(clientSettings.NotificationServerUrl);
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);

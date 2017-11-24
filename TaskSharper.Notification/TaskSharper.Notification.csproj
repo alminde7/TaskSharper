@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="EventNotification.cs" />
     <Compile Include="NotificationObject.cs" />
-    <Compile Include="NullNotification.cs" />
+    <Compile Include="NullNofications\NullNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

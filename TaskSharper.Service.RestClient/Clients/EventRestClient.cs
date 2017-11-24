@@ -21,17 +21,15 @@ namespace TaskSharper.Service.RestClient.Clients
         private readonly IRestClient _restClient;
         private readonly IRestRequestFactory _requestFactory;
         private readonly ILogger _logger;
-        private readonly string _baseUrl;
         private readonly string _controller;
 
-        public EventRestClient(string resourceUrl, string controller, IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
+        public EventRestClient(string serverUrl, string controller, IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
         {
             _controller = controller;
             _restClient = restClient;
-            _baseUrl = resourceUrl;
             _requestFactory = requestFactory;
             _logger = logger.ForContext<EventRestClient>();
-            _restClient.BaseUrl = new Uri(_baseUrl);
+            _restClient.BaseUrl = new Uri(serverUrl);
         }
 
         public Event Get(string id)

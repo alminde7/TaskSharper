@@ -70,7 +70,7 @@ namespace TaskSharper.Calender.WPF
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
             Container.RegisterType<IEventRestClient, EventRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, "events", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
-            Container.RegisterType<IStatusRestClient, StatusRestClient>();
+            Container.RegisterType<IStatusRestClient, StatusRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
 
             var hubConnectionClient = new HubConnectionProxy(clientSettings.NotificationServerUrl);
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
