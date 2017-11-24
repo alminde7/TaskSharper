@@ -81,11 +81,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 SelectedEvent = await _calendarService.GetAsync(id);
             }
-            catch (ConnectionException e)
+            catch (ConnectionException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
                 SelectedEvent = new Event() {Type = EventType.None};

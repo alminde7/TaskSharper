@@ -9,7 +9,7 @@ namespace TaskSharper.Configuration.Settings
     {
         private object IOLock = new object();
         protected string FilePath;
-        public async Task<T> Load()
+        public T Load()
         {
             // https://www.newtonsoft.com/json/help/html/DeserializeWithJsonSerializerFromFile.htm
             try

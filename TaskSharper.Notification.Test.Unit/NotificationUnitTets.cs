@@ -15,7 +15,6 @@ namespace TaskSharper.Notification.Test.Unit
     public class NotificationUnitTets
     {
         private EventNotification _uut;
-        private IEnumerable<int> List;
         private INotificationPublisher _notificationPublisher;
         private ILogger _logger;
         private NotificationSettings _notificationSettings;
