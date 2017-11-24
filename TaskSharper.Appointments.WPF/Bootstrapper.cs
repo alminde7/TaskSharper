@@ -58,6 +58,7 @@ namespace TaskSharper.Appointments.WPF
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
+            Container.RegisterType<IEventRestClient, EventRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, "events", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IAppointmentRestClient, EventRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, "appointments", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IStatusRestClient, StatusRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
 
