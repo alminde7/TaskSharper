@@ -155,7 +155,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 var days = new Dictionary<DateTime, IList<Event>>();
                 var allDayEventDays = new Dictionary<DateTime, IList<Event>>();
                 var weekEvents = await _dataService.GetAsync(start, end);
-                if (weekEvents == null) return (days,allDayEventDays);
+                if (weekEvents == null) return (days, allDayEventDays);
 
                 var uniqueEvents = weekEvents.DistinctBy(x => x.Id).ToList();
 
@@ -175,7 +175,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                             }
                             else
                             {
-                                allDayEventDays.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                                allDayEventDays.Add(date.AddDays(i), new List<Event>() {weekEvent});
                             }
                         }
                         else
@@ -186,18 +186,23 @@ namespace TaskSharper.Calender.WPF.ViewModels
                             }
                             else
                             {
-                                days.Add(date.AddDays(i), new List<Event>() { weekEvent });
+                                days.Add(date.AddDays(i), new List<Event>() {weekEvent});
                             }
                         }
-                        
+
                     }
                 }
 
-                return (days,allDayEventDays);
+                return (days, allDayEventDays);
             }
             catch (ConnectionException e)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+                return (null, null);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
                 return (null, null);
             }
             catch (ArgumentException e)

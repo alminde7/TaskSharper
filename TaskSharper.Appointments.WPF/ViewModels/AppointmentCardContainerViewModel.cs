@@ -12,6 +12,9 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 using TaskSharper.WPF.Common.Events.ScrollEvents;
 using TaskSharper.WPF.Common.Events.ViewEvents;
 
@@ -84,9 +87,17 @@ namespace TaskSharper.Appointments.WPF.ViewModels
                 await UpdateView();
                 IsAppointmentSelected = false;
             }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+            }
             catch (Exception e)
             {
-                _logger.Error(e, "Error while deleting an appointment.");
+                _logger.Error(e, "Error while deleting an appointment");
             }
         }
 
@@ -94,7 +105,24 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         {
             var start = DateTime.Today.AddDays(-7).Date;
             var end = DateTime.Today.AddDays(7).Date;
-            var events = await _dataService.GetAsync(start, end);
+            var events = new List<Event>();
+            try
+            {
+                var result = await _dataService.GetAsync(start, end);
+                events = result.ToList();
+            }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error while getting appointments");
+            }
 
             AppointmentCards?.Clear();
             foreach (var @event in events.OrderBy(o => o.Start).ThenBy(o => o.End))

@@ -64,7 +64,7 @@
                 <TextBlock Text="{Binding Appointment.End, StringFormat=HH:mm}" HorizontalAlignment="Center"/>
             </StackPanel>
             <Viewbox Grid.Column="4" Margin="5" HorizontalAlignment="Right">
-                <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EditAppointmentCommand}">
+                <Button x:Name="EditButton" ToolTip="{Binding Appointment.Title}" Style="{StaticResource TransparentBtnStyle}" Command="{Binding EditAppointmentCommand}">
                     <fa:ImageAwesome Icon="Edit" Foreground="CornflowerBlue" />
                 </Button>
             </Viewbox>

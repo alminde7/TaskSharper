@@ -12,19 +12,31 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
+            <Viewbox Grid.Column="1">
+                <Label x:Name="WelcomeLabel" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+            </Viewbox>
+            <Viewbox Grid.Column="2" Margin="10">
+                <Button x:Name="LoginLogoutBtn" Click="LoginLogoutBtn_OnClick">Log in</Button>
+            </Viewbox>
+        </Grid>
         <UniformGrid Grid.Row="1" Rows="1" Margin="20">
-            <Button Margin="5" Click="OnCalendarClick">
+            <Button x:Name="CalendarApplicationButton" Margin="5" Click="OnCalendarClick">
                 <Viewbox Margin="10">
                     <TextBlock Text="Calendar"></TextBlock>
                 </Viewbox>
             </Button>
-            <Button Margin="5" Click="OnAppointmentsClick">
+            <Button x:Name="AppointmentApplicationButton" Margin="5" Click="OnAppointmentsClick">
                 <Viewbox Margin="10">
                     <TextBlock Text="Appointments"></TextBlock>
                 </Viewbox>
             </Button>
-            <Button Margin="5" Click="OnTasksClick">
+            <Button x:Name="TaskApplicationButton" Margin="5" Click="OnTasksClick">
                 <Viewbox Margin="10">
                     <TextBlock Text="Tasks"></TextBlock>
                 </Viewbox>

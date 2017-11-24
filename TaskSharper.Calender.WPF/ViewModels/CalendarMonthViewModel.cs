@@ -301,6 +301,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
                 return null;
             }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+                return null;
+            }
             catch (ArgumentException e)
             {
                 // Client error exception

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calender.WPF", "TaskSharper.Calender.WPF\TaskSharper.Calender.WPF.csproj", "{E7703189-AB75-42AD-A24C-7084FF9BCFA2}"
 EndProject
@@ -55,6 +55,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Service.RestClient.Test.Unit", "TaskSharper.Service.RestClient.Test.Unit\TaskSharper.Service.RestClient.Test.Unit.csproj", "{B5CD11F5-582F-4ACE-9F2A-0C8CCCB3B803}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.WPF.Common.Test.Unit", "TaskSharper.WPF.Common.Test.Unit\TaskSharper.WPF.Common.Test.Unit.csproj", "{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UITests", "UITests", "{D5B151ED-68BE-41E7-B570-801091AA2B0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Appointments.WPF.Test.UI", "TaskSharper.Appointments.WPF.Test.UI\TaskSharper.Appointments.WPF.Test.UI.csproj", "{D60706F2-287E-466F-8EAF-21C8AD08C7BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Launcher.WPF.Test.UI", "TaskSharper.Launcher.WPF.Test.UI\TaskSharper.Launcher.WPF.Test.UI.csproj", "{052051CD-EC17-4038-90AE-F06C57A21EB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,6 +156,14 @@ Global
 		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D60706F2-287E-466F-8EAF-21C8AD08C7BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D60706F2-287E-466F-8EAF-21C8AD08C7BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D60706F2-287E-466F-8EAF-21C8AD08C7BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D60706F2-287E-466F-8EAF-21C8AD08C7BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052051CD-EC17-4038-90AE-F06C57A21EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052051CD-EC17-4038-90AE-F06C57A21EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052051CD-EC17-4038-90AE-F06C57A21EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052051CD-EC17-4038-90AE-F06C57A21EB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +179,11 @@ Global
 		{4444EB61-5ABF-442C-9BE3-772AE768F099} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
 		{4044C93A-C605-4561-AB0D-375D4A05A9D7} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
 		{80B818AA-03C7-48F5-9F87-BD217FD8A3AF} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
+		{A607A5FC-3892-4B2F-9684-D16F70CF60AE} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
+		{B5CD11F5-582F-4ACE-9F2A-0C8CCCB3B803} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
+		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
+		{D60706F2-287E-466F-8EAF-21C8AD08C7BF} = {D5B151ED-68BE-41E7-B570-801091AA2B0B}
+		{052051CD-EC17-4038-90AE-F06C57A21EB2} = {D5B151ED-68BE-41E7-B570-801091AA2B0B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2610FE-FBAE-448B-ACAB-893FDB66EB45}
