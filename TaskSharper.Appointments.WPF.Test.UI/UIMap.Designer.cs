@@ -188,6 +188,19 @@ namespace TaskSharper.Appointments.WPF.Test.UI
             Mouse.Click(uIItemButton2, new Point(35, 30));
         }
         
+        /// <summary>
+        /// CloseAppointmentApplication
+        /// </summary>
+        public void CloseAppointmentApplication()
+        {
+            #region Variable Declarations
+            WpfButton uICloseApplicationButtButton = this.UITaskSharperAppointmeWindow.UICloseApplicationButtButton;
+            #endregion
+
+            // Click 'CloseApplicationButton' button
+            Mouse.Click(uICloseApplicationButtButton, new Point(85, 46));
+        }
+        
         #region Properties
         public virtual AssertTitleIsTestTitleExpectedValues AssertTitleIsTestTitleExpectedValues
         {
@@ -580,6 +593,22 @@ namespace TaskSharper.Appointments.WPF.Test.UI
                 return this.mUIAppointmentsText;
             }
         }
+        
+        public WpfButton UICloseApplicationButtButton
+        {
+            get
+            {
+                if ((this.mUICloseApplicationButtButton == null))
+                {
+                    this.mUICloseApplicationButtButton = new WpfButton(this);
+                    #region Search Criteria
+                    this.mUICloseApplicationButtButton.SearchProperties[WpfButton.PropertyNames.AutomationId] = "CloseApplicationButton";
+                    this.mUICloseApplicationButtButton.WindowTitles.Add("TaskSharperAppointments");
+                    #endregion
+                }
+                return this.mUICloseApplicationButtButton;
+            }
+        }
         #endregion
         
         #region Fields
@@ -592,6 +621,8 @@ namespace TaskSharper.Appointments.WPF.Test.UI
         private UIEndTimePickerCustom mUIEndTimePickerCustom;
         
         private UIAppointmentsText mUIAppointmentsText;
+        
+        private WpfButton mUICloseApplicationButtButton;
         #endregion
     }
     

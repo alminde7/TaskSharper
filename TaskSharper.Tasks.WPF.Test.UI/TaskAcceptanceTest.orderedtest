@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="OrderedUITests" storage="c:\users\mads x1 carbon\source\repos\tasksharper\tasksharper.tasks.wpf.test.ui\ordereduitests.orderedtest" id="f6d58583-325f-4133-89e5-5a291c40a08a" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="dc70ff57-d57e-b989-d833-9a46a94a4e50" name="OpenTaskApplication" storage="bin\debug\tasksharper.tasks.wpf.test.ui.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="6ad55757-0540-6006-2f10-c34260da0ab3" name="CreateTask_Success" storage="bin\debug\tasksharper.tasks.wpf.test.ui.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="f941ed8a-a281-b538-dc9b-bddbcb2ab97d" name="UpdateTask" storage="bin\debug\tasksharper.tasks.wpf.test.ui.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="7c8d10f2-b0dc-a787-22ff-996dfaae7a54" name="MarkTaskAsCompleted" storage="bin\debug\tasksharper.tasks.wpf.test.ui.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="a32cc835-e946-4c2d-a0d6-55f1766e08f0" name="MarkTaskAsIncomplete" storage="bin\debug\tasksharper.tasks.wpf.test.ui.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="4b4ace59-7bac-391b-555c-a408ae090f72" name="DeleteTask" storage="bin\debug\tasksharper.tasks.wpf.test.ui.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="6d0b3d55-c2be-99ef-b510-d08c6718d646" name="CloseTaskApplication" storage="bin\debug\tasksharper.tasks.wpf.test.ui.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

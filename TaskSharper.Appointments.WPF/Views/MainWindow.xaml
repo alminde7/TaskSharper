@@ -111,7 +111,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0"
+            <Button x:Name="CloseApplicationButton" Grid.Row="0"
                     Command="{Binding CloseApplicationCommand}"
                     Margin="2,2,2,0"
                     Style="{StaticResource TransparentBtnStyle}">
