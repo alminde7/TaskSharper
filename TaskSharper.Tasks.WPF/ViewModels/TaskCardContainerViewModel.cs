@@ -10,8 +10,11 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 using TaskSharper.WPF.Common.Events.ScrollEvents;
 using TaskSharper.WPF.Common.Events.ViewEvents;
 using TaskSharper.WPF.Common.Media;
@@ -93,9 +96,17 @@ namespace TaskSharper.Tasks.WPF.ViewModels
                 await UpdateView();
                 IsTaskSelected = false;
             }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+            }
             catch (Exception e)
             {
-                _logger.Error(e, "Error while deleting an appointment.");
+                _logger.Error(e, "Error while deleting a task");
             }
         }
 
@@ -103,7 +114,24 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         {
             var start = DateTime.Today.AddDays(-7).Date;
             var end = DateTime.Today.AddDays(7).Date;
-            var events = await _dataService.GetAsync(start, end);
+            var events = new List<Event>();
+            try
+            {
+                var result = await _dataService.GetAsync(start, end);
+                events = result.ToList();
+            }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error while getting tasks");
+            }
 
             TaskCards?.Clear();
             foreach (var @event in events.OrderBy(o => o.Start).ThenBy(o => o.End))

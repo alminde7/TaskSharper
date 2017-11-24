@@ -216,9 +216,7 @@
             
             
         </Grid>
-        <StackPanel Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Center" Margin="0,0,200,200" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0">
-            <notification:NotificationView></notification:NotificationView>
-        </StackPanel>
+        <notification:NotificationView Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Grid.Column="0"></notification:NotificationView>
         
     </Grid>
 </Window>

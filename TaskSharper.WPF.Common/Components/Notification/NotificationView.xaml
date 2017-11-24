@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskSharper.WPF.Common.Components.Notification"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="400"
                      
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
@@ -70,18 +69,12 @@
                 <DataTrigger Binding="{Binding NotificationEventType}" Value="Task">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
-                
+
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" ></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5"/>
-        </Grid.ColumnDefinitions>
-        <Popup Name="NotificationPopUp" Grid.Row="0" Grid.Column="0" IsOpen="{Binding IsPopupOpen}" StaysOpen="True">
+    <Popup Name="NotificationPopUp" IsOpen="{Binding IsPopupOpen}" StaysOpen="True" PlacementTarget="{Binding ElementName=MainPanel}"
+           Placement="Center">
             <Border BorderBrush="#5ca2e8" BorderThickness="1"
                     Background="AliceBlue">
                 <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
@@ -96,5 +89,4 @@
                 </StackPanel>
             </Border>
         </Popup>
-    </Grid>
 </UserControl>

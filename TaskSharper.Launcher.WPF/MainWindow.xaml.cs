@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
+using TaskSharper.DataAccessLayer.Google.Authentication;
+using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.Launcher.WPF
 {
@@ -15,6 +18,7 @@ namespace TaskSharper.Launcher.WPF
         private readonly string _pathToCalendarApp;
         private readonly string _pathToAppointmentsApp;
         private readonly string _pathToTasksApp;
+        public bool LoggedIn = false;
 
         public MainWindow()
         {
@@ -62,6 +66,13 @@ namespace TaskSharper.Launcher.WPF
                 File.Exists(_pathToCalendarApp))
             {
                 _allGood = true;
+                var credPath = Path.Combine(Shared.Configuration.Config.TaskSharperCredentialStore, "calendar.json");
+                LoggedIn = Directory.GetFiles(credPath, "*.TokenResponse-user").Length > 0;
+                LoginLogoutBtn.Content = LoggedIn ? "Log out" : "Log in";
+                WelcomeLabel.Content = LoggedIn ? "Welcome to TaskSharper!" : "Please login";
+                CalendarApplicationButton.IsEnabled = LoggedIn;
+                AppointmentApplicationButton.IsEnabled = LoggedIn;
+                TaskApplicationButton.IsEnabled = LoggedIn;
             }
             else
             {
@@ -93,6 +104,39 @@ namespace TaskSharper.Launcher.WPF
             {
                 var proc = Process.Start(_pathToTasksApp);
             }
+        }
+
+        private void LoginLogoutBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            var credPath = Path.Combine(Shared.Configuration.Config.TaskSharperCredentialStore, "calendar.json");
+            if (LoggedIn)
+            {
+                var tokenFiles = Directory.GetFiles(credPath, "*.TokenResponse-user");
+                if (tokenFiles.Length > 0)
+                {
+                    var fileToDelete = tokenFiles.FirstOrDefault();
+                    if (File.Exists(fileToDelete))
+                    {
+                        if (fileToDelete != null) File.Delete(fileToDelete);
+                    }
+                }
+                LoggedIn = false;
+            }
+            else
+            {
+                var authentication = new GoogleAuthentication(LogConfiguration.ConfigureWPF());
+                var credential = authentication.Authenticate();
+                if (credential.Token != null)
+                {
+                    LoggedIn = true;
+                }
+            }
+
+            LoginLogoutBtn.Content = LoggedIn ? "Log out" : "Log in";
+            WelcomeLabel.Content = LoggedIn ? "Welcome to TaskSharper!" : "Please login";
+            CalendarApplicationButton.IsEnabled = LoggedIn;
+            AppointmentApplicationButton.IsEnabled = LoggedIn;
+            TaskApplicationButton.IsEnabled = LoggedIn;
         }
     }
 }

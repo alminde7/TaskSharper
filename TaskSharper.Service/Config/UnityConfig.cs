@@ -42,26 +42,28 @@ namespace TaskSharper.Service.Config
         {
             // Create logger
             var logger = LogConfiguration.ConfigureAPI();
-
-            // Create Google Authentication object
-            var googleService = new CalendarService(new BaseClientService.Initializer()
-            {
-                ApplicationName = Constants.TaskSharper,
-                HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
-            });
-
+            
             container.RegisterType<ICalendarService, GoogleCalendarService>();
 
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
             container.RegisterType<ICacheStore, EventCache>(new ContainerControlledLifetimeManager());
             container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>();
 
-            container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI()));
+            container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(),
+                new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI()));
 
             //Create Notification object
-            var notificationObject = new EventNotification(new List<int>() { -15, -5, 0, 5, 10, 15 }, logger, container.Resolve<INotificationPublisher>());
+            var notificationObject = new EventNotification(new List<int> {-15, -5, 0, 5, 10, 15}, logger,
+                container.Resolve<INotificationPublisher>());
 
-            container.RegisterInstance(typeof(CalendarService), googleService);
+            //container.RegisterInstance(typeof(CalendarService), googleService);
+            container.RegisterType<CalendarService>(new TransientLifetimeManager(), new InjectionFactory(
+                ctr => new CalendarService(new BaseClientService.Initializer
+                {
+                    ApplicationName = Constants.TaskSharper,
+                    HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
+                })));
+
             //container.RegisterInstance(typeof(ILogger), logger);
             container.RegisterInstance(typeof(INotification), notificationObject);
         }
