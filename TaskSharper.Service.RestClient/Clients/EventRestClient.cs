@@ -21,21 +21,22 @@ namespace TaskSharper.Service.RestClient.Clients
         private readonly IRestClient _restClient;
         private readonly IRestRequestFactory _requestFactory;
         private readonly ILogger _logger;
-        private const string BaseUrl = "http://localhost:8000/api/";
-        private readonly string Controller;
+        private readonly string _baseUrl;
+        private readonly string _controller;
 
-        public EventRestClient(string controller, IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
+        public EventRestClient(string resourceUrl, string controller, IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
         {
-            Controller = controller;
+            _controller = controller;
             _restClient = restClient;
+            _baseUrl = resourceUrl;
             _requestFactory = requestFactory;
             _logger = logger.ForContext<EventRestClient>();
-            _restClient.BaseUrl = new Uri(BaseUrl);
+            _restClient.BaseUrl = new Uri(_baseUrl);
         }
 
         public Event Get(string id)
         {
-            var request = _requestFactory.Create($"{Controller}/{id}", Method.GET);
+            var request = _requestFactory.Create($"{_controller}/{id}", Method.GET);
 
             var result = _restClient.Execute<Event>(request);
 
@@ -44,7 +45,7 @@ namespace TaskSharper.Service.RestClient.Clients
 
         public async Task<Event> GetAsync(string id)
         {
-            var request = _requestFactory.Create($"{Controller}/{id}", Method.GET);
+            var request = _requestFactory.Create($"{_controller}/{id}", Method.GET);
             
             var result = await _restClient.ExecuteTaskAsync<Event>(request, _logger);
             
@@ -56,7 +57,7 @@ namespace TaskSharper.Service.RestClient.Clients
             var requestDateStart = date.StartOfDay();
             var requestDateEnd = date.EndOfDay();
 
-            var request = _requestFactory.Create(Controller, Method.GET);
+            var request = _requestFactory.Create(_controller, Method.GET);
             request.AddQueryParameter("from", requestDateStart.ToString(CultureInfo.InvariantCulture));
             request.AddQueryParameter("to", requestDateEnd.ToString(CultureInfo.InvariantCulture));
 
@@ -67,7 +68,7 @@ namespace TaskSharper.Service.RestClient.Clients
 
         public async Task<IEnumerable<Event>> GetAsync(DateTime from, DateTime to)
         {
-            var request = _requestFactory.Create(Controller, Method.GET);
+            var request = _requestFactory.Create(_controller, Method.GET);
             request.AddQueryParameter("from", from.ToString(CultureInfo.InvariantCulture));
             request.AddQueryParameter("to", to.ToString(CultureInfo.InvariantCulture));
 
@@ -89,7 +90,7 @@ namespace TaskSharper.Service.RestClient.Clients
                 EventCategory = newEvent.Category
             };
 
-            var request = _requestFactory.Create(Controller, Method.POST);
+            var request = _requestFactory.Create(_controller, Method.POST);
             request.AddJsonBody(eventDto);
 
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
@@ -99,7 +100,7 @@ namespace TaskSharper.Service.RestClient.Clients
 
         public async Task<Event> UpdateAsync(Event updatedEvent)
         {
-            var request = _requestFactory.Create(Controller, Method.PUT);
+            var request = _requestFactory.Create(_controller, Method.PUT);
             request.AddJsonBody(updatedEvent);
 
             var result = await _restClient.ExecuteTaskAsync<Event>(request);
@@ -109,7 +110,7 @@ namespace TaskSharper.Service.RestClient.Clients
 
         public async Task DeleteAsync(string id, string calendarId)
         {
-            var request = _requestFactory.Create($"{Controller}/{id}?calendarId={calendarId}", Method.DELETE);
+            var request = _requestFactory.Create($"{_controller}/{id}?calendarId={calendarId}", Method.DELETE);
 
             var result = await _restClient.ExecuteTaskAsync(request);
 

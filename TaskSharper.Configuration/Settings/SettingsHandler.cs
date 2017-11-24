@@ -7,6 +7,7 @@ namespace TaskSharper.Configuration.Settings
 {
     public class SettingsHandler<T> where T : new()
     {
+        private object IOLock = new object();
         protected string FilePath;
         public async Task<T> Load()
         {
@@ -14,17 +15,22 @@ namespace TaskSharper.Configuration.Settings
             try
             {
                 T model;
-                using (StreamReader file = File.OpenText(FilePath))
+
+                lock (IOLock)
                 {
-                    var jsonString = await file.ReadToEndAsync();
-                    model = JsonConvert.DeserializeObject<T>(jsonString, new JsonSerializerSettings()
+                    using (StreamReader file = File.OpenText(FilePath))
                     {
-                        // https://stackoverflow.com/questions/29113063/json-net-why-does-it-add-to-list-instead-of-overwriting
-                        // Settings this will replace all values in object instead of appending to it. 
-                        // Needed because of lists.
-                        ObjectCreationHandling = ObjectCreationHandling.Replace
-                    });
+                        var jsonString = file.ReadToEnd();
+                        model = JsonConvert.DeserializeObject<T>(jsonString, new JsonSerializerSettings()
+                        {
+                            // https://stackoverflow.com/questions/29113063/json-net-why-does-it-add-to-list-instead-of-overwriting
+                            // Settings this will replace all values in object instead of appending to it. 
+                            // Needed because of lists.
+                            ObjectCreationHandling = ObjectCreationHandling.Replace
+                        });
+                    }
                 }
+
                 return model;
             }
             catch (FileNotFoundException)
@@ -38,10 +44,13 @@ namespace TaskSharper.Configuration.Settings
         public void Save(T obj)
         {
             // https://www.newtonsoft.com/json/help/html/SerializeWithJsonSerializerToFile.htm
-            using (StreamWriter file = File.CreateText(FilePath))
+            lock (IOLock)
             {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, obj);
+                using (StreamWriter file = File.CreateText(FilePath))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(file, obj);
+                }
             }
         }
     }

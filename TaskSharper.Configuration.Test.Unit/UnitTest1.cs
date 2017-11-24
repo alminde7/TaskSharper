@@ -10,8 +10,7 @@ namespace TaskSharper.Configuration.Test.Unit
         public void TestMethod1()
         {
             var conf = new ClientConfig();
-
-            conf.LoadXML();
+            
         }
     }
 }

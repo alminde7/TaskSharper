@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using Prism.Regions;
 using Prism.Unity;
@@ -7,7 +6,6 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Service.NotificationClient;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
-using TaskSharper.Service.RestClient;
 using TaskSharper.Service.RestClient.Factories;
 using TaskSharper.Shared.Logging;
 using Microsoft.Practices.Unity;
@@ -16,6 +14,7 @@ using RestSharp;
 using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Views;
+using TaskSharper.Configuration.Config;
 using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.WPF.Common.Components.EventModification;
 
@@ -42,13 +41,16 @@ namespace TaskSharper.Appointments.WPF
         {
             base.ConfigureContainer();
 
+            var logSettings = LoggingConfig.Get();
+            var clientSettings = ClientConfig.Get();
+
             // Register views
             Container.RegisterTypeForNavigation<AppointmentCardContainerView>(ViewConstants.VIEW_AppointmentOverview);
             Container.RegisterTypeForNavigation<EventModificationView>(ViewConstants.VIEW_ModifyAppointmentView);
             //Container.RegisterTypeForNavigation<>(ViewConstants.VIEW_AppointmentDetails);
 
             // Register other dependencies
-            var logger = LogConfiguration.ConfigureWPF();
+            var logger = LogConfiguration.ConfigureWPF(logSettings);
 
             // Singletons
             Container.RegisterInstance(typeof(ILogger), logger);
@@ -56,11 +58,10 @@ namespace TaskSharper.Appointments.WPF
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
-            Container.RegisterType<IEventRestClient, EventRestClient>(new InjectionConstructor("events", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
-            Container.RegisterType<IAppointmentRestClient, EventRestClient>(new InjectionConstructor("appointments", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
+            Container.RegisterType<IAppointmentRestClient, EventRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, "appointments", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IStatusRestClient, StatusRestClient>();
 
-            var hubConnectionClient = new HubConnectionProxy("http://localhost:8000");
+            var hubConnectionClient = new HubConnectionProxy(clientSettings.NotificationServerUrl);
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
             Container.RegisterType<INotificationClient, NotificationClient>();
         }
