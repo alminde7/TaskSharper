@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Configuration;
+using TaskSharper.Domain.Configuration.Notification;
 
 namespace TaskSharper.Domain.Notification
 {

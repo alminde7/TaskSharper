@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using NSubstitute;
 using NUnit.Framework;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Configuration;
+using TaskSharper.Domain.Configuration.Notification;
 using TaskSharper.Domain.Notification;
 using ILogger = Serilog.ILogger;
 
@@ -18,7 +18,6 @@ namespace TaskSharper.Notification.Test.Unit
         private IEnumerable<int> List;
         private INotificationPublisher _notificationPublisher;
         private ILogger _logger;
-        private IEnumerable<int> _notificationOffsets;
         private NotificationSettings _notificationSettings;
 
         [SetUp]
@@ -26,7 +25,6 @@ namespace TaskSharper.Notification.Test.Unit
         {
             _notificationPublisher = Substitute.For<INotificationPublisher>();
             _logger = Substitute.For<ILogger>();
-            _notificationOffsets = new List<int>();
 
             _notificationSettings = new NotificationSettings();
 
@@ -50,8 +48,8 @@ namespace TaskSharper.Notification.Test.Unit
         [Test]
         public void EventNotifications_AttachEventToEventNotification_ContainsTwoEvents()
         {
-            _uut.Attach(new Event() {Id = "Event1", Start = DateTime.Now});
-            _uut.Attach(new Event() {Id = "Event2", Start = DateTime.Now });
+            _uut.Attach(new Event() {Id = "Event1", Start = DateTime.Now.AddSeconds(30) });
+            _uut.Attach(new Event() {Id = "Event2", Start = DateTime.Now.AddSeconds(50) });
 
             Assert.That(_uut.EventNotifications.Count, Is.EqualTo(2));
         }
@@ -59,8 +57,8 @@ namespace TaskSharper.Notification.Test.Unit
         [Test]
         public void EventNotifications_AttachDublicatedEventToEventNotification_ContainsOneEvent()
         {
-            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now });
-            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now });
+            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now.AddSeconds(30) });
+            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now.AddSeconds(50) });
 
             Assert.That(_uut.EventNotifications.Count, Is.EqualTo(1));
         }
@@ -76,8 +74,8 @@ namespace TaskSharper.Notification.Test.Unit
         public void EventNotifications_AttachEventListToEventNotification_ContainsEvents()
         {
             List<Event> eventList = new List<Event>();
-            eventList.Add(new Event { Id = "Event1", Start = DateTime.Now });
-            eventList.Add(new Event { Id = "Event2", Start = DateTime.Now });
+            eventList.Add(new Event { Id = "Event1", Start = DateTime.Now.AddSeconds(30) });
+            eventList.Add(new Event { Id = "Event2", Start = DateTime.Now.AddSeconds(30) });
 
             _uut.Attach(eventList);
 
@@ -99,8 +97,8 @@ namespace TaskSharper.Notification.Test.Unit
         [Test]
         public void EventNotifications_DetachEventFromEventNotification_ContainsOneEvent()
         {
-            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now });
-            _uut.Attach(new Event() { Id = "Event2", Start = DateTime.Now });
+            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now.AddSeconds(30) });
+            _uut.Attach(new Event() { Id = "Event2", Start = DateTime.Now.AddSeconds(50) });
 
             _uut.Detatch("Event1");
 
@@ -110,9 +108,9 @@ namespace TaskSharper.Notification.Test.Unit
         [Test]
         public void EventNotifications_DetachMultipleEventsFromEventNotification_ContainsOneEvent()
         {
-            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now });
-            _uut.Attach(new Event() { Id = "Event2", Start = DateTime.Now });
-            _uut.Attach(new Event() { Id = "Event3", Start = DateTime.Now });
+            _uut.Attach(new Event() { Id = "Event1", Start = DateTime.Now.AddSeconds(30) });
+            _uut.Attach(new Event() { Id = "Event2", Start = DateTime.Now.AddSeconds(30) });
+            _uut.Attach(new Event() { Id = "Event3", Start = DateTime.Now.AddSeconds(30) });
 
             _uut.Detatch(new List<string>(){"Event1", "Event2"});
 

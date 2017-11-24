@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TaskSharper.Domain.Configuration
+namespace TaskSharper.Domain.Configuration.Notification
 {
     public class TasksSettings
     {

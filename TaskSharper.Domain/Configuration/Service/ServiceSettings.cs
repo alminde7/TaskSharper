@@ -1,4 +1,7 @@
-namespace TaskSharper.Domain.Configuration
+using TaskSharper.Domain.Configuration.Cache;
+using TaskSharper.Domain.Configuration.Notification;
+
+namespace TaskSharper.Domain.Configuration.Service
 {
     public class ServiceSettings
     {

@@ -13,6 +13,8 @@ using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Configuration;
+using TaskSharper.Domain.Configuration.Cache;
+using TaskSharper.Domain.Configuration.Notification;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Notification;
 using TaskSharper.Notification.NullNofications;

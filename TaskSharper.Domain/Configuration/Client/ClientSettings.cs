@@ -1,4 +1,4 @@
-namespace TaskSharper.Domain.Configuration
+namespace TaskSharper.Domain.Configuration.Client
 {
     public class ClientSettings
     {

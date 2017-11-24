@@ -1,6 +1,7 @@
 ﻿using System;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.Domain.Configuration;
+using TaskSharper.Domain.Configuration.Logging;
 
 namespace TaskSharper.Configuration.Config
 {

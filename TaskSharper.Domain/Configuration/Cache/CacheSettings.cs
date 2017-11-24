@@ -1,6 +1,6 @@
 using System;
 
-namespace TaskSharper.Domain.Configuration
+namespace TaskSharper.Domain.Configuration.Cache
 {
     public class CacheSettings
     {

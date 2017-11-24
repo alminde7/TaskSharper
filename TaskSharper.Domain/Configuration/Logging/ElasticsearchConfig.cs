@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace TaskSharper.Domain.Configuration
+namespace TaskSharper.Domain.Configuration.Logging
 {
     public class ElasticsearchConfig
     {
