@@ -59,6 +59,7 @@ namespace TaskSharper.Tasks.WPF
 
             // Not singletons
             Container.RegisterType<IRestRequestFactory, RestRequestFactory>();
+            Container.RegisterType<IEventRestClient, EventRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, "events", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<ITaskRestClient, EventRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, "tasks", typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
             Container.RegisterType<IStatusRestClient, StatusRestClient>(new InjectionConstructor(clientSettings.APIServerUrl, typeof(IRestClient), typeof(IRestRequestFactory), typeof(ILogger)));
 
