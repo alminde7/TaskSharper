@@ -3,6 +3,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Prism.Events;
 using Prism.Regions;
+using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.WPF.Common.Components.EventModification;
 using TaskSharper.WPF.Common.Events;
@@ -20,6 +21,8 @@ namespace TaskSharper.WPF.Common.Test.Unit
         private IEventAggregator _eventAggregator;
         private IRegionManager _regionManager;
         private IEventRestClient _eventRestClient;
+        private ILogger _logger;
+
         [SetUp]
         public void Setup()
         {
@@ -29,8 +32,9 @@ namespace TaskSharper.WPF.Common.Test.Unit
 
             _regionManager = Substitute.For<IRegionManager>();
             _eventRestClient = Substitute.For<IEventRestClient>();
+            _logger = Substitute.For<ILogger>();
 
-            _uut = new EventModificationViewModel(_regionManager, _eventRestClient, _eventAggregator);
+            _uut = new EventModificationViewModel(_regionManager, _eventRestClient, _eventAggregator, _logger);
 
             _uut.Event = new Event
             {

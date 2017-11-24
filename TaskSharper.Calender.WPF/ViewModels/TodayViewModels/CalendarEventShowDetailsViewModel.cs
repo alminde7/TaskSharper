@@ -4,11 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Serilog;
 using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -16,6 +21,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
     {
         private readonly IEventRestClient _calendarService;
         private readonly IRegionManager _regionManager;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly ILogger _logger;
         private Event _selectedEvent;
         private bool _eventIsTypeTask;
         private bool _eventIsTypeAppointment;
@@ -55,10 +62,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _selectedEvent, value);
         }
 
-        public CalendarEventShowDetailsViewModel(IEventRestClient calendarService, IRegionManager regionManager)
+        public CalendarEventShowDetailsViewModel(IEventRestClient calendarService, IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
         {
             _calendarService = calendarService;
             _regionManager = regionManager;
+            _eventAggregator = eventAggregator;
+            _logger = logger.ForContext<CalendarEventShowDetailsViewModel>();
 
             BackCommand = new DelegateCommand(Back);
             EventDetailsClickCommand = new DelegateCommand(EventEditDetailsClick);
@@ -68,7 +77,23 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             var id = navigationContext.Parameters["id"].ToString();
 
-            SelectedEvent = await _calendarService.GetAsync(id);
+            try
+            {
+                SelectedEvent = await _calendarService.GetAsync(id);
+            }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+                SelectedEvent = new Event() {Type = EventType.None};
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Exception was thrown.");
+            }
 
             EventIsTypeTask = SelectedEvent.Type == EventType.Task;
             EventIsTypeAppointment = SelectedEvent.Type == EventType.Appointment;

@@ -20,7 +20,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
         public GoogleCalendarService(CalendarService service, ILogger logger)
         {
             _service = service;
-            Logger = logger.ForContext<GoogleApiException>();
+            Logger = logger.ForContext<GoogleCalendarService>();
         }
 
         public List<CalendarListEntry> GetCalendars()

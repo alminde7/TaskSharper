@@ -168,6 +168,12 @@
   <data name="ErrorTitleNotSet" xml:space="preserve">
     <value>Title cannot be empty.</value>
   </data>
+  <data name="ErrorUnauthorizedMessage" xml:space="preserve">
+    <value>Please log in.</value>
+  </data>
+  <data name="ErrorUnauthorizedTitle" xml:space="preserve">
+    <value>Unauthorized access!</value>
+  </data>
   <data name="February" xml:space="preserve">
     <value>February</value>
   </data>
