@@ -6,10 +6,14 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Serilog;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
 using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
@@ -42,6 +46,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _tentativeOpacity = Settings.Default.NotSelectedOpacity;
         private string _dateTimeErrorMessage;
         private string _titleErrorMessage;
+        private readonly ILogger _logger;
 
         public Process TouchKeyboardProcess
         {
@@ -175,11 +180,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
-        public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventRestClient dataService, IEventAggregator eventAggregator)
+        public CalendarEventDetailsViewModel(IRegionManager regionManager, IEventRestClient dataService, IEventAggregator eventAggregator, ILogger logger)
         {
             _regionManager = regionManager;
             _dataService = dataService;
             _eventAggregator = eventAggregator;
+            _logger = logger.ForContext<CalendarEventDetailsViewModel>();
 
             BackCommand = new DelegateCommand(Back);
             SaveEventCommand = new DelegateCommand(SaveEvent);
@@ -220,8 +226,23 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
             else
             {
-                SelectedEvent = await _dataService.UpdateAsync(EditEvent);
-                _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
+                try
+                {
+                    SelectedEvent = await _dataService.UpdateAsync(EditEvent);
+                    _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
+                }
+                catch (ConnectionException e)
+                {
+                    _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Exception was thrown.");
+                }
             }
         }
 
@@ -234,10 +255,26 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             var id = navigationContext.Parameters["id"].ToString();
 
-            SelectedEvent = _dataService.Get(id);
-            EditEvent = CopySelectedEvent();
-            SetType(EditEvent.Type);
-            SetStatus(EditEvent.Status);
+            try
+            {
+                SelectedEvent = _dataService.Get(id);
+                EditEvent = CopySelectedEvent();
+                SetType(EditEvent.Type);
+                SetStatus(EditEvent.Status);
+            }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+                SelectedEvent = new Event() { Type = EventType.None };
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Exception was thrown.");
+            }
         }
 
         private Event CopySelectedEvent()

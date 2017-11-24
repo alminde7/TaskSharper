@@ -223,6 +223,24 @@ namespace TaskSharper.WPF.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please log in..
+        /// </summary>
+        public static string ErrorUnauthorizedMessage {
+            get {
+                return ResourceManager.GetString("ErrorUnauthorizedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unauthorized access!.
+        /// </summary>
+        public static string ErrorUnauthorizedTitle {
+            get {
+                return ResourceManager.GetString("ErrorUnauthorizedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to February.
         /// </summary>
         public static string February {

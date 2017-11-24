@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Google;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
@@ -45,6 +46,16 @@ namespace TaskSharper.Service.Controllers
             {
                 return Content((HttpStatusCode) 599, e);
             }
+            catch (GoogleApiException e)
+            {
+                if (e.HttpStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var errmsg = "Unauthorized attempt to call Google Calendar API.";
+                    Logger.Error(e, errmsg);
+                    return Content(HttpStatusCode.Unauthorized, errmsg);
+                }
+                return Content(HttpStatusCode.InternalServerError, e);
+            }
             catch (KeyNotFoundException e)
             {
                 var errmsg = $"Appointment with id {id} was not found";
@@ -75,6 +86,16 @@ namespace TaskSharper.Service.Controllers
             catch (HttpRequestException e)
             {
                 return Content((HttpStatusCode)599, e);
+            }
+            catch (GoogleApiException e)
+            {
+                if (e.HttpStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var errmsg = "Unauthorized attempt to call Google Calendar API.";
+                    Logger.Error(e, errmsg);
+                    return Content(HttpStatusCode.Unauthorized, errmsg);
+                }
+                return Content(HttpStatusCode.InternalServerError, e);
             }
             catch (Exception e)
             {
@@ -113,6 +134,16 @@ namespace TaskSharper.Service.Controllers
             {
                 return Content((HttpStatusCode)599, e);
             }
+            catch (GoogleApiException e)
+            {
+                if (e.HttpStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var errmsg = "Unauthorized attempt to call Google Calendar API.";
+                    Logger.Error(e, errmsg);
+                    return Content(HttpStatusCode.Unauthorized, errmsg);
+                }
+                return Content(HttpStatusCode.InternalServerError, e);
+            }
             catch (Exception e)
             {
                 var errmsg = $"Failed to create event";
@@ -133,6 +164,16 @@ namespace TaskSharper.Service.Controllers
             catch (HttpRequestException e)
             {
                 return Content((HttpStatusCode)599, e);
+            }
+            catch (GoogleApiException e)
+            {
+                if (e.HttpStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var errmsg = "Unauthorized attempt to call Google Calendar API.";
+                    Logger.Error(e, errmsg);
+                    return Content(HttpStatusCode.Unauthorized, errmsg);
+                }
+                return Content(HttpStatusCode.InternalServerError, e);
             }
             catch (Exception e)
             {
@@ -157,6 +198,16 @@ namespace TaskSharper.Service.Controllers
             catch (HttpRequestException e)
             {
                 return Content((HttpStatusCode)599, e);
+            }
+            catch (GoogleApiException e)
+            {
+                if (e.HttpStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var errmsg = "Unauthorized attempt to call Google Calendar API.";
+                    Logger.Error(e, errmsg);
+                    return Content(HttpStatusCode.Unauthorized, errmsg);
+                }
+                return Content(HttpStatusCode.InternalServerError, e);
             }
             catch (Exception e)
             {

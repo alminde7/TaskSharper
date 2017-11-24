@@ -171,6 +171,12 @@
   <data name="ErrorTitleNotSet" xml:space="preserve">
     <value>Titel skal udfyldes.</value>
   </data>
+  <data name="ErrorUnauthorizedMessage" xml:space="preserve">
+    <value>Venligst log ind.</value>
+  </data>
+  <data name="ErrorUnauthorizedTitle" xml:space="preserve">
+    <value>Uaftoriseret adgang!</value>
+  </data>
   <data name="February" xml:space="preserve">
     <value>Februar</value>
   </data>

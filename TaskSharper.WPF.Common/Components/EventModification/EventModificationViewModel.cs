@@ -9,8 +9,12 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Shared.Exceptions;
 using TaskSharper.WPF.Common.Events;
+using TaskSharper.WPF.Common.Events.NotificationEvents;
+using TaskSharper.WPF.Common.Events.Resources;
 using TaskSharper.WPF.Common.Properties;
 
 namespace TaskSharper.WPF.Common.Components.EventModification
@@ -39,6 +43,7 @@ namespace TaskSharper.WPF.Common.Components.EventModification
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
         private readonly IEventRestClient _dataService;
+        private readonly ILogger _logger;
         private string _region;
 
         private Process _touchKeyboardProcess;
@@ -188,11 +193,12 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
-        public EventModificationViewModel(IRegionManager regionManager, IEventRestClient dataService, IEventAggregator eventAggregator)
+        public EventModificationViewModel(IRegionManager regionManager, IEventRestClient dataService, IEventAggregator eventAggregator, ILogger logger)
         {
             _regionManager = regionManager;
             _dataService = dataService;
             _eventAggregator = eventAggregator;
+            _logger = logger.ForContext<EventModificationViewModel>();
 
             Categories = new ObservableCollection<CategoryViewModel>();
 
@@ -243,7 +249,7 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             TouchKeyboardProcess = TouchKeyboardProcess.HasExited || TouchKeyboardProcess == null ? Process.Start(touchKeyboardPath) : null;
         }
 
-        private async void SaveEvent()
+        public async void SaveEvent()
         {
             bool error = false;
             if (string.IsNullOrEmpty(Event.Title))
@@ -268,14 +274,29 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
             if (!error)
             {
-                switch (_modificationType)
+                try
                 {
-                    case ModificationType.Create:
-                        Event = await _dataService.CreateAsync(Event);
-                        break;
-                    case ModificationType.Edit:
-                        Event = await _dataService.UpdateAsync(Event);
-                        break;
+                    switch (_modificationType)
+                    {
+                        case ModificationType.Create:
+                            Event = await _dataService.CreateAsync(Event);
+                            break;
+                        case ModificationType.Edit:
+                            Event = await _dataService.UpdateAsync(Event);
+                            break;
+                    }
+                }
+                catch (ConnectionException e)
+                {
+                    _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Error while modifying an event.");
                 }
 
                 _regionManager.Regions[_region].NavigationService.Journal.GoBack();
@@ -326,7 +347,25 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                     break;
             }
 
-            var categories = await _dataService.GetAsync();
+            var categories = new List<EventCategory>();
+            try
+            {
+                var result = await _dataService.GetAsync();
+                categories = result.ToList();
+            }
+            catch (ConnectionException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error while getting categories.");
+            }
+
             Categories?.Clear();
             foreach (var eventCategory in categories)
             {

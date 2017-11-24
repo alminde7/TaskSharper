@@ -48,15 +48,15 @@ namespace TaskSharper.Service.Config
             Log.Logger = logger;
             container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI(logSettings)));
 
-            // Create Google Authentication object
-            var googleService = new CalendarService(new BaseClientService.Initializer()
-            {
-                ApplicationName = Constants.TaskSharper,
-                HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
-            });
+            //container.RegisterInstance(typeof(CalendarService), googleService);
+            container.RegisterType<CalendarService>(new TransientLifetimeManager(), new InjectionFactory(
+                ctr => new CalendarService(new BaseClientService.Initializer
+                {
+                    ApplicationName = Constants.TaskSharper,
+                    HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
+                })));
 
             container.RegisterType<ICalendarService, GoogleCalendarService>();
-            container.RegisterInstance(typeof(CalendarService), googleService);
 
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
             container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>();
@@ -78,6 +78,7 @@ namespace TaskSharper.Service.Config
                 container.RegisterType<IEventCategoryCache, NullEventCategoryCache>(new ContainerControlledLifetimeManager());
             }
         }
+            
 
         private static void RegisterNotification(IUnityContainer container, NotificationSettings settings)
         {

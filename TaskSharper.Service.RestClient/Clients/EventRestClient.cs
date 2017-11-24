@@ -133,6 +133,8 @@ namespace TaskSharper.Service.RestClient.Clients
 
                 switch (statusCode)
                 {
+                    case 401:
+                        throw new UnauthorizedAccessException(response.Content);
                     case 599:
                         throw new ConnectionException("No internetconnection");
                 }
@@ -165,6 +167,8 @@ namespace TaskSharper.Service.RestClient.Clients
 
                 switch (statusCode)
                 {
+                    case 401:
+                        throw new UnauthorizedAccessException(response.Content);
                     case 599:
                         throw new ConnectionException("No internetconnection");
                 }
