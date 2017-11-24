@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calender.WPF", "TaskSharper.Calender.WPF\TaskSharper.Calender.WPF.csproj", "{E7703189-AB75-42AD-A24C-7084FF9BCFA2}"
 EndProject
@@ -49,6 +49,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.WPF.Common", "TaskSharper.WPF.Common\TaskSharper.WPF.Common.csproj", "{4044C93A-C605-4561-AB0D-375D4A05A9D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calendar.WPF.Test.Unit", "TaskSharper.Calendar.WPF.Test.Unit\TaskSharper.Calendar.WPF.Test.Unit.csproj", "{80B818AA-03C7-48F5-9F87-BD217FD8A3AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Service.Test.Unit", "TaskSharper.Service.Test.Unit\TaskSharper.Service.Test.Unit.csproj", "{A607A5FC-3892-4B2F-9684-D16F70CF60AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Service.RestClient.Test.Unit", "TaskSharper.Service.RestClient.Test.Unit\TaskSharper.Service.RestClient.Test.Unit.csproj", "{B5CD11F5-582F-4ACE-9F2A-0C8CCCB3B803}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.WPF.Common.Test.Unit", "TaskSharper.WPF.Common.Test.Unit\TaskSharper.WPF.Common.Test.Unit.csproj", "{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}"
 EndProject
@@ -134,10 +138,6 @@ Global
 		{80B818AA-03C7-48F5-9F87-BD217FD8A3AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80B818AA-03C7-48F5-9F87-BD217FD8A3AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80B818AA-03C7-48F5-9F87-BD217FD8A3AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,7 +153,6 @@ Global
 		{4444EB61-5ABF-442C-9BE3-772AE768F099} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
 		{4044C93A-C605-4561-AB0D-375D4A05A9D7} = {575C972C-3766-4FDC-9EF9-98AD424EA50E}
 		{80B818AA-03C7-48F5-9F87-BD217FD8A3AF} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
-		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2610FE-FBAE-448B-ACAB-893FDB66EB45}

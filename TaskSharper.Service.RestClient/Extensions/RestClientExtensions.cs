@@ -13,14 +13,12 @@ namespace TaskSharper.Service.RestClient.Extensions
         public static async Task<IRestResponse<T>> ExecuteTaskAsync<T>(this IRestClient client, IRestRequest request,
             ILogger logger)
         {
-            // Log request
             using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, request.GetCorrelationId()))
             {
                 LogRequest(client, request, logger);
 
                 var response = await client.ExecuteTaskAsync<T>(request);
-
-                // log response
+                
                 LogResponse(client, response, logger);
 
                 return response;
@@ -30,14 +28,12 @@ namespace TaskSharper.Service.RestClient.Extensions
         public static async Task<IRestResponse> ExecuteTaskAsync(this IRestClient client, IRestRequest request,
             ILogger logger)
         {
-            // Log request
             using (LogContext.PushProperty(HttpConstants.Header_CorrelationId, request.GetCorrelationId()))
             {
                 LogRequest(client, request, logger);
 
                 var response = await client.ExecuteTaskAsync(request);
-
-                // log response
+                
                 LogResponse(client, response, logger);
 
                 return response;
