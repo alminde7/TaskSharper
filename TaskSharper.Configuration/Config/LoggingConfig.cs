@@ -10,7 +10,7 @@ namespace TaskSharper.Configuration.Config
         private static readonly Lazy<LoggingSettings> Settings = new Lazy<LoggingSettings>(() =>
         {
             var settingsHandler = new LoggingSettingsHandler();
-            return settingsHandler.Load().Result;
+            return settingsHandler.Load();
         });
 
         public static LoggingSettings Get()

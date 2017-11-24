@@ -4,6 +4,7 @@ namespace TaskSharper.Domain.Configuration.Notification
     {
         public NotificationSettings()
         {
+            NoneType = new NoneTypeSettings();
             Appointments = new AppointmentsSettings();
             Tasks = new TasksSettings();
         }
@@ -11,6 +12,5 @@ namespace TaskSharper.Domain.Configuration.Notification
         public NoneTypeSettings NoneType { get; set; }
         public AppointmentsSettings Appointments { get; set; }
         public TasksSettings Tasks { get; set; }    
-
     }
 }

@@ -10,7 +10,7 @@ namespace TaskSharper.Configuration.Config
         private static readonly Lazy<ServiceSettings> Settings = new Lazy<ServiceSettings>(() =>
         {
             var settingsHandler = new ServiceSettingsHandler();
-            return settingsHandler.Load().Result;
+            return settingsHandler.Load();
         });
 
         public static ServiceSettings Get()
