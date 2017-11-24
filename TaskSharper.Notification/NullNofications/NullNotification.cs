@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Notification;
 
 namespace TaskSharper.Notification.NullNofications
@@ -8,7 +9,7 @@ namespace TaskSharper.Notification.NullNofications
     // making the code ugly, this implementation can be injected, thereby forcing nothing to be cached.
     public class NullNotification : INotification
     {
-        public IEnumerable<int> NotificationOffsets { get; set; }
+        public NotificationSettings NotificationSettings { get; set; }
         public void Attach(Event calEvent)
         {
             

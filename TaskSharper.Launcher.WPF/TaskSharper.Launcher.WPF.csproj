@@ -137,9 +137,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.Configuration\TaskSharper.Configuration.csproj">
+      <Project>{65925425-e77f-40a0-9a46-28e406a1d6b2}</Project>
+      <Name>TaskSharper.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaskSharper.DataAccessLayer.Google\TaskSharper.DataAccessLayer.Google.csproj">
       <Project>{9f579bfe-0bdc-4c2c-84fa-9b4c12f1d516}</Project>
       <Name>TaskSharper.DataAccessLayer.Google</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
+      <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
+      <Name>TaskSharper.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaskSharper.Shared\TaskSharper.Shared.csproj">
       <Project>{d7e3e636-cecc-4a1d-8e6d-f0cc9588e928}</Project>

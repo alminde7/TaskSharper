@@ -4,6 +4,7 @@ using System.Linq;
 using NSubstitute;
 using NUnit.Framework;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Notification;
 using ILogger = Serilog.ILogger;
 
@@ -18,6 +19,7 @@ namespace TaskSharper.Notification.Test.Unit
         private INotificationPublisher _notificationPublisher;
         private ILogger _logger;
         private IEnumerable<int> _notificationOffsets;
+        private NotificationSettings _notificationSettings;
 
         [SetUp]
         public void Setup()
@@ -26,10 +28,9 @@ namespace TaskSharper.Notification.Test.Unit
             _logger = Substitute.For<ILogger>();
             _notificationOffsets = new List<int>();
 
-            List<int> setupListValues = new List<int>() {5, 10 , 15 , -5 , -10};
-            _notificationOffsets = setupListValues;
+            _notificationSettings = new NotificationSettings();
 
-            _uut = new EventNotification(_notificationOffsets, _logger,_notificationPublisher);
+            _uut = new EventNotification(_notificationSettings, _logger,_notificationPublisher);
         }
 
         // Constructor
@@ -37,7 +38,7 @@ namespace TaskSharper.Notification.Test.Unit
         [Test]
         public void Constructor_EverythingHasBeenInitialized()
         {
-            Assert.That(_uut.NotificationOffsets, Is.EqualTo(new List<int> { 5, 10, 15, -5, -10 }));
+            Assert.That(_uut.NotificationSettings, Is.EqualTo(_notificationSettings));
             Assert.That(_uut.NotificationPublisher, Is.Not.EqualTo(null));
             Assert.That(_uut.Logger, Is.Not.EqualTo(null));
         }
