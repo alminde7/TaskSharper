@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<UITest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="" Id="cf3d6271-7d52-4098-b6d9-1ede3c1eeae0" AssemblyVersion="15.0.26208.0" Version="1.0" xmlns="http://schemas.microsoft.com/VisualStudio/TeamTest/UITest/2010">
+<UITest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="" Id="0d02d959-0f44-4241-8409-342bea1a7d48" AssemblyVersion="15.0.26208.0" Version="1.0" xmlns="http://schemas.microsoft.com/VisualStudio/TeamTest/UITest/2010">
   <Configuration>
     <Group Name="IE">
       <Setting Name="Version" Value="9.11.16299.0" WarningLevel="1" />
@@ -25,10 +25,10 @@
       <Setting Name="OSLanguage" Value="1030" WarningLevel="1" />
       <Setting Name="UserLocale" Value="1030" WarningLevel="1" />
       <Setting Name="DragFullWindows" Value="True" WarningLevel="2" />
-      <Setting Name="ScreenResolutionWidth" Value="2400" WarningLevel="2" />
-      <Setting Name="ScreenResolutionHeight" Value="1500" WarningLevel="2" />
-      <Setting Name="SystemDPIX" Value="120" WarningLevel="2" />
-      <Setting Name="SystemDPIY" Value="120" WarningLevel="2" />
+      <Setting Name="ScreenResolutionWidth" Value="1920" WarningLevel="2" />
+      <Setting Name="ScreenResolutionHeight" Value="1200" WarningLevel="2" />
+      <Setting Name="SystemDPIX" Value="96" WarningLevel="2" />
+      <Setting Name="SystemDPIY" Value="96" WarningLevel="2" />
       <Setting Name="Aero" Value="1" WarningLevel="1" />
       <Setting Name="UACEnabled" Value="1" WarningLevel="2" />
       <Setting Name="UACPromptEnabled" Value="5" WarningLevel="1" />
@@ -41,7 +41,7 @@
   </Configuration>
   <InitializeActions />
   <ExecuteActions>
-    <AssertAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom.UIContentScrollViewerPane.UITestTitleText">
+    <AssertAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UITestTitleText">
       <ParameterName />
       <PropertyName>DisplayText</PropertyName>
       <ExpectedValue>TestTitle</ExpectedValue>
@@ -49,7 +49,7 @@
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="AssertTitleIsTestTitle">
+    <TestStepMarkerAction Comment="" MarkerInformation="AssertTaskIsCreatedWithTitleTestTitle">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -58,7 +58,7 @@
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom.UIContentScrollViewerPane.UIUpdatedTitleText">
+    <AssertAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UIUpdatedTitleText">
       <ParameterName />
       <PropertyName>DisplayText</PropertyName>
       <ExpectedValue>UpdatedTitle</ExpectedValue>
@@ -66,7 +66,7 @@
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="AssertTitleIsUpdatedTitle">
+    <TestStepMarkerAction Comment="" MarkerInformation="AssertTaskIsUpdatedWithTitleUpdatedTitle">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -75,39 +75,140 @@
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom.UIContentScrollViewerPane.UITestTitleText">
+    <AssertAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UIUpdatedTitleCheckBox">
+      <ParameterName />
+      <PropertyName>Checked</PropertyName>
+      <ExpectedValue>True</ExpectedValue>
+      <MessageOnValidationFailure />
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <TestStepMarkerAction Comment="" MarkerInformation="AssertTaskWithTitleUpdatedTitleIsChecked">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
+    </TestStepMarkerAction>
+    <AssertAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UIUpdatedTitleCheckBox">
+      <ParameterName />
+      <PropertyName>Checked</PropertyName>
+      <ExpectedValue>False</ExpectedValue>
+      <MessageOnValidationFailure />
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <TestStepMarkerAction Comment="" MarkerInformation="AssertTaskWithTitleUpdatedTitleIsUnchecked">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
+    </TestStepMarkerAction>
+    <SetStateAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UIUpdatedTitleCheckBox">
+      <ParameterName />
+      <State>Checked</State>
+    </SetStateAction>
+    <TestStepMarkerAction Comment="" MarkerInformation="ClickCheckboxForTaskWhereTitleIsUpdatedTitle">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UITaskSharperTasksWindow.UICloseApplicationButtButton">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="96" Y="31" />
+      <Location X="86" Y="55" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <MouseAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom.UIContentScrollViewerPane.UIEditButtonButton">
+    <TestStepMarkerAction Comment="" MarkerInformation="CloseTaskApplication">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UIUpdatedTitleText">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="46" Y="54" />
+      <Location X="118" Y="20" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <SetValueAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom1.UITitleTextBoxEdit1">
+    <MouseAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UIItemButton1">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="66" Y="79" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="" MarkerInformation="DeleteTask">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UIMainWindowWindow.UITaskApplicationButtoButton">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="314" Y="446" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="" MarkerInformation="OpenTaskApplication">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom.UIContentScrollViewerPane.UITestTitleButton">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="40" Y="46" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <SetValueAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom1.UITitleTextBoxEdit">
       <ParameterName />
       <Value Encoded="false">UpdatedTitle</Value>
       <Type>String</Type>
     </SetValueAction>
-    <MouseAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom1.UICategoryText.UIItemButton1">
+    <MouseAction UIObjectName="UIMap.UITaskSharperTasksWindow.UIItemCustom1.UICategoryText.UIItemButton1">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="28" Y="45" />
+      <Location X="26" Y="37" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="UpdateAppointment">
+    <TestStepMarkerAction Comment="" MarkerInformation="UpdateTask">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -116,15 +217,15 @@
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom1.UITitlecannotbeemptyText">
+    <AssertAction UIObjectName="UIMap.UITaskSharperTasksWindow.UITasksText.UITasksText1">
       <ParameterName />
       <PropertyName>DisplayText</PropertyName>
-      <ExpectedValue>Title cannot be empty.</ExpectedValue>
+      <ExpectedValue>Tasks</ExpectedValue>
       <MessageOnValidationFailure />
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <TestStepMarkerAction Comment="TitleErrorTextBox is &quot;Title cannot be empty.&quot;" MarkerInformation="AssertTitleErrorTextBoxIsShowingEmptyErrorMessage">
+    <TestStepMarkerAction Comment="" MarkerInformation="AssertTaskApplicationIsOpen">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -132,155 +233,6 @@
       <Disabled>false</Disabled>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom1.UICanonlycreateaneventText">
-      <ParameterName />
-      <PropertyName>DisplayText</PropertyName>
-      <ExpectedValue>Can only create an event within the same day.</ExpectedValue>
-      <MessageOnValidationFailure />
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Error message is &quot;Can only create an event within the same day.&quot;" MarkerInformation="AssertDateTimeErrorIsShowingDateSpanGreaterThanOneError">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom1.UICanonlycreateaneventText">
-      <ParameterName />
-      <PropertyName>DisplayText</PropertyName>
-      <ExpectedValue>Cannot create an event in the past.</ExpectedValue>
-      <MessageOnValidationFailure />
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Error message is &quot;Cannot create an event in the past.&quot;" MarkerInformation="AssertDateTimeErrorIsShowingEventInThePastErrorMessage">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom1.UICanonlycreateaneventText">
-      <ParameterName />
-      <PropertyName>DisplayText</PropertyName>
-      <ExpectedValue>Start time cannot be later than end time.</ExpectedValue>
-      <MessageOnValidationFailure />
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Error message is &quot;Start time cannot be later than end time.&quot;" MarkerInformation="AssertDateTimeErrorIsShowingEndTimeBeforeStartTimeErrorMessage">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UIMainWindowWindow.UIAppointmentApplicatiButton">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="386" Y="564" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="OpenAppointmentApplication">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
-    </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIAppointmentsText.UIAppointmentsText1">
-      <ParameterName />
-      <PropertyName>DisplayText</PropertyName>
-      <ExpectedValue>Appointments</ExpectedValue>
-      <MessageOnValidationFailure />
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="AssertApplicationIsAppointments">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom.UIContentScrollViewerPane.UIUpdatedTitleText">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="137" Y="23" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <MouseAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom.UIContentScrollViewerPane.UIItemButton1">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="84" Y="92" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="DeleteAppointment">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
-    </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UIItemCustom1.UICategoryText.UIItemButton2">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="35" Y="30" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="ClickCancelButton">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
-    </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UITaskSharperAppointmeWindow.UICloseApplicationButtButton">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="85" Y="46" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <TestStepMarkerAction Comment="" MarkerInformation="CloseAppointmentApplication">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
   </ExecuteActions>
   <CleanupActions />
@@ -288,48 +240,7 @@
   <Maps>
     <UIMap Id="UIMap">
       <TopLevelWindows>
-        <TopLevelWindow ControlType="Window" Id="UIMainWindowWindow" FriendlyName="MainWindow" SpecialControlType="None" SessionId="8719438">
-          <TechnologyName>UIA</TechnologyName>
-          <WindowTitles>
-            <WindowTitle>MainWindow</WindowTitle>
-          </WindowTitles>
-          <AndCondition>
-            <PropertyCondition Name="ControlType">Window</PropertyCondition>
-            <PropertyCondition Name="Name">MainWindow</PropertyCondition>
-            <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-            <PropertyCondition Name="ClassName" Operator="Contains">HwndWrapper</PropertyCondition>
-          </AndCondition>
-          <SupportLevel>0</SupportLevel>
-          <Descendants>
-            <UIObject ControlType="Button" Id="UIItemButton" FriendlyName="" SpecialControlType="None">
-              <TechnologyName>UIA</TechnologyName>
-              <WindowTitles>
-                <WindowTitle>MainWindow</WindowTitle>
-              </WindowTitles>
-              <AndCondition>
-                <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                <PropertyCondition Name="ControlType">Button</PropertyCondition>
-                <PropertyCondition Name="Instance">2</PropertyCondition>
-              </AndCondition>
-              <SupportLevel>0</SupportLevel>
-              <Descendants />
-            </UIObject>
-            <UIObject ControlType="Button" Id="UIAppointmentApplicatiButton" FriendlyName="AppointmentApplicationButton" SpecialControlType="None">
-              <TechnologyName>UIA</TechnologyName>
-              <WindowTitles>
-                <WindowTitle>MainWindow</WindowTitle>
-              </WindowTitles>
-              <AndCondition>
-                <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                <PropertyCondition Name="ControlType">Button</PropertyCondition>
-                <PropertyCondition Name="AutomationId">AppointmentApplicationButton</PropertyCondition>
-              </AndCondition>
-              <SupportLevel>0</SupportLevel>
-              <Descendants />
-            </UIObject>
-          </Descendants>
-        </TopLevelWindow>
-        <TopLevelWindow ControlType="Window" Id="UITaskSharperAppointmeWindow" FriendlyName="TaskSharperAppointments" SpecialControlType="None" SessionId="725472">
+        <TopLevelWindow ControlType="Window" Id="UITaskSharperAppointmeWindow" FriendlyName="TaskSharperAppointments" SpecialControlType="None" SessionId="264420">
           <TechnologyName>UIA</TechnologyName>
           <WindowTitles>
             <WindowTitle>TaskSharperAppointments</WindowTitle>
@@ -342,22 +253,78 @@
           </AndCondition>
           <SupportLevel>0</SupportLevel>
           <Descendants>
-            <UIObject ControlType="Custom" Id="UIItemCustom" FriendlyName="" SpecialControlType="None">
+            <UIObject ControlType="Button" Id="UIItemButton" FriendlyName="" SpecialControlType="None">
               <TechnologyName>UIA</TechnologyName>
               <WindowTitles>
                 <WindowTitle>TaskSharperAppointments</WindowTitle>
               </WindowTitles>
               <AndCondition>
                 <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
+                <PropertyCondition Name="ControlType">Button</PropertyCondition>
+                <PropertyCondition Name="Instance">4</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants />
+            </UIObject>
+          </Descendants>
+        </TopLevelWindow>
+        <TopLevelWindow ControlType="Window" Id="UIMainWindowWindow" FriendlyName="MainWindow" SpecialControlType="None" SessionId="133306">
+          <TechnologyName>UIA</TechnologyName>
+          <WindowTitles>
+            <WindowTitle>MainWindow</WindowTitle>
+          </WindowTitles>
+          <AndCondition>
+            <PropertyCondition Name="ControlType">Window</PropertyCondition>
+            <PropertyCondition Name="Name">MainWindow</PropertyCondition>
+            <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
+            <PropertyCondition Name="ClassName" Operator="Contains">HwndWrapper</PropertyCondition>
+          </AndCondition>
+          <SupportLevel>0</SupportLevel>
+          <Descendants>
+            <UIObject ControlType="Button" Id="UITaskApplicationButtoButton" FriendlyName="TaskApplicationButton" SpecialControlType="None">
+              <TechnologyName>UIA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>MainWindow</WindowTitle>
+              </WindowTitles>
+              <AndCondition>
+                <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
+                <PropertyCondition Name="ControlType">Button</PropertyCondition>
+                <PropertyCondition Name="AutomationId">TaskApplicationButton</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants />
+            </UIObject>
+          </Descendants>
+        </TopLevelWindow>
+        <TopLevelWindow ControlType="Window" Id="UITaskSharperTasksWindow" FriendlyName="TaskSharperTasks" SpecialControlType="None" SessionId="4983388">
+          <TechnologyName>UIA</TechnologyName>
+          <WindowTitles>
+            <WindowTitle>TaskSharperTasks</WindowTitle>
+          </WindowTitles>
+          <AndCondition>
+            <PropertyCondition Name="ControlType">Window</PropertyCondition>
+            <PropertyCondition Name="Name">TaskSharperTasks</PropertyCondition>
+            <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
+            <PropertyCondition Name="ClassName" Operator="Contains">HwndWrapper</PropertyCondition>
+          </AndCondition>
+          <SupportLevel>0</SupportLevel>
+          <Descendants>
+            <UIObject ControlType="Custom" Id="UIItemCustom" FriendlyName="" SpecialControlType="None">
+              <TechnologyName>UIA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>TaskSharperTasks</WindowTitle>
+              </WindowTitles>
+              <AndCondition>
+                <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
                 <PropertyCondition Name="ControlType">Custom</PropertyCondition>
-                <PropertyCondition Name="ClassName">Uia.AppointmentCardContainerView</PropertyCondition>
+                <PropertyCondition Name="ClassName">Uia.TaskCardContainerView</PropertyCondition>
               </AndCondition>
               <SupportLevel>0</SupportLevel>
               <Descendants>
                 <UIObject ControlType="Pane" Id="UIContentScrollViewerPane" FriendlyName="ContentScrollViewer" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -370,7 +337,7 @@
                     <UIObject ControlType="Button" Id="UIItemButton" FriendlyName="" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <SearchConfigurations>
                         <SearchConfiguration>NextTo</SearchConfiguration>
@@ -383,24 +350,10 @@
                       <SupportLevel>0</SupportLevel>
                       <Descendants />
                     </UIObject>
-                    <UIObject ControlType="Custom" Id="UIItemCustom" FriendlyName="" SpecialControlType="None">
-                      <TechnologyName>UIA</TechnologyName>
-                      <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
-                      </WindowTitles>
-                      <AndCondition>
-                        <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                        <PropertyCondition Name="ControlType">Custom</PropertyCondition>
-                        <PropertyCondition Name="ClassName">Uia.AppointmentCardView</PropertyCondition>
-                        <PropertyCondition Name="Instance">5</PropertyCondition>
-                      </AndCondition>
-                      <SupportLevel>0</SupportLevel>
-                      <Descendants />
-                    </UIObject>
                     <UIObject ControlType="Text" Id="UITestTitleText" FriendlyName="TestTitle" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <AndCondition>
                         <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -410,44 +363,14 @@
                       <SupportLevel>0</SupportLevel>
                       <Descendants />
                     </UIObject>
-                    <UIObject ControlType="Text" Id="UIItem2100Text" FriendlyName="21:00" SpecialControlType="None">
+                    <UIObject ControlType="Button" Id="UITestTitleButton" FriendlyName="TestTitle" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <AndCondition>
                         <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                        <PropertyCondition Name="ControlType">Text</PropertyCondition>
-                        <PropertyCondition Name="Name">21:00</PropertyCondition>
-                      </AndCondition>
-                      <SupportLevel>0</SupportLevel>
-                      <Descendants>
-                        <UIObject ControlType="Button" Id="UIItemButton" FriendlyName="" SpecialControlType="None">
-                          <TechnologyName>UIA</TechnologyName>
-                          <WindowTitles>
-                            <WindowTitle>TaskSharperAppointments</WindowTitle>
-                          </WindowTitles>
-                          <SearchConfigurations>
-                            <SearchConfiguration>NextTo</SearchConfiguration>
-                          </SearchConfigurations>
-                          <AndCondition>
-                            <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                            <PropertyCondition Name="ControlType">Button</PropertyCondition>
-                          </AndCondition>
-                          <SupportLevel>0</SupportLevel>
-                          <Descendants />
-                        </UIObject>
-                      </Descendants>
-                    </UIObject>
-                    <UIObject ControlType="Button" Id="UIEditButtonButton" FriendlyName="EditButton" SpecialControlType="None">
-                      <TechnologyName>UIA</TechnologyName>
-                      <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
-                      </WindowTitles>
-                      <AndCondition>
                         <PropertyCondition Name="ControlType">Button</PropertyCondition>
-                        <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                        <PropertyCondition Name="AutomationId">EditButton</PropertyCondition>
                         <PropertyCondition Name="HelpText">TestTitle</PropertyCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>
@@ -456,7 +379,7 @@
                     <UIObject ControlType="Text" Id="UIUpdatedTitleText" FriendlyName="UpdatedTitle" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <AndCondition>
                         <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -466,10 +389,23 @@
                       <SupportLevel>0</SupportLevel>
                       <Descendants />
                     </UIObject>
+                    <UIObject ControlType="CheckBox" Id="UIUpdatedTitleCheckBox" FriendlyName="UpdatedTitle" SpecialControlType="None">
+                      <TechnologyName>UIA</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition>
+                        <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
+                        <PropertyCondition Name="ControlType">CheckBox</PropertyCondition>
+                        <PropertyCondition Name="HelpText">UpdatedTitle</PropertyCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
                     <UIObject ControlType="Button" Id="UIItemButton1" FriendlyName="" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <SearchConfigurations>
                         <SearchConfiguration>NextTo</SearchConfiguration>
@@ -489,7 +425,7 @@
             <UIObject ControlType="Custom" Id="UIItemCustom1" FriendlyName="" SpecialControlType="None">
               <TechnologyName>UIA</TechnologyName>
               <WindowTitles>
-                <WindowTitle>TaskSharperAppointments</WindowTitle>
+                <WindowTitle>TaskSharperTasks</WindowTitle>
               </WindowTitles>
               <AndCondition>
                 <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -498,68 +434,36 @@
               </AndCondition>
               <SupportLevel>0</SupportLevel>
               <Descendants>
-                <UIObject ControlType="Text" Id="UITitleText" FriendlyName="Title" SpecialControlType="None">
+                <UIObject ControlType="Edit" Id="UITitleTextBoxEdit" FriendlyName="TitleTextBox" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Text</PropertyCondition>
-                    <PropertyCondition Name="Name">Title</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                    <PropertyCondition Name="AutomationId">TitleTextBox</PropertyCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
-                  <Descendants>
-                    <UIObject ControlType="Edit" Id="UIItemEdit" FriendlyName="" SpecialControlType="None">
-                      <TechnologyName>UIA</TechnologyName>
-                      <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
-                      </WindowTitles>
-                      <SearchConfigurations>
-                        <SearchConfiguration>NextTo</SearchConfiguration>
-                      </SearchConfigurations>
-                      <AndCondition>
-                        <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                        <PropertyCondition Name="ControlType">Edit</PropertyCondition>
-                      </AndCondition>
-                      <SupportLevel>0</SupportLevel>
-                      <Descendants />
-                    </UIObject>
-                  </Descendants>
+                  <Descendants />
                 </UIObject>
-                <UIObject ControlType="Text" Id="UIDescriptionText" FriendlyName="Description" SpecialControlType="None">
+                <UIObject ControlType="Edit" Id="UIDescriptionTextBoxEdit" FriendlyName="DescriptionTextBox" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Text</PropertyCondition>
-                    <PropertyCondition Name="Name">Description</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                    <PropertyCondition Name="AutomationId">DescriptionTextBox</PropertyCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
-                  <Descendants>
-                    <UIObject ControlType="Edit" Id="UIItemEdit" FriendlyName="" SpecialControlType="None">
-                      <TechnologyName>UIA</TechnologyName>
-                      <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
-                      </WindowTitles>
-                      <SearchConfigurations>
-                        <SearchConfiguration>NextTo</SearchConfiguration>
-                      </SearchConfigurations>
-                      <AndCondition>
-                        <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                        <PropertyCondition Name="ControlType">Edit</PropertyCondition>
-                      </AndCondition>
-                      <SupportLevel>0</SupportLevel>
-                      <Descendants />
-                    </UIObject>
-                  </Descendants>
+                  <Descendants />
                 </UIObject>
                 <UIObject ControlType="Text" Id="UIStatusText" FriendlyName="Status" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -571,7 +475,7 @@
                     <UIObject ControlType="Button" Id="UIItemButton" FriendlyName="" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <SearchConfigurations>
                         <SearchConfiguration>NextTo</SearchConfiguration>
@@ -588,7 +492,7 @@
                 <UIObject ControlType="Text" Id="UICategoryText" FriendlyName="Category" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -600,7 +504,7 @@
                     <UIObject ControlType="Button" Id="UIItemButton" FriendlyName="" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <SearchConfigurations>
                         <SearchConfiguration>NextTo</SearchConfiguration>
@@ -616,7 +520,7 @@
                     <UIObject ControlType="Button" Id="UIItemButton1" FriendlyName="" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <SearchConfigurations>
                         <SearchConfiguration>NextTo</SearchConfiguration>
@@ -629,101 +533,14 @@
                       <SupportLevel>0</SupportLevel>
                       <Descendants />
                     </UIObject>
-                    <UIObject ControlType="Button" Id="UIItemButton2" FriendlyName="" SpecialControlType="None">
-                      <TechnologyName>UIA</TechnologyName>
-                      <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
-                      </WindowTitles>
-                      <SearchConfigurations>
-                        <SearchConfiguration>NextTo</SearchConfiguration>
-                      </SearchConfigurations>
-                      <AndCondition>
-                        <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                        <PropertyCondition Name="ControlType">Button</PropertyCondition>
-                        <PropertyCondition Name="Instance">6</PropertyCondition>
-                      </AndCondition>
-                      <SupportLevel>0</SupportLevel>
-                      <Descendants />
-                    </UIObject>
                   </Descendants>
-                </UIObject>
-                <UIObject ControlType="Edit" Id="UITitleTextBoxEdit" FriendlyName="TitleTextBox" SpecialControlType="None">
-                  <TechnologyName>UIA</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
-                  </WindowTitles>
-                  <SearchConfigurations>
-                    <SearchConfiguration>NextTo</SearchConfiguration>
-                  </SearchConfigurations>
-                  <AndCondition>
-                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
-                    <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="AutomationId">TitleTextBox</PropertyCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
-                </UIObject>
-                <UIObject ControlType="Edit" Id="UIDescriptionTextBoxEdit" FriendlyName="DescriptionTextBox" SpecialControlType="None">
-                  <TechnologyName>UIA</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
-                  </WindowTitles>
-                  <SearchConfigurations>
-                    <SearchConfiguration>NextTo</SearchConfiguration>
-                  </SearchConfigurations>
-                  <AndCondition>
-                    <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
-                    <PropertyCondition Name="AutomationId">DescriptionTextBox</PropertyCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
-                </UIObject>
-                <UIObject ControlType="Edit" Id="UITitleTextBoxEdit1" FriendlyName="TitleTextBox" SpecialControlType="None">
-                  <TechnologyName>UIA</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
-                  </WindowTitles>
-                  <AndCondition>
-                    <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
-                    <PropertyCondition Name="AutomationId">TitleTextBox</PropertyCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
-                </UIObject>
-                <UIObject ControlType="Text" Id="UITitlecannotbeemptyText" FriendlyName="Title cannot be empty." SpecialControlType="None">
-                  <TechnologyName>UIA</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
-                  </WindowTitles>
-                  <AndCondition>
-                    <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Text</PropertyCondition>
-                    <PropertyCondition Name="AutomationId">TitleErrorTextBox</PropertyCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
-                </UIObject>
-                <UIObject ControlType="Text" Id="UICanonlycreateaneventText" FriendlyName="Can only create an event within the same day." SpecialControlType="None">
-                  <TechnologyName>UIA</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
-                  </WindowTitles>
-                  <AndCondition>
-                    <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Text</PropertyCondition>
-                    <PropertyCondition Name="AutomationId">DateTimeErrorTextBox</PropertyCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
                 </UIObject>
               </Descendants>
             </UIObject>
             <UIObject ControlType="Custom" Id="UIStartTimePickerCustom" FriendlyName="StartTimePicker" SpecialControlType="None">
               <TechnologyName>UIA</TechnologyName>
               <WindowTitles>
-                <WindowTitle>TaskSharperAppointments</WindowTitle>
+                <WindowTitle>TaskSharperTasks</WindowTitle>
               </WindowTitles>
               <AndCondition>
                 <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -736,7 +553,7 @@
                 <UIObject ControlType="Calendar" Id="UIDatePickerCalendarCalendar" FriendlyName="DatePickerCalendar" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -745,10 +562,10 @@
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants>
-                    <UIObject ControlType="Button" Id="UIStartDateButton" FriendlyName="Thursday, November 23, 2017" SpecialControlType="None">
+                    <UIObject ControlType="Button" Id="UIStartDateButton" FriendlyName="Saturday, November 25, 2017" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <AndCondition>
                         <PropertyCondition Name="ControlType">Button</PropertyCondition>
@@ -764,7 +581,7 @@
             <UIObject ControlType="Custom" Id="UIEndTimePickerCustom" FriendlyName="EndTimePicker" SpecialControlType="None">
               <TechnologyName>UIA</TechnologyName>
               <WindowTitles>
-                <WindowTitle>TaskSharperAppointments</WindowTitle>
+                <WindowTitle>TaskSharperTasks</WindowTitle>
               </WindowTitles>
               <AndCondition>
                 <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -777,7 +594,7 @@
                 <UIObject ControlType="Calendar" Id="UIDatePickerCalendarCalendar" FriendlyName="DatePickerCalendar" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -786,10 +603,10 @@
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants>
-                    <UIObject ControlType="Button" Id="UIEndDateButton" FriendlyName="Thursday, November 23, 2017" SpecialControlType="None">
+                    <UIObject ControlType="Button" Id="UIEndDateButton" FriendlyName="Saturday, November 25, 2017" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <AndCondition>
                         <PropertyCondition Name="ControlType">Button</PropertyCondition>
@@ -803,7 +620,7 @@
                 <UIObject ControlType="List" Id="UIHourListBoxList" FriendlyName="HourListBox" SpecialControlType="None">
                   <TechnologyName>UIA</TechnologyName>
                   <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
                   </WindowTitles>
                   <AndCondition>
                     <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -815,7 +632,7 @@
                     <UIObject ControlType="Image" Id="UIItemImage" FriendlyName="" SpecialControlType="None">
                       <TechnologyName>UIA</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>TaskSharperAppointments</WindowTitle>
+                        <WindowTitle>TaskSharperTasks</WindowTitle>
                       </WindowTitles>
                       <SearchConfigurations>
                         <SearchConfiguration>NextTo</SearchConfiguration>
@@ -831,40 +648,10 @@
                 </UIObject>
               </Descendants>
             </UIObject>
-            <UIObject ControlType="Text" Id="UIAppointmentsText" FriendlyName="Appointments" SpecialControlType="None">
-              <TechnologyName>UIA</TechnologyName>
-              <WindowTitles>
-                <WindowTitle>TaskSharperAppointments</WindowTitle>
-              </WindowTitles>
-              <AndCondition>
-                <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                <PropertyCondition Name="ControlType">Text</PropertyCondition>
-                <PropertyCondition Name="AutomationId">ApplicationTitle</PropertyCondition>
-              </AndCondition>
-              <SupportLevel>0</SupportLevel>
-              <Descendants>
-                <UIObject ControlType="Text" Id="UIAppointmentsText1" FriendlyName="Appointments" SpecialControlType="None">
-                  <TechnologyName>UIA</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>TaskSharperAppointments</WindowTitle>
-                  </WindowTitles>
-                  <SearchConfigurations>
-                    <SearchConfiguration>Distinct</SearchConfiguration>
-                  </SearchConfigurations>
-                  <AndCondition>
-                    <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Text</PropertyCondition>
-                    <PropertyCondition Name="Name">Appointments</PropertyCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
-                </UIObject>
-              </Descendants>
-            </UIObject>
             <UIObject ControlType="Button" Id="UICloseApplicationButtButton" FriendlyName="CloseApplicationButton" SpecialControlType="None">
               <TechnologyName>UIA</TechnologyName>
               <WindowTitles>
-                <WindowTitle>TaskSharperAppointments</WindowTitle>
+                <WindowTitle>TaskSharperTasks</WindowTitle>
               </WindowTitles>
               <AndCondition>
                 <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
@@ -873,6 +660,36 @@
               </AndCondition>
               <SupportLevel>0</SupportLevel>
               <Descendants />
+            </UIObject>
+            <UIObject ControlType="Text" Id="UITasksText" FriendlyName="Tasks" SpecialControlType="None">
+              <TechnologyName>UIA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>TaskSharperTasks</WindowTitle>
+              </WindowTitles>
+              <AndCondition>
+                <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
+                <PropertyCondition Name="ControlType">Text</PropertyCondition>
+                <PropertyCondition Name="Name">Tasks</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Text" Id="UITasksText1" FriendlyName="Tasks" SpecialControlType="None">
+                  <TechnologyName>UIA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>TaskSharperTasks</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>Distinct</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition>
+                    <PropertyCondition Name="FrameworkId">WPF</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Text</PropertyCondition>
+                    <PropertyCondition Name="Name">Tasks</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
             </UIObject>
           </Descendants>
         </TopLevelWindow>

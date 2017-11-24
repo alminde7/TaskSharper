@@ -14,7 +14,7 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="MainWindow" Height="936.818" Width="1309">
+        Title="TaskSharperTasks" Height="936.818" Width="1309">
     <Window.Resources>
         <wpf:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSourceConverter" />
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -108,7 +108,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0"
+                <Button x:Name="CloseApplicationButton" Grid.Row="0"
                     Command="{Binding CloseApplicationCommand}"
                     Margin="2,2,2,0"
                     Style="{StaticResource TransparentBtnStyle}">

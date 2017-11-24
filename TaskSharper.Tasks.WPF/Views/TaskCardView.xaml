@@ -39,7 +39,7 @@
             </Grid.ColumnDefinitions>
 
             <Viewbox Grid.Column="0">
-                <CheckBox IsChecked="{Binding Task.MarkedAsDone}" Command="{Binding SaveTaskStateCommand}"/>
+                <CheckBox ToolTip="{Binding Task.Title}" IsChecked="{Binding Task.MarkedAsDone}" Command="{Binding SaveTaskStateCommand}"/>
             </Viewbox>
 
             <Viewbox Grid.Column="1" Margin="5">
@@ -69,7 +69,7 @@
                 <TextBlock Text="{Binding Task.End, StringFormat=HH:mm}" HorizontalAlignment="Center"/>
             </StackPanel>
             <Viewbox Grid.Column="5" Margin="5" HorizontalAlignment="Right">
-                <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EditTaskCommand}">
+                <Button ToolTip="{Binding Task.Title}" Style="{StaticResource TransparentBtnStyle}" Command="{Binding EditTaskCommand}">
                     <fa:ImageAwesome Icon="Edit" Foreground="CornflowerBlue" />
                 </Button>
             </Viewbox>

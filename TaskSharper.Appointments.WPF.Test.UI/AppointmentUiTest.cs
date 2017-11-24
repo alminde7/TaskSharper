@@ -41,6 +41,13 @@ namespace TaskSharper.Appointments.WPF.Test.UI
         }
 
         [TestMethod]
+        public void CloseAppointmentApplication()
+        {
+            this.UIMap.CloseAppointmentApplication();
+
+        }
+
+        [TestMethod]
         public void CreateAppointment_TitleIsEmpty()
         {
             this.UIMap.CreateAppointmentParams.UITitleTextBoxEditText = string.Empty;
