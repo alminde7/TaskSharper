@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
-using RestSharp.Extensions;
 using Serilog;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;

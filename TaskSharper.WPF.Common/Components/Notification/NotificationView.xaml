@@ -87,7 +87,7 @@
                 <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
                     <TextBlock Text="{Binding NotificationTitle}" FontSize="18" Height="30" FontWeight="Bold" Margin="10,5"></TextBlock>
                     <TextBlock Text="{Binding NotificationMessage}" FontSize="16"  Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" ></TextBlock>
-                    <TextBlock Text="{Binding NotificationStart}" FontSize="16" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10"></TextBlock>
+                    <TextBlock Text="{Binding NotificationTimeText}" FontSize="16" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10"></TextBlock>
                     <Viewbox Width="50" Height="60"  Margin="5">
                         <fa:ImageAwesome Icon="{Binding Category}" Foreground="CornflowerBlue" />
                     </Viewbox>

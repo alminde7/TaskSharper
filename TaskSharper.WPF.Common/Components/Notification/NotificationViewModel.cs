@@ -21,7 +21,7 @@ namespace TaskSharper.WPF.Common.Components.Notification
         private bool _isPopupOpen;
         private string _notificationTitle;
         private string _notificationMessage;
-        private string _notificationStart;
+        private string _notificationTimeText;
         private string _notificationEventType;
         private string _category;
         private IEventAggregator _eventAggregator;
@@ -30,6 +30,7 @@ namespace TaskSharper.WPF.Common.Components.Notification
         private readonly IEventRestClient _dataService;
         private readonly ILogger _logger;
         private bool _spinnerVisible;
+        private string _soundPath;
         private CultureInfo _culture;
 
         public DelegateCommand CloseNotificationCommand { get; set; }
@@ -38,10 +39,10 @@ namespace TaskSharper.WPF.Common.Components.Notification
 
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
 
-        public string NotificationStart
+        public string NotificationTimeText
         {
-            get => _notificationStart;
-            set => SetProperty(ref _notificationStart, value);
+            get => _notificationTimeText;
+            set => SetProperty(ref _notificationTimeText, value);
         }
 
         public string NotificationEventType
@@ -104,14 +105,6 @@ namespace TaskSharper.WPF.Common.Components.Notification
         private void UpdateCultureHandler()
         {
             _culture = CultureInfo.CurrentCulture;
-        }
-        private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
-        {
-            Console.WriteLine(state);
-        }
-        private void SetScrollButtonsVisibility(EventResources.ScrollButtonsEnum state)
-        {
-            Console.WriteLine(state);
         }
 
         private async void HandleNotificationEvent(Events.Resources.Notification notification)
@@ -181,50 +174,35 @@ namespace TaskSharper.WPF.Common.Components.Notification
 
                     if (DateTime.Now.Minute == notification.Event.Start.Value.Minute)
                     {
-                        var textFormat = LocalizeDictionary.Instance
-                            .GetLocalizedObject("NotificationNowEvent", null, LocalizeDictionary.Instance.Culture)
-                            .ToString();
-
-                        NotificationStart = string.Format(textFormat, startToEndTime);
+                        CurrentTimeNotificationText(startToEndTime);
                     }
                     else
                     {
-                        var dateTimeMin = "";
                         if (DateTime.Now > notification.Event.Start.Value)
                         {
-                            TimeSpan substractedDateTime = DateTime.Now.Subtract(notification.Event.Start.Value);
-                            dateTimeMin = new DateTime(substractedDateTime.Ticks).ToString("mm");
-                            if (dateTimeMin.StartsWith("0"))
-                                dateTimeMin = dateTimeMin.TrimStart('0');
-
-                            var textFormat = LocalizeDictionary.Instance
-                                .GetLocalizedObject("NotificationPastEvent", null, LocalizeDictionary.Instance.Culture)
-                                .ToString();
-                            NotificationStart = string.Format(textFormat, NotificationEventType.ToLower(),
-                                dateTimeMin, startToEndTime);
+                            PastTimeNotificationText(startToEndTime, "", notification);
                         }
                         else if (DateTime.Now < notification.Event.Start.Value)
                         {
-                            TimeSpan substractedDateTime = notification.Event.Start.Value.Subtract(DateTime.Now);
-                            dateTimeMin = new DateTime(substractedDateTime.Ticks).AddMinutes(1).ToString("mm");
-                            if (dateTimeMin.StartsWith("0"))
-                                dateTimeMin = dateTimeMin.TrimStart('0');
-
-                            var textFormat = LocalizeDictionary.Instance
-                                .GetLocalizedObject("NotificationPressentEvent", null, LocalizeDictionary.Instance.Culture)
-                                .ToString();
-                            NotificationStart = string.Format(textFormat, NotificationEventType.ToLower(), dateTimeMin, startToEndTime);
+                            FutureTimeNotificationText(startToEndTime, "", notification);
                         }
                     }
                 }
             }
             IsPopupOpen = true;
+            PlayNotificationSound();
+
+            return Task.CompletedTask;
+        }
+
+        private void PlayNotificationSound()
+        {
             System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                var path = AppDomain.CurrentDomain.BaseDirectory + "/Media/WindowsNotifyCalendar.wav";
-                SoundPlayer notificationSound = new SoundPlayer(path);
+                _soundPath = AppDomain.CurrentDomain.BaseDirectory + "/Media/WindowsNotifyCalendar.wav";
                 try
                 {
+                    SoundPlayer notificationSound = new SoundPlayer(_soundPath);
                     notificationSound.Load();
                     notificationSound.Play();
                 }
@@ -233,8 +211,40 @@ namespace TaskSharper.WPF.Common.Components.Notification
                     _logger.ForContext("Error", typeof(NotificationViewModel)).Information("An error occured when trying to play notification sound: {0}", e.Message);
                 }
             });
+        }
 
-            return Task.CompletedTask;
+        private void CurrentTimeNotificationText(string startToEndTime)
+        {
+            var textFormat = LocalizeDictionary.Instance
+                .GetLocalizedObject("NotificationNowEvent", null, LocalizeDictionary.Instance.Culture)
+                .ToString();
+
+            NotificationTimeText = string.Format(textFormat, startToEndTime);
+        }
+        private void PastTimeNotificationText(string startToEndTime, string dateTimeMin, Events.Resources.Notification notification)
+        {
+            TimeSpan substractedDateTime = DateTime.Now.Subtract(notification.Event.Start.Value);
+            dateTimeMin = new DateTime(substractedDateTime.Ticks).ToString("mm");
+            if (dateTimeMin.StartsWith("0"))
+                dateTimeMin = dateTimeMin.TrimStart('0');
+
+            var textFormat = LocalizeDictionary.Instance
+                .GetLocalizedObject("NotificationPastEvent", null, LocalizeDictionary.Instance.Culture)
+                .ToString();
+            NotificationTimeText = string.Format(textFormat, NotificationEventType.ToLower(),
+                dateTimeMin, startToEndTime);
+        }
+        private void FutureTimeNotificationText(string startToEndTime, string dateTimeMin, Events.Resources.Notification notification)
+        {
+            TimeSpan substractedDateTime = notification.Event.Start.Value.Subtract(DateTime.Now);
+            dateTimeMin = new DateTime(substractedDateTime.Ticks).AddMinutes(1).ToString("mm");
+            if (dateTimeMin.StartsWith("0"))
+                dateTimeMin = dateTimeMin.TrimStart('0');
+
+            var textFormat = LocalizeDictionary.Instance
+                .GetLocalizedObject("NotificationPressentEvent", null, LocalizeDictionary.Instance.Culture)
+                .ToString();
+            NotificationTimeText = string.Format(textFormat, NotificationEventType.ToLower(), dateTimeMin, startToEndTime);
         }
     }
 }
