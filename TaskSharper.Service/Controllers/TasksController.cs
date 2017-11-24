@@ -26,7 +26,7 @@ namespace TaskSharper.Service.Controllers
         public TasksController(IEventManager eventManager, ILogger logger)
         {
             _eventManager = eventManager;
-            Logger = logger.ForContext<EventsController>();
+            Logger = logger.ForContext<TasksController>();
         }
 
         [HttpGet]

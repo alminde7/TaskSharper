@@ -1,4 +1,5 @@
 ﻿using Serilog;
+using TaskSharper.Configuration.Config;
 using TaskSharper.Shared.Logging;
 using Topshelf;
 
@@ -8,7 +9,7 @@ namespace TaskSharper.Service
     {
         static void Main(string[] args)
         {
-            ILogger logger = LogConfiguration.ConfigureAPI();
+            ILogger logger = LogConfiguration.ConfigureAPI(LoggingConfig.Get());
 
             HostFactory.Run(x =>
             {

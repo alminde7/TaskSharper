@@ -231,11 +231,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
                     SelectedEvent = await _dataService.UpdateAsync(EditEvent);
                     _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
                 }
-                catch (ConnectionException e)
+                catch (ConnectionException)
                 {
                     _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
                 }
-                catch (UnauthorizedAccessException e)
+                catch (UnauthorizedAccessException)
                 {
                     _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
                 }
@@ -251,7 +251,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();
         }
 
-        public async void OnNavigatedTo(NavigationContext navigationContext)
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var id = navigationContext.Parameters["id"].ToString();
 
@@ -262,11 +262,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 SetType(EditEvent.Type);
                 SetStatus(EditEvent.Status);
             }
-            catch (ConnectionException e)
+            catch (ConnectionException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
                 SelectedEvent = new Event() { Type = EventType.None };

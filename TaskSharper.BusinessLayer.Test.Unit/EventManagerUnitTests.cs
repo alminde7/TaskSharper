@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using NSubstitute;
-using NSubstitute.ExceptionExtensions;
+﻿using NSubstitute;
 using NUnit.Framework;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
@@ -13,14 +6,15 @@ using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 
-namespace TaskSharper.BusinessLayer.Unit.Test
+namespace TaskSharper.BusinessLayer.Test.Unit
 {
     [TestFixture]
     public class EventManagerUnitTests
     {
         private IEventManager _uut;
         private ICalendarService _calendarService;
-        private ICacheStore _cache;
+        private IEventCache _eventCache;
+        private IEventCategoryCache _eventCategoryCachce;
         private INotification _notification;
         private ILogger _logger;
         private INotificationPublisher _notificationPublisher;
@@ -30,12 +24,13 @@ namespace TaskSharper.BusinessLayer.Unit.Test
         public void Setup()
         {
             _calendarService = Substitute.For<ICalendarService>();
-            _cache = Substitute.For<ICacheStore>();
+            _eventCache = Substitute.For<IEventCache>();
+            _eventCategoryCachce = Substitute.For<IEventCategoryCache>();
             _logger = Substitute.For<ILogger>();
             _notification = Substitute.For<INotification>();
             _notificationPublisher = Substitute.For<INotificationPublisher>();
 
-            _uut = new EventManager(_calendarService, _cache, _notification, _logger, _notificationPublisher);
+            _uut = new EventManager(_calendarService, _eventCache, _notification, _logger, _notificationPublisher, _eventCategoryCachce);
         }
 
         [TearDown]
@@ -48,7 +43,7 @@ namespace TaskSharper.BusinessLayer.Unit.Test
         public void Constructor_CalendarServiceAndCacheHasBeenInitialized()
         {
             _calendarService.Received(1);
-            _cache.Received(1);
+            _eventCache.Received(1);
         }
 
         //[Test]

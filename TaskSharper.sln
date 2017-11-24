@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Shared", "TaskS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2555A492-72A3-4C66-B148-E38181CED500}"
 	ProjectSection(SolutionItems) = preProject
+		ClientAppSettings.config = ClientAppSettings.config
+		ClientSettings.json = ClientSettings.json
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -61,6 +63,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Appointments.WPF.Test.UI", "TaskSharper.Appointments.WPF.Test.UI\TaskSharper.Appointments.WPF.Test.UI.csproj", "{D60706F2-287E-466F-8EAF-21C8AD08C7BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Launcher.WPF.Test.UI", "TaskSharper.Launcher.WPF.Test.UI\TaskSharper.Launcher.WPF.Test.UI.csproj", "{052051CD-EC17-4038-90AE-F06C57A21EB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Configuration", "TaskSharper.Configuration\TaskSharper.Configuration.csproj", "{65925425-E77F-40A0-9A46-28E406A1D6B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Configuration.Test.Unit", "TaskSharper.Configuration.Test.Unit\TaskSharper.Configuration.Test.Unit.csproj", "{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +170,14 @@ Global
 		{052051CD-EC17-4038-90AE-F06C57A21EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{052051CD-EC17-4038-90AE-F06C57A21EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{052051CD-EC17-4038-90AE-F06C57A21EB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65925425-E77F-40A0-9A46-28E406A1D6B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65925425-E77F-40A0-9A46-28E406A1D6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65925425-E77F-40A0-9A46-28E406A1D6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65925425-E77F-40A0-9A46-28E406A1D6B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +198,7 @@ Global
 		{E1DB2B03-1B56-4F44-8168-D821F40CFCE8} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
 		{D60706F2-287E-466F-8EAF-21C8AD08C7BF} = {D5B151ED-68BE-41E7-B570-801091AA2B0B}
 		{052051CD-EC17-4038-90AE-F06C57A21EB2} = {D5B151ED-68BE-41E7-B570-801091AA2B0B}
+		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2610FE-FBAE-448B-ACAB-893FDB66EB45}

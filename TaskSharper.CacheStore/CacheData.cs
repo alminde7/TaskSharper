@@ -3,15 +3,15 @@ using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.CacheStore
 {
-    public class CacheData
+    public class CacheData<T>
     {
-        public Event Event { get; set; }
+        public T Data { get; set; }
         public DateTime Updated { get; set; }
         public bool ForceUpdate { get; set; }
 
-        public CacheData(Event caleEvent, DateTime updated, bool forceUpdate)
+        public CacheData(T data, DateTime updated, bool forceUpdate)
         {
-            Event = caleEvent;
+            Data = data;
             Updated = updated;
             ForceUpdate = forceUpdate;
         }

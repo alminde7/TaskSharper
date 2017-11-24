@@ -102,26 +102,15 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
                 return (normalEvents.ToList(), allDayEvents.ToList());
             }
-            catch (ConnectionException e)
+            catch (ConnectionException)
             {
                 EventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
                 return (null,null);
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 EventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
                 return (null, null);
-            }
-            catch (ArgumentException e)
-            {
-                // Client error exception
-                return (null, null);
-            }
-            catch (HttpException e)
-            {
-                // Internal server error
-                return (null, null);
-
             }
             catch (Exception e)
             {

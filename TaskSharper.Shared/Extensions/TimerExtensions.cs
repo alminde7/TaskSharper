@@ -61,7 +61,7 @@ namespace TaskSharper.Shared.Extensions
             timer.Elapsed += (sender, args) =>
             {
                 callback();
-                timer.SetDailyScheduler(timeOfDay, callback);
+                timer = new Timer().SetDailyScheduler(timeOfDay, callback);
             };
 
             return timer;

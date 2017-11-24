@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
-using RestSharp.Extensions;
 using Serilog;
-using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.ServerEvents;

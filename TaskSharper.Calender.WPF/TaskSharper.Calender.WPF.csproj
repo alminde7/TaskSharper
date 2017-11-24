@@ -407,6 +407,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TaskSharper.Configuration\TaskSharper.Configuration.csproj">
+      <Project>{65925425-e77f-40a0-9a46-28e406a1d6b2}</Project>
+      <Name>TaskSharper.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaskSharper.Domain\TaskSharper.Domain.csproj">
       <Project>{e329af7f-27b3-46ef-80a4-d7993b662cad}</Project>
       <Name>TaskSharper.Domain</Name>
