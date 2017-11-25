@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using TaskSharper.Configuration.Config;
+using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
+using TaskSharper.Domain.Configuration.Logging;
 using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.Launcher.WPF
@@ -125,7 +127,7 @@ namespace TaskSharper.Launcher.WPF
             }
             else
             {
-                var authentication = new GoogleAuthentication(LogConfiguration.ConfigureWPF(LoggingConfig.Get()));
+                var authentication = new GoogleAuthentication(LogConfiguration.ConfigureWPF(new LoggingSettingsHandler().Load()));
                 var credential = authentication.Authenticate();
                 if (credential.Token != null)
                 {

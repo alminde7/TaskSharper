@@ -15,6 +15,7 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Views;
 using TaskSharper.Configuration.Config;
+using TaskSharper.Configuration.Settings;
 using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.WPF.Common.Components.EventModification;
 
@@ -41,8 +42,8 @@ namespace TaskSharper.Appointments.WPF
         {
             base.ConfigureContainer();
 
-            var logSettings = LoggingConfig.Get();
-            var clientSettings = ClientConfig.Get();
+            var logSettings = new LoggingSettingsHandler().Load();
+            var clientSettings = new ClientSettingsHandler().Load();
 
             // Register views
             Container.RegisterTypeForNavigation<AppointmentCardContainerView>(ViewConstants.VIEW_AppointmentOverview);

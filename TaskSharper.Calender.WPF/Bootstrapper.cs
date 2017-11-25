@@ -12,6 +12,7 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Logging;
 using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Configuration.Config;
+using TaskSharper.Configuration.Settings;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Service.NotificationClient;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
@@ -44,8 +45,8 @@ namespace TaskSharper.Calender.WPF
         {
             base.ConfigureContainer();
 
-            var logSettings = LoggingConfig.Get();
-            var clientSettings = ClientConfig.Get();
+            var logSettings = new LoggingSettingsHandler().Load();
+            var clientSettings = new ClientSettingsHandler().Load();
 
             //EventAggregator
             var singletonEventAggregator = new EventAggregator();

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="OrderedTest1" storage="c:\users\alminde\desktop\tasksharper\tasksharper.appointments.wpf.test.ui\orderedtest1.orderedtest" id="6bc168a8-3fca-4567-9c4b-7c241edb4183" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="bbb9a4d7-b3f3-4849-8145-511755a825c3" name="appointmentacceptancetest" storage="appointmentacceptancetest.orderedtest" type="Microsoft.VisualStudio.TestTools.TestTypes.Ordered.AutoSuite, Microsoft.VisualStudio.QualityTools.Tips.OrderedTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="f6d58583-325f-4133-89e5-5a291c40a08a" name="taskacceptancetest" storage="..\tasksharper.tasks.wpf.test.ui\taskacceptancetest.orderedtest" type="Microsoft.VisualStudio.TestTools.TestTypes.Ordered.AutoSuite, Microsoft.VisualStudio.QualityTools.Tips.OrderedTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

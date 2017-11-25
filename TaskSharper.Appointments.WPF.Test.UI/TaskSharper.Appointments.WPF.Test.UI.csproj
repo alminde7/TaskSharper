@@ -69,6 +69,9 @@
     <None Include="FullAcceptanceTest.orderedtest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="AcceptanceTest.orderedtest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="UIMap.uitest" />
   </ItemGroup>
   <Choose>
