@@ -6,8 +6,9 @@ using TaskSharper.Domain.Notification;
 
 namespace TaskSharper.Notification.NullNofications
 {
-    // Used when cache is disabled. Instead of adding a bunch of if/else to the EventManager, 
-    // making the code ugly, this implementation can be injected, thereby forcing nothing to be cached.
+    // NullObject pattern
+    // Used when notifications is disabled. Instead of adding a bunch of if/else to the EventManager, 
+    // making the code ugly, this implementation can be injected, thereby not doing notifications.
     public class NullNotification : INotification
     {
         public NotificationSettings NotificationSettings { get; set; }

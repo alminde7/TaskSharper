@@ -14,6 +14,8 @@ using Microsoft.Practices.Unity;
 using Prism.Logging;
 using TaskSharper.Appointments.WPF;
 using TaskSharper.Configuration.Config;
+using TaskSharper.Configuration.Settings;
+using TaskSharper.Domain.Configuration.Logging;
 using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Views;
@@ -42,8 +44,8 @@ namespace TaskSharper.Tasks.WPF
         {
             base.ConfigureContainer();
 
-            var logSettings = LoggingConfig.Get();
-            var clientSettings = ClientConfig.Get();
+            var logSettings = new LoggingSettingsHandler().Load();
+            var clientSettings = new ClientSettingsHandler().Load();
 
             // Register views
             Container.RegisterTypeForNavigation<TaskCardContainerView>(ViewConstants.VIEW_TaskOverview);

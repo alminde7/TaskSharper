@@ -6,15 +6,16 @@ using Serilog;
 using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
 using TaskSharper.CacheStore.NullCache;
-using TaskSharper.Configuration.Config;
+using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
-using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Configuration.Cache;
+using TaskSharper.Domain.Configuration.Logging;
 using TaskSharper.Domain.Configuration.Notification;
+using TaskSharper.Domain.Configuration.Service;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Notification;
 using TaskSharper.Notification.NullNofications;
@@ -39,18 +40,24 @@ namespace TaskSharper.Service.Config
             return Container.Value;
         }
 
+        // Info about Unity IoC
+        // - TransientLifeTimeManager = Create new instance on every request
+        // - ContainerControlledLifeTimeManager = Create singleton instance. Return same object on every request.
+        // RegisterInstance() - Register object as singleton.
         private static void RegisterTypes(IUnityContainer container)
         {
-            // Get settings
-            var logSettings = LoggingConfig.Get();
-            var serviceSettings = ServiceConfig.Get();
+            // Get settings 
+            var logSettings = new LoggingSettingsHandler().Load();
+            var serviceSettings = new ServiceSettingsHandler().Load();
+
+            container.RegisterInstance(typeof(LoggingSettings), logSettings);
+            container.RegisterInstance(typeof(ServiceSettings), serviceSettings);
 
             // Create logger and attach to global logger -> to enable attribute logging
             var logger = LogConfiguration.ConfigureAPI(logSettings);
             Log.Logger = logger;
             container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI(logSettings)));
-
-            //container.RegisterInstance(typeof(CalendarService), googleService);
+            
             container.RegisterType<CalendarService>(new TransientLifetimeManager(), new InjectionFactory(
                 ctr => new CalendarService(new BaseClientService.Initializer
                 {
@@ -61,7 +68,7 @@ namespace TaskSharper.Service.Config
             container.RegisterType<ICalendarService, GoogleCalendarService>();
 
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
-            container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>();
+            container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>(new TransientLifetimeManager());
             
             RegisterCache(container, serviceSettings.Cache);
             RegisterNotification(container, serviceSettings.Notification);
@@ -71,8 +78,17 @@ namespace TaskSharper.Service.Config
         {
             if (settings.EnableCache)
             {
-                container.RegisterType<IEventCache, EventCache>(new ContainerControlledLifetimeManager());
-                container.RegisterType<IEventCategoryCache, EventCategoriesCache>(new ContainerControlledLifetimeManager());
+                var eventCache = new EventCache(container.Resolve<ILogger>())
+                {
+                    UpdatedOffset = settings.AllowedTimeInCache
+                };
+                container.RegisterInstance(typeof(IEventCache), eventCache);
+
+                var categoriesCache = new EventCategoriesCache(container.Resolve<ILogger>())
+                {
+                    UpdatedOffset = settings.AllowedTimeInCache
+                };
+                container.RegisterInstance(typeof(IEventCategoryCache), categoriesCache);
             }
             else
             {
@@ -86,13 +102,11 @@ namespace TaskSharper.Service.Config
         {
             if (settings.EnableNotifications)
             {
-                var notificationObject = new EventNotification(settings, container.Resolve<ILogger>(), container.Resolve<INotificationPublisher>());
-                container.RegisterInstance(typeof(INotification), notificationObject);
+                container.RegisterType<INotification, EventNotification>(new ContainerControlledLifetimeManager());
             }
             else
             {
-                var notificationObject = new NullNotification();
-                container.RegisterInstance(typeof(INotification), notificationObject);
+                container.RegisterType<INotification, NullNotification>(new ContainerControlledLifetimeManager());
             }
         }
     }
