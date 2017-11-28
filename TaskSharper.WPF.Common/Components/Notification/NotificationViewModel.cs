@@ -117,13 +117,13 @@ namespace TaskSharper.WPF.Common.Components.Notification
                     ApplicationStatus.InternetConnection = false;
                 }
                 else
-                {                 
+                {
                     _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
                 }
             }
             else
             {
-                if(!notification.Event.MarkedAsDone)
+                if (!notification.Event.MarkedAsDone)
                 {
                     await ShowNotification(notification);
                 }
@@ -132,8 +132,8 @@ namespace TaskSharper.WPF.Common.Components.Notification
 
         private void CompleteTask()
         {
-            if(NotificationEvent != null)
-            NotificationEvent.MarkedAsDone = true;
+            if (NotificationEvent != null)
+                NotificationEvent.MarkedAsDone = true;
 
             _dataService.UpdateAsync(NotificationEvent);
 

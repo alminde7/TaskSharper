@@ -135,6 +135,9 @@
   <data name="Changed" xml:space="preserve">
     <value>Changed</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
   </data>
   <data name="End" xml:space="preserve">
     <value>End</value>
@@ -224,6 +230,9 @@
   </data>
   <data name="September" xml:space="preserve">
     <value>September</value>
+  </data>
+  <data name="Snooze" xml:space="preserve">
+    <value>Snooze</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
