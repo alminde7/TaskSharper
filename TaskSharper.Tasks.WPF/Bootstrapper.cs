@@ -66,6 +66,8 @@ namespace TaskSharper.Tasks.WPF
             var hubConnectionClient = new HubConnectionProxy(clientSettings.NotificationServerUrl);
             Container.RegisterInstance(typeof(IHubConnectionProxy), hubConnectionClient);
             Container.RegisterType<INotificationClient, NotificationClient>();
+
+            Container.RegisterInstance(typeof(NotificationService));
         }
 
         protected override ILoggerFacade CreateLogger()
