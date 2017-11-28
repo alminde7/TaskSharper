@@ -9,7 +9,11 @@ namespace TaskSharper.WPF.Common.Components.Notification
     {
         public NotificationView()
         {
-            InitializeComponent();
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                InitializeComponent();
+            }
+            
         }
     }
 }

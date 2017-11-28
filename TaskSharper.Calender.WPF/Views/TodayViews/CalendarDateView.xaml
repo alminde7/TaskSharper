@@ -21,7 +21,6 @@
                          HorizontalAlignment="Center">
                     <TextBlock VerticalAlignment="Bottom"
                                HorizontalAlignment="Left"
-                               Margin="2,0,0,0"
                                Text="{Binding DayOfWeek}"/>
                 </Viewbox>
                 <Viewbox Grid.Row="1"
@@ -29,7 +28,6 @@
                          HorizontalAlignment="Center">
                     <TextBlock VerticalAlignment="Top" 
                                HorizontalAlignment="Left"
-                               Margin="2,0,0,0"
                                Text="{Binding CurrentDate.Day}"/>
                 </Viewbox>
             </Grid>

@@ -12,6 +12,7 @@
         xmlns:regions="http://prismlibrary.com/"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:notification="clr-namespace:TaskSharper.WPF.Common.Components.Notification;assembly=TaskSharper.WPF.Common"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="TaskSharperTasks" Height="936.818" Width="1309">
@@ -115,16 +116,7 @@
                     <fa:ImageAwesome Icon="Home" Margin="10,0,0,0" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
                 </Button>
             </Grid>
-            <!--<Popup Name="notificationPopUp" IsOpen="{Binding IsPopupOpen}" Grid.Row="0" Grid.RowSpan="3" Placement="Center" Grid.Column="0" Grid.ColumnSpan="3" StaysOpen="True">
-            <Border BorderBrush="#5ca2e8" BorderThickness="1"
-                    Background="AliceBlue">
-                <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
-                    <TextBlock Text="{Binding NotificationTitle}" FontSize="18" Height="20" FontWeight="Bold" Margin="10,5"></TextBlock>
-                    <TextBlock Text="{Binding NotificationMessage}" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,50"></TextBlock>
-                    <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="{lex:Loc Close}"  Command="{Binding CloseNotificationCommand}"></Button>
-                </StackPanel>
-            </Border>
-        </Popup>-->
         </Grid>
+        <notification:NotificationView Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Grid.Column="0" />
     </Grid>
 </Window>

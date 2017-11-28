@@ -76,7 +76,8 @@ namespace TaskSharper.Appointments.WPF
                 _eventAggregator.GetEvent<NotificationEvent>().Publish(new Notification()
                 {
                     Message = x.Description,
-                    Title = x.Title
+                    Title = x.Title,
+                    Event = x
                 });
             });
 

@@ -32,8 +32,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public CalendarYearHeaderViewModel DateYearHeader { get; set; }
         public DateTime CurrentDay { get; set; }
 
-        public ICommand NextCommand { get; set; }
-        public ICommand PrevCommand { get; set; }
+        public DelegateCommand NextCommand { get; set; }
+        public DelegateCommand PrevCommand { get; set; }
+        public DelegateCommand CreateEventCommand { get; set; }
 
         public CalendarDayViewModel(IEventAggregator eventAggregator, IEventRestClient dataService, IRegionManager regionManager, ILogger logger)
         {
@@ -53,6 +54,15 @@ namespace TaskSharper.Calender.WPF.ViewModels
             // Initialize commands
             NextCommand = new DelegateCommand(NextDayCommandHandler);
             PrevCommand = new DelegateCommand(PreviousDayCommandHandler);
+            CreateEventCommand = new DelegateCommand(NavigateToCreateEventView);
+        }
+
+        private void NavigateToCreateEventView()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Type", EventType.None);
+            navigationParameters.Add("Region", ViewConstants.REGION_Calendar);
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarEventDetails, navigationParameters);
         }
 
         #region EventHandlers
