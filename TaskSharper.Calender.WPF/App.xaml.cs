@@ -1,8 +1,5 @@
-﻿    using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows;
-using System.Threading;
-using System.Windows.Markup;
 using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.Calender.WPF

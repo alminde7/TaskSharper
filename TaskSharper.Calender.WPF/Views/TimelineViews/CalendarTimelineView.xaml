@@ -7,9 +7,9 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+             xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common"
              d:DesignHeight="300" d:DesignWidth="200">
-    <Grid Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarStructure_Height_1200}">
+    <Grid Height="{Binding Source={x:Static properties:Settings.Default}, Path=CalendarStructure_Height_1200}">
         <ItemsControl ItemsSource="{Binding Timeline}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
