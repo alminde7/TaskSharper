@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
-             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.Calender.WPF"
+             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
              lex:LocalizeDictionary.DesignCulture="en-US"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              

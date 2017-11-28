@@ -14,6 +14,8 @@ using TaskSharper.Shared.Exceptions;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.NotificationEvents;
 using TaskSharper.WPF.Common.Events.Resources;
+using TaskSharper.WPF.Common.Properties;
+using Settings = TaskSharper.WPF.Common.Properties.Settings;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

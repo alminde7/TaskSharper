@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Constants;
+using TaskSharper.WPF.Common.Properties;
+using Settings = TaskSharper.WPF.Common.Properties.Settings;
 
 namespace TaskSharper.Calender.WPF.Helpers.EventLocation
 {

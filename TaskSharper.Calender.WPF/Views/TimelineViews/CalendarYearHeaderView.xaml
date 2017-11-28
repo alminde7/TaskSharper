@@ -6,11 +6,10 @@
              xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views"
              
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
-             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.Calender.WPF"
+             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
              lex:LocalizeDictionary.DesignCulture="en-US"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
-             
-             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+             xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

@@ -6,12 +6,13 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+             xmlns:p="clr-namespace:TaskSharper.WPF;assembly=TaskSharper.WPF.Common..NETFramework,Version=v4.7"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:dateTimePicker="clr-namespace:TaskSharper.WPF.Common.Components.DateTimePicker;assembly=TaskSharper.WPF.Common"
-             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.Calender.WPF"
+             xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common"
+             lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
              lex:LocalizeDictionary.DesignCulture="en-US"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -40,7 +41,7 @@
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <Button Command="{Binding BackCommand}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TransparentBtnStyle}">
-            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}"/>
+            <fa:ImageAwesome Icon="ArrowCircleOutlineLeft" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}"/>
         </Button>
         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding EditEvent.Title}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock.Style>
@@ -52,50 +53,50 @@
         <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="1">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
-                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Title}" />
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Title}" />
                     <TextBox Text="{Binding EditEvent.Title}" Width="200" Margin="0,0,0,10"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding TitleErrorMessage}" Foreground="Red"/>
                     
-                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Description}" />
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Description}" />
                     <TextBox Text="{Binding EditEvent.Description}" Width="200" Height="180" Margin="0,0,0,10" TextWrapping="Wrap" />
 
-                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Start}" />
                     <dateTimePicker:DateTimePickerView Date="{Binding EditEvent.Start, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="50,0,0,0">
-                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Type}" />
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Type}" />
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Center">
                         <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetTypeAsTaskCommand}">
                             <StackPanel Orientation="Vertical">
-                                <fa:ImageAwesome Icon="Tasks" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TaskOpacity}"/>
-                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Task}" />
+                                <fa:ImageAwesome Icon="Tasks" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TaskOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Task}" />
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetTypeAsAppointmentCommand}">
                             <StackPanel Orientation="Vertical">
-                                <fa:ImageAwesome Icon="ListUl" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding AppointmentOpacity}"/>
-                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Appointment}" />
+                                <fa:ImageAwesome Icon="ListUl" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding AppointmentOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Appointment}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
 
-                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Status}" />
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=Header1Size}" Content="{lex:Loc Status}" />
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Center">
                         <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetStatusAsConfirmedCommand}">
                             <StackPanel Orientation="Vertical">
-                                <fa:ImageAwesome Icon="CalendarCheckOutline" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding ConfirmedOpacity}"/>
-                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Confirmed}" />
+                                <fa:ImageAwesome Icon="CalendarCheckOutline" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding ConfirmedOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Confirmed}" />
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource TransparentBtnStyle}" Margin="10,0,0,0" Command="{Binding SetStatusAsTentativeCommand}">
                             <StackPanel Orientation="Vertical">
-                                <fa:ImageAwesome Icon="CalendarPlusOutline" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TentativeOpacity}"/>
-                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static p:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Tentative}" />
+                                <fa:ImageAwesome Icon="CalendarPlusOutline" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TentativeOpacity}"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Tentative}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
 
-                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
+                    <Label HorizontalAlignment="Center" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=Header1Size}" Content="{lex:Loc End}" />
                     <dateTimePicker:DateTimePickerView Date="{Binding EditEvent.End, Mode=TwoWay}" />
 
                     <TextBlock Text="{Binding DateTimeErrorMessage}" Foreground="Red"/>

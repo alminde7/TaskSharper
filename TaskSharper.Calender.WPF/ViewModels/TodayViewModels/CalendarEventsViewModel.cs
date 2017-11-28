@@ -19,6 +19,7 @@ using TaskSharper.Shared.Constants;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.DateChangedEvents;
 using TaskSharper.WPF.Common.Events.Resources;
+using Settings = TaskSharper.WPF.Common.Properties.Settings;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

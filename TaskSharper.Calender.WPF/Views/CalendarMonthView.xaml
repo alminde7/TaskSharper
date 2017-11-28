@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
-             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+             xmlns:p="clr-namespace:TaskSharper.WPF;assembly=TaskSharper.WPF.Common..NETFramework,Version=v4.7"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 

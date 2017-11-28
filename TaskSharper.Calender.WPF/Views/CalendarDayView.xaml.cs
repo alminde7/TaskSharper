@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Prism.Events;
 using TaskSharper.Calender.WPF.Properties;
 using TaskSharper.WPF.Common.Events.ScrollEvents;
+using Settings = TaskSharper.WPF.Common.Properties.Settings;
 
 namespace TaskSharper.Calender.WPF.Views
 { 
