@@ -4,7 +4,7 @@ The applications is meant to be included in the [CAMI project](http://www.aal-eu
 solutions for health management. 
 
 ## Applications
-The TaskShaper project consist of 5 WPF application and one Windows Service, a brief description of the services can be seen here:
+The TaskShaper project consist of 4 WPF application and one Windows Service, a brief description of the services can be seen here:
 - An Task application to manage tasks
 - An Appointment application to manage appointments
 - A Calendar application to see all calendar events for a given day, week or month. 
