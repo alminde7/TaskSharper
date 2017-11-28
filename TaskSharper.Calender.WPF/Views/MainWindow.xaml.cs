@@ -1,7 +1,5 @@
-﻿using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using Prism.Events;
 
 namespace TaskSharper.Calender.WPF.Views
 {

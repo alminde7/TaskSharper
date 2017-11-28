@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
-             xmlns:p="clr-namespace:TaskSharper.WPF;assembly=TaskSharper.WPF.Common..NETFramework,Version=v4.7"
              xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common">
 
     <UserControl.Resources>

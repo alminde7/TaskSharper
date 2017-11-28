@@ -7,8 +7,6 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
-using TaskSharper.Calender.WPF.Properties;
-using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Exceptions;
 using TaskSharper.WPF.Common.Events;

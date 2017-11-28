@@ -1,6 +1,4 @@
-﻿using TaskSharper.Domain.Calendar;
-
-namespace TaskSharper.WPF.Common.Events.Resources
+﻿namespace TaskSharper.WPF.Common.Events.Resources
 {
     public class ConnectionErrorNotification : Notification
     {

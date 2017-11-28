@@ -8,9 +8,7 @@
              lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
              lex:LocalizeDictionary.DesignCulture="en-US"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
-             
-             xmlns:local="clr-namespace:TaskSharper.Calender.WPF.Views"
-             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
+
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

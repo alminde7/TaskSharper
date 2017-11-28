@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Windows;
 using Prism.Events;
 using Prism.Mvvm;
 using Serilog;
-using TaskSharper.Domain.Calendar;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.DateChangedEvents;
 using TaskSharper.WPF.Common.Events.Resources;

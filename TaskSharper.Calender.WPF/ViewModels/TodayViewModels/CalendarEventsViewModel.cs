@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Media;
@@ -12,8 +10,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Helpers.EventLocation;
-using TaskSharper.Calender.WPF.Properties;
-using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Shared.Constants;
 using TaskSharper.WPF.Common.Events;
