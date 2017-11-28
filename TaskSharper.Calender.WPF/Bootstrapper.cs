@@ -48,10 +48,6 @@ namespace TaskSharper.Calender.WPF
             var logSettings = new LoggingSettingsHandler().Load();
             var clientSettings = new ClientSettingsHandler().Load();
 
-            //EventAggregator
-            var singletonEventAggregator = new EventAggregator();
-            Container.RegisterInstance(typeof(IEventAggregator), singletonEventAggregator,new ContainerControlledLifetimeManager());
-
             // Register views
             Container.RegisterTypeForNavigation<CalendarDayView>(ViewConstants.VIEW_CalendarDay);
             Container.RegisterTypeForNavigation<CalendarWeekView>(ViewConstants.VIEW_CalendarWeek);

@@ -6,14 +6,12 @@ using Serilog;
 using TaskSharper.BusinessLayer;
 using TaskSharper.CacheStore;
 using TaskSharper.CacheStore.NullCache;
-using TaskSharper.Configuration.Config;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
 using TaskSharper.DataAccessLayer.Google.Calendar.Service;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
-using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Configuration.Cache;
 using TaskSharper.Domain.Configuration.Logging;
 using TaskSharper.Domain.Configuration.Notification;
@@ -80,8 +78,17 @@ namespace TaskSharper.Service.Config
         {
             if (settings.EnableCache)
             {
-                container.RegisterType<IEventCache, EventCache>(new ContainerControlledLifetimeManager());
-                container.RegisterType<IEventCategoryCache, EventCategoriesCache>(new ContainerControlledLifetimeManager());
+                var eventCache = new EventCache(container.Resolve<ILogger>())
+                {
+                    UpdatedOffset = settings.AllowedTimeInCache
+                };
+                container.RegisterInstance(typeof(IEventCache), eventCache);
+
+                var categoriesCache = new EventCategoriesCache(container.Resolve<ILogger>())
+                {
+                    UpdatedOffset = settings.AllowedTimeInCache
+                };
+                container.RegisterInstance(typeof(IEventCategoryCache), categoriesCache);
             }
             else
             {
