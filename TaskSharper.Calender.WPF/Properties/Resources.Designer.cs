@@ -115,6 +115,15 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Complete.
+        /// </summary>
+        public static string Complete {
+            get {
+                return ResourceManager.GetString("Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completed.
         /// </summary>
         public static string Completed {
@@ -165,6 +174,15 @@ namespace TaskSharper.Calender.WPF.Properties {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        public static string Dismiss {
+            get {
+                return ResourceManager.GetString("Dismiss", resourceCulture);
             }
         }
         
@@ -304,7 +322,7 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This {0} happen {1} min ago.
+        ///   Looks up a localized string similar to This {0} happen {1} min ago. From {2}.
         /// </summary>
         public static string NotificationPastEvent {
             get {
@@ -313,7 +331,7 @@ namespace TaskSharper.Calender.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This {0} will happen in {1} min.
+        ///   Looks up a localized string similar to This {0} will happen in {1} min. From {2}.
         /// </summary>
         public static string NotificationPressentEvent {
             get {
@@ -354,6 +372,15 @@ namespace TaskSharper.Calender.WPF.Properties {
         public static string September {
             get {
                 return ResourceManager.GetString("September", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snooze.
+        /// </summary>
+        public static string Snooze {
+            get {
+                return ResourceManager.GetString("Snooze", resourceCulture);
             }
         }
         

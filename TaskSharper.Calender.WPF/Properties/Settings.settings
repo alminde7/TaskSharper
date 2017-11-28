@@ -44,5 +44,11 @@
     <Setting Name="AliceBlue" Type="System.String" Scope="Application">
       <Value Profile="(Default)">#f0f8ff</Value>
     </Setting>
+    <Setting Name="Header2Size" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="ButtonHeight45" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">45</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

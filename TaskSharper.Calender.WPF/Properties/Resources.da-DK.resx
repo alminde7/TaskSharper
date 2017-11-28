@@ -135,6 +135,9 @@
   <data name="Close" xml:space="preserve">
     <value>Luk</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Fuldfør</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Fuldført</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Description" xml:space="preserve">
     <value>Beskrivelse</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Afvis </value>
   </data>
   <data name="End" xml:space="preserve">
     <value>Slut</value>
@@ -195,6 +201,9 @@
   <data name="NoConnectionMessage" xml:space="preserve">
     <value>Det var ikke muligt at oprettet forbindelse til serveren. </value>
   </data>
+  <data name="NotificationNowEvent" xml:space="preserve">
+    <value>Fra {0}</value>
+  </data>
   <data name="NotificationPastEvent" xml:space="preserve">
     <value>Denne {0} fandt sted for  {1} min siden.</value>
   </data>
@@ -212,6 +221,9 @@
   </data>
   <data name="September" xml:space="preserve">
     <value>September</value>
+  </data>
+  <data name="Snooze" xml:space="preserve">
+    <value>Udsæt</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>

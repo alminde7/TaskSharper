@@ -112,5 +112,23 @@ namespace TaskSharper.WPF.Common.Properties {
                 return ((int)(this["SoundVolume"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int Header2Size {
+            get {
+                return ((int)(this["Header2Size"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("45")]
+        public int ButtonHeight45 {
+            get {
+                return ((int)(this["ButtonHeight45"]));
+            }
+        }
     }
 }
