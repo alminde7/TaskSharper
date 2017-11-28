@@ -12,12 +12,15 @@
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
-        <Style TargetType="{x:Type Button}" x:Key="CloseNotificationButton">
+        <Style TargetType="{x:Type Button}" x:Key="SnoozeNotificationButton">
             <Setter Property="Background" Value="#5AA1E3" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Height" Value="{Binding Source={x:Static properties:Settings.Default}, Path=ButtonHeight45}"/>
+            <Setter Property="FontSize" Value="{Binding Source={x:Static properties:Settings.Default}, Path=Header2Size}" />
+            <Setter Property="Margin" Value="10,10,5,10"/>
             <Setter Property="SnapsToDevicePixels" Value="True" />
 
             <Setter Property="Template">
@@ -60,14 +63,16 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="Button"  x:Key="CompleteTaskButton">
-            <Setter Property="Visibility" Value="Collapsed"/>
+        <Style TargetType="Button"  x:Key="CompleteDismissButton">
             <Setter Property="Background" Value="#5AA1E3" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontSize" Value="{Binding Source={x:Static properties:Settings.Default}, Path=Header2Size}" />
+            <Setter Property="Content"  Value="{lex:Loc Complete}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static properties:Settings.Default}, Path=ButtonHeight45}"/>
+            <Setter Property="Margin" Value="5,10,10,10"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding NotificationEventType}" Value="Task">
-                    <Setter Property="Visibility" Value="Visible"/>
+                <DataTrigger Binding="{Binding NotificationEventType}" Value="Appointment">
+                    <Setter Property="Content" Value="{lex:Loc Dismiss}"/>
                 </DataTrigger>
 
             </Style.Triggers>
@@ -75,18 +80,37 @@
     </UserControl.Resources>
     <Popup Name="NotificationPopUp" IsOpen="{Binding IsPopupOpen}" StaysOpen="True" PlacementTarget="{Binding ElementName=MainPanel}"
            Placement="Center">
-            <Border BorderBrush="#5ca2e8" BorderThickness="1"
+        <Border BorderBrush="#5ca2e8" BorderThickness="1"
                     Background="AliceBlue">
-                <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
-                    <TextBlock Text="{Binding NotificationTitle}" FontSize="18" Height="30" FontWeight="Bold" Margin="10,5"></TextBlock>
-                    <TextBlock Text="{Binding NotificationMessage}" FontSize="16"  Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" ></TextBlock>
-                    <TextBlock Text="{Binding NotificationTimeText}" FontSize="16" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10"></TextBlock>
-                    <Viewbox Width="50" Height="60"  Margin="5">
+            <StackPanel Style="{StaticResource PopUpBackground}" Orientation="Vertical" Width="400">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" ></RowDefinition>
+                        <RowDefinition Height="*" ></RowDefinition>
+                        <RowDefinition Height="*" ></RowDefinition>
+                        <RowDefinition Height="*" ></RowDefinition>
+                        <RowDefinition Height="*" ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{Binding NotificationTitle}" FontSize="18" FontWeight="Bold" Margin="10,5"></TextBlock>
+                    <TextBlock Grid.Row="1" Text="{Binding NotificationMessage}" FontSize="16"  Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" ></TextBlock>
+                    <TextBlock Grid.Row="2" Text="{Binding NotificationTimeText}" FontSize="16" Width="auto" TextWrapping="WrapWithOverflow" Margin="10,10,10,10"></TextBlock>
+                    <Viewbox Grid.Row="3" Width="50" Height="60"  Margin="5">
                         <fa:ImageAwesome Icon="{Binding Category}" Foreground="CornflowerBlue" />
                     </Viewbox>
-                    <Button Style="{StaticResource CompleteTaskButton}" Height="40" Content="{lex:Loc Completed}" Command="{Binding CompleteTaskCommand}" ></Button>
-                    <Button Style="{StaticResource CloseNotificationButton}" Height="40" Content="{lex:Loc Close}"  Command="{Binding CloseNotificationCommand}"></Button>
-                </StackPanel>
-            </Border>
-        </Popup>
+                    <StackPanel  Grid.Row="4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Style="{StaticResource SnoozeNotificationButton}" Content="{lex:Loc Snooze}"  Command="{Binding CloseNotificationCommand}"></Button>
+                            <Button Grid.Column="1" Style="{StaticResource CompleteDismissButton}" Command="{Binding CompleteTaskCommand}" ></Button>
+                        </Grid>
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+
+        </Border>
+    </Popup>
 </UserControl>

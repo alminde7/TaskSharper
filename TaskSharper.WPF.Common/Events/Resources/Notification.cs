@@ -1,5 +1,4 @@
-﻿using System;
-using TaskSharper.Domain.Calendar;
+﻿using TaskSharper.Domain.Calendar;
 
 namespace TaskSharper.WPF.Common.Events.Resources
 {

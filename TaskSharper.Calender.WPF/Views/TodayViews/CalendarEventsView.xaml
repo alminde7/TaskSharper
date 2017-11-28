@@ -3,12 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:TaskSharper.Calender.WPF.Views"
-             xmlns:p="clr-namespace:TaskSharper.Calender.WPF.Properties"
              xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
              mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common"
              d:DesignHeight="300" d:DesignWidth="100">
 
     <UserControl.Resources>
@@ -16,13 +15,13 @@
         <Style x:Key="EventTypeStyle" TargetType="Grid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
-                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorAppointment}"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static properties:Settings.Default}, Path=ColorAppointment}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Task}" Value="true">
-                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorTask}"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static properties:Settings.Default}, Path=ColorTask}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}" Value="true">
-                    <Setter Property="Background" Value="{Binding Source={x:Static p:Settings.Default}, Path=ColorNone}"/>
+                    <Setter Property="Background" Value="{Binding Source={x:Static properties:Settings.Default}, Path=ColorNone}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -40,7 +39,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Canvas Height="{Binding Source={x:Static p:Settings.Default}, Path=CalendarStructure_Height_1200}" x:Name="CalendarEvents">
+    <Canvas Height="{Binding Source={x:Static properties:Settings.Default}, Path=CalendarStructure_Height_1200}" x:Name="CalendarEvents">
         <ItemsControl ItemsSource="{Binding Backgrounds}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
