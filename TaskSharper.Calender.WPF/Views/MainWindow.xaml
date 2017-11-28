@@ -189,18 +189,21 @@
                 <Button Grid.Row="3" Content="{lex:Loc Day}"
                         Command="{Binding NavigateCommand}" CommandParameter="CalendarDayView" 
                         Margin="2"
+                        FontSize="32"
                         Style="{StaticResource NavigationButton}"
                         Height="100">
                 </Button>
                 <Button Grid.Row="4" Content="{lex:Loc Week}" 
                         Command="{Binding NavigateCommand}" CommandParameter="CalendarWeekView" 
                         Margin="2"
+                        FontSize="32"
                         Style="{StaticResource NavigationButton}"
                         Height="100">
                 </Button>
                 <Button Grid.Row="5" Content="{lex:Loc Month}" 
                         Command="{Binding NavigateCommand}" CommandParameter="CalendarMonthView" 
                         Margin="2"
+                        FontSize="32"
                         Style="{StaticResource NavigationButton}"
                         Height="100">
                 </Button>

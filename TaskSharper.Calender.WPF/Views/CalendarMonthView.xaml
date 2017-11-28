@@ -44,6 +44,17 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="TransparentBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -60,10 +71,21 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel HorizontalAlignment="Right" Grid.Row="0" Orientation="Horizontal" Grid.Column="1">
+            <StackPanel HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="5">
+                <Viewbox>
+                    <Label Content="{Binding CurrentMonthAndYear}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Viewbox>
+            </StackPanel>
+
+            <Button Grid.Column="1" Style="{StaticResource TransparentBtnStyle}" Command="{Binding CreateEventCommand}">
+                <fa:ImageAwesome Icon="PlusCircle" Foreground="Green"></fa:ImageAwesome>
+            </Button>
+            
+            <StackPanel HorizontalAlignment="Right" Grid.Row="0" Orientation="Horizontal" Grid.Column="2">
                 <Button Margin="2" Width="70" Style="{StaticResource PrevAndNextButton}" Command="{Binding PrevCommand}">
                     <fa:ImageAwesome Icon="ArrowLeft" Margin="0,0,0,0" Height="40" Foreground="White" />
                 </Button>
@@ -71,11 +93,7 @@
                     <fa:ImageAwesome Icon="ArrowRight" Margin="0,0,0,0" Height="40" Foreground="White" />
                 </Button>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="5">
-                <Viewbox>
-                    <Label Content="{Binding CurrentMonthAndYear}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                </Viewbox>
-            </StackPanel>
+            
         </Grid>
 
         <ItemsControl ItemsSource="{Binding WeekDays}" Grid.Row="1" Grid.Column="1" Width="Auto">

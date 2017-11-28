@@ -17,6 +17,7 @@ using TaskSharper.Service.NotificationClient;
 using TaskSharper.Service.NotificationClient.HubConnectionClient;
 using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.Service.RestClient.Factories;
+using TaskSharper.WPF.Common.Components.EventModification;
 
 namespace TaskSharper.Calender.WPF
 {
@@ -56,7 +57,7 @@ namespace TaskSharper.Calender.WPF
             Container.RegisterTypeForNavigation<CalendarWeekView>(ViewConstants.VIEW_CalendarWeek);
             Container.RegisterTypeForNavigation<CalendarMonthView>(ViewConstants.VIEW_CalendarMonth);
             Container.RegisterTypeForNavigation<CalendarEventShowDetailsView>(ViewConstants.VIEW_CalendarEventShowDetails);
-            Container.RegisterTypeForNavigation<CalendarEventDetailsView>(ViewConstants.VIEW_CalendarEventDetails);
+            Container.RegisterTypeForNavigation<EventModificationView>(ViewConstants.VIEW_CalendarEventDetails);
 
             // Register other dependencies
             var logger = LogConfiguration.ConfigureWPF(logSettings);

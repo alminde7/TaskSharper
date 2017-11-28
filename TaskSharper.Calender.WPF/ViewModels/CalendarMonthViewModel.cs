@@ -41,6 +41,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
+        public DelegateCommand CreateEventCommand { get; set; }
         public CultureInfo CurrentCulture { get; set; }
 
         public DateTime CurrentDatetime
@@ -71,6 +72,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             // Create Event commands
             NextCommand = new DelegateCommand(NextMonth);
             PrevCommand = new DelegateCommand(PrevMonth);
+            CreateEventCommand = new DelegateCommand(NavigateToCreateEventView);
 
             //Event Subscriptions 
             eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(()=> UpdateCulture(CurrentDatetime));
@@ -85,6 +87,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             // Create view
             BootstrapView();
+        }
+
+        private void NavigateToCreateEventView()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Type", EventType.None);
+            navigationParameters.Add("Region", ViewConstants.REGION_Calendar);
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarEventDetails, navigationParameters);
         }
 
         private void SetMonthAndYearCulture()

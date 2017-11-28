@@ -104,7 +104,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private void EventEditDetailsClick()
         {
-            Navigate(ViewConstants.VIEW_CalendarEventDetails);
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Id", SelectedEvent.Id);
+            navigationParameters.Add("Type", SelectedEvent.Type);
+            navigationParameters.Add("Region", ViewConstants.REGION_Calendar);
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarEventDetails, navigationParameters);
         }
         private void Back()
         {

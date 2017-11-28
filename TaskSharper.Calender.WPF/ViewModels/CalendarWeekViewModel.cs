@@ -38,6 +38,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
+        public DelegateCommand CreateEventCommand { get; set; }
 
 
         public CalendarWeekViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
@@ -49,6 +50,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             NextCommand = new DelegateCommand(NextWeek);
             PrevCommand = new DelegateCommand(PreviousWeek);
+            CreateEventCommand = new DelegateCommand(NavigateToCreateEventView);
 
             DateHeaders = new ObservableCollection<CalendarDateViewModel>();
             AllDayEventContainers = new ObservableCollection<CalendarAllDayEventContainerViewModel>();
@@ -57,6 +59,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             CurrentWeek = DateTime.Now;
             InitializeViews();
+        }
+
+        private void NavigateToCreateEventView()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Type", EventType.None);
+            navigationParameters.Add("Region", ViewConstants.REGION_Calendar);
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarEventDetails, navigationParameters);
         }
 
         #region Commands
