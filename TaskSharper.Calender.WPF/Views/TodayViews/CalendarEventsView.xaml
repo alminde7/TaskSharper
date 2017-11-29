@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:TaskSharper.Calender.WPF.Converters"
              mc:Ignorable="d" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:properties="clr-namespace:TaskSharper.WPF.Common.Properties;assembly=TaskSharper.WPF.Common"
@@ -12,6 +13,7 @@
 
     <UserControl.Resources>
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style x:Key="EventTypeStyle" TargetType="Grid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Event.Type, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Appointment}" Value="true">
@@ -86,13 +88,23 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0">
-                                    <Label>
-                                        <Label.Content>
-                                            <AccessText TextWrapping="Wrap" Text="{Binding Event.Title}"/>
-                                        </Label.Content>
-                                    </Label>
-                                </TextBlock>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="9*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">
+                                        <Label>
+                                            <Label.Content>
+                                                <AccessText TextWrapping="Wrap" Text="{Binding Event.Title}"/>
+                                            </Label.Content>
+                                        </Label>
+                                    </TextBlock>
+                                    <StackPanel Grid.Column="1" Visibility="{Binding IsEventTask, Converter={StaticResource BoolToVis}}">
+                                        <fa:ImageAwesome Icon="Check" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorGreen}" Visibility="{Binding Event.MarkedAsDone, Converter={StaticResource BoolToVis}}"></fa:ImageAwesome>
+                                    </StackPanel>
+                                </Grid>
+                                
 
                                 <TextBlock Grid.Row="1">
                                     <Label>
@@ -145,3 +157,4 @@
                     StrokeThickness="4"/>
     </Canvas>
 </UserControl>
+

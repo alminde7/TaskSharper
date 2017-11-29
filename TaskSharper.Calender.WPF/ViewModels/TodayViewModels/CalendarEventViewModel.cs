@@ -28,6 +28,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _width;
         private double _locY;
         private double _locX;
+        private bool _isEventTask;
         public double Column { get; set; } // Not binding to this anywhere, only used for LocX
         public double TotalColumns { get; set; } // Not binding to this anywhere, only used for LocX
         public double ColumnSpan { get; set; }
@@ -68,6 +69,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _locY, value);
         }
 
+        public bool IsEventTask
+        {
+            get => _isEventTask;
+            set => SetProperty(ref _isEventTask, value);
+        }
+
         public CalendarEventViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger)
         {
             _regionManager = regionManager;
@@ -83,6 +90,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         {
             Width = (double) containerWidth * 1 / TotalColumns * (ColumnSpan + 1);
             LocX = Column * (double)containerWidth * 1 / TotalColumns;
+            IsEventTask = Event?.Type == EventType.Task;
         }
 
         private void OnLayoutUpdated(object containerWidth)

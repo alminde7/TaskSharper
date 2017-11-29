@@ -156,11 +156,17 @@
   <data name="December" xml:space="preserve">
     <value>December</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Slet</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Beskrivelse</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
     <value>Afvis</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Rediger</value>
   </data>
   <data name="End" xml:space="preserve">
     <value>Slut</value>
@@ -189,6 +195,9 @@
   <data name="Friday" xml:space="preserve">
     <value>Fredag</value>
   </data>
+  <data name="IsComplete" xml:space="preserve">
+    <value>Udført?</value>
+  </data>
   <data name="January" xml:space="preserve">
     <value>Januar</value>
   </data>
@@ -209,6 +218,9 @@
   </data>
   <data name="Month" xml:space="preserve">
     <value>Måned</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nej</value>
   </data>
   <data name="NoConnection" xml:space="preserve">
     <value>Ingen netværk</value>
@@ -287,5 +299,8 @@
   </data>
   <data name="Week" xml:space="preserve">
     <value>Uge</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
   </data>
 </root>

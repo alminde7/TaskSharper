@@ -14,8 +14,9 @@
              providers:LocalizeDictionary.DesignCulture="en-US"
              providers:ResxLocalizationProvider.DefaultDictionary="Resources"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style TargetType="{x:Type Label}" x:Key="DetailsLabelHeader">
             <Setter Property="FontSize" Value="36"/>
             <Setter Property="Margin" Value="0,3,0,0"/>
@@ -84,7 +85,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="15*"/>
+            <RowDefinition Height="12*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -152,12 +153,26 @@
                         <TextBlock HorizontalAlignment="Center" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Text="{lex:Loc Tentative}" />
                     </StackPanel>
                 </StackPanel>
+                <StackPanel Orientation="Vertical" Visibility="{Binding EventIsTypeTask, Converter={StaticResource BoolToVis}}">
+                    <Label Style="{StaticResource DetailsLabelHeader}" Content="{lex:Loc IsComplete}" />
+                    <Label Style="{StaticResource DetailsLabelContent}" Content="{lex:Loc Yes}" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorGreen}" HorizontalAlignment="Center" Visibility="{Binding SelectedEvent.MarkedAsDone, Converter={StaticResource BoolToVis}}"></Label>
+                    <Label Style="{StaticResource DetailsLabelContent}" Content="{lex:Loc No}" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorRed}" HorizontalAlignment="Center" Visibility="{Binding EventIsNotCompleted, Converter={StaticResource BoolToVis}}"></Label>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
         <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}">
-                    <fa:ImageAwesome Icon="Edit" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" Opacity="{Binding TaskOpacity}"/>
+                <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDetailsClickCommand}" Margin="0,0,50,0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryFont1Size}" Text="{lex:Loc Edit}" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <fa:ImageAwesome Icon="Edit" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryColor}"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource TransparentBtnStyle}" Command="{Binding EventDeleteCommand}" VerticalAlignment="Stretch">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=PrimaryFont1Size}" Text="{lex:Loc Delete}" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorRed}" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <fa:ImageAwesome Icon="MinusCircle" Foreground="{Binding Source={x:Static properties:Settings.Default}, Path=ColorRed}"/>
+                    </StackPanel>
                 </Button>
             </StackPanel>
         </Viewbox>
