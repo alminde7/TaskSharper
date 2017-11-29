@@ -84,6 +84,7 @@
       <DependentUpon>NotificationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Notification\NotificationViewModel.cs" />
+    <Compile Include="Components\SetCulture\SetCulture.cs" />
     <Compile Include="Config\ApplicationStatus.cs" />
     <Compile Include="Components\DateTimePicker\DateTimePickerView.xaml.cs">
       <DependentUpon>DateTimePickerView.xaml</DependentUpon>
@@ -120,7 +121,7 @@
     <Compile Include="Properties\Resources.da-DK.Designer.cs">
       <DependentUpon>Resources.da-DK.resx</DependentUpon>
       <AutoGen>True</AutoGen>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -143,7 +144,7 @@
     <EmbeddedResource Include="Properties\Resources.da-DK.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.da-DK.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.en-US.resx">

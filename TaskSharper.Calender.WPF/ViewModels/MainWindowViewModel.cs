@@ -8,6 +8,7 @@ using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Components.SetCulture;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.NotificationEvents;
 using TaskSharper.WPF.Common.Events.Resources;
@@ -26,6 +27,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private readonly ILogger _logger;
         private bool _spinnerVisible;
         private bool _scrollButtonsVisible;
+        private Culture _culture;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
         
@@ -54,6 +56,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             ScrollButtonsVisible = true;
 
+            _culture = new Culture();
             // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
             //CheckServiceStatus();
         }
@@ -96,7 +99,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             if(LocalizeDictionary.Instance.Culture.Name != culture)
             {
                 _logger.ForContext("Language", typeof(MainWindowViewModel)).Information("Changed culture to {@Culture}", culture);
-                LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
+                _culture.Set(culture);
                 _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
             }
         }
