@@ -112,7 +112,9 @@ namespace TaskSharper.Notification
         {
             if (EventNotifications.ContainsKey(eventId))
             {
-                EventNotifications.TryRemove(eventId, out _);
+                EventNotifications.TryRemove(eventId, out var obj);
+                foreach (var notificationObject in obj)
+                    notificationObject.Timer.Dispose();
             }
         }
 
