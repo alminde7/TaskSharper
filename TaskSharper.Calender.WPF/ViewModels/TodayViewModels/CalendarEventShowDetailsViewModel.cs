@@ -23,7 +23,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool _eventIsTypeAppointment;
         private bool _eventIsStatusConfirmed;
         private bool _eventIsStatusTentative;
-        private bool _eventIsNotCompleted;
+        private bool _eventIsNotCompleted; // XAML cannot do the NOT-operator ("!") without a custom converter, so this is done instead
 
         public DelegateCommand EventDetailsClickCommand { get; set; }
         public DelegateCommand BackCommand { get; set; }
@@ -117,8 +117,31 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private async void DeleteEvent()
         {
-            await _calendarService.DeleteAsync(SelectedEvent.Id, SelectedEvent.Category.Id);
-            Back();
+            try
+            {
+                await _calendarService.DeleteAsync(SelectedEvent.Id, SelectedEvent.Category.Id);
+                Back();
+            }
+            catch (ConnectionException)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error while deleting an event.");
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new Notification
+                {
+                    Event = SelectedEvent,
+                    Title = "Error!",
+                    Message = "Something went wrong. Please try again. If this continues to occur, contact an administrator.",
+                    NotificationType = NotificationTypeEnum.Error
+                });
+            }
+
         }
 
         private void Back()
