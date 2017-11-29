@@ -64,7 +64,9 @@ namespace TaskSharper.Notification
             // Remove event if it already exist - to ensure that updated events is removed from notifications. 
             if (EventNotifications.ContainsKey(calEvent.Id))
             {
-                EventNotifications.TryRemove(calEvent.Id, out _);
+	            EventNotifications.TryRemove(calEvent.Id, out var obj);
+	            foreach (var notificationObject in obj)
+		            notificationObject.Timer.Dispose();
             }
 
             // If event has been completed, do not add. 

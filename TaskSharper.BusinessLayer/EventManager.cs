@@ -240,6 +240,7 @@ namespace TaskSharper.BusinessLayer
 
             await CalendarService.DeleteEventAsync(calendarId, id);
             EventCache.RemoveEvent(id);
+			Notification.Detatch(id);
 
             _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
         }
@@ -250,6 +251,7 @@ namespace TaskSharper.BusinessLayer
 
             var createdEvent = await CalendarService.InsertEventAsync(newEvent);
             EventCache.AddOrUpdateEvent(createdEvent);
+			Notification.Attach(createdEvent);
 
             _notificationPublisher.Publish(new FinishedGettingExternalDataEvent());
             return createdEvent;
