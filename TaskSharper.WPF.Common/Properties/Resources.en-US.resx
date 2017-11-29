@@ -153,11 +153,17 @@
   <data name="December" xml:space="preserve">
     <value>December</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
     <value>Dismiss</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
   </data>
   <data name="End" xml:space="preserve">
     <value>End</value>
@@ -186,6 +192,9 @@
   <data name="Friday" xml:space="preserve">
     <value>Friday</value>
   </data>
+  <data name="IsComplete" xml:space="preserve">
+    <value>Completed?</value>
+  </data>
   <data name="January" xml:space="preserve">
     <value>January</value>
   </data>
@@ -206,6 +215,9 @@
   </data>
   <data name="Month" xml:space="preserve">
     <value>Month</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="NotificationEventPastText" xml:space="preserve">
     <value>d</value>
@@ -281,5 +293,8 @@
   </data>
   <data name="Week" xml:space="preserve">
     <value>Week</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

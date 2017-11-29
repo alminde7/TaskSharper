@@ -23,9 +23,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private bool _eventIsTypeAppointment;
         private bool _eventIsStatusConfirmed;
         private bool _eventIsStatusTentative;
+        private bool _eventIsNotCompleted; // XAML cannot do the NOT-operator ("!") without a custom converter, so this is done instead
 
         public DelegateCommand EventDetailsClickCommand { get; set; }
         public DelegateCommand BackCommand { get; set; }
+        public DelegateCommand EventDeleteCommand { get; set; }
 
         public bool EventIsStatusConfirmed
         {
@@ -51,6 +53,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             set => SetProperty(ref _eventIsTypeAppointment, value);
         }
 
+        public bool EventIsNotCompleted
+        {
+            get => _eventIsNotCompleted;
+            set => SetProperty(ref _eventIsNotCompleted, value);
+        }
+
         public Event SelectedEvent
         {
             get => _selectedEvent;
@@ -66,6 +74,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
             BackCommand = new DelegateCommand(Back);
             EventDetailsClickCommand = new DelegateCommand(EventEditDetailsClick);
+            EventDeleteCommand = new DelegateCommand(DeleteEvent);
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
@@ -75,6 +84,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             try
             {
                 SelectedEvent = await _calendarService.GetAsync(id);
+                EventIsNotCompleted = !SelectedEvent.MarkedAsDone;
             }
             catch (ConnectionException)
             {
@@ -94,7 +104,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
             EventIsTypeAppointment = SelectedEvent.Type == EventType.Appointment;
             EventIsStatusConfirmed = SelectedEvent.Status == EventStatus.Confirmed;
             EventIsStatusTentative = SelectedEvent.Status == EventStatus.Tentative;
-
         }
 
         private void EventEditDetailsClick()
@@ -105,6 +114,36 @@ namespace TaskSharper.Calender.WPF.ViewModels
             navigationParameters.Add("Region", ViewConstants.REGION_Calendar);
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarEventDetails, navigationParameters);
         }
+
+        private async void DeleteEvent()
+        {
+            try
+            {
+                await _calendarService.DeleteAsync(SelectedEvent.Id, SelectedEvent.Category.Id);
+                Back();
+            }
+            catch (ConnectionException)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new ConnectionErrorNotification());
+            }
+            catch (UnauthorizedAccessException)
+            {
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new UnauthorizedErrorNotification());
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error while deleting an event.");
+                _eventAggregator.GetEvent<NotificationEvent>().Publish(new Notification
+                {
+                    Event = SelectedEvent,
+                    Title = "Error!",
+                    Message = "Something went wrong. Please try again. If this continues to occur, contact an administrator.",
+                    NotificationType = NotificationTypeEnum.Error
+                });
+            }
+
+        }
+
         private void Back()
         {
             _regionManager.Regions["CalendarRegion"].NavigationService.Journal.GoBack();

@@ -187,5 +187,14 @@ namespace TaskSharper.WPF.Common.Properties {
                 return ((string)(this["AliceBlue"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Green")]
+        public string ColorGreen {
+            get {
+                return ((string)(this["ColorGreen"]));
+            }
+        }
     }
 }
