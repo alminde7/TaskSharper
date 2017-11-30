@@ -27,6 +27,10 @@ namespace TaskSharper.WPF.Common.Components.DateTimePicker
             {
                 MinuteListBox.Items.Add(minute);
             }
+
+            // Disable all dates prior to todays date
+            //DatePickerCalendar.DisplayDateStart = DateTime.Today;
+            DatePickerCalendar.BlackoutDates.AddDatesInPast();
         }
 
         public object Date
@@ -40,16 +44,28 @@ namespace TaskSharper.WPF.Common.Components.DateTimePicker
         
         private void SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedDate = ((Calendar)sender).SelectedDate.Value;
+            var selectedDate = ((Calendar)sender).SelectedDate ?? DateTime.Today;
             var date = (DateTime?) Date;
             Date = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day) + date?.TimeOfDay;
+
+            if (selectedDate.Date >= DateTime.Today )
+            {
+                DatePickerCalendar.BlackoutDates.Clear();
+                DatePickerCalendar.BlackoutDates.AddDatesInPast();
+            }
         }
 
         private void CalendarLoaded(object sender, RoutedEventArgs e)
         {
             var date = (DateTime?) Date;
+            DatePickerCalendar.BlackoutDates.Clear();
             DatePickerCalendar.SelectedDate = date ?? DateTime.Today;
             DatePickerCalendar.DisplayDate = date?.Date ?? DateTime.Today;
+            DatePickerCalendar.BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue, date?.Date.AddDays(-1) ?? DateTime.Today.AddDays(-1)));
+            if (date?.Date < DateTime.Today.AddDays(-1))
+            {
+                DatePickerCalendar.BlackoutDates.Add(new CalendarDateRange(date?.Date.AddDays(1) ?? DateTime.Today.AddDays(1), DateTime.Today.AddDays(-1)));
+            }
 
             HourListBox.SelectedIndex = date?.Hour ?? DateTime.Today.Hour;
             MinuteListBox.SelectedIndex = date?.Minute ?? DateTime.Today.Minute;
