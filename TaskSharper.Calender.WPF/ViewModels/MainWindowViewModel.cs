@@ -57,6 +57,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             ScrollButtonsVisible = true;
 
             _culture = new Culture();
+
             // NOTE:: This is getting called before the service has actually started. Properbly only a problem when developing. 
             //CheckServiceStatus();
         }

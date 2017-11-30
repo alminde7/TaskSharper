@@ -16,6 +16,10 @@ using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.WPF.Common.Components.Notification
 {
+    /// <summary>
+    /// NotificationViewModel is the ViewModel for the NotificationView.xaml
+    /// It is made for the purpose of being a genereal component of showing notifications. 
+    /// </summary>
     public class NotificationViewModel : BindableBase
     {
         private bool _isPopupOpen;
@@ -67,6 +71,11 @@ namespace TaskSharper.WPF.Common.Components.Notification
             get => _notificationMessage;
             set => SetProperty(ref _notificationMessage, value);
         }
+
+        /// <summary>
+        /// The category property is databinded to the view for the purpose of showcaseing font awesome icons,
+        /// depending on the category type. 
+        /// </summary>
         public string Category
         {
             get => _category;
@@ -78,18 +87,30 @@ namespace TaskSharper.WPF.Common.Components.Notification
             set => SetProperty(ref _spinnerVisible, value);
         }
 
+        /// <summary>
+        /// IsPopupOpen property is databinded to the view for the purpose of enabling and disabling the popup visually
+        /// </summary>
         public bool IsPopupOpen
         {
             get => _isPopupOpen;
             set => SetProperty(ref _isPopupOpen, value);
         }
 
+        /// <summary>
+        /// Depending on the NotificationTypeEnum the popup changes background colour.
+        /// </summary>
         public NotificationTypeEnum NotificationType
         {
             get => _notificationType;
             set => SetProperty(ref _notificationType, value);
         }
 
+        /// <summary>
+        /// Constructor that subscribe to Notification events and culture changes, and sends the event to a designated action. 
+        /// </summary>
+        /// <param name="eventAggregator"></param>
+        /// <param name="logger"></param>
+        /// <param name="dataService"></param>
         public NotificationViewModel(IEventAggregator eventAggregator, ILogger logger, IEventRestClient dataService)
         {
             IsPopupOpen = false;
@@ -102,11 +123,25 @@ namespace TaskSharper.WPF.Common.Components.Notification
             CompleteTaskCommand = new DelegateCommand(CompleteTask);
         }
 
+        /// <summary>
+        /// After receiving the event of culture change, the culture have already been changed.
+        /// This function only sets the private culture to the updated version. 
+        /// </summary>
         private void UpdateCultureHandler()
         {
             _culture = CultureInfo.CurrentCulture;
         }
 
+        /// <summary>
+        /// This is the action that handles the Notification event that is subscribed to in the constructor.
+        /// 
+        /// If there is an issue with internet connection, then this notification should only be shown once,
+        /// when shown a static variable is set.
+        /// 
+        /// If the notification event is null or already marked as dismiss/complete then it will not be shown. 
+        /// </summary>
+        /// <param name="notification">The notification event containing either a task or appointment event, or a
+        /// internetconnection event.</param>
         private async void HandleNotificationEvent(Events.Resources.Notification notification)
         {
             if (notification is ConnectionErrorNotification)
@@ -130,6 +165,11 @@ namespace TaskSharper.WPF.Common.Components.Notification
             }
         }
 
+        /// <summary>
+        /// When the button dismiss/complete has been pressed the delegateCommand CompleteTaskCommand will call this function.
+        /// It will throw an new event to the dataservice with an updated MarkedAsDone on the event. 
+        /// And finaly call the method ClosePopUp(). 
+        /// </summary>
         private void CompleteTask()
         {
             if (NotificationEvent != null)
@@ -139,13 +179,22 @@ namespace TaskSharper.WPF.Common.Components.Notification
 
             ClosePopUp();
         }
-
+        /// <summary>
+        /// Sets the property IsPopupOpen to false which makes the Popup collapse in the view. 
+        /// also publish the event of not showing the spinner. The spinner event is set to show because it greys out 
+        /// all content behind the notification event. 
+        /// </summary>
         private void ClosePopUp()
         {
             IsPopupOpen = false;
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="notification">The notification event containing either a task or appointment event</param>
+        /// <returns></returns>
         private Task ShowNotification(Events.Resources.Notification notification)
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
