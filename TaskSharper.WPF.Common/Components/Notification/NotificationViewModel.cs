@@ -191,11 +191,20 @@ namespace TaskSharper.WPF.Common.Components.Notification
         }
 
         /// <summary>
+        /// ShowNotification method starts the spinner and sets all of the properties from the event into properties of the 
+        /// viewModel. 
         /// 
+        /// From the event category the CategoryToIconConverter will generate the correct font-awesome string, which will 
+        /// be serialized in the view. 
+        /// 
+        /// Depending on the start and end time the different method will be called to generate the correct ui text. 
+        /// 
+        /// Its made async to await the notification sound being played. This operation could take more than 0,1 and thereby 
+        /// blocking the UI thread.
         /// </summary>
         /// <param name="notification">The notification event containing either a task or appointment event</param>
         /// <returns></returns>
-        private Task ShowNotification(Events.Resources.Notification notification)
+        private async Task ShowNotification(Events.Resources.Notification notification)
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             NotificationTitle = notification.Title;
@@ -239,12 +248,16 @@ namespace TaskSharper.WPF.Common.Components.Notification
                 }
             }
             IsPopupOpen = true;
-            PlayNotificationSound();
-
-            return Task.CompletedTask;
+            await PlayNotificationSound();
         }
-
-        private void PlayNotificationSound()
+        /// <summary>
+        /// Uses AppDomain.CurrentDomain.BaseDirectory so that when doployed and when using the launcher application 
+        /// the path route is set correct. 
+        /// 
+        /// Uses SoundPlayer library for playing sound files. 
+        /// </summary>
+        /// <returns></returns>
+        private Task PlayNotificationSound()
         {
             System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
             {
@@ -260,8 +273,14 @@ namespace TaskSharper.WPF.Common.Components.Notification
                     _logger.ForContext("Error", typeof(NotificationViewModel)).Information("An error occured when trying to play notification sound: {0}", e.Message);
                 }
             });
+
+            return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Helper function for when the Notification is in the current timeframe, and have to be displayed acordingly.
+        /// </summary>
+        /// <param name="startToEndTime">The string telling when the event is occour from and to</param>
         private void CurrentTimeNotificationText(string startToEndTime)
         {
             var textFormat = LocalizeDictionary.Instance
@@ -270,6 +289,13 @@ namespace TaskSharper.WPF.Common.Components.Notification
 
             NotificationTimeText = string.Format(textFormat, startToEndTime);
         }
+
+        /// <summary>
+        /// Helper function for when the event is in the past timeframe, and have to be displayed acordingly.
+        /// </summary>
+        /// <param name="startToEndTime">The string telling when the event is occour from and to</param>
+        /// <param name="dateTimeMin">The string telling when the event had happent</param>
+        /// <param name="notification">The event</param>
         private void PastTimeNotificationText(string startToEndTime, string dateTimeMin, Events.Resources.Notification notification)
         {
             TimeSpan substractedDateTime = DateTime.Now.Subtract(notification.Event.Start.Value);
@@ -283,6 +309,13 @@ namespace TaskSharper.WPF.Common.Components.Notification
             NotificationTimeText = string.Format(textFormat, NotificationEventType.ToLower(),
                 dateTimeMin, startToEndTime);
         }
+
+        /// <summary>
+        /// Helper function for when the event is in the future timeframe, and have to be displayed acordingly.
+        /// </summary>
+        /// <param name="startToEndTime">The string telling when the event is occour from and to</param>
+        /// <param name="dateTimeMin">The string telling when the event is going to happen</param>
+        /// <param name="notification">The event</param>
         private void FutureTimeNotificationText(string startToEndTime, string dateTimeMin, Events.Resources.Notification notification)
         {
             TimeSpan substractedDateTime = notification.Event.Start.Value.Subtract(DateTime.Now);
