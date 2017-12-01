@@ -206,18 +206,10 @@ namespace TaskSharper.CacheStore
             if(!Events.ContainsKey(date))
                 InitializeEventsDictionary(date, null);
 
-            foreach (var @event in Events)
-            {
-                foreach (var calEvent in @event.Value)
-                {
-                    if (calEvent.Key == calendarEvent.Id)
-                    {
-                        Events[@event.Key].Remove(calEvent.Key);
-                        break;
-                    }
-                }
-            } // removes event if exist
+            // Removes event from cache if it exist
+            RemoveEvent(calendarEvent.Id);
             
+            // Insert data
             Events[date].AddOrUpdate(calendarEvent.Id, new CacheData<Event>(calendarEvent, DateTime.Now, false));
         }
 
@@ -225,15 +217,8 @@ namespace TaskSharper.CacheStore
         {
             foreach (var @event in Events)
             {
-                foreach (var calEvent in @event.Value)
-                {
-                    if (calEvent.Key == id)
-                    {
-                        Events[@event.Key].Remove(calEvent.Key);
-                        break;
-                    }
-                }
-            } // removes event if exist
+                @event.Value.Remove(id);
+            }
         }
 
         private void InitializeEventsDictionary(DateTime start, DateTime? end)
