@@ -92,8 +92,6 @@ namespace TaskSharper.CacheStore
             {
                 var date = calEvent.Start.Value.StartOfDay();
 
-                //Events[date].AddOrUpdate(calEvent.Id, new CacheData(calEvent, DateTime.Now, false));
-
                 var diff = (calEvent.End.Value - calEvent.Start.Value).Days;
 
                 for (int i = 0; i <= diff; i++)
