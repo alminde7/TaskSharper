@@ -9,6 +9,10 @@ using TaskSharper.WPF.Common.Properties;
 
 namespace TaskSharper.WPF.Common.Components.EventModification
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// ViewModel for Categories used in the EventModification component.
+    /// </summary>
     public class CategoryViewModel : BindableBase
     {
         private readonly IRegionManager _regionManager;
@@ -22,12 +26,20 @@ namespace TaskSharper.WPF.Common.Components.EventModification
 
         public DelegateCommand SetCategoryCommand { get; set; }
 
+        /// <summary>
+        /// Id of the category.
+        /// When using Google Calendar as Calendar Service Provider, this is the calendar id.
+        /// </summary>
         public string Id
         {
             get => _id;
             set => SetProperty(ref _id, value);
         }
 
+        /// <summary>
+        /// Name of the category.
+        /// Converts this string to a string matching a FontAwesome icon if possible - otherwise it uses a default value.
+        /// </summary>
         public string Category
         {
             get => _category;
@@ -38,20 +50,37 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
+        /// <summary>
+        /// Type of the event.
+        /// </summary>
         public EventType Type { get; set; }
 
+        /// <summary>
+        /// Name of the FontAwesome icon to show in the view.
+        /// </summary>
         public string CategoryIcon
         {
             get => _categoryIcon;
             set => SetProperty(ref _categoryIcon, value);
         }
 
+        /// <summary>
+        /// Binding value used for opacity of the category icon. Ranges between 0.0-1.0.
+        /// Default value for when the category is selected: 1.0
+        /// Default value for when the category is not selected: 0.5
+        /// </summary>
         public double CategoryOpacity
         {
             get => _categoryOpacity;
             set => SetProperty(ref _categoryOpacity, value);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="regionManager">Regionmanager used for navigation</param>
+        /// <param name="eventAggregator">Event aggregator for subscribing to and publishing events</param>
+        /// <param name="dataService">Data service for data management</param>
         public CategoryViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IEventRestClient dataService)
         {
             _regionManager = regionManager;
@@ -62,6 +91,10 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             _eventAggregator.GetEvent<CategoryClickedEvent>().Subscribe(CategoryChanged);
         }
 
+        /// <summary>
+        /// Handler for the event when a category has changed.
+        /// </summary>
+        /// <param name="eventCategory">Category for the event</param>
         private void CategoryChanged(EventCategory eventCategory)
         {
             if (eventCategory.Id == Id)
@@ -74,6 +107,10 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
+        /// <summary>
+        /// Handler for setting a category.
+        /// Method used for binding a command to the view.
+        /// </summary>
         private void SetCategory()
         {
             var category = new EventCategory
