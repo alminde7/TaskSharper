@@ -17,8 +17,18 @@ using TaskSharper.WPF.Common.Properties;
 
 namespace TaskSharper.WPF.Common.Components.EventModification
 {
+    /// <inheritdoc cref="BindableBase" />
+    /// <inheritdoc cref="INavigationAware"/>
+    /// <summary>
+    /// ViewModel for the EventModification component.
+    /// </summary>
     public class EventModificationViewModel : BindableBase, INavigationAware
     {
+        /// <summary>
+        /// Enum for the type of modification. Possible values are:
+        /// Create
+        /// Edit
+        /// </summary>
         enum ModificationType
         {
             Create,
@@ -30,7 +40,6 @@ namespace TaskSharper.WPF.Common.Components.EventModification
         public DelegateCommand BackCommand { get; set; }
         public DelegateCommand SaveEventCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
-        public DelegateCommand KeyboardCommand { get; set; }
         public DelegateCommand SetTypeAsAppointmentCommand { get; set; }
         public DelegateCommand SetTypeAsTaskCommand { get; set; }
         public DelegateCommand SetStatusAsTentativeCommand { get; set; }
@@ -43,10 +52,7 @@ namespace TaskSharper.WPF.Common.Components.EventModification
         private readonly IEventRestClient _dataService;
         private readonly ILogger _logger;
         private string _region;
-
-        private Process _touchKeyboardProcess;
-        private string touchKeyboardPath = @"C:\Program Files\Common Files\Microsoft Shared\Ink\TabTip.exe";
-        private string _title;
+        
         private Event _event;
         private IEnumerable<EventType> _eventTypes;
         private IEnumerable<EventStatus> _eventStatuses;
@@ -58,95 +64,122 @@ namespace TaskSharper.WPF.Common.Components.EventModification
         private string _titleErrorMessage;
         private bool _isTaskTypeVisible;
         private bool _isAppointmentTypeVisible;
-
-        public Process TouchKeyboardProcess
-        {
-            get => _touchKeyboardProcess;
-            set => SetProperty(ref _touchKeyboardProcess, value);
-        }
-
-        public string Title
-        {
-            get => _title;
-            set => SetProperty(ref _title, value);
-        }
-
+        
+        /// <summary>
+        /// Event that is used for view-binding.
+        /// </summary>
         public Event Event
         {
             get => _event;
             set => SetProperty(ref _event, value);
         }
 
+        /// <summary>
+        /// Possible values of the EventType enum.
+        /// </summary>
         public IEnumerable<EventType> EventTypes
         {
             get => _eventTypes;
             set => SetProperty(ref _eventTypes, value);
         }
 
+        /// <summary>
+        /// Possible values of the EventStatus enum.
+        /// </summary>
         public IEnumerable<EventStatus> EventStatuses
         {
             get => _eventStatuses;
             set => SetProperty(ref _eventStatuses, value);
         }
 
+        /// <summary>
+        /// Binding value used for opacity of the task icon. Ranges between 0.0-1.0.
+        /// Default value for when task is selected: 1.0
+        /// Default value for when task is not selected: 0.5
+        /// If this is 0, the task icon is hidden, but still takes up space in the view.
+        /// </summary>
         public double TaskOpacity
         {
             get => _taskOpacity;
             set => SetProperty(ref _taskOpacity, value);
         }
 
+        /// <summary>
+        /// Binding value used for opacity of the appointment icon. Ranges between 0.0-1.0.
+        /// Default value for when appointment is selected: 1.0
+        /// Default value for when appointment is not selected: 0.5
+        /// If this is 0, the appointment icon is hidden, but still takes up space in the view.
+        /// </summary>
         public double AppointmentOpacity
         {
             get => _appointmentOpacity;
             set => SetProperty(ref _appointmentOpacity, value);
         }
 
+        /// <summary>
+        /// If this is false, the task icon is collapsed and not taking up space in the view.
+        /// </summary>
         public bool IsTaskTypeVisible
         {
             get => _isTaskTypeVisible;
             set => SetProperty(ref _isTaskTypeVisible, value);
         }
 
+        /// <summary>
+        /// If this is false, the appointment icon is collapsed and not taking up space in the view.
+        /// </summary>
         public bool IsAppointmentTypeVisible
         {
             get => _isAppointmentTypeVisible;
             set => SetProperty(ref _isAppointmentTypeVisible, value);
         }
 
+        /// <summary>
+        /// Binding value used for opacity of the confirmed icon. Ranges between 0.0-1.0.
+        /// Default value for when confirmed is selected: 1.0
+        /// Default value for when confirmed is not selected: 0.5
+        /// If this is 0, the confirmed icon is hidden, but still takes up space in the view.
+        /// </summary>
         public double ConfirmedOpacity
         {
             get => _confirmedOpacity;
             set => SetProperty(ref _confirmedOpacity, value);
         }
 
+        /// <summary>
+        /// Binding value used for opacity of the tentative icon. Ranges between 0.0-1.0.
+        /// Default value for when tentative is selected: 1.0
+        /// Default value for when tentative is not selected: 0.5
+        /// If this is 0, the tentative icon is hidden, but still takes up space in the view.
+        /// </summary>
         public double TentativeOpacity
         {
             get => _tentativeOpacity;
             set => SetProperty(ref _tentativeOpacity, value);
         }
 
+        /// <summary>
+        /// Binding value for title error messages.
+        /// </summary>
         public string TitleErrorMessage
         {
             get => _titleErrorMessage;
             set => SetProperty(ref _titleErrorMessage, value);
         }
 
+        /// <summary>
+        /// Binding value for date time picker error messages.
+        /// </summary>
         public string DateTimeErrorMessage
         {
             get => _dateTimeErrorMessage;
             set => SetProperty(ref _dateTimeErrorMessage, value);
         }
 
-        public void SetTypeAsTask()
-        {
-            SetType(EventType.Task);
-        }
-
-        public void SetTypeAsAppointment()
-        {
-            SetType(EventType.Appointment);
-        }
-
+        /// <summary>
+        /// Sets type and updates the opacity of type icons.
+        /// </summary>
+        /// <param name="type">Type of the event</param>
         public void SetType(EventType type)
         {
             TaskOpacity = Settings.Default.NotSelectedOpacity;
@@ -168,6 +201,10 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
+        /// <summary>
+        /// Sets status and updates the opacity of status icons.
+        /// </summary>
+        /// <param name="status">Status of the event</param>
         public void SetStatus(EventStatus status)
         {
             ConfirmedOpacity = Settings.Default.NotSelectedOpacity;
@@ -191,6 +228,13 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="regionManager">Regionmanager used for navigation</param>
+        /// <param name="dataService">Data service for data management</param>
+        /// <param name="eventAggregator">Event aggregator for subscribing to and publishing events</param>
+        /// <param name="logger">Logger for logging</param>
         public EventModificationViewModel(IRegionManager regionManager, IEventRestClient dataService, IEventAggregator eventAggregator, ILogger logger)
         {
             _regionManager = regionManager;
@@ -203,7 +247,6 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             BackCommand = new DelegateCommand(Back);
             SaveEventCommand = new DelegateCommand(SaveEvent);
             CancelCommand = new DelegateCommand(Cancel);
-            KeyboardCommand = new DelegateCommand(ToggleKeyboard);
             SetTypeAsTaskCommand = new DelegateCommand(() => SetType(EventType.Task));
             SetTypeAsAppointmentCommand = new DelegateCommand(() => SetType(EventType.Appointment));
             SetStatusAsConfirmedCommand = new DelegateCommand(() => SetStatus(EventStatus.Confirmed));
@@ -220,11 +263,18 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             _eventAggregator.GetEvent<CategoryClickedEvent>().Subscribe(CategoryClicked);
         }
 
+        /// <summary>
+        /// Handler for clicking a category.
+        /// </summary>
+        /// <param name="category">Category for the event</param>
         private void CategoryClicked(EventCategory category)
         {
             Event.Category = category;
         }
 
+        /// <summary>
+        /// Handler for when language changes.
+        /// </summary>
         private void CultureChanged()
         {
             if (Event.Start > Event.End || string.IsNullOrEmpty(Event.Title))
@@ -242,11 +292,9 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
-        private void ToggleKeyboard()
-        {
-            TouchKeyboardProcess = TouchKeyboardProcess.HasExited || TouchKeyboardProcess == null ? Process.Start(touchKeyboardPath) : null;
-        }
-
+        /// <summary>
+        /// Handler for saving the event.
+        /// </summary>
         public async void SaveEvent()
         {
             bool error = false;
@@ -301,11 +349,20 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
+        /// <summary>
+        /// Handler for the cancel button.
+        /// </summary>
         private void Cancel()
         {
             _regionManager.Regions[_region].NavigationService.Journal.GoBack();
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Implementation of the OnNavigatedTo method.
+        /// Defines what happens when view is navigated to the EventModification view.
+        /// </summary>
+        /// <param name="navigationContext">Navigation context that contains information for the navigation request.</param>
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             var id = navigationContext?.Parameters["Id"]?.ToString();
@@ -383,17 +440,32 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Implementation of the IsNavigationTarget method.
+        /// </summary>
+        /// <param name="navigationContext">Navigation context that contains information for the navigation request.</param>
+        /// <returns>True</returns>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Implementation of the OnNavigatedFrom method.
+        /// Defines what happens when the view is navigated away from the EventModification view.
+        /// </summary>
+        /// <param name="navigationContext">Navigation context that contains information for the navigation request.</param>
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
             TitleErrorMessage = null;
             DateTimeErrorMessage = null;
         }
 
+        /// <summary>
+        /// Handler for clicking the back button.
+        /// </summary>
         private void Back()
         {
             _regionManager.Regions[_region].NavigationService.Journal.GoBack();

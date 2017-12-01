@@ -15,6 +15,10 @@ using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Tasks.WPF.ViewModels
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// ViewModel for the task card.
+    /// </summary>
     public class TaskCardViewModel : BindableBase
     {
         private readonly ITaskRestClient _dataService;
@@ -31,6 +35,9 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         public DelegateCommand EditTaskCommand { get; set; }
         public DelegateCommand SaveTaskStateCommand { get; set; }
 
+        /// <summary>
+        /// Holds the task used for data binding.
+        /// </summary>
         public Event Task
         {
             get => _task;
@@ -41,12 +48,18 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Category of the task as a FontAwesome valid value.
+        /// </summary>
         public string Category
         {
             get => _category;
             set => SetProperty(ref _category, value);
         }
 
+        /// <summary>
+        /// Determines whether or not the task is selected, and adds a background color if it is selected.
+        /// </summary>
         public bool IsSelected
         {
             get => _isSelected;
@@ -57,12 +70,24 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Binding value used for opacity of the background. Ranges between 0.0-1.0.
+        /// Default value for when task is selected: 0.5
+        /// Default value for when task is not selected: 0
+        /// </summary>
         public double BackgroundOpacity
         {
             get => _backgroundOpacity;
             set => SetProperty(ref _backgroundOpacity, value);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="dataService">Data service for data management</param>
+        /// <param name="eventAggregator">Event aggregator for subscribing to and publishing events</param>
+        /// <param name="regionManager">Regionmanager used for navigation</param>
+        /// <param name="logger">Logger for logging</param>
         public TaskCardViewModel(ITaskRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
         {
             _dataService = dataService;
@@ -90,11 +115,18 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             });
         }
 
+        /// <summary>
+        /// Updates the task.
+        /// Used when marking a task as completed.
+        /// </summary>
         private async void SaveTaskState()
         {
             Task = await _dataService.UpdateAsync(Task);
         }
 
+        /// <summary>
+        /// Handler for when clicking the Edit button in the view.
+        /// </summary>
         private void EditTask()
         {
             var navigationParameters = new NavigationParameters();
@@ -104,6 +136,9 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             _regionManager.RequestNavigate(ViewConstants.REGION_Main, ViewConstants.VIEW_ModifyTaskView, navigationParameters);
         }
 
+        /// <summary>
+        /// Handler for selecting a task in the view.
+        /// </summary>
         private void SelectTask()
         {
             _eventAggregator.GetEvent<TaskSelectedEvent>().Publish(Task);
