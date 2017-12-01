@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Title="Welcome to the [TODO: Add project name]" Url="html/1e509201-56a0-49fa-8be6-2a9e7cdad203.htm" />
+  <HelpTOCNode Id="bc541d06-98aa-4877-b604-2f84a8a1fe52" Title="Version History" Url="html/2736ac1c-c701-4c1f-89a3-8e41133e67c1.htm">
+    <HelpTOCNode Title="Version 1.0.0.0" Url="html/04b7d93a-fdd5-4694-bd45-787f96f0084a.htm" />
+  </HelpTOCNode>
+  <HelpTOCNode Id="316be7b1-6d60-4445-9d03-f3fd957cc191" Title="TaskSharper.Appointments.WPF" Url="html/2a25e253-60c6-2223-a91b-41c1bfced18e.htm">
+    <HelpTOCNode Id="785605ca-b0ca-4d61-8aae-92e56e072ff3" Title="NotificationService Class" Url="html/2ac23c41-4752-8fc3-8372-5e451502f06c.htm">
+      <HelpTOCNode Title="NotificationService Constructor " Url="html/92a3a5b8-0668-ada4-24c3-c5d449cedebc.htm" />
+      <HelpTOCNode Id="ca2db6e2-2ae6-4af5-bc03-482956e53a5f" Title="NotificationService Methods" Url="html/24cc730a-0d38-9017-c560-fa8290027f99.htm">
+        <HelpTOCNode Title="ConfigureSubscription Method " Url="html/4e1a9283-f4a3-e425-da74-ccd16e014d1e.htm" />
+        <HelpTOCNode Title="StartContinousService Method " Url="html/ffa984af-bd0a-0c1d-51f7-d32e38d0cfe4.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="430b35eb-152d-4a04-8d9f-08f7298d92be" Title="NotificationService Fields" Url="html/862a9401-0426-07c5-c86f-b73fee322ddc.htm">
+        <HelpTOCNode Title="_eventAggregator Field" Url="html/13d132c3-d39d-bcec-d1b6-1f2e2eb93817.htm" />
+        <HelpTOCNode Title="_logger Field" Url="html/219d055d-dcec-7511-e0c3-3d590c85eb34.htm" />
+        <HelpTOCNode Title="_notificationClient Field" Url="html/da8caa5a-e0f4-1394-e58d-923e77d8c4bb.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="9c549fc1-e327-4590-879c-a9aec7d1a438" Title="TaskSharper.Tasks.WPF" Url="html/8188d63a-a741-04fb-8c50-92c6da709a8d.htm">
+    <HelpTOCNode Id="0b70c410-8ac4-4a59-bfc8-5c9845baed4c" Title="App Class" Url="html/215ae926-6739-714b-9039-905d16d24679.htm">
+      <HelpTOCNode Title="App Constructor " Url="html/ee69de7a-c3b2-b0c2-72b0-6b9a9a91d2a5.htm" />
+      <HelpTOCNode Id="ae3977b2-c262-4286-b421-59829d3d3d12" Title="App Methods" Url="html/fad42696-5088-0c41-af8b-bc571a3e1994.htm">
+        <HelpTOCNode Title="Main Method " Url="html/d312bdac-c676-1c5c-beb2-4c36489294ab.htm" />
+        <HelpTOCNode Title="OnStartup Method " Url="html/f20dc1ff-a99b-2858-6f2f-1754d295112d.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="bd40665e-1ec6-436b-974e-4f2c350600c0" Title="Bootstrapper Class" Url="html/de3b0550-bc8e-7ec2-13a2-463df2e3f78b.htm">
+      <HelpTOCNode Title="Bootstrapper Constructor " Url="html/634928fd-a939-2cfd-12b6-2e12cb900b62.htm" />
+      <HelpTOCNode Id="1149f26e-f7a9-49ed-99c7-4318040bf6f5" Title="Bootstrapper Methods" Url="html/cf8c4a42-73c5-54cc-ab34-2631be6a11c7.htm">
+        <HelpTOCNode Title="ConfigureContainer Method " Url="html/1bd6a3a5-81c0-fe93-8367-47c6fa9c0090.htm" />
+        <HelpTOCNode Title="CreateLogger Method " Url="html/3a7df70b-c15b-4801-5851-2ba9a3f052cf.htm" />
+        <HelpTOCNode Title="CreateShell Method " Url="html/4ad3f3c2-13e1-1125-5e6d-4b0daecbcf38.htm" />
+        <HelpTOCNode Title="InitializeShell Method " Url="html/96361121-80f4-5115-afcb-a387a398286e.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="394e199f-78c0-40e3-bac9-57a668e19f0e" Title="SerilogLogger Class" Url="html/e0231a1a-e8fa-abc8-6bcf-3905a37171b3.htm">
+      <HelpTOCNode Title="SerilogLogger Constructor " Url="html/496d5522-35b3-b313-3ef0-75cca6e39f4c.htm" />
+      <HelpTOCNode Id="40190c24-54c2-4fb2-a5d3-b4222d5d4631" Title="SerilogLogger Methods" Url="html/421266bf-24b2-e756-600a-b45a6c0247fe.htm">
+        <HelpTOCNode Title="Log Method " Url="html/685e9e40-6960-d206-4f78-0cf5a4e775d5.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="8299d11a-706c-45bc-bb68-18ce6509e975" Title="TaskSharper.Tasks.WPF.Config" Url="html/833c1a50-c568-566e-6732-073d99acdb84.htm">
+    <HelpTOCNode Id="100d1570-80bf-49cb-92ef-5b6388825f50" Title="ViewConstants Class" Url="html/fb622137-d48d-9366-74c8-97272d72867e.htm">
+      <HelpTOCNode Title="ViewConstants Constructor " Url="html/3d10c2c0-f9bd-88ee-96d0-c3109c4ec5da.htm" />
+      <HelpTOCNode Id="fea20b40-a38f-49a1-8a60-4dba2d21ba55" Title="ViewConstants Fields" Url="html/3e4c297d-0d34-b969-aecf-d08ca43969a2.htm">
+        <HelpTOCNode Title="REGION_Main Field" Url="html/cee7366f-eb0f-eb59-a2c2-c40841694654.htm" />
+        <HelpTOCNode Title="VIEW_ModifyTaskView Field" Url="html/2f66f9e4-ec85-79f0-7aa2-808556fc33a0.htm" />
+        <HelpTOCNode Title="VIEW_TaskDetails Field" Url="html/d345fcc5-83c6-748a-c29b-d63abb6de1e5.htm" />
+        <HelpTOCNode Title="VIEW_TaskOverview Field" Url="html/e908411e-88ff-6715-ad21-45ab765be3fc.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="e2c379e5-ada1-40fa-b667-0b4d734619a8" Title="TaskSharper.Tasks.WPF.Events" Url="html/0acc8f23-0463-7ba1-fce7-120c4ab91a0d.htm">
+    <HelpTOCNode Id="503895cb-5aaa-4796-a3a9-37b19b72dbcc" Title="TaskSelectedEvent Class" Url="html/20095756-0fe5-f0b9-accf-1bc5db8bf381.htm">
+      <HelpTOCNode Title="TaskSelectedEvent Constructor " Url="html/d4726777-84c0-672d-4c69-ad850dd8c44a.htm" />
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="eca9a4a8-5d75-4675-841b-46617103ad9b" Title="TaskSharper.Tasks.WPF.ViewModels" Url="html/d0b96ebf-88d7-dc8c-e7d7-3fc0ef3df0bf.htm">
+    <HelpTOCNode Id="297e0486-35ac-4f3b-bc6c-07b0829e0c75" Title="MainWindowViewModel Class" Url="html/be6348ef-2aa9-fe05-4372-2da973cfa03f.htm">
+      <HelpTOCNode Title="MainWindowViewModel Constructor " Url="html/d8ed98c8-d2fe-c8bb-b380-5e7c5445e36e.htm" />
+      <HelpTOCNode Id="b48ddc89-933e-4452-871e-1bb82fc0dbd8" Title="MainWindowViewModel Properties" Url="html/a7ec5c3b-2e91-ffd6-a9de-bd53aafa9539.htm">
+        <HelpTOCNode Title="BackCommand Property " Url="html/1adc3387-6702-ab8a-8e12-7c9512d53c58.htm" />
+        <HelpTOCNode Title="ChangeLanguageCommand Property " Url="html/11aae84a-c1c0-5757-627d-31fcd615428f.htm" />
+        <HelpTOCNode Title="CloseApplicationCommand Property " Url="html/b6dedf34-36c2-87c5-c142-ca5bfde86d26.htm" />
+        <HelpTOCNode Title="NavigateCommand Property " Url="html/bf1a9b20-b893-9403-f9ca-a6efbec59b81.htm" />
+        <HelpTOCNode Title="SpinnerVisible Property " Url="html/4d02bd84-a2d6-2f24-b91a-36121ea2ba56.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="9b52942d-178a-4fce-9aa0-ab419ad9e09f" Title="MainWindowViewModel Methods" Url="html/848a5bc5-5e91-6b2f-3d31-fde6418a0c03.htm">
+        <HelpTOCNode Title="Back Method " Url="html/9cfe2d3f-d7dd-4f50-b0ed-b92d5788db00.htm" />
+        <HelpTOCNode Title="ChangeLanguage Method " Url="html/a0d40b04-f319-3eaf-c0fe-dade9ef4b98b.htm" />
+        <HelpTOCNode Title="CloseApplication Method " Url="html/44f66ac2-f06e-818f-32be-5fc01e24a49d.htm" />
+        <HelpTOCNode Title="Navigate Method " Url="html/33dce822-f81e-bd48-382c-61aae536ae1c.htm" />
+        <HelpTOCNode Title="SetSpinnerVisibility Method " Url="html/56476f6a-6a23-cfe8-26b9-6c15d5864816.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="3734c5ef-8ae8-4719-853e-ecf49cc4f04c" Title="MainWindowViewModel Fields" Url="html/91b450d4-454b-4d7e-af55-66a7b7486c91.htm">
+        <HelpTOCNode Title="_eventAggregator Field" Url="html/db980e69-828a-4d72-5990-83b40ed406b0.htm" />
+        <HelpTOCNode Title="_isTaskSelected Field" Url="html/04eb0cdd-777c-c672-1589-64b195dffe81.htm" />
+        <HelpTOCNode Title="_logger Field" Url="html/c93eae49-7d7a-7d22-00c0-a55ac7faf69d.htm" />
+        <HelpTOCNode Title="_regionManager Field" Url="html/6d51c2bc-2a02-6171-4fba-c61cdad41a8e.htm" />
+        <HelpTOCNode Title="_spinnerVisible Field" Url="html/c7aef59e-d506-050f-0a1e-be7336477ba3.htm" />
+        <HelpTOCNode Title="_statusRestClient Field" Url="html/e38fb33d-c675-e82b-cddf-6340d2c9df57.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="568db391-3ecc-477e-8810-518a5e677f48" Title="TaskCardContainerViewModel Class" Url="html/b7afe45b-939b-98bb-47a0-595a762e92e3.htm">
+      <HelpTOCNode Title="TaskCardContainerViewModel Constructor " Url="html/f1f1d5d1-705d-e0a2-5575-572b6896f155.htm" />
+      <HelpTOCNode Id="fdeff8b6-0e27-4c6e-a3e6-30b26f9cf712" Title="TaskCardContainerViewModel Properties" Url="html/4ca4936f-4979-3254-a585-cecb25108514.htm">
+        <HelpTOCNode Title="AddTaskCommand Property " Url="html/d675644e-0a73-6d42-49c2-16d1cacbfe6f.htm" />
+        <HelpTOCNode Title="Category Property " Url="html/76f978ae-5f77-9a70-17fc-bf6fc45d262a.htm" />
+        <HelpTOCNode Title="DeleteTaskCommand Property " Url="html/4eda0a24-bab7-ee3b-9557-b5fd28b8e1b6.htm" />
+        <HelpTOCNode Title="IsTaskSelected Property " Url="html/f22bd2a6-0c1b-9cb2-8e77-83939f5dfcdb.htm" />
+        <HelpTOCNode Title="ScrollDownCommand Property " Url="html/c5da394d-ce46-095d-4791-ff7f48c4757f.htm" />
+        <HelpTOCNode Title="ScrollUpCommand Property " Url="html/cbaac757-83cc-9e58-f9fa-febf224f5409.htm" />
+        <HelpTOCNode Title="SelectedTask Property " Url="html/b73336a1-e48c-ec80-33e0-862b20bcae81.htm" />
+        <HelpTOCNode Title="TaskCards Property " Url="html/063ce2d1-ccfb-bf64-7bad-0224d5b5e269.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="3fc1e28d-8880-45a7-b547-5961e7ad254a" Title="TaskCardContainerViewModel Methods" Url="html/3d967b4a-4b99-317a-f0bc-9c2a135dfdc1.htm">
+        <HelpTOCNode Title="DeleteTask Method " Url="html/dbf60aee-13da-2bcd-2efe-b14bacd89f82.htm" />
+        <HelpTOCNode Title="IsNavigationTarget Method " Url="html/d623e7a8-f1d4-dfb7-ac1e-b7e2477b4647.htm" />
+        <HelpTOCNode Title="NavigateToAddTask Method " Url="html/d90b6dc7-0112-6d07-aac5-5bcbc004cd01.htm" />
+        <HelpTOCNode Title="OnNavigatedFrom Method " Url="html/4706fa1d-6bff-83fe-fbe4-5fc89c7757d0.htm" />
+        <HelpTOCNode Title="OnNavigatedTo Method " Url="html/c94846c7-3287-60f4-1b3d-3481b671c4fa.htm" />
+        <HelpTOCNode Title="ScrollDown Method " Url="html/dea6eed0-8e92-b017-4f52-6b5c3d71ce16.htm" />
+        <HelpTOCNode Title="ScrollUp Method " Url="html/1d7d5aec-61a7-fd45-5274-b26d3255764c.htm" />
+        <HelpTOCNode Title="UpdateView Method " Url="html/94d5f82e-ba92-d161-07be-ca3ba37ca88b.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="8d90a4e5-9cf9-4bd0-bee0-837d2da3c31b" Title="TaskCardContainerViewModel Fields" Url="html/d9de9708-c70c-b46e-93cb-d3ecda959761.htm">
+        <HelpTOCNode Title="_category Field" Url="html/94c85f11-3705-791e-e18d-0f232d7bbd26.htm" />
+        <HelpTOCNode Title="_dataService Field" Url="html/21f72f92-2d7d-d18d-25ec-02d277e3e614.htm" />
+        <HelpTOCNode Title="_eventAggregator Field" Url="html/4eda80c2-6ac1-1e48-e026-d965e260eb84.htm" />
+        <HelpTOCNode Title="_isTaskSelected Field" Url="html/815b4672-cc0f-426b-84e9-6ba5fff055c9.htm" />
+        <HelpTOCNode Title="_logger Field" Url="html/a1b97eaa-fef3-adcb-a90b-6bdadceed45f.htm" />
+        <HelpTOCNode Title="_regionManager Field" Url="html/7bb5384f-63d6-9cd8-65b4-440c226b8c66.htm" />
+        <HelpTOCNode Title="_selectedTask Field" Url="html/2cacc21b-454b-36fd-6eaf-8d54b4c860f3.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="d1a4cff0-0dfe-4029-a9c0-259d980e5c8a" Title="TaskCardViewModel Class" Url="html/1c6c2951-a85a-9745-85a2-b14b93705a09.htm">
+      <HelpTOCNode Title="TaskCardViewModel Constructor " Url="html/866846f2-0ad8-1496-2d26-5aa7e7ee1462.htm" />
+      <HelpTOCNode Id="f96bda04-e811-4929-9d09-1a719b48976d" Title="TaskCardViewModel Properties" Url="html/058bb5c8-fb50-c370-3bef-66cbe5b1383d.htm">
+        <HelpTOCNode Title="BackgroundOpacity Property " Url="html/3fb718e3-aa89-d6df-81ee-5807f2891003.htm" />
+        <HelpTOCNode Title="Category Property " Url="html/985295f8-bdab-95a4-b534-de081283be99.htm" />
+        <HelpTOCNode Title="EditTaskCommand Property " Url="html/d0d339c6-4eaa-2720-e91b-815d0c9f53ac.htm" />
+        <HelpTOCNode Title="IsSelected Property " Url="html/6403f3a1-0adf-16d3-807c-8ae20c872ee3.htm" />
+        <HelpTOCNode Title="SaveTaskStateCommand Property " Url="html/ca43540f-164c-1fae-b879-6f0a4404e3f9.htm" />
+        <HelpTOCNode Title="SelectTaskCommand Property " Url="html/f2bedc2b-2cf3-7387-ca64-572e5a611190.htm" />
+        <HelpTOCNode Title="Task Property " Url="html/95f84886-44cc-b91a-21dd-8a04c1976c21.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="6b3a3f91-8707-4bb9-be0f-2b40e8630e81" Title="TaskCardViewModel Methods" Url="html/5cd660ea-2351-d0a2-da08-e74d14380384.htm">
+        <HelpTOCNode Title="EditTask Method " Url="html/6541317d-c4ab-572e-3900-b2919b81e0a3.htm" />
+        <HelpTOCNode Title="SaveTaskState Method " Url="html/b406784e-06d5-93f9-8f63-910567e8cfdc.htm" />
+        <HelpTOCNode Title="SelectTask Method " Url="html/33ade1b0-00b4-84b1-2678-260bfa15890a.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="0e4dcb02-3b46-4ad1-9162-b2a60f67c9da" Title="TaskCardViewModel Fields" Url="html/b11c6f80-97ed-4ed9-6c87-ef36452d057f.htm">
+        <HelpTOCNode Title="_backgroundOpacity Field" Url="html/86632d01-93d4-4f84-b7e5-4027f0ff8ec6.htm" />
+        <HelpTOCNode Title="_category Field" Url="html/fc1aca22-577b-d0fd-be08-002cd1fac2bf.htm" />
+        <HelpTOCNode Title="_dataService Field" Url="html/551c3828-71dd-71f3-e8b8-7e8d5039c5bd.htm" />
+        <HelpTOCNode Title="_eventAggregator Field" Url="html/309cba7e-d0ef-eb08-ee0f-9cdf28b4c883.htm" />
+        <HelpTOCNode Title="_isSelected Field" Url="html/ac80d21f-d637-a2da-250f-268bb41f8748.htm" />
+        <HelpTOCNode Title="_logger Field" Url="html/32cb0534-229b-b3ea-0f93-cae46d1fac0f.htm" />
+        <HelpTOCNode Title="_regionManager Field" Url="html/96ef87c3-f85e-21ae-5c45-70bc907fd029.htm" />
+        <HelpTOCNode Title="_task Field" Url="html/e3729826-ce0f-0b73-37c5-478bb53ed844.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="b0850b95-f915-44c2-9b36-2b62e0e81e71" Title="TaskSharper.Tasks.WPF.Views" Url="html/8958e0f5-4c65-b549-cb58-dd9514b55878.htm">
+    <HelpTOCNode Id="76c0d96f-5b54-4f88-9d21-83069e248539" Title="MainWindow Class" Url="html/0cba6859-db4c-ddf9-e2e0-f4781b70b91c.htm">
+      <HelpTOCNode Title="MainWindow Constructor " Url="html/a9804ed5-642b-c337-50e7-fef65f9082f0.htm" />
+      <HelpTOCNode Id="56d52d07-3371-42d6-b9f2-73fee33ef0a8" Title="MainWindow Methods" Url="html/821d4ff1-f563-103c-42d1-66536af8c4cc.htm">
+        <HelpTOCNode Title="IComponentConnector.Connect Method " Url="html/1f1698d2-d416-e08b-4d99-1b34882a2e23.htm" />
+        <HelpTOCNode Title="InitializeComponent Method " Url="html/906da3ee-9bff-f851-bc7f-f96965fca876.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="6cbdcdf2-3134-43b7-9bdb-587f1d226c19" Title="MainWindow Fields" Url="html/dce3e86a-6384-b3b3-fc2d-5b0dc1fb62ae.htm">
+        <HelpTOCNode Title="_contentLoaded Field" Url="html/77d7d41c-72d9-fb26-d841-d9cf566fc0d6.htm" />
+        <HelpTOCNode Title="BackButton Field" Url="html/96049df6-4367-9197-a9a9-311623caab55.htm" />
+        <HelpTOCNode Title="CloseApplicationButton Field" Url="html/9a8f4fae-540e-18b5-fa2a-b4b006b57be2.htm" />
+        <HelpTOCNode Title="MainRegion Field" Url="html/ea3b4596-8a37-413a-d5ef-ef75f662c0ef.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="44545efb-7c32-45c1-8ea9-d53a2b74ef84" Title="TaskCardContainerView Class" Url="html/a007b4ce-0baf-0ca1-f880-92c3f9331c46.htm">
+      <HelpTOCNode Title="TaskCardContainerView Constructor " Url="html/83af7790-bbc0-137e-8e7a-8a2402c456b7.htm" />
+      <HelpTOCNode Id="a626c9eb-4875-4c8a-a8cd-dfdb28f520f1" Title="TaskCardContainerView Methods" Url="html/acdb0f2b-9632-bce4-90db-5653a52bbadb.htm">
+        <HelpTOCNode Title="IComponentConnector.Connect Method " Url="html/1c28164d-4fca-02b4-9127-981470633a46.htm" />
+        <HelpTOCNode Title="InitializeComponent Method " Url="html/d4f87404-ad35-7100-e2bd-9697c1dcdacf.htm" />
+        <HelpTOCNode Title="Scroll Method " Url="html/5fbdc81a-b021-ac20-8940-e7a0952f46de.htm" />
+        <HelpTOCNode Title="ScrollViewer_ManipulationBoundaryFeedback Method " Url="html/073ec0a5-b650-d83e-93f0-d25f0fddb007.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="640ceb17-b99a-436a-90ab-35941c4cb742" Title="TaskCardContainerView Fields" Url="html/123a5788-f868-16d4-f8cb-24cb993d11d3.htm">
+        <HelpTOCNode Title="_contentLoaded Field" Url="html/365696ee-1866-91c1-283a-2caa0166aebc.htm" />
+        <HelpTOCNode Title="_eventAggregator Field" Url="html/00aa7d4d-6c99-f087-665b-de7f2438a434.htm" />
+        <HelpTOCNode Title="ContentScrollViewer Field" Url="html/6875e8cc-4c36-cb11-3c75-738af1ee3873.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="d0b76b05-bc1b-42d4-ac61-bef624cdac19" Title="TaskCardView Class" Url="html/37089dc7-390a-c8ff-654b-7f5a019a159a.htm">
+      <HelpTOCNode Title="TaskCardView Constructor " Url="html/4cddd601-0384-5003-a6a1-4a21314421fc.htm" />
+      <HelpTOCNode Id="720d9633-f565-4caf-9781-c6205836ee95" Title="TaskCardView Methods" Url="html/ee956dae-88fc-30ba-1b2c-d4905c322bde.htm">
+        <HelpTOCNode Title="IComponentConnector.Connect Method " Url="html/4b364149-e0b9-bbcc-63ae-9c7380dfabb0.htm" />
+        <HelpTOCNode Title="InitializeComponent Method " Url="html/77358071-fb59-be1a-d9eb-1c5b1f1aebca.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="3dbdc909-8bf5-4137-8e44-61b15d21ab8c" Title="TaskCardView Fields" Url="html/a207b299-5595-6bb0-c367-9d76418fd41b.htm">
+        <HelpTOCNode Title="_contentLoaded Field" Url="html/6f2e9680-533f-5066-c7ff-da50440c7cff.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+</HelpTOC>

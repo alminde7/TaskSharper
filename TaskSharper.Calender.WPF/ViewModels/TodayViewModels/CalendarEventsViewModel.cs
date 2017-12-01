@@ -19,6 +19,10 @@ using Settings = TaskSharper.WPF.Common.Properties.Settings;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// ViewModel for the calendar events container.
+    /// </summary>
     public class CalendarEventsViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
@@ -29,17 +33,39 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private CalendarEventsCurrentTimeLine _timeLine;
         private List<string> _columnAlreadyUpdatedList;
         
+        /// <summary>
+        /// Date that this container has events for.
+        /// </summary>
         public DateTime Date { get; set; }
 
+        /// <summary>
+        /// Collection of events that can be bound to in the view.
+        /// </summary>
         public ObservableCollection<CalendarEventViewModel> CalendarEvents { get; set; }
+
+        /// <summary>
+        /// Collection of event backgrounds that can be bound to in the view.
+        /// </summary>
         public ObservableCollection<CalendarEventsBackground> Backgrounds { get; set; }
 
+        /// <summary>
+        /// In the view, this is the line that indicates the current time of day.
+        /// </summary>
         public CalendarEventsCurrentTimeLine TimeLine
         {
             get => _timeLine;
             set => SetProperty(ref _timeLine, value);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="date">Date for the event container</param>
+        /// <param name="eventAggregator">Event aggregator for subscribing to and publishing events</param>
+        /// <param name="regionManager">Region manager for navigation</param>
+        /// <param name="dataService">Data service for data management</param>
+        /// <param name="dateType">Type of calendar. Possible values are: Day, Week, Month</param>
+        /// <param name="logger">Logger for logging</param>
         public CalendarEventsViewModel(DateTime date, IEventAggregator eventAggregator, IRegionManager regionManager, IEventRestClient dataService, CalendarTypeEnum dateType, ILogger logger)
         {
             // Initialze object
@@ -67,6 +93,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
 
         #region EventHandlers
+
+        /// <summary>
+        /// Handler for when month is changed.
+        /// </summary>
+        /// <param name="state">Increase or Decrease</param>
         private void MonthChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Month) return;
@@ -85,6 +116,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handler for when week is changed.
+        /// </summary>
+        /// <param name="state">Increase or Decrease</param>
         private void WeekChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Week) return;
@@ -103,6 +138,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handler for when day is changed.
+        /// </summary>
+        /// <param name="state">Increase or Decrease</param>
         private void DayChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Day) return;
@@ -121,6 +160,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handler for when an event has changed.
+        /// </summary>
+        /// <param name="obj">An event</param>
         private async void EventChangedEventHandler(Event obj)
         {
             if (Date.Date == obj.Start.Value.Date)
@@ -131,6 +174,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         #endregion
 
+        /// <summary>
+        /// Updates the view with a list of events.
+        /// </summary>
+        /// <param name="events">List of events</param>
         public void UpdateView(IList<Event> events = null)
         {
             if (events == null)
@@ -146,6 +193,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Initiates the CalendarEventViewModels with correct layout values.
+        /// </summary>
+        /// <param name="events">List of events</param>
         private void UpdateEvents(IList<Event> events)
         {
             _columnAlreadyUpdatedList?.Clear();
@@ -171,6 +222,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Initializes the view.
+        /// Sets the background, the timeline and starts a timer that updates the timeline every minute.
+        /// </summary>
         private void InitializeView()
         {
             for (int i = 1; i < TimeConstants.HoursInADay; i = i + 2)
@@ -200,6 +255,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             timer.Enabled = true;
         }
 
+        /// <summary>
+        /// Handler for when TimeLine should be updated (eg. once per minute).
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void UpdateTimeLine(object source, ElapsedEventArgs e)
         {
             TimeLine.LocY = Settings.Default.CalendarStructure_Height_1200 / TimeConstants.HoursInADay * (DateTime.Now.Hour + DateTime.Now.Minute / TimeConstants.MinutesInAnHour);
@@ -211,24 +271,38 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
     }
 
+    /// <inheritdoc />
+    /// <summary>
+    /// Contains information about a background's location on the canvas in the view.
+    /// Is used for data binding.
+    /// </summary>
     public class CalendarEventsBackground : BindableBase
     {
         private double _height;
         private double _locX;
         private double _locY;
 
+        /// <summary>
+        /// Height in pixels for the background.
+        /// </summary>
         public double Height
         {
             get => _height;
             set => SetProperty(ref _height, value);
         }
 
+        /// <summary>
+        /// X-position for the background on the canvas.
+        /// </summary>
         public double LocX
         {
             get => _locX;
             set => SetProperty(ref _locX, value);
         }
 
+        /// <summary>
+        /// Y-position for the background on the canvas.
+        /// </summary>
         public double LocY
         {
             get => _locY;
@@ -236,6 +310,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
     }
 
+    /// <inheritdoc />
+    /// <summary>
+    /// Contains information about the timeline's location in the view.
+    /// Is used for data binding.
+    /// </summary>
     public class CalendarEventsCurrentTimeLine : BindableBase
     {
         private double _height;
@@ -243,24 +322,36 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private double _locY;
         private DoubleCollection _strokeDashArray;
 
+        /// <summary>
+        /// Height in pixels for the timeline.
+        /// </summary>
         public double Height
         {
             get => _height;
             set => SetProperty(ref _height, value);
         }
 
+        /// <summary>
+        /// X-position for the timeline on the canvas.
+        /// </summary>
         public double LocX
         {
             get => _locX;
             set => SetProperty(ref _locX, value);
         }
-
+        
+        /// <summary>
+        /// Y-position for the timeline on the canvas.
+        /// </summary>
         public double LocY
         {
             get => _locY;
             set => SetProperty(ref _locY, value);
         }
 
+        /// <summary>
+        /// How the timeline is presented. Eg. if it is dashed or a full line.
+        /// </summary>
         public DoubleCollection StrokeDashArray
         {
             get => _strokeDashArray;
