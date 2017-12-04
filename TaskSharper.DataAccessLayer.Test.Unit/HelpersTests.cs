@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Google.Apis.Calendar.v3.Data;
+using TaskSharper.DataAccessLayer.Google.Helpers;
 using GoogleEvent = Google.Apis.Calendar.v3.Data.Event;
-using TaskSharper.DataAccessLayer.Google.Calendar.Helpers;
 using TaskSharper.Domain.Calendar;
-using Event = TaskSharper.Domain.Calendar.Event;
+using TaskSharper.Domain.Models;
+using Event = TaskSharper.Domain.Models.Event;
 
 namespace TaskSharper.DataAccessLayer.Test.Unit
 {

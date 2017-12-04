@@ -11,6 +11,7 @@ using NUnit.Framework;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 using TaskSharper.Domain.RestDTO;
 using TaskSharper.Service.Controllers;
 

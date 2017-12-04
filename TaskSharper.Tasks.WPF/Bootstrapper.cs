@@ -16,6 +16,7 @@ using TaskSharper.Appointments.WPF;
 using TaskSharper.Configuration.Config;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.Domain.Configuration.Logging;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Views;

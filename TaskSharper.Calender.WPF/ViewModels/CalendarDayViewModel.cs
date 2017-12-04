@@ -11,6 +11,8 @@ using Serilog;
 using TaskSharper.Calender.WPF.Config;
 
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.Shared.Exceptions;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.DateChangedEvents;

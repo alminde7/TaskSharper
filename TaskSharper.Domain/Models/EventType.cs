@@ -1,4 +1,4 @@
-﻿namespace TaskSharper.Domain.Calendar
+﻿namespace TaskSharper.Domain.Models
 {
     /// <summary>
     /// Possible types an event can be.

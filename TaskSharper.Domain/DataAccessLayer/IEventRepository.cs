@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TaskSharper.Domain.Models;
 
 namespace TaskSharper.Domain.Calendar
 {
-    public interface ICalendarService
+    public interface IEventRepository
     {
         Event GetEvent(string id, string calendarId);
         List<Event> GetEvents();
@@ -12,6 +13,7 @@ namespace TaskSharper.Domain.Calendar
         List<Event> GetEvents(DateTime start, DateTime end);
         Event InsertEvent(Event eventObj);
         Event UpdateEvent(Event eventObj);
+        Event UpdateEventCategory(string eventId, string categoryId, string newCategoryId);
         void DeleteEvent(string calendarId, string eventId);
 
         Task<Event> GetEventAsync(string id, string calendarId);
@@ -20,11 +22,7 @@ namespace TaskSharper.Domain.Calendar
         Task<List<Event>> GetEventsAsync(DateTime start, DateTime end);
         Task<Event> InsertEventAsync(Event eventObj);
         Task<Event> UpdateEventAsync(Event eventObj);
+        Task<Event> UpdateEventCategoryAsync(string eventId, string categoryId, string newCategoryId);
         Task DeleteEventAsync(string calendarId, string eventId);
-
-        List<EventCategory> GetCategories();
-        Task<List<EventCategory>> GetCategoriesAsync();
-        Event ChangeCategory(string eventId, string categoryId, string newCategoryId);
-        Task<Event> ChangeCategoryAsync(string eventId, string categoryId, string newCategoryId);
     }
 }

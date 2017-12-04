@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Prism.Events;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
 
-namespace TaskSharper.Appointments.WPF.Events
+namespace TaskSharper.Domain.DataAccessLayer
 {
-    public class AppointmentSelectedEvent : PubSubEvent<Event>
+    public interface ICategoryRepository
     {
+        List<EventCategory> GetCategories();
+
+        Task<List<EventCategory>> GetCategoriesAsync();
     }
 }

@@ -9,6 +9,8 @@ using NSubstitute;
 using Prism.Events;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.WPF.Common.Components.Notification;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Config;

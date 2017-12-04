@@ -1,4 +1,4 @@
-﻿namespace TaskSharper.Domain.Calendar
+﻿namespace TaskSharper.Domain.RestClient
 {
     public interface ITaskRestClient : IEventRestClient
     {

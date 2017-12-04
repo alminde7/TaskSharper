@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Calender.WPF.Helpers.EventLocation;
+using TaskSharper.Domain.Models;
 
 namespace TaskSharper.Calendar.WPF.Test.Unit
 {

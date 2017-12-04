@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
-using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 using GoogleEvent = Google.Apis.Calendar.v3.Data.Event;
-using Event = TaskSharper.Domain.Calendar.Event;
+using Event = TaskSharper.Domain.Models.Event;
 
-namespace TaskSharper.DataAccessLayer.Google.Calendar.Helpers
+namespace TaskSharper.DataAccessLayer.Google.Helpers
 {
-    public class Helpers
+    internal class Helpers
     {
         public static Event GoogleEventParser(GoogleEvent googleEvent)
         {

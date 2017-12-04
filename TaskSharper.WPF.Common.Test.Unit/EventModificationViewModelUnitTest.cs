@@ -5,6 +5,8 @@ using Prism.Events;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.WPF.Common.Components.EventModification;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Properties;

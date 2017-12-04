@@ -8,6 +8,7 @@ using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.WPF.Common.Components.SetCulture;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.NotificationEvents;
