@@ -8,7 +8,7 @@ using Event = TaskSharper.Domain.Models.Event;
 
 namespace TaskSharper.DataAccessLayer.Google.Helpers
 {
-    internal class Helpers
+    public class Helpers
     {
         public static Event GoogleEventParser(GoogleEvent googleEvent)
         {

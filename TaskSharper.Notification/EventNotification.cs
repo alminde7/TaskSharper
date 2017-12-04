@@ -144,6 +144,8 @@ namespace TaskSharper.Notification
             };
             timer.Start();
 
+            notObj.Timer = timer;
+
             return notObj;
         }
         
