@@ -227,19 +227,7 @@ namespace TaskSharper.WPF.Common.Components.EventModification
 
         private void CultureChanged()
         {
-            if (Event.Start > Event.End || string.IsNullOrEmpty(Event.Title))
-            {
-                DateTimeErrorMessage = Event.Start > Event.End ? Resources.ErrorEndTimeIsEarlierThanStartTime : null;
-                TitleErrorMessage = string.IsNullOrEmpty(Event.Title) ? Resources.ErrorTitleNotSet : null;
-            }
-            if (Event.Start < DateTime.Today)
-            {
-                DateTimeErrorMessage = Resources.ErrorStartTimeIsBeforeTodaysDate;
-            }
-            if (Event.End?.Date > Event.Start?.Date)
-            {
-                DateTimeErrorMessage = Resources.ErrorEventSpansAccrossMultipleDays;
-            }
+            ValidateEvent(Event);
         }
 
         private void ToggleKeyboard()
@@ -249,28 +237,7 @@ namespace TaskSharper.WPF.Common.Components.EventModification
 
         public async void SaveEvent()
         {
-            bool error = false;
-            if (string.IsNullOrEmpty(Event.Title))
-            {
-                TitleErrorMessage = Resources.ErrorTitleNotSet;
-                error = true;
-            }
-            if (Event.Start > Event.End)
-            {
-                DateTimeErrorMessage = Resources.ErrorEndTimeIsEarlierThanStartTime;
-                error = true;
-            }
-            if (Event.Start < DateTime.Today)
-            {
-                DateTimeErrorMessage = Resources.ErrorStartTimeIsBeforeTodaysDate;
-                error = true;
-            }
-            if (Event.End?.Date > Event.Start?.Date)
-            {
-                DateTimeErrorMessage = Resources.ErrorEventSpansAccrossMultipleDays;
-                error = true;
-            }
-            if (!error)
+            if (!ValidateEvent(Event))
             {
                 try
                 {
@@ -301,6 +268,32 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             }
         }
 
+        public bool ValidateEvent(Event eventObj)
+        {
+            var hasError = false;
+            if (string.IsNullOrEmpty(eventObj.Title))
+            {
+                TitleErrorMessage = Resources.ErrorTitleNotSet;
+                hasError = true;
+            }
+            if (eventObj.Start > eventObj.End)
+            {
+                DateTimeErrorMessage = Resources.ErrorEndTimeIsEarlierThanStartTime;
+                hasError = true;
+            }
+            if (eventObj.Start < DateTime.Today)
+            {
+                DateTimeErrorMessage = Resources.ErrorStartTimeIsBeforeTodaysDate;
+                hasError = true;
+            }
+            if (eventObj.End?.Date > eventObj.Start?.Date)
+            {
+                DateTimeErrorMessage = Resources.ErrorEventSpansAccrossMultipleDays;
+                hasError = true;
+            }
+            return hasError;
+        }
+
         private void Cancel()
         {
             _regionManager.Regions[_region].NavigationService.Journal.GoBack();
@@ -323,8 +316,8 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                 _modificationType = ModificationType.Create;
                 Event = new Event
                 {
-                    Start = DateTime.Today,
-                    End = DateTime.Today
+                    Start = DateTime.Today.AddHours(DateTime.Now.Hour + 1),
+                    End = DateTime.Today.AddHours(DateTime.Now.Hour + 2)
                 };
             }
 
