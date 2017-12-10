@@ -177,27 +177,5 @@ namespace TaskSharper.Launcher.WPF
             AppointmentApplicationButton.IsEnabled = LoggedIn;
             TaskApplicationButton.IsEnabled = LoggedIn;
         }
-
-        private void DisableButtonsAndEnableAfterXSecounds()
-        {
-            CalendarApplicationButton.IsEnabled = false;
-            AppointmentApplicationButton.IsEnabled = false;
-            TaskApplicationButton.IsEnabled = false;
-
-            var timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(10)
-            };
-            
-            timer.Tick += (sender, args) =>
-            {
-                CalendarApplicationButton.IsEnabled = true;
-                AppointmentApplicationButton.IsEnabled = true;
-                TaskApplicationButton.IsEnabled = true;
-                timer.Stop();
-            };
-
-            timer.Start();
-        }
     }
 }
