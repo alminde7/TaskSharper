@@ -17,12 +17,12 @@ namespace TaskSharper.Service.Controllers
     [Attributes.Log]
     public class CategoriesController : ApiController
     {
-        private readonly IEventManager _eventManager;
+        private readonly ICategoryManager _categoryManager;
         public ILogger Logger { get; set; }
 
-        public CategoriesController(IEventManager eventManager, ILogger logger)
+        public CategoriesController(ICategoryManager categoryManager, ILogger logger)
         {
-            _eventManager = eventManager;
+            _categoryManager = categoryManager;
             Logger = logger.ForContext<CategoriesController>();
         }
 
@@ -32,7 +32,7 @@ namespace TaskSharper.Service.Controllers
         {
             try
             {
-                var categories = await _eventManager.GetCategoriesAsync();
+                var categories = await _categoryManager.GetCategoriesAsync();
                 return Content(HttpStatusCode.OK, categories);
             }
             catch (GoogleApiException e)

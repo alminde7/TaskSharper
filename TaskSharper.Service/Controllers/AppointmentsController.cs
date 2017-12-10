@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Google;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
-using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
 using TaskSharper.Domain.RestDTO;
 

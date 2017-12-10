@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLayer\ICategoryManager.cs" />
     <Compile Include="BusinessLayer\IEventManager.cs" />
     <Compile Include="Cache\ICacheStore.cs" />
     <Compile Include="Cache\IEventCache.cs" />
