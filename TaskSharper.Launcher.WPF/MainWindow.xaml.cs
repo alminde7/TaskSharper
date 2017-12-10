@@ -2,13 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
-using TaskSharper.Configuration.Config;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
-using TaskSharper.Domain.Configuration.Logging;
 using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.Launcher.WPF
