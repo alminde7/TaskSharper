@@ -14,9 +14,7 @@ namespace TaskSharper.BusinessLayer.Test.Unit
     {
         private IEventManager _uut;
         private IEventRepository _eventRepository;
-        private ICategoryRepository _categoryRepository;
         private IEventCache _eventCache;
-        private IEventCategoryCache _eventCategoryCachce;
         private INotification _notification;
         private ILogger _logger;
         private INotificationPublisher _notificationPublisher;
@@ -26,14 +24,12 @@ namespace TaskSharper.BusinessLayer.Test.Unit
         public void Setup()
         {
             _eventRepository = Substitute.For<IEventRepository>();
-            _categoryRepository = Substitute.For<ICategoryRepository>();
             _eventCache = Substitute.For<IEventCache>();
-            _eventCategoryCachce = Substitute.For<IEventCategoryCache>();
             _logger = Substitute.For<ILogger>();
             _notification = Substitute.For<INotification>();
             _notificationPublisher = Substitute.For<INotificationPublisher>();
 
-            _uut = new EventManager(_eventRepository, _categoryRepository, _eventCategoryCachce, _eventCache, _notification, _notificationPublisher, _logger);
+            _uut = new EventManager(_eventRepository, _eventCache, _notification, _notificationPublisher, _logger);
         }
 
         [TearDown]
