@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Timers;
 using System.Windows;
+using System.Windows.Threading;
 using TaskSharper.Configuration.Config;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
@@ -88,6 +90,7 @@ namespace TaskSharper.Launcher.WPF
         {
             if (_allGood)
             {
+                DisableButtonsAndEnableAfterXSecounds();
                 var proc = Process.Start(_pathToCalendarApp);
             }
 
@@ -97,6 +100,7 @@ namespace TaskSharper.Launcher.WPF
         {
             if (_allGood)
             {
+                DisableButtonsAndEnableAfterXSecounds();
                 var proc = Process.Start(_pathToAppointmentsApp);
             }
         }
@@ -105,6 +109,7 @@ namespace TaskSharper.Launcher.WPF
         {
             if (_allGood)
             {
+                DisableButtonsAndEnableAfterXSecounds();
                 var proc = Process.Start(_pathToTasksApp);
             }
         }
@@ -140,6 +145,28 @@ namespace TaskSharper.Launcher.WPF
             CalendarApplicationButton.IsEnabled = LoggedIn;
             AppointmentApplicationButton.IsEnabled = LoggedIn;
             TaskApplicationButton.IsEnabled = LoggedIn;
+        }
+
+        private void DisableButtonsAndEnableAfterXSecounds()
+        {
+            CalendarApplicationButton.IsEnabled = false;
+            AppointmentApplicationButton.IsEnabled = false;
+            TaskApplicationButton.IsEnabled = false;
+
+            var timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(10)
+            };
+            
+            timer.Tick += (sender, args) =>
+            {
+                CalendarApplicationButton.IsEnabled = true;
+                AppointmentApplicationButton.IsEnabled = true;
+                TaskApplicationButton.IsEnabled = true;
+                timer.Stop();
+            };
+
+            timer.Start();
         }
     }
 }
