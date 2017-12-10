@@ -13,6 +13,8 @@ using Serilog;
 using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Calender.WPF.ViewModels.MonthViewModels;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.Shared.Exceptions;
 using TaskSharper.Shared.Extensions;
 using TaskSharper.WPF.Common.Events;

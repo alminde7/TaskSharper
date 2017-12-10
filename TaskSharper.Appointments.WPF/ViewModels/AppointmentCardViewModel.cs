@@ -11,6 +11,8 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Appointments.WPF.ViewModels

@@ -1,43 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Google;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Serilog;
 using TaskSharper.Domain.Calendar;
-using Event = TaskSharper.Domain.Calendar.Event;
+using Event = TaskSharper.Domain.Models.Event;
 
-namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
+namespace TaskSharper.DataAccessLayer.Google.Calendar
 {
-    public class GoogleCalendarService : ICalendarService
+    public class GoogleCalendarEventRepository : GoogleCalendarBase, IEventRepository
     {
         private readonly CalendarService _service;
         public ILogger Logger { get; set; }
 
-        public GoogleCalendarService(CalendarService service, ILogger logger)
+        public GoogleCalendarEventRepository(CalendarService service, ILogger logger) : base(service, logger)
         {
             _service = service;
-            Logger = logger.ForContext<GoogleCalendarService>();
+            Logger = logger.ForContext<GoogleCalendarEventRepository>();
         }
-
-        public List<CalendarListEntry> GetCalendars()
-        {
-            // Define request
-            var request = _service.CalendarList.List();
-            Logger.Information("Requesting all calendars in Google Calendar");
-
-            // Execute request to retrieve calendars
-            var response = request.Execute();
-            Logger.Information("Google Calendar request was successful and returned {@0}", response);
-
-            var activeCalendars = response.Items.Where(i => i.Selected == true).ToList();
-
-            return activeCalendars;
-        }
-
+        
         public Event GetEvent(string id, string calendarId)
         {
             // Define parameters of request.
@@ -47,7 +30,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             // Execute request to retrieve events
             var response = request.Execute();
             var events = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -69,7 +52,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
                 var response = request.Execute();
                 events.AddRange(Helpers.Helpers.GoogleEventParser(response.Items.ToList()));
             }
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -92,7 +75,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
                 var response = request.Execute();
                 events.AddRange(Helpers.Helpers.GoogleEventParser(response.Items.ToList()));
             }
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -116,7 +99,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
                 var response = request.Execute();
                 events.AddRange(Helpers.Helpers.GoogleEventParser(response.Items.ToList()));
             }
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -133,7 +116,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
 
             var response = request.Execute();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful");
 
             return retval;
         }
@@ -147,7 +130,19 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
 
             var response = request.Execute();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful");
+
+            return retval;
+        }
+
+        public Event UpdateEventCategory(string eventId, string categoryId, string newCategoryId)
+        {
+            var request = _service.Events.Move(categoryId, eventId, newCategoryId);
+            Logger.Information("Changing Calendar for event with ID {Id} from {OldCalendar} to {NewCalendar}", eventId, categoryId, newCategoryId);
+
+            var response = request.Execute();
+            var retval = Helpers.Helpers.GoogleEventParser(response);
+            Logger.Information("Google Calendar request was successful");
 
             return retval;
         }
@@ -160,20 +155,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             request.Execute();
         }
 
-        public async Task<List<CalendarListEntry>> GetCalendarsAsync()
-        {
-            // Define request
-            var request = _service.CalendarList.List();
-            Logger.Information("Requesting all calendars in Google Calendar");
 
-            // Execute request to retrieve calendars
-            var response = await request.ExecuteAsync();
-            Logger.Information("Google Calendar request was successful and returned {@0}", response);
-
-            var activeCalendars = response.Items.Where(i => i.Selected == true).ToList();
-
-            return activeCalendars;
-        }
 
         public async Task<Event> GetEventAsync(string id, string calendarId)
         {
@@ -184,7 +166,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             // Execute request to retrieve events
             var response = await request.ExecuteAsync();
             var events = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -206,7 +188,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
                 var response = await request.ExecuteAsync();
                 events.AddRange(Helpers.Helpers.GoogleEventParser(response.Items.ToList()));
             }
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -229,7 +211,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
                 var response = await request.ExecuteAsync();
                 events.AddRange(Helpers.Helpers.GoogleEventParser(response.Items.ToList()));
             }
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -253,7 +235,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
                 var response = await request.ExecuteAsync();
                 events.AddRange(Helpers.Helpers.GoogleEventParser(response.Items.ToList()));
             }
-            Logger.Information("Google Calendar request was successful and returned {@0}", events);
+            Logger.Information("Google Calendar request was successful");
 
             return events;
         }
@@ -270,7 +252,7 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
 
             var response = await request.ExecuteAsync();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful");
 
             return retval;
         }
@@ -284,7 +266,19 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
 
             var response = await request.ExecuteAsync();
             var retval = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
+            Logger.Information("Google Calendar request was successful");
+
+            return retval;
+        }
+
+        public async Task<Event> UpdateEventCategoryAsync(string eventId, string categoryId, string newCategoryId)
+        {
+            var request = _service.Events.Move(categoryId, eventId, newCategoryId);
+            Logger.Information("Changing Calendar for event with ID {Id} from {OldCalendar} to {NewCalendar}", eventId, categoryId, newCategoryId);
+
+            var response = await request.ExecuteAsync();
+            var retval = Helpers.Helpers.GoogleEventParser(response);
+            Logger.Information("Google Calendar request was successful");
 
             return retval;
         }
@@ -297,39 +291,5 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar.Service
             await request.ExecuteAsync();
         }
 
-        public List<EventCategory> GetCategories()
-        {
-            return GetCalendars().Select(calendarListEntry => new EventCategory {Id = calendarListEntry.Id, Name = calendarListEntry.Summary}).ToList();
-        }
-
-        public async Task<List<EventCategory>> GetCategoriesAsync()
-        {
-            var calendarList = await GetCalendarsAsync();
-            return calendarList.Select(calendarListEntry => new EventCategory { Id = calendarListEntry.Id, Name = calendarListEntry.Summary }).ToList();
-        }
-
-        public Event ChangeCategory(string eventId, string categoryId, string newCategoryId)
-        {
-            var request = _service.Events.Move(categoryId, eventId, newCategoryId);
-            Logger.Information("Changing Calendar for event with ID {Id} from {OldCalendar} to {NewCalendar}", eventId, categoryId, newCategoryId);
-
-            var response = request.Execute();
-            var retval = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
-
-            return retval;
-        }
-
-        public async Task<Event> ChangeCategoryAsync(string eventId, string categoryId, string newCategoryId)
-        {
-            var request = _service.Events.Move(categoryId, eventId, newCategoryId);
-            Logger.Information("Changing Calendar for event with ID {Id} from {OldCalendar} to {NewCalendar}", eventId, categoryId, newCategoryId);
-
-            var response = await request.ExecuteAsync();
-            var retval = Helpers.Helpers.GoogleEventParser(response);
-            Logger.Information("Google Calendar request was successful and returned {@0}", retval);
-
-            return retval;
-        }
     }
 }

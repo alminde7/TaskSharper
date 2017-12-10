@@ -4,6 +4,7 @@ using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.DataAccessLayer;
 using TaskSharper.Domain.Notification;
 
 namespace TaskSharper.BusinessLayer.Test.Unit
@@ -12,7 +13,8 @@ namespace TaskSharper.BusinessLayer.Test.Unit
     public class EventManagerUnitTests
     {
         private IEventManager _uut;
-        private ICalendarService _calendarService;
+        private IEventRepository _eventRepository;
+        private ICategoryRepository _categoryRepository;
         private IEventCache _eventCache;
         private IEventCategoryCache _eventCategoryCachce;
         private INotification _notification;
@@ -23,14 +25,15 @@ namespace TaskSharper.BusinessLayer.Test.Unit
         [SetUp]
         public void Setup()
         {
-            _calendarService = Substitute.For<ICalendarService>();
+            _eventRepository = Substitute.For<IEventRepository>();
+            _categoryRepository = Substitute.For<ICategoryRepository>();
             _eventCache = Substitute.For<IEventCache>();
             _eventCategoryCachce = Substitute.For<IEventCategoryCache>();
             _logger = Substitute.For<ILogger>();
             _notification = Substitute.For<INotification>();
             _notificationPublisher = Substitute.For<INotificationPublisher>();
 
-            _uut = new EventManager(_calendarService, _eventCache, _notification, _logger, _notificationPublisher, _eventCategoryCachce);
+            _uut = new EventManager(_eventRepository, _categoryRepository, _eventCategoryCachce, _eventCache, _notification, _notificationPublisher, _logger);
         }
 
         [TearDown]
@@ -42,7 +45,7 @@ namespace TaskSharper.BusinessLayer.Test.Unit
         [Test]
         public void Constructor_CalendarServiceAndCacheHasBeenInitialized()
         {
-            _calendarService.Received(1);
+            _eventRepository.Received(1);
             _eventCache.Received(1);
         }
 

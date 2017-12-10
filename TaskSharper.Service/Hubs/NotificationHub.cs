@@ -7,6 +7,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 using TaskSharper.Domain.Notification;
 
 namespace TaskSharper.Service.Hubs

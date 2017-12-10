@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Prism.Events;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.ServerEvents;
 using TaskSharper.Shared.Exceptions;

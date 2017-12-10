@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.WPF.Common.Test.Unit

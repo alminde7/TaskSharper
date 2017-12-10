@@ -12,6 +12,8 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.Shared.Exceptions;
 using TaskSharper.WPF.Common.Events.NotificationEvents;
 using TaskSharper.WPF.Common.Events.Resources;

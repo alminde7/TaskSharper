@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using RestSharp;
 using Serilog;
-using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.Service.RestClient.Extensions;
 using TaskSharper.Service.RestClient.Factories;
 

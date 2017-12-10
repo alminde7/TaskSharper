@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Serilog;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 
 namespace TaskSharper.CacheStore
 {

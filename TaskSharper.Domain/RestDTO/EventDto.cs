@@ -1,5 +1,6 @@
 ﻿using System;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 
 namespace TaskSharper.Domain.RestDTO
 {

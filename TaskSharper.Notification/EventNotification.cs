@@ -5,6 +5,7 @@ using System.Timers;
 using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Configuration.Notification;
+using TaskSharper.Domain.Models;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Shared.Extensions;
 
@@ -142,6 +143,8 @@ namespace TaskSharper.Notification
                 notObj.HasFired = true;
             };
             timer.Start();
+
+            notObj.Timer = timer;
 
             return notObj;
         }

@@ -6,6 +6,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {

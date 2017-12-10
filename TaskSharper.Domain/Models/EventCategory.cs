@@ -1,4 +1,4 @@
-﻿namespace TaskSharper.Domain.Calendar
+﻿namespace TaskSharper.Domain.Models
 {
     public class EventCategory
     {
