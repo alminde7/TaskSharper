@@ -116,7 +116,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
 
         /// <summary>
-        /// Sets the culture for the Month and Year property
+        /// Sets the culture for the Month and Year property by the current culture 
         /// </summary>
         private void SetMonthAndYearCulture()
         {
@@ -149,7 +149,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         #endregion
 
         /// <summary>
-        /// 
+        /// Updates the current culture and call properties that need refreshing.  
         /// </summary>
         /// <param name="date"></param>
         private void UpdateCulture(DateTime date)
@@ -159,6 +159,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SetMonthAndYearCulture();
         }
 
+        /// <summary>
+        /// Sets the property in CalendarDateDayViewModel depending on the current month in the CalendarMonthViewModel.
+        /// This is done, so it possible to grey out elements that is not part of the current month.
+        /// </summary>
         private void UpdateIsWithinSelectedMonth()
         {
             foreach (var day in DateDays)
@@ -167,6 +171,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// The BootstrapView method is a setup method that is called from the constructor
+        /// It instantiate the CalendarWeekDayViewModels for every day in the week. 
+        /// It also instantiate the 42 month elements, these elements are the CalendarDateDayViewModel's.  
+        /// </summary>
         private void BootstrapView()
         {
             for (int i = 1; i <= DaysInWeek; i++)
@@ -180,7 +189,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 var prevMonday = _previousMonday.AddDays(i);
 
-                if (i % 7 == 0)
+                if (i % DaysInWeek == 0)
                 {
                     WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
                 }
@@ -203,6 +212,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             UpdateIsWithinSelectedMonth();
         }
 
+        /// <summary>
+        /// Search method that finds the previous monday, this is used to fix the 42 elements in the view,
+        /// so it is always monday that is the first element.
+        /// </summary>
+        /// <param name="firstDayOfMonth"></param>
         private void FindPreviousMonday(DateTime firstDayOfMonth)
         {
             if(firstDayOfMonth.DayOfWeek == DayOfWeek.Monday)
@@ -213,6 +227,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             FindPreviousMonday(firstDayOfMonth.AddDays(-1));
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="currentDateTime"></param>
+        /// <returns></returns>
         private DateTime CalculateDate(int day, DateTime currentDateTime)
         {
             var dayOffset = day - (int)currentDateTime.Day;
