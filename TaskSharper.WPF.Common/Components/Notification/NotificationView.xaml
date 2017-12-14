@@ -39,7 +39,7 @@
                                 <Setter Property="Foreground" Value="White" />
                                 <Setter TargetName="PathIcon" Property="Fill" Value="AliceBlue" />
                             </Trigger>
-
+                            
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" Value="#80bdf2" />
                                 <Setter Property="Foreground" Value="White" />
@@ -48,12 +48,30 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding NotificationType}" Value="2">
+                    <Setter Property="Content" Value="{lex:Loc Close}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NotificationType}" Value="1">
+                    <Setter Property="Content" Value="{lex:Loc Close}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NotificationType}" Value="0">
+                    <Setter Property="Content" Value="{lex:Loc Snooze}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="StackPanel"  x:Key="PopUpBackground">
             <Setter Property="Background" Value="AliceBlue"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding NotificationType}" Value="2">
-                    <Setter Property="Background" Value="#ff4264"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFF1C9C9" Offset="0.008"/>
+                                <GradientStop Color="#FFFF2121" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding NotificationType}" Value="1">
                     <Setter Property="Background" Value="#fca635"/>
@@ -74,8 +92,17 @@
                 <DataTrigger Binding="{Binding NotificationEventType}" Value="Appointment">
                     <Setter Property="Content" Value="{lex:Loc Dismiss}"/>
                 </DataTrigger>
-
+                <DataTrigger Binding="{Binding NotificationType}" Value="2">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NotificationType}" Value="1">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NotificationType}" Value="0">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
             </Style.Triggers>
+
         </Style>
     </UserControl.Resources>
     <Popup Name="NotificationPopUp" IsOpen="{Binding IsPopupOpen}" StaysOpen="True" PlacementTarget="{Binding ElementName=MainPanel}"
@@ -103,7 +130,7 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Style="{StaticResource SnoozeNotificationButton}" Content="{lex:Loc Snooze}"  Command="{Binding CloseNotificationCommand}"></Button>
+                            <Button Grid.Column="0" Style="{StaticResource SnoozeNotificationButton}" Command="{Binding CloseNotificationCommand}"></Button>
                             <Button Grid.Column="1" Style="{StaticResource CompleteDismissButton}" Command="{Binding CompleteTaskCommand}" ></Button>
                         </Grid>
                     </StackPanel>
