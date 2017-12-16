@@ -14,6 +14,8 @@ using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Appointments.WPF.Properties;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.RestClient;
+using TaskSharper.WPF.Common.Components.SetCulture;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.Resources;
 using TaskSharper.WPF.Common.Events.ScrollEvents;
@@ -33,6 +35,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         private readonly IStatusRestClient _statusRestClient;
         private bool _spinnerVisible;
         private bool _isAppointmentSelected;
+        private Culture _culture;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
         public DelegateCommand BackCommand { get; set; }
@@ -61,6 +64,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             _eventAggregator = eventAggregator;
             _logger = logger.ForContext<MainWindowViewModel>();
             _statusRestClient = statusRestClient;
+            _culture = new Culture();
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
 
@@ -88,7 +92,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             if (LocalizeDictionary.Instance.Culture.Name != culture)
             {
                 _logger.ForContext("Language", typeof(MainWindowViewModel)).Information("Changed culture to {@Culture}", culture);
-                LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
+                _culture.Set(culture);
                 _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
             }
         }

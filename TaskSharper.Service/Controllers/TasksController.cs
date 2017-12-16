@@ -10,6 +10,7 @@ using Google;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 using TaskSharper.Domain.RestDTO;
 
 namespace TaskSharper.Service.Controllers

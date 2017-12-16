@@ -8,7 +8,7 @@ using TaskSharper.CacheStore;
 using TaskSharper.CacheStore.NullCache;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
-using TaskSharper.DataAccessLayer.Google.Calendar.Service;
+using TaskSharper.DataAccessLayer.Google.Calendar;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
@@ -16,6 +16,7 @@ using TaskSharper.Domain.Configuration.Cache;
 using TaskSharper.Domain.Configuration.Logging;
 using TaskSharper.Domain.Configuration.Notification;
 using TaskSharper.Domain.Configuration.Service;
+using TaskSharper.Domain.DataAccessLayer;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Notification;
 using TaskSharper.Notification.NullNofications;
@@ -58,14 +59,15 @@ namespace TaskSharper.Service.Config
             Log.Logger = logger;
             container.RegisterType<ILogger>(new ContainerControlledLifetimeManager(), new InjectionFactory((ctr, type, name) => LogConfiguration.ConfigureAPI(logSettings)));
             
-            container.RegisterType<CalendarService>(new TransientLifetimeManager(), new InjectionFactory(
+            container.RegisterType<CalendarService>(new ContainerControlledLifetimeManager(), new InjectionFactory(
                 ctr => new CalendarService(new BaseClientService.Initializer
                 {
                     ApplicationName = Constants.TaskSharper,
                     HttpClientInitializer = new GoogleAuthentication(logger).Authenticate()
                 })));
 
-            container.RegisterType<ICalendarService, GoogleCalendarService>();
+            container.RegisterType<IEventRepository, GoogleCalendarEventRepository>();
+            container.RegisterType<ICategoryRepository, GoogleCalendarCategoryRepository>();
 
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
             container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>(new TransientLifetimeManager());

@@ -7,6 +7,8 @@ using Prism.Events;
 using Prism.Mvvm;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.WPF.Common.Config;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.NotificationEvents;
@@ -210,11 +212,12 @@ namespace TaskSharper.WPF.Common.Components.Notification
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             NotificationTitle = notification.Title;
             NotificationMessage = notification.Message;
+            if(notification.Event != null)
             NotificationEventType = notification.Event.Type.ToString();
             NotificationType = notification.NotificationType;
             NotificationEvent = notification.Event;
 
-            if (notification.Event.Category != null)
+            if (notification.Event?.Category != null)
             {
                 Category = CategoryToIconConverter.ConvertToFontAwesomeIcon(notification.Event.Category.Name,
                     notification.Event.Type);
@@ -224,7 +227,7 @@ namespace TaskSharper.WPF.Common.Components.Notification
                 Category = "Info";
             }
 
-            if (notification.Event.Start != null)
+            if (notification.Event?.Start != null)
             {
                 if (notification.Event.End != null)
                 {

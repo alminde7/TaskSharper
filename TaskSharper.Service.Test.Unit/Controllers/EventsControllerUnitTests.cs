@@ -11,6 +11,7 @@ using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Service.Controllers;
 using Serilog;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 using TaskSharper.Domain.RestDTO;
 
 namespace TaskSharper.Service.Test.Unit.Controllers

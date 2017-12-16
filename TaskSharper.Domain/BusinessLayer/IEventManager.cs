@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
 
 namespace TaskSharper.Domain.BusinessLayer
 {

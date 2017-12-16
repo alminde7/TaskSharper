@@ -16,6 +16,7 @@ using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Views;
 using TaskSharper.Configuration.Config;
 using TaskSharper.Configuration.Settings;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.Service.RestClient.Clients;
 using TaskSharper.WPF.Common.Components.EventModification;
 

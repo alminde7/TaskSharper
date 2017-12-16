@@ -5,6 +5,7 @@ using NUnit.Framework;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Configuration;
 using TaskSharper.Domain.Configuration.Notification;
+using TaskSharper.Domain.Models;
 using TaskSharper.Domain.Notification;
 using ILogger = Serilog.ILogger;
 

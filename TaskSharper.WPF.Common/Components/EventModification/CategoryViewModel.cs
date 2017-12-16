@@ -3,6 +3,8 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Media;
 using TaskSharper.WPF.Common.Properties;

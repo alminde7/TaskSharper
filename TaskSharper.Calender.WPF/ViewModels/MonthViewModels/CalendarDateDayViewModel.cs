@@ -8,6 +8,8 @@ using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.Domain.Models;
+using TaskSharper.Domain.RestClient;
 using TaskSharper.Shared.Extensions;
 using TaskSharper.WPF.Common.Events.DateChangedEvents;
 using TaskSharper.WPF.Common.Events.Resources;

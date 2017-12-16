@@ -3,10 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using TaskSharper.Configuration.Config;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.DataAccessLayer.Google.Authentication;
-using TaskSharper.Domain.Configuration.Logging;
 using TaskSharper.Shared.Logging;
 
 namespace TaskSharper.Launcher.WPF
@@ -22,6 +20,10 @@ namespace TaskSharper.Launcher.WPF
         private readonly string _pathToAppointmentsApp;
         private readonly string _pathToTasksApp;
         public bool LoggedIn = false;
+
+        private Process calendarProcess;
+        private Process appointmentProcess;
+        private Process taskProcess;
 
         public MainWindow()
         {
@@ -88,7 +90,17 @@ namespace TaskSharper.Launcher.WPF
         {
             if (_allGood)
             {
-                var proc = Process.Start(_pathToCalendarApp);
+                if (calendarProcess == null)
+                {
+                    calendarProcess = Process.Start(_pathToCalendarApp);
+                }
+                else
+                {
+                    if (calendarProcess.HasExited)
+                    {
+                        calendarProcess.Start();
+                    }
+                }
             }
 
         }
@@ -97,7 +109,17 @@ namespace TaskSharper.Launcher.WPF
         {
             if (_allGood)
             {
-                var proc = Process.Start(_pathToAppointmentsApp);
+                if (appointmentProcess == null)
+                {
+                    appointmentProcess = Process.Start(_pathToAppointmentsApp);
+                }
+                else
+                {
+                    if (appointmentProcess.HasExited)
+                    {
+                        appointmentProcess.Start();
+                    }
+                }
             }
         }
 
@@ -105,7 +127,17 @@ namespace TaskSharper.Launcher.WPF
         {
             if (_allGood)
             {
-                var proc = Process.Start(_pathToTasksApp);
+                if (taskProcess == null)
+                {
+                    taskProcess = Process.Start(_pathToTasksApp);
+                }
+                else
+                {
+                    if (taskProcess.HasExited)
+                    {
+                        taskProcess.Start();
+                    }
+                }
             }
         }
 
