@@ -69,6 +69,7 @@ namespace TaskSharper.Service.Config
             container.RegisterType<IEventRepository, GoogleCalendarEventRepository>();
             container.RegisterType<ICategoryRepository, GoogleCalendarCategoryRepository>();
 
+            container.RegisterType<ICategoryManager, CategoryManager>(new TransientLifetimeManager());
             container.RegisterType<IEventManager, EventManager>(new TransientLifetimeManager());
             container.RegisterType<INotificationPublisher, SignalRNotificationPublisher>(new TransientLifetimeManager());
             
