@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calender.WPF", "TaskSharper.Calender.WPF\TaskSharper.Calender.WPF.csproj", "{E7703189-AB75-42AD-A24C-7084FF9BCFA2}"
 EndProject
@@ -238,6 +238,8 @@ Global
 		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.BuildAllExceptUITests|Any CPU.ActiveCfg = Release|Any CPU
+		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.BuildAllExceptUITests|Any CPU.Build.0 = Release|Any CPU
 		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.Release|Any CPU.ActiveCfg = Release|Any CPU

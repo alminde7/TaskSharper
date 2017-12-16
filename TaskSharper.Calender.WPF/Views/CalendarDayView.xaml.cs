@@ -18,6 +18,8 @@ namespace TaskSharper.Calender.WPF.Views
             _eventAggregator.GetEvent<ScrollUpEvent>().Subscribe(() => Scroll(-3 * Settings.Default.CalendarEvent_Height));
             _eventAggregator.GetEvent<ScrollDownEvent>().Subscribe(() => Scroll(3 * Settings.Default.CalendarEvent_Height));
             InitializeComponent();
+
+            ContentScrollViewer.ScrollToVerticalOffset(8 * Settings.Default.CalendarEvent_Height);
         }
 
         private void UIElement_OnManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)

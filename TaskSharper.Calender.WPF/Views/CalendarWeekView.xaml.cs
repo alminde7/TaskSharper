@@ -15,9 +15,12 @@ namespace TaskSharper.Calender.WPF.Views
         public CalendarWeekView(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+
             _eventAggregator.GetEvent<ScrollUpEvent>().Subscribe(() => Scroll(-3 * Settings.Default.CalendarEvent_Height));
             _eventAggregator.GetEvent<ScrollDownEvent>().Subscribe(() => Scroll(3 * Settings.Default.CalendarEvent_Height));
             InitializeComponent();
+
+            ContentScrollViewer.ScrollToVerticalOffset(8 * Settings.Default.CalendarEvent_Height);
         }
 
         void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
