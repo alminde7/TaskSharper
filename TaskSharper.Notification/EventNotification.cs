@@ -142,7 +142,7 @@ namespace TaskSharper.Notification
                 notObj.HasFired = true;
             };
             timer.Start();
-
+            notObj.Timer = timer;
             return notObj;
         }
         

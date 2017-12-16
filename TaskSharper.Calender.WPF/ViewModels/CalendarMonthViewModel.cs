@@ -21,6 +21,11 @@ using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
+    /// <summary>
+    /// Is the ViewModel for the CalendarMonthView.
+    /// 
+    /// It purpose is to showcase the structure of a normal looking calendar. 
+    /// </summary>
     public class CalendarMonthViewModel : BindableBase, INavigationAware
     {
         private const int DaysInWeek = 7;
@@ -28,7 +33,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         private string _currentMonthAndYear;
         private DateTime _currentDate;
         private int _numberOfWeeks;
-        private readonly IEventRestClient _dataService;
+        private readonly IEventRestClient _eventRestClient;
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly ILogger _logger;
@@ -37,7 +42,6 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public ObservableCollection<CalendarDateDayViewModel> DateDays { get; set; }
         public ObservableCollection<CalendarWeekNumberViewModel> WeekNumbers { get; set; }
         public ObservableCollection<CalendarWeekDayViewModel> WeekDays { get; set; }
-
         public DelegateCommand NextCommand { get; set; }
         public DelegateCommand PrevCommand { get; set; }
         public DelegateCommand CreateEventCommand { get; set; }
@@ -59,11 +63,23 @@ namespace TaskSharper.Calender.WPF.ViewModels
             get => _numberOfWeeks;
             set => SetProperty(ref _numberOfWeeks, value);
         }
-        
-        public CalendarMonthViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, ILogger logger, IRegionManager regionManager)
+
+        /// <summary>
+        /// Constructor 
+        /// 
+        /// Contains list of the following ViewModels CalendarDateDayViewModel, CalendarWeekNumberViewModel
+        /// CalendarWeekDayViewModel.
+        /// 
+        /// It is also subscribes to the event of culture change.
+        /// </summary>
+        /// <param name="eventRestClient">Dependency injection of eventRestClient</param>
+        /// <param name="eventAggregator">Dependency injection of the eventManager</param>
+        /// <param name="logger">Dependency injection of the logger</param>
+        /// <param name="regionManager">Dependency injection of the regionManager</param>
+        public CalendarMonthViewModel(IEventRestClient eventRestClient, IEventAggregator eventAggregator, ILogger logger, IRegionManager regionManager)
         {
             // Initialize objects
-            _dataService = dataService;
+            _eventRestClient = eventRestClient;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _logger = logger.ForContext<CalendarMonthViewModel>();
@@ -73,7 +89,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             PrevCommand = new DelegateCommand(PrevMonth);
             CreateEventCommand = new DelegateCommand(NavigateToCreateEventView);
 
-            //Event Subscriptions 
+            // Event Subscriptions
             eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(()=> UpdateCulture(CurrentDatetime));
 
             // Initialize view containers
@@ -88,6 +104,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             BootstrapView();
         }
 
+        /// <summary>
+        /// Navigates to the create event view.
+        /// </summary>
         private void NavigateToCreateEventView()
         {
             var navigationParameters = new NavigationParameters();
@@ -96,12 +115,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarEventDetails, navigationParameters);
         }
 
+        /// <summary>
+        /// Sets the culture for the Month and Year property by the current culture 
+        /// </summary>
         private void SetMonthAndYearCulture()
         {
             CurrentMonthAndYear = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentDatetime.ToString("yyyy MMMM", CultureInfo.CurrentCulture));
         }
 
         #region ClickHandlers
+
+        /// <summary>
+        /// When the Prev button is pressed the delegate command will call this function
+        /// </summary>
         private async void PrevMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(-1);
@@ -110,6 +136,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             await UpdateViewsWithData();
         }
 
+        /// <summary>
+        /// When the Prev button is pressed the delegate command will call this function
+        /// </summary>
         private async void NextMonth()
         {
             CurrentDatetime = CurrentDatetime.AddMonths(1);
@@ -119,6 +148,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         #endregion
 
+        /// <summary>
+        /// Updates the current culture and call properties that need refreshing.  
+        /// </summary>
+        /// <param name="date"></param>
         private void UpdateCulture(DateTime date)
         {
             CurrentCulture = CultureInfo.CurrentCulture;
@@ -126,6 +159,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             SetMonthAndYearCulture();
         }
 
+        /// <summary>
+        /// Sets the property in CalendarDateDayViewModel depending on the current month in the CalendarMonthViewModel.
+        /// This is done, so it possible to grey out elements that is not part of the current month.
+        /// </summary>
         private void UpdateIsWithinSelectedMonth()
         {
             foreach (var day in DateDays)
@@ -134,6 +171,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// The BootstrapView method is a setup method that is called from the constructor
+        /// It instantiate the CalendarWeekDayViewModels for every day in the week. 
+        /// It also instantiate the 42 month elements, these elements are the CalendarDateDayViewModel's.  
+        /// </summary>
         private void BootstrapView()
         {
             for (int i = 1; i <= DaysInWeek; i++)
@@ -147,12 +189,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             {
                 var prevMonday = _previousMonday.AddDays(i);
 
-                if (i % 7 == 0)
+                if (i % DaysInWeek == 0)
                 {
                     WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
                 }
 
-                DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _dataService, CalendarTypeEnum.Month, _logger, _regionManager));
+                DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventRestClient, CalendarTypeEnum.Month, _logger, _regionManager));
 
                 if (i < 34) continue;
                 if (DateTime.DaysInMonth(CurrentDatetime.Year, CurrentDatetime.Month) == 31 && (firstDayOfMonth.DayOfWeek == DayOfWeek.Saturday || firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday))
@@ -170,6 +212,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             UpdateIsWithinSelectedMonth();
         }
 
+        /// <summary>
+        /// Search method that finds the previous monday, this is used to fix the 42 elements in the view,
+        /// so it is always monday that is the first element.
+        /// </summary>
+        /// <param name="firstDayOfMonth"></param>
         private void FindPreviousMonday(DateTime firstDayOfMonth)
         {
             if(firstDayOfMonth.DayOfWeek == DayOfWeek.Monday)
@@ -180,6 +227,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             FindPreviousMonday(firstDayOfMonth.AddDays(-1));
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="currentDateTime"></param>
+        /// <returns></returns>
         private DateTime CalculateDate(int day, DateTime currentDateTime)
         {
             var dayOffset = day - (int)currentDateTime.Day;
@@ -212,13 +265,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 if (DateTime.DaysInMonth(CurrentDatetime.Year, CurrentDatetime.Month) == 31 && (firstDayOfMonth.DayOfWeek == DayOfWeek.Saturday || firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday))
                 {
                     if (i < 41)
-                        DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _dataService, CalendarTypeEnum.Month, _logger, _regionManager));
+                        DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventRestClient, CalendarTypeEnum.Month, _logger, _regionManager));
                     continue;
                 }
                 if (DateTime.DaysInMonth(CurrentDatetime.Year, CurrentDatetime.Month) == 30 && firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
                 {
                     if (i < 41)
-                        DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _dataService, CalendarTypeEnum.Month, _logger, _regionManager));
+                        DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventRestClient, CalendarTypeEnum.Month, _logger, _regionManager));
                     continue;
                 }
                 if (DateDays.Count >= 42)
@@ -262,7 +315,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             try
             {
                 var days = new Dictionary<DateTime, IList<Event>>();
-                var monthEvents = await _dataService.GetAsync(start, end);
+                var monthEvents = await _eventRestClient.GetAsync(start, end);
                 if (monthEvents == null) return days;
 
                 monthEvents = monthEvents.OrderBy(o => o.Start).ThenBy(o => o.End);
