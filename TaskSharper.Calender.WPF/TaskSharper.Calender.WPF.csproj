@@ -229,7 +229,6 @@
     <Compile Include="ViewModels\TodayViewModels\CalendarEventShowDetailsViewModel.cs" />
     <Compile Include="ViewModels\TodayViewModels\CalendarEventViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\AppointmentViewModel.cs" />
     <Compile Include="Views\MonthViews\CalendarDateDayView.xaml.cs">
       <DependentUpon>CalendarDateDayView.xaml</DependentUpon>
     </Compile>

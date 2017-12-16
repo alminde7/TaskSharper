@@ -10,6 +10,12 @@ using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels
 {
+    /// <summary>
+    /// This is the ViewModel for the CalendarYearHeaderView.
+    /// 
+    /// Its purpose is to show the year month and week number in the side of the calendar. 
+    /// This will give a clear overview of where the user is in time when using the calendar. 
+    /// </summary>
     public class CalendarYearHeaderViewModel : BindableBase
     {
         private readonly CalendarTypeEnum _dateType;
@@ -42,6 +48,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DateTimeFormatInfo DateCultureInfo { get; set; }
         public CultureInfo CurrentCulture { get; set; }
 
+        /// <summary>
+        /// Constructor that subscribes to all the different date event changes. 
+        /// These events are throw from the week month and calendar Views. 
+        /// </summary>
+        /// <param name="eventAggregator">Dependency injection of the eventAggregator</param>
+        /// <param name="dateType">Class that indicates if the datatype is of day, week or month</param>
+        /// <param name="logger">Dependency injection of the logger</param>
         public CalendarYearHeaderViewModel(IEventAggregator eventAggregator, CalendarTypeEnum dateType, ILogger logger)
         {
             _dateType = dateType;
@@ -57,11 +70,19 @@ namespace TaskSharper.Calender.WPF.ViewModels
             eventAggregator.GetEvent<CultureChangedEvent>().Subscribe(UpdateCultureHandler);
         }
 
+        /// <summary>
+        /// Updates culture by recalling the SetDate method
+        /// </summary>
         private void UpdateCultureHandler()
         {
             SetDate(Date);
         }
 
+        /// <summary>
+        /// SetDate sets the properties depending on the culture. 
+        /// </summary>
+        /// <param name="date">Datetime object that is Datetime.Now from the start, but changes when other events of change
+        /// is received.</param>
         public void SetDate(DateTime date)
         {
             Date = date;
@@ -74,6 +95,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             WeekNumber = DateCultureInfo.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
         }
 
+        /// <summary>
+        /// Handles the event of the month increasing or decreasing 
+        /// </summary>
+        /// <param name="state">State indicating either increase or decrease</param>
         private void MonthChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Month) return;
@@ -90,6 +115,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+
+        /// <summary>
+        /// Handles the event of the week increasing or decreasing 
+        /// </summary>
+        /// <param name="state">State indicating either increase or decrease</param>
         private void WeekChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Week) return;
@@ -106,6 +136,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handles the event of the day increasing or decreasing 
+        /// </summary>
+        /// <param name="state">State indicating either increase or decrease</param>
         private void DayChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Day) return;

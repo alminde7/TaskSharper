@@ -23,6 +23,10 @@ using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.Appointments.WPF.ViewModels
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// ViewModel for the MainWindow view of the Appointment application.
+    /// </summary>
     public class MainWindowViewModel : BindableBase
     {
         private readonly IRegionManager _regionManager;
@@ -38,18 +42,22 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
         public DelegateCommand CloseApplicationCommand { get; set; }
 
+        /// <summary>
+        /// Used to bind in the view whether or not the loading spinner should be visible.
+        /// </summary>
         public bool SpinnerVisible
         {
             get => _spinnerVisible;
             set => SetProperty(ref _spinnerVisible, value);
         }
 
-        public bool IsAppointmentSelected
-        {
-            get => _isAppointmentSelected;
-            set => SetProperty(ref _isAppointmentSelected, value);
-        }
-
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="regionManager">Regionmanager used for navigation</param>
+        /// <param name="eventAggregator">Event aggregator for subscribing to and publishing events</param>
+        /// <param name="logger">Logger for logging</param>
+        /// <param name="statusRestClient">Rest client for the Status service</param>
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger, IStatusRestClient statusRestClient)
         {
             _regionManager = regionManager;
@@ -59,7 +67,6 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             _culture = new Culture();
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
-            _eventAggregator.GetEvent<AppointmentSelectedEvent>().Subscribe(eventObj => IsAppointmentSelected = true);
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
             BackCommand = new DelegateCommand(Back);
@@ -67,11 +74,18 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             CloseApplicationCommand = new DelegateCommand(CloseApplication);
         }
 
+        /// <summary>
+        /// Handler for the Back-button.
+        /// </summary>
         private void Back()
         {
             _regionManager.Regions[ViewConstants.REGION_Main].NavigationService.Journal.GoBack();
         }
 
+        /// <summary>
+        /// Handler for changing language using the language flag icons in the view.
+        /// </summary>
+        /// <param name="culture">Name of the culture, eg. da-DK or en-US</param>
         private void ChangeLanguage(string culture)
         {
             _logger.ForContext("Click", typeof(MainWindowViewModel)).Information("Change language clicked with culture {@Culture}", culture);
@@ -83,16 +97,27 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handler for the close application button.
+        /// </summary>
         private void CloseApplication()
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Method for navigating in the view.
+        /// </summary>
+        /// <param name="uri">Name of the view that should be navigated to</param>
         private void Navigate(string uri)
         {
             _regionManager.RequestNavigate(ViewConstants.REGION_Main, uri);
         }
 
+        /// <summary>
+        /// Handler for hiding or showing the loading spinner.
+        /// </summary>
+        /// <param name="state">Possible values are: Show, Hide</param>
         private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
         {
             switch (state)
