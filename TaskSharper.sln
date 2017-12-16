@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Calender.WPF", "TaskSharper.Calender.WPF\TaskSharper.Calender.WPF.csproj", "{E7703189-AB75-42AD-A24C-7084FF9BCFA2}"
 EndProject
@@ -67,10 +67,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Configuration", "TaskSharper.Configuration\TaskSharper.Configuration.csproj", "{65925425-E77F-40A0-9A46-28E406A1D6B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskSharper.Configuration.Test.Unit", "TaskSharper.Configuration.Test.Unit\TaskSharper.Configuration.Test.Unit.csproj", "{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{AC7FA443-2933-4AFA-A9C8-85A1E5A3F41B}"
-EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "TaskSharper.Documentation", "TaskSharper.Documentation\TaskSharper.Documentation.shfbproj", "{3F76AD72-FA64-4B91-A143-53105B8F93B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -238,12 +234,6 @@ Global
 		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.BuildAllExceptUITests|Any CPU.ActiveCfg = Release|Any CPU
-		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.BuildAllExceptUITests|Any CPU.Build.0 = Release|Any CPU
-		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F76AD72-FA64-4B91-A143-53105B8F93B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -266,7 +256,6 @@ Global
 		{052051CD-EC17-4038-90AE-F06C57A21EB2} = {D5B151ED-68BE-41E7-B570-801091AA2B0B}
 		{4A1D255F-6E36-43CA-8864-A3571D30CBF6} = {D5B151ED-68BE-41E7-B570-801091AA2B0B}
 		{1C1F1839-E9DF-479E-B9E3-E61A71A5A2EF} = {2C86AA8A-47CB-4835-8FEC-EE5E9C1247D0}
-		{3F76AD72-FA64-4B91-A143-53105B8F93B7} = {AC7FA443-2933-4AFA-A9C8-85A1E5A3F41B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2610FE-FBAE-448B-ACAB-893FDB66EB45}
