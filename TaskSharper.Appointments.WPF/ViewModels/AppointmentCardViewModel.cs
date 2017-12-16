@@ -11,6 +11,7 @@ using Serilog;
 using TaskSharper.Appointments.WPF.Config;
 using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
+using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Appointments.WPF.ViewModels
@@ -110,6 +111,15 @@ namespace TaskSharper.Appointments.WPF.ViewModels
                     {
                         IsSelected = false;
                     }
+                }
+            });
+
+            _eventAggregator.GetEvent<EventChangedEvent>().Subscribe(eventObj =>
+            {
+                if (eventObj == null) return;
+                if (eventObj.Id == Appointment.Id)
+                {
+                    Appointment = eventObj;
                 }
             });
         }

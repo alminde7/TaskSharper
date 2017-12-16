@@ -176,6 +176,7 @@ namespace TaskSharper.WPF.Common.Components.Notification
                 NotificationEvent.MarkedAsDone = true;
 
             _dataService.UpdateAsync(NotificationEvent);
+            _eventAggregator.GetEvent<EventChangedEvent>().Publish(NotificationEvent);
 
             ClosePopUp();
         }

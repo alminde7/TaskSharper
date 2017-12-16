@@ -11,6 +11,7 @@ using Serilog;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Events;
+using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Tasks.WPF.ViewModels
@@ -111,6 +112,15 @@ namespace TaskSharper.Tasks.WPF.ViewModels
                     {
                         IsSelected = false;
                     }
+                }
+            });
+
+            _eventAggregator.GetEvent<EventChangedEvent>().Subscribe(eventObj =>
+            {
+                if (eventObj == null) return;
+                if (eventObj.Id == Task.Id)
+                {
+                    Task = eventObj;
                 }
             });
         }
