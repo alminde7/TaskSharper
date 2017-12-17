@@ -179,6 +179,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Media\sms-alert-3-daniel_simon.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Media\WindowsNotifyCalendar.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

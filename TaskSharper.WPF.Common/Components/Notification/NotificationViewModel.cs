@@ -202,7 +202,7 @@ namespace TaskSharper.WPF.Common.Components.Notification
         {
             System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                _soundPath = AppDomain.CurrentDomain.BaseDirectory + "/Media/WindowsNotifyCalendar.wav";
+                _soundPath = AppDomain.CurrentDomain.BaseDirectory + "/Media/sms-alert-3-daniel_simon.wav";
                 try
                 {
                     SoundPlayer notificationSound = new SoundPlayer(_soundPath);
