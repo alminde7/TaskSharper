@@ -230,7 +230,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         
         /// <summary>
-        /// 
+        /// Calculates the first day of the month.
         /// </summary>
         /// <param name="day"></param>
         /// <param name="currentDateTime"></param>
@@ -244,6 +244,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             return dateTime;
         }
 
+        /// <summary>
+        /// Refreshes the dates of the child viewmodels.
+        /// </summary>
         public void UpdateDates()
         {
             var firstDayOfMonth = CalculateDate(1, CurrentDatetime);
