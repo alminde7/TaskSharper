@@ -16,6 +16,11 @@ using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 {
+    /// <summary>
+    /// This ViewModel is the connected with the view that is in every day of the month,
+    /// When looking in the calendar. The View has multiple views DayEvent views inside it. 
+    /// Clicking on the view will navigate you to the CalendarDayView. 
+    /// </summary>
     public class CalendarDateDayViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
@@ -44,12 +49,28 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             set => SetProperty(ref _isCurrentDay, value);
         }
 
+        /// <summary>
+        /// Property that makes days that is not within the month greyed out in the view.
+        /// </summary>
         public bool IsWithinSelectedMonth
         {
             get => _isWithinSelectedMonth;
             set => SetProperty(ref _isWithinSelectedMonth, value);
         }
-        
+
+        /// <summary>
+        /// Constructor
+        /// 
+        /// Initialize the CalendarDayEventViewModel list. 
+        /// 
+        /// Subscribes to the MonthChangedEvent. 
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="eventAggregator">Dependency injection of the eventAggregator</param>
+        /// <param name="eventManager">Dependency injection of the eventManager</param>
+        /// <param name="dateType">Class that indicates if the datatype is of day, week or month</param>
+        /// <param name="logger">Dependency injection of the logger</param>
+        /// <param name="regionManager">Dependency injection of the regionManager</param>
         public CalendarDateDayViewModel(DateTime date, IEventAggregator eventAggregator, IEventRestClient eventManager, CalendarTypeEnum dateType, ILogger logger, IRegionManager regionManager)
         {
             IsCurrentDay = false;
@@ -66,7 +87,7 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             CalendarEvents = new ObservableCollection<CalendarDayEventViewModel>();
             
             // Subscribe to events
-            eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
+            _eventAggregator.GetEvent<MonthChangedEvent>().Subscribe(MonthChangedEventHandler);
 
             // Initialize event commands
             GoToDayViewCommand = new DelegateCommand(GoToDayView);
@@ -75,6 +96,12 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             UpdateDate(date);
         }
 
+        /// <summary>
+        /// When the event of the month have changed and the event have been received, this method will be called.
+        /// Depending on the state the month will either increase or decrease by 28 days. 
+        /// Could have used by month on the datetime object, but was found to be not consitant. 
+        /// </summary>
+        /// <param name="state"></param>
         private void MonthChangedEventHandler(DateChangedEnum state)
         {
             if (_dateType != CalendarTypeEnum.Month) return;
@@ -93,12 +120,21 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             }
         }
 
+        /// <summary>
+        /// Is called from the constructor to update the date. 
+        /// </summary>
+        /// <param name="date">The date of the specific day</param>
         public void UpdateDate(DateTime date)
         {
             Date = date;
             IsCurrentDay = Date.Date == DateTime.Now.Date;
         }
 
+        /// <summary>
+        /// This will be called in the handler of month changed. 
+        /// If the list is not empty GetEvents will be called. 
+        /// </summary>
+        /// <param name="events">new list of events from the cache.</param>
         public void UpdateView(IList<Event> events = null)
         {
             if (events == null)
@@ -113,6 +149,10 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
 
         }
 
+        /// <summary>
+        /// Adds event to a new CalendarDayEventViewModel list. 
+        /// </summary>
+        /// <param name="calendarEvents">new list of events from the cache.</param>
         private void GetEvents(IList<Event> calendarEvents)
         {
             foreach (var calendarEvent in calendarEvents)
@@ -122,6 +162,9 @@ namespace TaskSharper.Calender.WPF.ViewModels.MonthViewModels
             }
         }
 
+        /// <summary>
+        /// If the day is clicked, it goes to the day view. 
+        /// </summary>
         public void GoToDayView()
         {
             _logger.Information("Navigating from MonthView to DayView");

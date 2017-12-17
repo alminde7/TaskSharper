@@ -14,6 +14,7 @@ using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.RestClient;
 using TaskSharper.Tasks.WPF.Config;
 using TaskSharper.Tasks.WPF.Events;
+using TaskSharper.WPF.Common.Components.SetCulture;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.Resources;
 using TaskSharper.WPF.Common.Events.ScrollEvents;
@@ -21,6 +22,10 @@ using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.Tasks.WPF.ViewModels
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// ViewModel for the MainWindow view of the Task application.
+    /// </summary>
     public class MainWindowViewModel : BindableBase
     {
         private readonly IRegionManager _regionManager;
@@ -28,25 +33,31 @@ namespace TaskSharper.Tasks.WPF.ViewModels
         private readonly ILogger _logger;
         private readonly IStatusRestClient _statusRestClient;
         private bool _spinnerVisible;
+        private bool _isTaskSelected;
         private bool _isAppointmentSelected;
+        private Culture _culture;
 
         public DelegateCommand<string> NavigateCommand { get; set; }
         public DelegateCommand BackCommand { get; set; }
         public DelegateCommand<string> ChangeLanguageCommand { get; set; }
         public DelegateCommand CloseApplicationCommand { get; set; }
 
+        /// <summary>
+        /// Used to bind in the view whether or not the loading spinner should be visible.
+        /// </summary>
         public bool SpinnerVisible
         {
             get => _spinnerVisible;
             set => SetProperty(ref _spinnerVisible, value);
         }
 
-        public bool IsAppointmentSelected
-        {
-            get => _isAppointmentSelected;
-            set => SetProperty(ref _isAppointmentSelected, value);
-        }
-
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="regionManager">Regionmanager used for navigation</param>
+        /// <param name="eventAggregator">Event aggregator for subscribing to and publishing events</param>
+        /// <param name="logger">Logger for logging</param>
+        /// <param name="statusRestClient">Rest client for the Status service</param>
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ILogger logger,
             IStatusRestClient statusRestClient)
         {
@@ -54,10 +65,9 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             _eventAggregator = eventAggregator;
             _logger = logger.ForContext<MainWindowViewModel>();
             _statusRestClient = statusRestClient;
+            _culture = new Culture();
 
             _eventAggregator.GetEvent<SpinnerEvent>().Subscribe(SetSpinnerVisibility);
-            _eventAggregator.GetEvent<TaskSelectedEvent>()
-                .Subscribe(eventObj => IsAppointmentSelected = true);
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
             BackCommand = new DelegateCommand(Back);
@@ -65,11 +75,18 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             CloseApplicationCommand = new DelegateCommand(CloseApplication);
         }
 
+        /// <summary>
+        /// Handler for the Back-button.
+        /// </summary>
         private void Back()
         {
             _regionManager.Regions[ViewConstants.REGION_Main].NavigationService.Journal.GoBack();
         }
 
+        /// <summary>
+        /// Handler for changing language using the language flag icons in the view.
+        /// </summary>
+        /// <param name="culture">Name of the culture, eg. da-DK or en-US</param>
         private void ChangeLanguage(string culture)
         {
             _logger.ForContext("Click", typeof(MainWindowViewModel))
@@ -78,21 +95,32 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             {
                 _logger.ForContext("Language", typeof(MainWindowViewModel))
                     .Information("Changed culture to {@Culture}", culture);
-                LocalizeDictionary.Instance.Culture = new CultureInfo(culture);
+                _culture.Set(culture);
                 _eventAggregator.GetEvent<CultureChangedEvent>().Publish();
             }
         }
 
+        /// <summary>
+        /// Handler for the close application button.
+        /// </summary>
         private void CloseApplication()
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Method for navigating in the view.
+        /// </summary>
+        /// <param name="uri">Name of the view that should be navigated to</param>
         private void Navigate(string uri)
         {
             _regionManager.RequestNavigate(ViewConstants.REGION_Main, uri);
         }
 
+        /// <summary>
+        /// Handler for hiding or showing the loading spinner.
+        /// </summary>
+        /// <param name="state">Possible values are: Show, Hide</param>
         private void SetSpinnerVisibility(EventResources.SpinnerEnum state)
         {
             switch (state)

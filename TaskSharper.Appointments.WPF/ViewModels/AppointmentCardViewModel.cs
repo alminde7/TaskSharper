@@ -13,10 +13,15 @@ using TaskSharper.Appointments.WPF.Events;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
 using TaskSharper.Domain.RestClient;
+using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Media;
 
 namespace TaskSharper.Appointments.WPF.ViewModels
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// ViewModel for the appointment card.
+    /// </summary>
     public class AppointmentCardViewModel : BindableBase
     {
         private readonly IAppointmentRestClient _dataService;
@@ -32,6 +37,9 @@ namespace TaskSharper.Appointments.WPF.ViewModels
         public DelegateCommand SelectAppointmentCommand { get; set; }
         public DelegateCommand EditAppointmentCommand { get; set; }
 
+        /// <summary>
+        /// Holds the appointment used for data binding.
+        /// </summary>
         public Event Appointment
         {
             get => _appointment;
@@ -42,12 +50,18 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Category of the appointment as a FontAwesome valid value.
+        /// </summary>
         public string Category
         {
             get => _category;
             set => SetProperty(ref _category, value);
         }
 
+        /// <summary>
+        /// Determines whether or not the appointment is selected, and adds a background color if it is selected.
+        /// </summary>
         public bool IsSelected
         {
             get => _isSelected;
@@ -58,12 +72,25 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Binding value used for opacity of the background. Ranges between 0.0-1.0.
+        /// Default value for when appointment is selected: 0.5
+        /// Default value for when appointment is not selected: 0
+        /// </summary>
         public double BackgroundOpacity
         {
             get => _backgroundOpacity;
             set => SetProperty(ref _backgroundOpacity, value);
         }
 
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="dataService">Data service for data management</param>
+        /// <param name="eventAggregator">Event aggregator for subscribing to and publishing events</param>
+        /// <param name="regionManager">Regionmanager used for navigation</param>
+        /// <param name="logger">Logger for logging</param>
         public AppointmentCardViewModel(IAppointmentRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
         {
             _dataService = dataService;
@@ -88,8 +115,20 @@ namespace TaskSharper.Appointments.WPF.ViewModels
                     }
                 }
             });
+
+            _eventAggregator.GetEvent<EventChangedEvent>().Subscribe(eventObj =>
+            {
+                if (eventObj == null) return;
+                if (eventObj.Id == Appointment.Id)
+                {
+                    Appointment = eventObj;
+                }
+            });
         }
 
+        /// <summary>
+        /// Handler for when clicking the Edit button in the view.
+        /// </summary>
         private void EditAppointment()
         {
             var navigationParameters = new NavigationParameters();
@@ -99,6 +138,9 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             _regionManager.RequestNavigate(ViewConstants.REGION_Main, ViewConstants.VIEW_ModifyAppointmentView, navigationParameters);
         }
 
+        /// <summary>
+        /// Handler for selecting a appointment in the view.
+        /// </summary>
         private void SelectAppointment()
         {
             _eventAggregator.GetEvent<AppointmentSelectedEvent>().Publish(Appointment);

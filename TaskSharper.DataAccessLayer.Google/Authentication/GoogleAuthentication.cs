@@ -50,7 +50,6 @@ namespace TaskSharper.DataAccessLayer.Google.Authentication
             return credential;
         }
 
-        // NOTE:: I am not quite sure about this ?
         internal ClientSecretModel LoadClientSecret(string path)
         {
             if (!File.Exists(path))

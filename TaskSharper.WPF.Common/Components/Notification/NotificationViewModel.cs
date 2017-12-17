@@ -18,6 +18,10 @@ using WPFLocalizeExtension.Engine;
 
 namespace TaskSharper.WPF.Common.Components.Notification
 {
+    /// <summary>
+    /// NotificationViewModel is the ViewModel for the NotificationView.xaml
+    /// It is made for the purpose of being a genereal component of showing notifications. 
+    /// </summary>
     public class NotificationViewModel : BindableBase
     {
         private bool _isPopupOpen;
@@ -69,6 +73,11 @@ namespace TaskSharper.WPF.Common.Components.Notification
             get => _notificationMessage;
             set => SetProperty(ref _notificationMessage, value);
         }
+
+        /// <summary>
+        /// The category property is databinded to the view for the purpose of showcaseing font awesome icons,
+        /// depending on the category type. 
+        /// </summary>
         public string Category
         {
             get => _category;
@@ -80,18 +89,30 @@ namespace TaskSharper.WPF.Common.Components.Notification
             set => SetProperty(ref _spinnerVisible, value);
         }
 
+        /// <summary>
+        /// IsPopupOpen property is databinded to the view for the purpose of enabling and disabling the popup visually
+        /// </summary>
         public bool IsPopupOpen
         {
             get => _isPopupOpen;
             set => SetProperty(ref _isPopupOpen, value);
         }
 
+        /// <summary>
+        /// Depending on the NotificationTypeEnum the popup changes background colour.
+        /// </summary>
         public NotificationTypeEnum NotificationType
         {
             get => _notificationType;
             set => SetProperty(ref _notificationType, value);
         }
 
+        /// <summary>
+        /// Constructor that subscribe to Notification events and culture changes, and sends the event to a designated action. 
+        /// </summary>
+        /// <param name="eventAggregator"></param>
+        /// <param name="logger"></param>
+        /// <param name="dataService"></param>
         public NotificationViewModel(IEventAggregator eventAggregator, ILogger logger, IEventRestClient dataService)
         {
             IsPopupOpen = false;
@@ -104,11 +125,25 @@ namespace TaskSharper.WPF.Common.Components.Notification
             CompleteTaskCommand = new DelegateCommand(CompleteTask);
         }
 
+        /// <summary>
+        /// After receiving the event of culture change, the culture have already been changed.
+        /// This function only sets the private culture to the updated version. 
+        /// </summary>
         private void UpdateCultureHandler()
         {
             _culture = CultureInfo.CurrentCulture;
         }
 
+        /// <summary>
+        /// This is the action that handles the Notification event that is subscribed to in the constructor.
+        /// 
+        /// If there is an issue with internet connection, then this notification should only be shown once,
+        /// when shown a static variable is set.
+        /// 
+        /// If the notification event is null or already marked as dismiss/complete then it will not be shown. 
+        /// </summary>
+        /// <param name="notification">The notification event containing either a task or appointment event, or a
+        /// internetconnection event.</param>
         private async void HandleNotificationEvent(Events.Resources.Notification notification)
         {
             if (notification is ConnectionErrorNotification)
@@ -132,23 +167,47 @@ namespace TaskSharper.WPF.Common.Components.Notification
             }
         }
 
+        /// <summary>
+        /// When the button dismiss/complete has been pressed the delegateCommand CompleteTaskCommand will call this function.
+        /// It will throw an new event to the dataservice with an updated MarkedAsDone on the event. 
+        /// And finaly call the method ClosePopUp(). 
+        /// </summary>
         private void CompleteTask()
         {
             if (NotificationEvent != null)
                 NotificationEvent.MarkedAsDone = true;
 
             _dataService.UpdateAsync(NotificationEvent);
+            _eventAggregator.GetEvent<EventChangedEvent>().Publish(NotificationEvent);
 
             ClosePopUp();
         }
-
+        /// <summary>
+        /// Sets the property IsPopupOpen to false which makes the Popup collapse in the view. 
+        /// also publish the event of not showing the spinner. The spinner event is set to show because it greys out 
+        /// all content behind the notification event. 
+        /// </summary>
         private void ClosePopUp()
         {
             IsPopupOpen = false;
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide);
         }
 
-        private Task ShowNotification(Events.Resources.Notification notification)
+        /// <summary>
+        /// ShowNotification method starts the spinner and sets all of the properties from the event into properties of the 
+        /// viewModel. 
+        /// 
+        /// From the event category the CategoryToIconConverter will generate the correct font-awesome string, which will 
+        /// be serialized in the view. 
+        /// 
+        /// Depending on the start and end time the different method will be called to generate the correct ui text. 
+        /// 
+        /// Its made async to await the notification sound being played. This operation could take more than 0,1 and thereby 
+        /// blocking the UI thread.
+        /// </summary>
+        /// <param name="notification">The notification event containing either a task or appointment event</param>
+        /// <returns></returns>
+        private async Task ShowNotification(Events.Resources.Notification notification)
         {
             _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             NotificationTitle = notification.Title;
@@ -193,12 +252,16 @@ namespace TaskSharper.WPF.Common.Components.Notification
                 }
             }
             IsPopupOpen = true;
-            PlayNotificationSound();
-
-            return Task.CompletedTask;
+            await PlayNotificationSound();
         }
-
-        private void PlayNotificationSound()
+        /// <summary>
+        /// Uses AppDomain.CurrentDomain.BaseDirectory so that when doployed and when using the launcher application 
+        /// the path route is set correct. 
+        /// 
+        /// Uses SoundPlayer library for playing sound files. 
+        /// </summary>
+        /// <returns></returns>
+        private Task PlayNotificationSound()
         {
             System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(() =>
             {
@@ -214,8 +277,14 @@ namespace TaskSharper.WPF.Common.Components.Notification
                     _logger.ForContext("Error", typeof(NotificationViewModel)).Information("An error occured when trying to play notification sound: {0}", e.Message);
                 }
             });
+
+            return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Helper function for when the Notification is in the current timeframe, and have to be displayed acordingly.
+        /// </summary>
+        /// <param name="startToEndTime">The string telling when the event is occour from and to</param>
         private void CurrentTimeNotificationText(string startToEndTime)
         {
             var textFormat = LocalizeDictionary.Instance
@@ -224,6 +293,13 @@ namespace TaskSharper.WPF.Common.Components.Notification
 
             NotificationTimeText = string.Format(textFormat, startToEndTime);
         }
+
+        /// <summary>
+        /// Helper function for when the event is in the past timeframe, and have to be displayed acordingly.
+        /// </summary>
+        /// <param name="startToEndTime">The string telling when the event is occour from and to</param>
+        /// <param name="dateTimeMin">The string telling when the event had happent</param>
+        /// <param name="notification">The event</param>
         private void PastTimeNotificationText(string startToEndTime, string dateTimeMin, Events.Resources.Notification notification)
         {
             TimeSpan substractedDateTime = DateTime.Now.Subtract(notification.Event.Start.Value);
@@ -237,6 +313,13 @@ namespace TaskSharper.WPF.Common.Components.Notification
             NotificationTimeText = string.Format(textFormat, NotificationEventType.ToLower(),
                 dateTimeMin, startToEndTime);
         }
+
+        /// <summary>
+        /// Helper function for when the event is in the future timeframe, and have to be displayed acordingly.
+        /// </summary>
+        /// <param name="startToEndTime">The string telling when the event is occour from and to</param>
+        /// <param name="dateTimeMin">The string telling when the event is going to happen</param>
+        /// <param name="notification">The event</param>
         private void FutureTimeNotificationText(string startToEndTime, string dateTimeMin, Events.Resources.Notification notification)
         {
             TimeSpan substractedDateTime = notification.Event.Start.Value.Subtract(DateTime.Now);

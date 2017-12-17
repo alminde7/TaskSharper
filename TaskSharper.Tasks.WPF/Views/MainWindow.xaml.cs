@@ -30,7 +30,7 @@ namespace TaskSharper.Tasks.WPF.Views
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowStyle = WindowStyle.ToolWindow;
             this.WindowState = WindowState.Maximized;
-            //this.Topmost = true;
+            this.Topmost = true;
             this.PreviewKeyDown +=
                 (s, e) =>
                 {
