@@ -61,12 +61,8 @@ Logging settings include the following:
 {
     "EnableLoggingToFile": true,
     "EnableElasticsearchLogging": true,
-    "MinimumLogLevel": "Information",
     "ElasticsearchConfig": {
-        "Url": "http://my.elasticsearch.server:9200",
-        "EnableAuthentication": false,
-        "Username": null,
-        "Password": null
+        "Url": "http://my.elasticsearch.server:9200"
     }
 }
 ```
