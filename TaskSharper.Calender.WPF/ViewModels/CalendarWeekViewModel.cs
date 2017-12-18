@@ -41,7 +41,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand PrevCommand { get; set; }
         public DelegateCommand CreateEventCommand { get; set; }
 
-
+        /// <summary>
+        /// Constructor of the CalendarWeekViewModel 
+        /// </summary>
+        /// <param name="dataService">Dependency injection of the eventManager</param>
+        /// <param name="eventAggregator">Dependency injection of the eventManager</param>
+        /// <param name="regionManager">Dependency injection of the regionManager</param>
+        /// <param name="logger">Dependency injection of the logger</param>
         public CalendarWeekViewModel(IEventRestClient dataService, IEventAggregator eventAggregator, IRegionManager regionManager, ILogger logger)
         {
             _dataService = dataService;
@@ -62,6 +68,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             InitializeViews();
         }
 
+        /// <summary>
+        /// Method to navigate to the CreateEventView 
+        /// </summary>
         private void NavigateToCreateEventView()
         {
             var navigationParameters = new NavigationParameters();
@@ -72,6 +81,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         #region Commands
 
+        /// <summary>
+        /// Method to publish an increase of day date. 
+        /// </summary>
         private async void NextWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(7);
@@ -80,6 +92,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             _logger.ForContext("Click", typeof(WeekChangedEvent)).Information("NextWeek has been clicked");
         }
 
+        /// <summary>
+        /// Method to publish an decrease of day date. 
+        /// </summary>
         private async void PreviousWeek()
         {
             CurrentWeek = CurrentWeek.Date.AddDays(-7);
@@ -92,6 +107,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         #region Bootstrap Views
 
+        /// <summary>
+        /// Bootstrap method to initialize the child view models.
+        /// </summary>
         private void InitializeViews()
         {
             for (int i = 1; i <= DaysInWeek; i++)
@@ -105,6 +123,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Calculates the first day of the month
+        /// </summary>
+        /// <param name="day">The current date</param>
+        /// <returns></returns>
         private DateTime CalculateDate(int day)
         {
             var dayOffset = day - (int) DateTime.Now.DayOfWeek;
@@ -116,7 +139,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         #endregion
 
-
+        /// <summary>
+        /// Meathod to update all child view models. 
+        /// </summary>
         private async Task UpdateViews()
         {
             var @events = await GetEvents(CurrentWeek);
@@ -156,6 +181,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Method for getting all events in the current week.
+        /// </summary>
+        /// <param name="week">Datetime of the current week</param>
+        /// <returns>List of events</returns>
         private async Task<(IDictionary<DateTime, IList<Event>> normalEvents, IDictionary<DateTime, IList<Event>> allDayEvents)> GetEvents(DateTime week)
         {
             var start = week.StartOfWeek().StartOfDay();
