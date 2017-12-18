@@ -61,22 +61,10 @@ namespace TaskSharper.Appointments.WPF.Test.UI
         }
 
         [TestMethod]
-        public void CreateAppointment_StartTimeInThePast()
-        {
-            this.UIMap.CreateAppointmentParams.StartDate = DateTime.Now.Date.AddDays(-1).ToString("dddd, MMMM dd, yyyy", CultureInfo.InvariantCulture);
-            this.UIMap.CreateAppointmentParams.EndDate = DateTime.Now.Date.AddDays(-1).ToString("dddd, MMMM dd, yyyy", CultureInfo.InvariantCulture);
-            this.UIMap.CreateAppointment();
-            
-            this.UIMap.AssertDateTimeErrorIsShowingEventInThePastErrorMessage();
-
-            this.UIMap.ClickCancelButton();
-        }
-
-        [TestMethod]
         public void CreateAppointment_EndTimeIsBeforeStartTime()
         {
-            this.UIMap.CreateAppointmentParams.StartDate = DateTime.Now.Date.ToString("dddd, MMMM dd, yyyy", CultureInfo.InvariantCulture);
-            this.UIMap.CreateAppointmentParams.EndDate = DateTime.Now.Date.AddDays(-1).ToString("dddd, MMMM dd, yyyy", CultureInfo.InvariantCulture);
+            this.UIMap.CreateAppointmentParams.StartDate = DateTime.Now.Date.AddDays(1).ToString("dddd, MMMM dd, yyyy", CultureInfo.InvariantCulture);
+            this.UIMap.CreateAppointmentParams.EndDate = DateTime.Now.Date.ToString("dddd, MMMM dd, yyyy", CultureInfo.InvariantCulture);
             this.UIMap.CreateAppointment();
             
             this.UIMap.AssertDateTimeErrorIsShowingEndTimeBeforeStartTimeErrorMessage();
