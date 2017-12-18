@@ -403,7 +403,7 @@ namespace TaskSharper.WPF.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This {0} happen {1} min ago. From {2}.
+        ///   Looks up a localized string similar to This {0} happened {1} min ago. From {2}.
         /// </summary>
         public static string NotificationPastEvent {
             get {

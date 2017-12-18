@@ -22,6 +22,10 @@ namespace TaskSharper.Calender.WPF.Views
             ContentScrollViewer.ScrollToVerticalOffset(8 * Settings.Default.CalendarEvent_Height);
         }
 
+        /// <summary>
+        /// Found at
+        /// https://stackoverflow.com/questions/16126400/tablet-wpf-windows-desktop-application-scrolling-issue
+        /// </summary>
         private void UIElement_OnManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
             e.Handled = true;
