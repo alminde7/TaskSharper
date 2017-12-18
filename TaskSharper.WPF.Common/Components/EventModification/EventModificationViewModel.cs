@@ -326,17 +326,17 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                 TitleErrorMessage = Resources.ErrorTitleNotSet;
                 hasError = true;
             }
-            if (eventObj.Start > eventObj.End)
+            if (eventObj.Start > eventObj.End && _modificationType == ModificationType.Create)
             {
                 DateTimeErrorMessage = Resources.ErrorEndTimeIsEarlierThanStartTime;
                 hasError = true;
             }
-            if (eventObj.Start < DateTime.Today)
+            if (eventObj.Start < DateTime.Today && _modificationType == ModificationType.Create)
             {
                 DateTimeErrorMessage = Resources.ErrorStartTimeIsBeforeTodaysDate;
                 hasError = true;
             }
-            if (eventObj.End?.Date > eventObj.Start?.Date)
+            if (eventObj.End?.Date > eventObj.Start?.Date && _modificationType == ModificationType.Create)
             {
                 DateTimeErrorMessage = Resources.ErrorEventSpansAccrossMultipleDays;
                 hasError = true;
@@ -366,7 +366,6 @@ namespace TaskSharper.WPF.Common.Components.EventModification
             if (id != null)
             {
                 Event = _dataService.Get(id);
-                SetType(Event.Type);
                 SetStatus(Event.Status);
                 _modificationType = ModificationType.Edit;
             }
@@ -378,9 +377,9 @@ namespace TaskSharper.WPF.Common.Components.EventModification
                     Start = DateTime.Today.AddHours(DateTime.Now.Hour + 1),
                     End = DateTime.Today.AddHours(DateTime.Now.Hour + 2)
                 };
+                Event.Type = navigationContext?.Parameters["Type"] is EventType eventType ? eventType : EventType.None;
             }
-
-            Event.Type = navigationContext?.Parameters["Type"] is EventType eventType ? eventType : EventType.None;
+            
             SetType(Event.Type);
 
             switch (Event.Type)
