@@ -27,6 +27,9 @@ using Constants = TaskSharper.DataAccessLayer.Google.Constants;
 namespace TaskSharper.Service.Config
 {
     // http://csharpindepth.com/articles/general/singleton.aspx#cctor
+    /// <summary>
+    /// Handle Dependency Injection container
+    /// </summary>
     public sealed class UnityConfig
     {
         private static readonly Lazy<IUnityContainer> Container = new Lazy<IUnityContainer>(() =>
@@ -45,6 +48,10 @@ namespace TaskSharper.Service.Config
         // - TransientLifeTimeManager = Create new instance on every request
         // - ContainerControlledLifeTimeManager = Create singleton instance. Return same object on every request.
         // RegisterInstance() - Register object as singleton.
+        /// <summary>
+        /// Register dependencies into the IoC container
+        /// </summary>
+        /// <param name="container"></param>
         private static void RegisterTypes(IUnityContainer container)
         {
             // Get settings 
@@ -77,6 +84,11 @@ namespace TaskSharper.Service.Config
             RegisterNotification(container, serviceSettings.Notification);
         }
 
+        /// <summary>
+        /// Regsiter cache in IoC container. It does so based on the service configuration files
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="settings"></param>
         private static void RegisterCache(IUnityContainer container, CacheSettings settings)
         {
             if (settings.EnableCache)
@@ -100,7 +112,11 @@ namespace TaskSharper.Service.Config
             }
         }
             
-
+        /// <summary>
+        /// Register Notification in the IoC container. It does so based on the service configuration file
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="settings"></param>
         private static void RegisterNotification(IUnityContainer container, NotificationSettings settings)
         {
             if (settings.EnableNotifications)

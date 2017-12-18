@@ -12,7 +12,6 @@ using TaskSharper.Service.RestClient.Factories;
 using TaskSharper.Shared.Logging;
 using Microsoft.Practices.Unity;
 using Prism.Logging;
-using TaskSharper.Appointments.WPF;
 using TaskSharper.Configuration.Config;
 using TaskSharper.Configuration.Settings;
 using TaskSharper.Domain.Configuration.Logging;

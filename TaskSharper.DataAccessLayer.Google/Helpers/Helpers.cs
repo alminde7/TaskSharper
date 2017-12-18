@@ -10,6 +10,11 @@ namespace TaskSharper.DataAccessLayer.Google.Helpers
 {
     public class Helpers
     {
+        /// <summary>
+        /// Convert Google Event to TaskSharper Event
+        /// </summary>
+        /// <param name="googleEvent"></param>
+        /// <returns></returns>
         public static Event GoogleEventParser(GoogleEvent googleEvent)
         {
             return new Event
@@ -32,6 +37,11 @@ namespace TaskSharper.DataAccessLayer.Google.Helpers
             };
         }
 
+        /// <summary>
+        /// Convert a list of Google Events to a list of TaskSharper Events
+        /// </summary>
+        /// <param name="googleEvents"></param>
+        /// <returns></returns>
         public static List<Event> GoogleEventParser(List<GoogleEvent> googleEvents)
         {
             return googleEvents.Select(googleEvent => new Event
@@ -54,6 +64,11 @@ namespace TaskSharper.DataAccessLayer.Google.Helpers
             }).ToList();
         }
 
+        /// <summary>
+        /// Convert a TaskSharper Event to a Google Event
+        /// </summary>
+        /// <param name="eventObj"></param>
+        /// <returns></returns>
         public static GoogleEvent GoogleEventParser(Event eventObj)
         {
             return new GoogleEvent
@@ -84,6 +99,11 @@ namespace TaskSharper.DataAccessLayer.Google.Helpers
             };
         }
 
+        /// <summary>
+        /// Converts a list of TaskSharper events to a list of Google Events
+        /// </summary>
+        /// <param name="eventObjs"></param>
+        /// <returns></returns>
         public static List<GoogleEvent> GoogleEventParser(List<Event> eventObjs)
         {
             return eventObjs.Select(eventObj => new GoogleEvent

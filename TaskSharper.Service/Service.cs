@@ -8,17 +8,24 @@ using TaskSharper.Service.Config;
 
 namespace TaskSharper.Service
 {
+
     public class Service
     {
         private IDisposable _webApp;
         private readonly string _hostUrl = $"http://+:8000";
 
+        /// <summary>
+        /// Start windows service
+        /// </summary>
         public void Start()
         {
             //NOTE:: Require Visual Studio to run as administrator
             _webApp = WebApp.Start<Startup>(_hostUrl);
         }
 
+        /// <summary>
+        /// Stop windows service
+        /// </summary>
         public void Stop()
         {
             _webApp.Dispose();

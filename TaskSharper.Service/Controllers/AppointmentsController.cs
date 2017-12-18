@@ -20,12 +20,22 @@ namespace TaskSharper.Service.Controllers
         private readonly IEventManager _eventManager;
         public ILogger Logger { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="eventManager">EventManager is used to get events</param>
+        /// <param name="logger"></param>
         public AppointmentsController(IEventManager eventManager, ILogger logger)
         {
             _eventManager = eventManager;
             Logger = logger.ForContext<AppointmentsController>();
         }
 
+        /// <summary>
+        /// Get an appointment by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Get(string id)
@@ -69,6 +79,12 @@ namespace TaskSharper.Service.Controllers
             }
         }
 
+        /// <summary>
+        /// Get appointments between two dates
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(IEnumerable<Event>))]
         public async Task<IHttpActionResult> Get(DateTime from, DateTime to)
@@ -104,6 +120,11 @@ namespace TaskSharper.Service.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a new appointment
+        /// </summary>
+        /// <param name="calEvent"></param>
+        /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Post(EventDto calEvent)
@@ -151,6 +172,11 @@ namespace TaskSharper.Service.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an exsisting appointment
+        /// </summary>
+        /// <param name="calEvent"></param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Put(Event calEvent)
@@ -183,6 +209,12 @@ namespace TaskSharper.Service.Controllers
 
         }
 
+        /// <summary>
+        /// Delete an appointment
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="calendarId"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(string id, string calendarId)
         {

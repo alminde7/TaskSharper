@@ -11,17 +11,30 @@ using TaskSharper.Shared.Helpers;
 
 namespace TaskSharper.Shared.Logging
 {
+    /// <summary>
+    /// Used to configure a serilog logger
+    /// </summary>
     public class LogConfiguration
     {
         // NOTE TO SELF:: An enricher is called on every log event
 
         private static string _elasticSearchUrl = $"http://{AppConfig.ElasticsearchHost}:{AppConfig.ElasticsearchPort}";
         
+        /// <summary>
+        /// Create logger meant to be used in WPF application
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public static ILogger ConfigureWPF(LoggingSettings settings)
         {
             return BaseConfig(settings).CreateLogger();
         }
 
+        /// <summary>
+        /// Configure logger meant to be used in windows service with rest api
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public static ILogger ConfigureAPI(LoggingSettings settings)
         {
             var logger = BaseConfig(settings);
@@ -31,6 +44,11 @@ namespace TaskSharper.Shared.Logging
             return logger.CreateLogger();
         }
 
+        /// <summary>
+        /// Create a base configuration common for WPF and windows service
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         private static LoggerConfiguration BaseConfig(LoggingSettings settings)
         {
             var applicationName = Assembly.GetCallingAssembly().GetName().Name;

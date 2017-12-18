@@ -7,17 +7,29 @@ using Serilog;
 
 namespace TaskSharper.DataAccessLayer.Google.Calendar
 {
+    /// <summary>
+    /// GoogleCalendarBase defines common functionality shared between GoogleCalendarCategoryRepository and GoogleCalendarEventRepository
+    /// </summary>
     public class GoogleCalendarBase
     {
         private readonly CalendarService _service;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="service">Google Calendar service used to create requests to Google</param>
+        /// <param name="logger"></param>
         public GoogleCalendarBase(CalendarService service, ILogger logger)
         {
             _service = service;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get a list of available calendars for the user authenticated by the CalendarService.
+        /// </summary>
+        /// <returns></returns>
         internal List<CalendarListEntry> GetCalendars()
         {
             // Define request
@@ -33,6 +45,10 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return activeCalendars;
         }
 
+        /// <summary>
+        /// Get a list of available calendars async for the user authenticated by the CalendarService.
+        /// </summary>
+        /// <returns></returns>
         internal async Task<List<CalendarListEntry>> GetCalendarsAsync()
         {
             // Define request

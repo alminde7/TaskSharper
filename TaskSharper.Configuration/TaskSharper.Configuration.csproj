@@ -55,9 +55,9 @@
   <ItemGroup>
     <Compile Include="Config\ClientConfig.cs" />
     <Compile Include="Config\LoggingConfig.cs" />
+    <Compile Include="Config\ServiceConfig.cs" />
     <Compile Include="Settings\ClientSettingsHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Config\ServiceConfig.cs" />
     <Compile Include="Settings\LoggingSettingsHandler.cs" />
     <Compile Include="Settings\ServiceSettingsHandler.cs" />
     <Compile Include="Settings\SettingsHandler.cs" />

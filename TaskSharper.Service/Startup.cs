@@ -14,6 +14,10 @@ namespace TaskSharper.Service
 {
     public class Startup
     {
+        /// <summary>
+        /// Configures selfhosting application
+        /// </summary>
+        /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
             var http = new HttpConfiguration();
@@ -35,42 +39,6 @@ namespace TaskSharper.Service
 
             SwaggerConfig.Configure(http);
             WebApiConfig.Configure(app, http);
-        }
-    }
-
-
-    // NOTE:: These methods might be usefull in the future if we figure out how to utilize them properly
-    public class UnitySignalRDependencyResolver : DefaultDependencyResolver
-    {
-
-        public override object GetService(Type serviceType)
-        {
-            object obj;
-            try
-            {
-                obj = UnityConfig.GetContainer().Resolve(serviceType);
-            }
-            catch (Exception)
-            {
-                obj = base.GetService(serviceType);
-            }
-
-            return obj;
-        }
-
-        public override IEnumerable<object> GetServices(Type serviceType)
-        {
-            IEnumerable<object> obj;
-            try
-            {
-                obj = UnityConfig.GetContainer().ResolveAll(serviceType);
-            }
-            catch (Exception)
-            {
-                obj = base.GetServices(serviceType);
-            }
-
-            return obj;
         }
     }
 }

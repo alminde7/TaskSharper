@@ -20,12 +20,21 @@ namespace TaskSharper.Service.Controllers
         private readonly ICategoryManager _categoryManager;
         public ILogger Logger { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="categoryManager">CategoryManager is used to get categories</param>
+        /// <param name="logger"></param>
         public CategoriesController(ICategoryManager categoryManager, ILogger logger)
         {
             _categoryManager = categoryManager;
             Logger = logger.ForContext<CategoriesController>();
         }
 
+        /// <summary>
+        /// Get all categories
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]   
         [ResponseType(typeof(List<EventCategory>))]
         public async Task<IHttpActionResult> Get()

@@ -14,6 +14,10 @@ namespace TaskSharper.Service.Controllers
             Logger = logger.ForContext<StatusController>();
         }
 
+        /// <summary>
+        /// Check whether the service is alive.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(IHttpActionResult))]
         public IHttpActionResult Get()

@@ -9,6 +9,9 @@ using TaskSharper.Shared.Exceptions;
 
 namespace TaskSharper.Service.NotificationClient
 {
+    /// <summary>
+    /// Notification client used to connect to a SignalR server.
+    /// </summary>
     public class NotificationClient : IDisposable, INotificationClient
     {
         private const string HubName = "NotificationHub";
@@ -21,6 +24,11 @@ namespace TaskSharper.Service.NotificationClient
         public int ConnectionRetries { get; set; } = 5;
         public int ConnectionIntervalInMs { get; set; } = 1000;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="logger"></param>
         public NotificationClient(IHubConnectionProxy connection, ILogger logger)
         {
             this._connection = connection;
@@ -28,6 +36,10 @@ namespace TaskSharper.Service.NotificationClient
             _notificationHub = _connection.CreateHubProxy(HubName);
         }
         
+        /// <summary>
+        /// Start connection to server. 
+        /// </summary>
+        /// <returns></returns>
         public async Task Connect()
         {
             int nrOfRetries = 0;
@@ -51,6 +63,11 @@ namespace TaskSharper.Service.NotificationClient
             }
         }
 
+        /// <summary>
+        /// Creates a subscription to a server event, with specified callback.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="callback"></param>
         public void Subscribe<T>(Action<T> callback)
         {
             if (!IsConnected)
@@ -61,6 +78,9 @@ namespace TaskSharper.Service.NotificationClient
             _notificationHub.On<T>(typeof(T).Name, callback);
         }
 
+        /// <summary>
+        /// Stop connection.
+        /// </summary>
         public void Dispose()
         {
             _connection.Stop();

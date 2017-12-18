@@ -10,6 +10,9 @@ namespace TaskSharper.Notification.NullNofications
     // NullObject pattern
     // Used when notifications is disabled. Instead of adding a bunch of if/else to the EventManager, 
     // making the code ugly, this implementation can be injected, thereby not doing notifications.
+    /// <summary>
+    /// NullNotification used to disable notifications
+    /// </summary>
     public class NullNotification : INotification
     {
         public NotificationSettings NotificationSettings { get; set; }

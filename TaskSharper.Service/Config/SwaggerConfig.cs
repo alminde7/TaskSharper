@@ -10,6 +10,10 @@ namespace TaskSharper.Service.Config
 {
     public class SwaggerConfig
     {
+        /// <summary>
+        /// Configure swagger on Rest API
+        /// </summary>
+        /// <param name="config"></param>
         public static void Configure(HttpConfiguration config)
         {
             Console.WriteLine("Enabled Swagger");

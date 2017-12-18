@@ -7,11 +7,20 @@ using Serilog;
 
 namespace TaskSharper.Service.Attributes
 {
+    /// <summary>
+    /// LogAttribute to log Rest requests
+    /// </summary>
     public class Log : ActionFilterAttribute
     {
         private readonly ILogger _logger = Serilog.Log.Logger;
         private readonly Stopwatch _watch = new Stopwatch();
         
+        /// <summary>
+        /// Log incomming requests
+        /// </summary>
+        /// <param name="actionContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             _watch.Start();
@@ -24,6 +33,12 @@ namespace TaskSharper.Service.Attributes
              base.OnActionExecuting(actionContext);
         }
 
+        /// <summary>
+        /// Log response
+        /// </summary>
+        /// <param name="actionExecutedContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override async Task OnActionExecutedAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
             string body = string.Empty;

@@ -10,6 +10,9 @@ using TaskSharper.Domain.ServerEvents;
 
 namespace TaskSharper.BusinessLayer
 {
+    /// <summary>
+    /// Handles getting data and caching of categories
+    /// </summary>
     public class CategoryManager : ICategoryManager
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -17,6 +20,13 @@ namespace TaskSharper.BusinessLayer
         private readonly INotificationPublisher _notificationPublisher;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="categoryRepository">DataAccessLayer repository to get data</param>
+        /// <param name="categoryCache">Category cache</param>
+        /// <param name="notificationPublisher">Used to publish events from the service</param>
+        /// <param name="logger">Logger</param>
         public CategoryManager(ICategoryRepository categoryRepository, IEventCategoryCache categoryCache, INotificationPublisher notificationPublisher, ILogger logger)
         {
             _categoryRepository = categoryRepository;
@@ -25,6 +35,10 @@ namespace TaskSharper.BusinessLayer
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get a list of categories. Method will handle caching of catories.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<EventCategory>> GetCategoriesAsync()
         {
             var categories = _categoryCache.GetEventCategories();

@@ -14,6 +14,12 @@ namespace TaskSharper.Shared.Extensions
 {
     public static class LoggerExtensions
     {
+        /// <summary>
+        /// Add elasticsearch to logger configuration. 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
         public static LoggerConfiguration AddElasticsearch(this LoggerConfiguration logger, string connectionString)
         {
             var elasticsearchOptions = new ElasticsearchSinkOptions(new Uri(connectionString))
@@ -28,6 +34,9 @@ namespace TaskSharper.Shared.Extensions
         }
     }
 
+    /// <summary>
+    /// Configure logger to log correlation id on each log.
+    /// </summary>
     public class CorrelationIdEnricher : ILogEventEnricher
     {
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)

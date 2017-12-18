@@ -6,6 +6,11 @@ namespace TaskSharper.Service.Config
 {
     public class WebApiConfig
     {
+        /// <summary>
+        /// Configure the Rest endpoints.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="config"></param>
         public static void Configure(IAppBuilder app, HttpConfiguration config)
         {
             //This tell WebApi where to resolve dependencies for Controllers

@@ -20,12 +20,22 @@ namespace TaskSharper.Service.Controllers
         private readonly IEventManager _eventManager;
         public ILogger Logger { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="eventManager">EventManager is used to get events</param>
+        /// <param name="logger"></param>
         public EventsController(IEventManager eventManager, ILogger logger)
         {
             _eventManager = eventManager;
             Logger = logger.ForContext<EventsController>();
         }
-        
+
+        /// <summary>
+        /// Get an event by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Get(string id)
@@ -58,7 +68,13 @@ namespace TaskSharper.Service.Controllers
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
         }
-        
+
+        /// <summary>
+        /// Get events between two dates
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(IEnumerable<Event>))]
         public async Task<IHttpActionResult> Get(DateTime from, DateTime to)
@@ -92,7 +108,12 @@ namespace TaskSharper.Service.Controllers
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
         }
-        
+
+        /// <summary>
+        /// Create a new event
+        /// </summary>
+        /// <param name="calEvent"></param>
+        /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Post(EventDto calEvent)
@@ -138,7 +159,12 @@ namespace TaskSharper.Service.Controllers
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
         }
-        
+
+        /// <summary>
+        /// Update an exsisting event
+        /// </summary>
+        /// <param name="calEvent"></param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Put(Event calEvent)
@@ -170,7 +196,13 @@ namespace TaskSharper.Service.Controllers
             }
 
         }
-        
+
+        /// <summary>
+        /// Delete an event
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="calendarId"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(string id, string calendarId)
         {

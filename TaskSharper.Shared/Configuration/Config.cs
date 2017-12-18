@@ -32,7 +32,7 @@ namespace TaskSharper.Shared.Configuration
 
             return basePath;
         }
-
+        
         public static string GetClientConnectionPath()
         {
             var pathToCred = Path.Combine(SetupBasePath(), ".credentials");

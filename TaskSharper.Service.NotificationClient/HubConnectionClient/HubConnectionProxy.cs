@@ -3,6 +3,9 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace TaskSharper.Service.NotificationClient.HubConnectionClient
 {
+    /// <summary>
+    /// Proxy to SignalR HubConnection
+    /// </summary>
     public class HubConnectionProxy : IHubConnectionProxy
     {
         private readonly HubConnection _connection;
