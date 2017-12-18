@@ -8,7 +8,6 @@ using TaskSharper.Domain.Cache;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
 using TaskSharper.Shared.Extensions;
-using TaskSharper.Shared.Wrappers;
 
 namespace TaskSharper.CacheStore
 {

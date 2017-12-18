@@ -87,7 +87,6 @@
     <Compile Include="Logging\LogConfiguration.cs" />
     <Compile Include="Extensions\LoggerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wrappers\TimerBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
