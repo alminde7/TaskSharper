@@ -38,6 +38,13 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public DelegateCommand PrevCommand { get; set; }
         public DelegateCommand CreateEventCommand { get; set; }
 
+        /// <summary>
+        /// Constructor for the CalendarDayViewModel
+        /// </summary>
+        /// <param name="eventAggregator">Dependency injection of the eventManager</param>
+        /// <param name="dataService">Dependency injection of the eventManager</param>
+        /// <param name="regionManager">Dependency injection of the regionManager</param>
+        /// <param name="logger">Dependency injection of the logger</param>
         public CalendarDayViewModel(IEventAggregator eventAggregator, IEventRestClient dataService, IRegionManager regionManager, ILogger logger)
         {
             _regionManager = regionManager;
@@ -59,6 +66,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             CreateEventCommand = new DelegateCommand(NavigateToCreateEventView);
         }
 
+        /// <summary>
+        /// Method to call the region manager and request a navigation to the CreateEventView()
+        /// </summary>
         private void NavigateToCreateEventView()
         {
             var navigationParameters = new NavigationParameters();
@@ -69,6 +79,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         #region EventHandlers
 
+        /// <summary>
+        /// Method to publish an increase of day date. 
+        /// </summary>
         public void NextDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(1);
@@ -77,6 +90,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Logger.ForContext("Click", typeof(DayChangedEvent)).Information("NextDay has been clicked");
         }
 
+        /// <summary>
+        /// Method to publish an decrease of day date. 
+        /// </summary>
         public void PreviousDayCommandHandler()
         {
             CurrentDay = CurrentDay.AddDays(-1);
@@ -87,6 +103,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         #endregion
 
+        /// <summary>
+        /// Meathod to update all child view models. 
+        /// </summary>
         private async void UpdateView()
         {
             var data = await GetEvents(CurrentDay);
@@ -102,6 +121,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets events by the date of the day
+        /// </summary>
+        /// <param name="date">date of the day</param>
+        /// <returns>list of events </returns>
         public async Task<(IList<Event> normalEvents, IList<Event> allDayEvents)> GetEvents(DateTime date)
         {
             try

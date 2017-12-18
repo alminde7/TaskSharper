@@ -230,7 +230,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
         }
         
         /// <summary>
-        /// 
+        /// Calculates the first day of the month.
         /// </summary>
         /// <param name="day"></param>
         /// <param name="currentDateTime"></param>
@@ -244,6 +244,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             return dateTime;
         }
 
+        /// <summary>
+        /// Refreshes the dates of the child viewmodels.
+        /// </summary>
         public void UpdateDates()
         {
             var firstDayOfMonth = CalculateDate(1, CurrentDatetime);
@@ -290,6 +293,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
             UpdateIsWithinSelectedMonth();
         }
 
+        /// <summary>
+        /// Refreshes the data & events in the child view models. 
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateViewsWithData()
         {
             var @events = await GetEvents(DateDays.First().Date, DateDays.Last().Date);
@@ -312,6 +319,12 @@ namespace TaskSharper.Calender.WPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets all events from the rest client between start and end date. 
+        /// </summary>
+        /// <param name="start">start date of the events </param>
+        /// <param name="end">end date of the events </param>
+        /// <returns>returns list of events</returns>
         private async Task<IDictionary<DateTime, IList<Event>>> GetEvents(DateTime start, DateTime end)
         {
             try
