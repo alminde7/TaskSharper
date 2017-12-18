@@ -184,8 +184,8 @@ namespace TaskSharper.Calender.WPF.ViewModels
         /// <summary>
         /// Method for getting all events in the current week.
         /// </summary>
-        /// <param name="week">Datetime of the current week</param>
-        /// <returns>List of events</returns>
+        /// <param name="week"></param>
+        /// <returns></returns>
         private async Task<(IDictionary<DateTime, IList<Event>> normalEvents, IDictionary<DateTime, IList<Event>> allDayEvents)> GetEvents(DateTime week)
         {
             var start = week.StartOfWeek().StartOfDay();
