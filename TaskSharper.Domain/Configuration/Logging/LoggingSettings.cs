@@ -8,7 +8,6 @@ namespace TaskSharper.Domain.Configuration.Logging
         }
         public bool EnableLoggingToFile { get; set; } = true;
         public bool EnableElasticsearchLogging { get; set; } = true;
-        public string MinimumLogLevel { get; set; } = "Information";
         public ElasticsearchConfig ElasticsearchConfig { get; set; }
     }
 }
