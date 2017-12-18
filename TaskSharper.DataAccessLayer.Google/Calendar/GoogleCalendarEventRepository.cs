@@ -10,17 +10,31 @@ using Event = TaskSharper.Domain.Models.Event;
 
 namespace TaskSharper.DataAccessLayer.Google.Calendar
 {
+    /// <summary>
+    /// Handles Event operations on Google Calendar
+    /// </summary>
     public class GoogleCalendarEventRepository : GoogleCalendarBase, IEventRepository
     {
         private readonly CalendarService _service;
         public ILogger Logger { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="service">Google Calendar service used to create requests to Google</param>
+        /// <param name="logger"></param>
         public GoogleCalendarEventRepository(CalendarService service, ILogger logger) : base(service, logger)
         {
             _service = service;
             Logger = logger.ForContext<GoogleCalendarEventRepository>();
         }
         
+        /// <summary>
+        /// Get event by id and calendarid
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="calendarId"></param>
+        /// <returns></returns>
         public Event GetEvent(string id, string calendarId)
         {
             // Define parameters of request.
@@ -35,6 +49,10 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Get all events
+        /// </summary>
+        /// <returns></returns>
         public List<Event> GetEvents()
         {
             var calendarList = GetCalendars();
@@ -57,6 +75,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Get events on a given date
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
         public List<Event> GetEvents(DateTime start)
         {
             var calendarList = GetCalendars();
@@ -80,6 +103,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Get events between two dates
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         public List<Event> GetEvents(DateTime start, DateTime end)
         {
             var calendarList = GetCalendars();
@@ -104,6 +133,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Create a new event
+        /// </summary>
+        /// <param name="eventObj"></param>
+        /// <returns></returns>
         public Event InsertEvent(Event eventObj)
         {
             var calendarList = GetCalendars();
@@ -121,6 +155,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return retval;
         }
 
+        /// <summary>
+        /// Update an existing event
+        /// </summary>
+        /// <param name="eventObj"></param>
+        /// <returns></returns>
         public Event UpdateEvent(Event eventObj)
         {
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
@@ -135,6 +174,13 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return retval;
         }
 
+        /// <summary>
+        /// Update the category for an event. 
+        /// </summary>
+        /// <param name="eventId">Event to be updated</param>
+        /// <param name="categoryId">Current category</param>
+        /// <param name="newCategoryId">New category</param>
+        /// <returns></returns>
         public Event UpdateEventCategory(string eventId, string categoryId, string newCategoryId)
         {
             var request = _service.Events.Move(categoryId, eventId, newCategoryId);
@@ -147,6 +193,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return retval;
         }
 
+        /// <summary>
+        /// Delete a event.
+        /// </summary>
+        /// <param name="calendarId"></param>
+        /// <param name="eventId"></param>
         public void DeleteEvent(string calendarId, string eventId)
         {
             var request = _service.Events.Delete(calendarId, eventId);
@@ -155,8 +206,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             request.Execute();
         }
 
-
-
+        /// <summary>
+        /// Get an event
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="calendarId"></param>
+        /// <returns></returns>
         public async Task<Event> GetEventAsync(string id, string calendarId)
         {
             // Define parameters of request.
@@ -171,6 +226,10 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Get all events
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Event>> GetEventsAsync()
         {
             var calendarList = await GetCalendarsAsync();
@@ -193,6 +252,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Get events on a given date
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
         public async Task<List<Event>> GetEventsAsync(DateTime start)
         {
             var calendarList = await GetCalendarsAsync();
@@ -216,6 +280,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Get events between two dates
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         public async Task<List<Event>> GetEventsAsync(DateTime start, DateTime end)
         {
             var calendarList = await GetCalendarsAsync();
@@ -240,6 +310,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return events;
         }
 
+        /// <summary>
+        /// Create event
+        /// </summary>
+        /// <param name="eventObj"></param>
+        /// <returns></returns>
         public async Task<Event> InsertEventAsync(Event eventObj)
         {
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
@@ -257,6 +332,11 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return retval;
         }
 
+        /// <summary>
+        /// Update exsisting event
+        /// </summary>
+        /// <param name="eventObj"></param>
+        /// <returns></returns>
         public async Task<Event> UpdateEventAsync(Event eventObj)
         {
             var googleEvent = Helpers.Helpers.GoogleEventParser(eventObj);
@@ -271,6 +351,13 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return retval;
         }
 
+        /// <summary>
+        /// Update the category for an event. 
+        /// </summary>
+        /// <param name="eventId">Event to be updated</param>
+        /// <param name="categoryId">Current category</param>
+        /// <param name="newCategoryId">New category</param>
+        /// <returns></returns>
         public async Task<Event> UpdateEventCategoryAsync(string eventId, string categoryId, string newCategoryId)
         {
             var request = _service.Events.Move(categoryId, eventId, newCategoryId);
@@ -283,6 +370,12 @@ namespace TaskSharper.DataAccessLayer.Google.Calendar
             return retval;
         }
 
+        /// <summary>
+        /// Delete an event
+        /// </summary>
+        /// <param name="calendarId"></param>
+        /// <param name="eventId"></param>
+        /// <returns></returns>
         public async Task DeleteEventAsync(string calendarId, string eventId)
         {
             var request = _service.Events.Delete(calendarId, eventId);

@@ -1,41 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Serilog;
-using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
-using TaskSharper.Domain.Notification;
 
 namespace TaskSharper.Service.Hubs
 {
+    /// <summary>
+    /// Notification hub used for client to connect to.
+    /// </summary>
     public class NotificationHub : Hub
     {
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logger"></param>
         public NotificationHub(ILogger logger)
         {
             _logger = logger;
         }
-
-        public override Task OnConnected()
-        {
-            return base.OnConnected();
-        }
-
-        public override Task OnDisconnected(bool stopCalled)
-        {
-            return base.OnDisconnected(stopCalled);
-        }
-
-        public override Task OnReconnected()
-        {
-            return base.OnReconnected();
-        }
-
+        
         public void PublishNotification(Event calEvent)
         {
             IClientProxy proxy = Clients.All;

@@ -9,6 +9,9 @@ using TaskSharper.Service.RestClient.Factories;
 
 namespace TaskSharper.Service.RestClient.Clients
 {
+    /// <summary>
+    /// Used to ensure that rest API is alive
+    /// </summary>
     public class StatusRestClient : IStatusRestClient
     {
         private readonly IRestClient _restClient;
@@ -24,6 +27,10 @@ namespace TaskSharper.Service.RestClient.Clients
             _restClient.BaseUrl = new Uri(serverUrl);
         }
 
+        /// <summary>
+        /// Send request to server, if it return 200 the methods return true. Otherwise return false.
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> IsAliveAsync()
         {
             var request = _requestFactory.Create(Controller, Method.GET);

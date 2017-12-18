@@ -17,6 +17,9 @@ using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Service.RestClient.Clients
 {
+    /// <summary>
+    /// Used to handle request to Rest API in windows service.
+    /// </summary>
     public class EventRestClient : IAppointmentRestClient, ITaskRestClient
     {
         private readonly IRestClient _restClient;
@@ -24,6 +27,14 @@ namespace TaskSharper.Service.RestClient.Clients
         private readonly ILogger _logger;
         private readonly string _controller;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="serverUrl">Url to Rest endpoints</param>
+        /// <param name="controller">Name of rest controller</param>
+        /// <param name="restClient">RestClient used to execute requests</param>
+        /// <param name="requestFactory">RestRequestFactory used to create rest requests</param>
+        /// <param name="logger"></param>
         public EventRestClient(string serverUrl, string controller, IRestClient restClient, IRestRequestFactory requestFactory, ILogger logger)
         {
             _controller = controller;
@@ -33,6 +44,11 @@ namespace TaskSharper.Service.RestClient.Clients
             _restClient.BaseUrl = new Uri(serverUrl);
         }
 
+        /// <summary>
+        /// Get event by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Event Get(string id)
         {
             var request = _requestFactory.Create($"{_controller}/{id}", Method.GET);
@@ -42,6 +58,11 @@ namespace TaskSharper.Service.RestClient.Clients
             return CreateResponse(result);
         }
 
+        /// <summary>
+        /// Get event by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Event> GetAsync(string id)
         {
             var request = _requestFactory.Create($"{_controller}/{id}", Method.GET);
@@ -51,6 +72,11 @@ namespace TaskSharper.Service.RestClient.Clients
             return CreateResponse(result);
         }
 
+        /// <summary>
+        /// Get event by date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Event>> GetAsync(DateTime date)
         {
             var requestDateStart = date.StartOfDay();
@@ -65,6 +91,12 @@ namespace TaskSharper.Service.RestClient.Clients
             return CreateResponse(result);
         }
 
+        /// <summary>
+        /// Get event by date
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Event>> GetAsync(DateTime from, DateTime to)
         {
             var request = _requestFactory.Create(_controller, Method.GET);
@@ -76,6 +108,11 @@ namespace TaskSharper.Service.RestClient.Clients
             return CreateResponse(result);
         }
 
+        /// <summary>
+        /// Create new event
+        /// </summary>
+        /// <param name="newEvent"></param>
+        /// <returns></returns>
         public async Task<Event> CreateAsync(Event newEvent)
         {
             var eventDto = new EventDto()
@@ -97,6 +134,11 @@ namespace TaskSharper.Service.RestClient.Clients
             return CreateResponse(result);
         }
 
+        /// <summary>
+        /// Update existing event
+        /// </summary>
+        /// <param name="updatedEvent"></param>
+        /// <returns></returns>
         public async Task<Event> UpdateAsync(Event updatedEvent)
         {
             var request = _requestFactory.Create(_controller, Method.PUT);
@@ -107,6 +149,12 @@ namespace TaskSharper.Service.RestClient.Clients
             return result.Data;
         }
 
+        /// <summary>
+        /// Delete event
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="calendarId"></param>
+        /// <returns></returns>
         public async Task DeleteAsync(string id, string calendarId)
         {
             var request = _requestFactory.Create($"{_controller}/{id}?calendarId={calendarId}", Method.DELETE);
@@ -116,6 +164,10 @@ namespace TaskSharper.Service.RestClient.Clients
             CreateResponse(result);
         }
 
+        /// <summary>
+        /// Get categories
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<EventCategory>> GetAsync()
         {
             var request = _requestFactory.Create("Categories", Method.GET);
@@ -125,6 +177,12 @@ namespace TaskSharper.Service.RestClient.Clients
 
         }
 
+        /// <summary>
+        /// Creates response to caller based on response from Rest API. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response"></param>
+        /// <returns></returns>
         private T CreateResponse<T>(IRestResponse<T> response)
         {
             //TODO:: Seek a better solution for this - maybe create an enricher
@@ -159,6 +217,10 @@ namespace TaskSharper.Service.RestClient.Clients
             }
         }
 
+        /// <summary>
+        /// Creates response to caller based on response from Rest API. 
+        /// </summary>
+        /// <param name="response"></param>
         private void CreateResponse(IRestResponse response)
         {
             //TODO:: Seek a better solution for this - maybe create an enricher

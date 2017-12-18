@@ -11,14 +11,32 @@ using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.CacheStore
 {
+    /// <summary>
+    /// Cache for event data.
+    /// </summary>
     public class EventCache : IEventCache
     {
         public ILogger Logger { get; set; }
+
+        /// <summary>
+        /// Datasctructure used to hold cache data. Optimized to getting data by date.
+        /// </summary>
         public ConcurrentDictionary<DateTime, Dictionary<string, CacheData<Event>>> Events { get; }
+
+        /// <summary>
+        /// The allowed lenght of stay in the cache for each data. 
+        /// </summary>
         public TimeSpan UpdatedOffset { get; set; } = TimeSpan.FromMinutes(5);
 
+        /// <summary>
+        /// Timer used to trigger a dailt cleanup of cache, every day. This is to keep the size of the cache small.
+        /// </summary>
         private Timer DailyCleanUpTimer { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logger"></param>
         public EventCache(ILogger logger)
         {
             Logger = logger.ForContext<EventCache>();
@@ -29,6 +47,9 @@ namespace TaskSharper.CacheStore
                 .StartTimer();
         }
 
+        /// <summary>
+        /// Method called on DailyCleanupTimer, to cleanup cache. 
+        /// </summary>
         private void CleanUp()
         {
             try
@@ -221,6 +242,10 @@ namespace TaskSharper.CacheStore
             Events[date].AddOrUpdate(calendarEvent.Id, new CacheData<Event>(calendarEvent, DateTime.Now, false));
         }
 
+        /// <summary>
+        /// Remove event from cache by id.
+        /// </summary>
+        /// <param name="id"></param>
         public void RemoveEvent(string id)
         {
             foreach (var @event in Events)
@@ -236,6 +261,11 @@ namespace TaskSharper.CacheStore
             } // removes event if exist
         }
 
+        /// <summary>
+        /// Method will add days into the Event data structure between two dates.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         private void InitializeEventsDictionary(DateTime start, DateTime? end)
         {
             if (end.HasValue)
@@ -261,6 +291,11 @@ namespace TaskSharper.CacheStore
             }
         }
 
+        /// <summary>
+        /// Determines whether the data in the cache is too old.
+        /// </summary>
+        /// <param name="lastUpdated"></param>
+        /// <returns></returns>
         private bool DataTooOld(DateTime lastUpdated)
         {
             return (lastUpdated + UpdatedOffset) < DateTime.Now;

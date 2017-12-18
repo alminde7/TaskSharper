@@ -6,6 +6,9 @@ using TaskSharper.Shared.Constants;
 
 namespace TaskSharper.Service.Middleware
 {
+    /// <summary>
+    /// Middleware to handle correlation id from rest requests
+    /// </summary>
     public class CorrelationIdMiddleware : OwinMiddleware
     {
         public CorrelationIdMiddleware(OwinMiddleware next) : base(next)

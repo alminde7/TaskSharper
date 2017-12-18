@@ -11,17 +11,27 @@ using TaskSharper.DataAccessLayer.Google.Config;
 
 namespace TaskSharper.DataAccessLayer.Google.Authentication
 {
+    /// <summary>
+    /// Handle authentication to Google
+    /// </summary>
     public class GoogleAuthentication
     {
         protected ILogger Logger;
         private readonly string[] _scopes = { CalendarService.Scope.Calendar };
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logger"></param>
         public GoogleAuthentication(ILogger logger)
         {
             Logger = logger;
         }
 
-        // TODO:: This method is not threadsafe. Maybe load the client token into memory and only update it if request fails?
+        /// <summary>
+        /// Authenticates to Google.
+        /// </summary>
+        /// <returns></returns>
         public UserCredential Authenticate()
         {
             UserCredential credential;
@@ -50,6 +60,11 @@ namespace TaskSharper.DataAccessLayer.Google.Authentication
             return credential;
         }
 
+        /// <summary>
+        /// Load ClientSecret from disk
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         internal ClientSecretModel LoadClientSecret(string path)
         {
             if (!File.Exists(path))

@@ -2,6 +2,9 @@
 
 namespace TaskSharper.Notification
 {
+    /// <summary>
+    /// NotificationObject hold timer data.
+    /// </summary>
     public class NotificationObject
     {
         public Timer Timer { get; set; }

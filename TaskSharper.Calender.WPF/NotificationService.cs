@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Prism.Events;
 using Serilog;
-using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
 using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.ServerEvents;
@@ -13,12 +12,21 @@ using TaskSharper.WPF.Common.Events.Resources;
 
 namespace TaskSharper.Calender.WPF
 {
+    /// <summary>
+    /// Service that run at the startup of the Appointment application.
+    /// </summary>
     public class NotificationService
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly INotificationClient _notificationClient;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="eventAggregator">PRISM EventAggregator to publish and subscribe to methods</param>
+        /// <param name="notificationClient">Client to subscribe to events from the service</param>
+        /// <param name="logger">Logger</param>
         public NotificationService(IEventAggregator eventAggregator, INotificationClient notificationClient, ILogger logger)
         {
             _eventAggregator = eventAggregator;
@@ -26,6 +34,10 @@ namespace TaskSharper.Calender.WPF
             _logger = logger;
         }
 
+        /// <summary>
+        /// Start service, and connects to server
+        /// </summary>
+        /// <returns></returns>
         public async Task StartContinousService()
         {
             try
@@ -54,6 +66,9 @@ namespace TaskSharper.Calender.WPF
             ConfigureSubscription();
         }
 
+        /// <summary>
+        /// Configure subscriptions to events and callbacks
+        /// </summary>
         private void ConfigureSubscription()
         {
             if (!_notificationClient.IsConnected)

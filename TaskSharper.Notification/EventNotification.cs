@@ -11,15 +11,31 @@ using TaskSharper.Shared.Extensions;
 
 namespace TaskSharper.Notification
 {
+    /// <summary>
+    /// Handles reminders for events. 
+    /// </summary>
     public class EventNotification : INotification
     {
         public ILogger Logger { get; set; }
         public NotificationSettings NotificationSettings { get; set; }
         public INotificationPublisher NotificationPublisher { get; }
+
+        /// <summary>
+        /// Datastructure that hold the notification data.
+        /// </summary>
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
+        /// <summary>
+        /// Timer used to trigger a dailt cleanup of notification, every day. This is to removed already fired notification.
+        /// </summary>
         private Timer DailyCleanUpTimer { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="settings">Settings object from settings file. Used to configure notification behaviour</param>
+        /// <param name="logger"></param>
+        /// <param name="notificationPublisher">NotificationPublisher used to publish events</param>
         public EventNotification(NotificationSettings settings, ILogger logger, INotificationPublisher notificationPublisher)
         {
             EventNotifications = new ConcurrentDictionary<string, IList<NotificationObject>>();
@@ -33,6 +49,9 @@ namespace TaskSharper.Notification
                 .StartTimer();
         }
 
+        /// <summary>
+        /// Clean of the notification datastructure for events that is in the past or events that have been triggered
+        /// </summary>
         private void CleanUp()
         {
             try
@@ -60,6 +79,10 @@ namespace TaskSharper.Notification
             }
         }
 
+        /// <summary>
+        /// Add notification. Will ignore it if the event is in the past or if the event has been completed.
+        /// </summary>
+        /// <param name="calEvent">The event that need reminder</param>
         public void Attach(Event calEvent)
         {
             // Remove event if it already exist - to ensure that updated events is removed from notifications. 
@@ -101,6 +124,10 @@ namespace TaskSharper.Notification
             EventNotifications.AddOrUpdate(calEvent.Id, notificationList);
         }
 
+        /// <summary>
+        /// Add a list of notifications
+        /// </summary>
+        /// <param name="calEvents">The events that need reminders</param>
         public void Attach(IEnumerable<Event> calEvents)
         {
             foreach (var calEvent in calEvents)
@@ -109,6 +136,10 @@ namespace TaskSharper.Notification
             }
         }
 
+        /// <summary>
+        /// Remove a notification
+        /// </summary>
+        /// <param name="eventId">The event to be removed from notification</param>
         public void Detatch(string eventId)
         {
             if (EventNotifications.ContainsKey(eventId))
@@ -119,6 +150,10 @@ namespace TaskSharper.Notification
             }
         }
 
+        /// <summary>
+        /// Remove a list of notifications
+        /// </summary>
+        /// <param name="eventIds">The events to be removed from notification</param>
         public void Detatch(IEnumerable<string> eventIds)
         {
             foreach (var eventId in eventIds)
@@ -127,6 +162,12 @@ namespace TaskSharper.Notification
             }
         }
 
+        /// <summary>
+        /// Create the Timer object as configure the callback on timer trigger
+        /// </summary>
+        /// <param name="calEvent"></param>
+        /// <param name="notificationTime"></param>
+        /// <returns></returns>
         private NotificationObject CreateNotification(Event calEvent, DateTime notificationTime)
         {
             var notObj = new NotificationObject();
@@ -147,6 +188,11 @@ namespace TaskSharper.Notification
             return notObj;
         }
         
+        /// <summary>
+        /// Calculates the until the notification
+        /// </summary>
+        /// <param name="notificationTime"></param>
+        /// <returns>Time to notification in milliseconds</returns>
         private double CalculateTimeToFire(DateTime notificationTime)
         {
             var timeToFire = (notificationTime - DateTime.Now).TotalMilliseconds;

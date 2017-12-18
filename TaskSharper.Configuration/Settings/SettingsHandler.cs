@@ -1,14 +1,28 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Newtonsoft.Json;
 
 namespace TaskSharper.Configuration.Settings
 {
+    /// <summary>
+    /// Handles load and save of settings files to disk.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class SettingsHandler<T> where T : new()
     {
+        /// <summary>
+        /// IOLock used a mutex to control access to file system.
+        /// </summary>
         private object IOLock = new object();
+
+        /// <summary>
+        /// Path to file, including the name of the file.
+        /// </summary>
         protected string FilePath;
+
+        /// <summary>
+        /// Load settings from disk using FilePath. 
+        /// </summary>
+        /// <returns>Return settings object</returns>
         public T Load()
         {
             // https://www.newtonsoft.com/json/help/html/DeserializeWithJsonSerializerFromFile.htm
@@ -41,6 +55,10 @@ namespace TaskSharper.Configuration.Settings
             return new T();
         }
 
+        /// <summary>
+        /// Save settings to JSON file on disk
+        /// </summary>
+        /// <param name="obj">The settings object</param>
         public void Save(T obj)
         {
             // https://www.newtonsoft.com/json/help/html/SerializeWithJsonSerializerToFile.htm

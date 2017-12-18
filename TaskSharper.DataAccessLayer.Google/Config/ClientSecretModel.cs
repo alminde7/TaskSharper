@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 
 namespace TaskSharper.DataAccessLayer.Google.Config
 {
+    /// <summary>
+    /// Model for client secret provided by Google Calendar. Name of properties is in correspondance with the naming in the file.
+    /// </summary>
     internal class ClientSecretModel
     {
         public Installed installed { get; set; }
