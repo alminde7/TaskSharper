@@ -20,6 +20,7 @@ namespace TaskSharper.Service.Config
             config.EnableSwagger(x =>
             {
                 x.SingleApiVersion("v1", "TaskSharper API");
+                x.DescribeAllEnumsAsStrings();
 
                 //x.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}\TaskSharper.Service.XML");
             }).EnableSwaggerUi();

@@ -81,6 +81,7 @@
     <Compile Include="RestDTO\ReportDto.cs" />
     <Compile Include="ServerEvents\GettingExternalDataEvent.cs" />
     <Compile Include="ServerEvents\MissingConnectionEvent.cs" />
+    <Compile Include="ServerEvents\TaskMarkedAsDoneEvent.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

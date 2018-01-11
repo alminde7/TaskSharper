@@ -98,6 +98,7 @@ namespace TaskSharper.Calender.WPF
                 _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Show);
             });
             _notificationClient.Subscribe<FinishedGettingExternalDataEvent>(x => _eventAggregator.GetEvent<SpinnerEvent>().Publish(EventResources.SpinnerEnum.Hide));
+            _notificationClient.Subscribe<TaskMarkedAsDoneEvent>(x => _eventAggregator.GetEvent<EventChangedEvent>().Publish(x.Event));
 
         }
     }

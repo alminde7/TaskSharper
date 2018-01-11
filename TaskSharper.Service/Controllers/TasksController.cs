@@ -10,7 +10,9 @@ using Google;
 using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Models;
+using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.RestDTO;
+using TaskSharper.Domain.ServerEvents;
 
 namespace TaskSharper.Service.Controllers
 {
@@ -18,6 +20,7 @@ namespace TaskSharper.Service.Controllers
     public class TasksController : ApiController
     {
         private readonly IEventManager _eventManager;
+        private readonly INotificationPublisher _notificationPublisher;
         public ILogger Logger { get; set; }
 
         /// <summary>
@@ -25,9 +28,10 @@ namespace TaskSharper.Service.Controllers
         /// </summary>
         /// <param name="eventManager">EventManager is used to get events</param>
         /// <param name="logger"></param>
-        public TasksController(IEventManager eventManager, ILogger logger)
+        public TasksController(IEventManager eventManager, ILogger logger, INotificationPublisher notificationPublisher)
         {
             _eventManager = eventManager;
+            _notificationPublisher = notificationPublisher;
             Logger = logger.ForContext<TasksController>();
         }
 
@@ -246,6 +250,62 @@ namespace TaskSharper.Service.Controllers
                 Logger.Error(e, errmsg);
                 return Content(HttpStatusCode.InternalServerError, errmsg);
             }
+        }
+
+        [HttpPost]
+        [Route("api/Tasks/{category}/Complete")]
+        public async Task<IHttpActionResult> CompleteTask(Categories category)
+        {
+            try
+            {
+                var events = await _eventManager.GetEventsAsync(DateTime.Today);
+                events = events.Where(i => i.Type == EventType.Task && i.Category.Name == category.ToString() && !i.MarkedAsDone &&
+                                     (i.Start?.Ticks > DateTime.Now.AddMinutes(-15).Ticks && i.Start?.Ticks < DateTime.Now.AddMinutes(15).Ticks ||
+                                      i.End?.Ticks < DateTime.Now.AddMinutes(15).Ticks && i.End?.Ticks > DateTime.Now.AddMinutes(-15).Ticks))
+                    .OrderBy(o => o.Start).ThenBy(o => o.End).ToList();
+
+                // Find closest event
+                Event closestEvent = null;
+                foreach (var @event in events)
+                {
+                    if (closestEvent == null)
+                        closestEvent = @event;
+
+                    if (Math.Abs(DateTime.Now.Ticks - (long) @event.Start?.Ticks) <
+                        Math.Abs(DateTime.Now.Ticks - (long) closestEvent.Start?.Ticks))
+                    {
+                        closestEvent = @event;
+                    }
+                }
+
+                if (closestEvent != null)
+                {
+                    closestEvent.MarkedAsDone = true;
+                    var updatedEvent = await _eventManager.UpdateEventAsync(closestEvent);
+                    _notificationPublisher.Publish(new TaskMarkedAsDoneEvent{Event = updatedEvent});
+                }
+                else
+                {
+                    throw new KeyNotFoundException();
+                }
+
+                return Ok(closestEvent);
+            }
+            catch (KeyNotFoundException e)
+            {
+                return Content(HttpStatusCode.NotFound, $"There are no incomplete tasks in category {category} from {DateTime.Now.AddMinutes(-15):G} to {DateTime.Now.AddMinutes(15):G}");
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
+        public enum Categories
+        {
+            Medication,
+            Hygiene,
+            Social
         }
 
         private bool IsValidTimespan(DateTime from, DateTime to)
