@@ -362,10 +362,11 @@ namespace TaskSharper.WPF.Common.Components.EventModification
         {
             var id = navigationContext?.Parameters["Id"]?.ToString();
             _region = navigationContext?.Parameters["Region"]?.ToString();
+            var calendarId = navigationContext?.Parameters["CalendarId"]?.ToString();
             
             if (id != null)
             {
-                Event = _dataService.Get(id);
+                Event = _dataService.Get(id, calendarId);
                 SetStatus(Event.Status);
                 _modificationType = ModificationType.Edit;
             }

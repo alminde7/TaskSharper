@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Timers;
 using Serilog;
-using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Configuration.Notification;
 using TaskSharper.Domain.Models;
 using TaskSharper.Domain.Notification;
@@ -26,11 +25,6 @@ namespace TaskSharper.Notification
         public ConcurrentDictionary<string, IList<NotificationObject>> EventNotifications { get; set; }
 
         /// <summary>
-        /// Timer used to trigger a dailt cleanup of notification, every day. This is to removed already fired notification.
-        /// </summary>
-        private Timer DailyCleanUpTimer { get; set; }
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="settings">Settings object from settings file. Used to configure notification behaviour</param>
@@ -44,7 +38,7 @@ namespace TaskSharper.Notification
             NotificationSettings = settings;
             NotificationPublisher = notificationPublisher;
             
-            DailyCleanUpTimer = new Timer()
+            new Timer()
                 .SetDailyScheduler(new TimeSpan(0,2,0,0), CleanUp)
                 .StartTimer();
         }

@@ -129,10 +129,11 @@ namespace TaskSharper.Calender.WPF.ViewModels
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             var id = navigationContext.Parameters["id"].ToString();
+            var calendarId = navigationContext.Parameters["CalendarId"].ToString();
 
             try
             {
-                SelectedEvent = await _calendarService.GetAsync(id);
+                SelectedEvent = await _calendarService.GetAsync(id, calendarId);
                 EventIsNotCompleted = !SelectedEvent.MarkedAsDone;
             }
             catch (ConnectionException)
@@ -163,6 +164,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("Id", SelectedEvent.Id);
             navigationParameters.Add("Type", SelectedEvent.Type);
+            navigationParameters.Add("CalendarId", SelectedEvent.Category.Id);
             navigationParameters.Add("Region", ViewConstants.REGION_Calendar);
             _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, ViewConstants.VIEW_CalendarEventDetails, navigationParameters);
         }

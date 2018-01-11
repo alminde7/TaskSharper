@@ -47,7 +47,7 @@ namespace TaskSharper.BusinessLayer
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Event> GetEventAsync(string id)
+        public async Task<Event> GetEventAsync(string id, string calendarId)
         {
             var calEvent = EventCache.GetEvent(id);
 
@@ -58,7 +58,7 @@ namespace TaskSharper.BusinessLayer
             }
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            calEvent = await EventRepository.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
+            calEvent = await EventRepository.GetEventAsync(id, calendarId);
             EventCache.AddOrUpdateEvent(calEvent);
             Notification.Attach(calEvent);
 
@@ -74,7 +74,7 @@ namespace TaskSharper.BusinessLayer
         /// <param name="id"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public async Task<Event> GetEventAsync(string id, DateTime date)
+        public async Task<Event> GetEventAsync(string id, DateTime date, string calendarId)
         {
             var calEvent = EventCache.GetEvent(id, date);
             if (calEvent != null)
@@ -84,7 +84,7 @@ namespace TaskSharper.BusinessLayer
             }
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            calEvent = await EventRepository.GetEventAsync(id, Constants.DefaultGoogleCalendarId);
+            calEvent = await EventRepository.GetEventAsync(id, calendarId);
             EventCache.AddOrUpdateEvent(calEvent);
             Notification.Attach(calEvent);
 
@@ -154,7 +154,7 @@ namespace TaskSharper.BusinessLayer
         {
             _notificationPublisher.Publish(new GettingExternalDataEvent());
 
-            var oldEvent = await GetEventAsync(eventObj.Id);
+            var oldEvent = await GetEventAsync(eventObj.Id, eventObj.Category.Id);
             if (oldEvent.Category.Id != eventObj.Category.Id)
             {
                 await EventRepository.UpdateEventCategoryAsync(eventObj.Id, oldEvent.Category.Id, eventObj.Category.Id);

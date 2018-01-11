@@ -144,6 +144,7 @@ namespace TaskSharper.Tasks.WPF.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("Id", Task.Id);
             navigationParameters.Add("Type", EventType.Task);
+            navigationParameters.Add("CalendarId", Task.Category.Id);
             navigationParameters.Add("Region", ViewConstants.REGION_Main);
             _regionManager.RequestNavigate(ViewConstants.REGION_Main, ViewConstants.VIEW_ModifyTaskView, navigationParameters);
         }

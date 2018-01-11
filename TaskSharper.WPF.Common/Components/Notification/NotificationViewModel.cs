@@ -172,12 +172,12 @@ namespace TaskSharper.WPF.Common.Components.Notification
         /// It will throw an new event to the dataservice with an updated MarkedAsDone on the event. 
         /// And finaly call the method ClosePopUp(). 
         /// </summary>
-        private void CompleteTask()
+        private async void CompleteTask()
         {
             if (NotificationEvent != null)
                 NotificationEvent.MarkedAsDone = true;
 
-            _dataService.UpdateAsync(NotificationEvent);
+            await _dataService.UpdateAsync(NotificationEvent);
             _eventAggregator.GetEvent<EventChangedEvent>().Publish(NotificationEvent);
 
             ClosePopUp();

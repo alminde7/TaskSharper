@@ -111,9 +111,10 @@ namespace TaskSharper.WPF.Common.Test.Unit
             // Arrange
             var parameters = new NavigationParameters();
             parameters.Add("Id", "1");
+            parameters.Add("CalendarId", "1");
             parameters.Add("Type", EventType.Task);
             _uut.Event.Type = EventType.Task;
-            _eventRestClient.Get("1").Returns(_uut.Event);
+            _eventRestClient.Get("1", "1").Returns(_uut.Event);
             
             // Act
             _uut.OnNavigatedTo(new NavigationContext(Substitute.For<IRegionNavigationService>(), new UriBuilder("EventModification").Uri, parameters));

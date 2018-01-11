@@ -38,13 +38,13 @@ namespace TaskSharper.Service.Controllers
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(Event))]
-        public async Task<IHttpActionResult> Get(string id)
+        public async Task<IHttpActionResult> Get(string id, string calendarId)
         {
             if (string.IsNullOrEmpty(id)) return BadRequest("Invalid id");
 
             try
             {
-                var calEvent = await _eventManager.GetEventAsync(id);
+                var calEvent = await _eventManager.GetEventAsync(id, calendarId);
                 if (calEvent.Type != EventType.Task)
                 {
                     throw new KeyNotFoundException();

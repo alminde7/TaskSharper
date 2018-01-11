@@ -134,6 +134,7 @@ namespace TaskSharper.Appointments.WPF.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("Id", Appointment.Id);
             navigationParameters.Add("Type", EventType.Appointment);
+            navigationParameters.Add("CalendarId", Appointment.Category.Id);
             navigationParameters.Add("Region", ViewConstants.REGION_Main);
             _regionManager.RequestNavigate(ViewConstants.REGION_Main, ViewConstants.VIEW_ModifyAppointmentView, navigationParameters);
         }

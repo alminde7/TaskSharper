@@ -8,8 +8,8 @@ namespace TaskSharper.Domain.BusinessLayer
 {
     public interface IEventManager
     {
-        Task<Event> GetEventAsync(string id);
-        Task<Event> GetEventAsync(string id, DateTime date);
+        Task<Event> GetEventAsync(string id, string calendarId);
+        Task<Event> GetEventAsync(string id, DateTime date, string calendarId);
         Task<IList<Event>> GetEventsAsync(DateTime start);
         Task<IList<Event>> GetEventsAsync(DateTime start, DateTime end);
         Task<Event> UpdateEventAsync(Event eventObj);
