@@ -7,8 +7,8 @@ namespace TaskSharper.Domain.RestClient
 {
     public interface IEventRestClient
     {
-        Event Get(string id);
-        Task<Event> GetAsync(string id);
+        Event Get(string id, string calendarId);
+        Task<Event> GetAsync(string id, string calendarId);
 
         Task<IEnumerable<Event>> GetAsync(DateTime date);
 

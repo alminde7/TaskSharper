@@ -49,9 +49,11 @@ namespace TaskSharper.Service.RestClient.Clients
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Event Get(string id)
+        public Event Get(string id, string calendarId)
         {
             var request = _requestFactory.Create($"{_controller}/{id}", Method.GET);
+
+            request.AddQueryParameter("calendarId", calendarId);
 
             var result = _restClient.Execute<Event>(request);
 
@@ -63,10 +65,11 @@ namespace TaskSharper.Service.RestClient.Clients
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Event> GetAsync(string id)
+        public async Task<Event> GetAsync(string id, string calendarId)
         {
             var request = _requestFactory.Create($"{_controller}/{id}", Method.GET);
-            
+            request.AddQueryParameter("calendarId", calendarId);
+
             var result = await _restClient.ExecuteTaskAsync<Event>(request, _logger);
             
             return CreateResponse(result);

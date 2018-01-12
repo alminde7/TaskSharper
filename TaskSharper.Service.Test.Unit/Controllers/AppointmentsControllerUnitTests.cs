@@ -45,7 +45,7 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         {
             string id = null;
 
-            var result = await _uut.Get(id);
+            var result = await _uut.Get(id, "");
 
             Assert.That(result, Is.TypeOf<BadRequestErrorMessageResult>());
         }
@@ -55,7 +55,7 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         {
             string id = "";
 
-            var result = await _uut.Get(id);
+            var result = await _uut.Get(id, "");
 
             Assert.That(result, Is.TypeOf<BadRequestErrorMessageResult>());
         }
@@ -63,14 +63,14 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         [Test]
         public async Task GetWithId_ValidIdSupplied_Return200()
         {
-            _eventManager.GetEventAsync(Arg.Any<string>()).Returns(new Event()
+            _eventManager.GetEventAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(new Event()
             {
                 Type = EventType.Appointment
             });
 
             string id = "1";
 
-            var result = await _uut.Get(id);
+            var result = await _uut.Get(id, "");
 
             Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<Event>>());
         }
@@ -78,14 +78,14 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         [Test]
         public async Task GetWithId_IdSuppliedButReturnsEventWithNoneEventType_Return404()
         {
-            _eventManager.GetEventAsync(Arg.Any<string>()).Returns(new Event()
+            _eventManager.GetEventAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(new Event()
             {
                 Type = EventType.None
             });
 
             string id = "1";
 
-            var result = await _uut.Get(id);
+            var result = await _uut.Get(id, "");
 
             var data = result as NegotiatedContentResult<string>;
 
@@ -95,14 +95,14 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         [Test]
         public async Task GetWithId_IdSuppliedButReturnsEventWithTaskEventType_Return404()
         {
-            _eventManager.GetEventAsync(Arg.Any<string>()).Returns(new Event()
+            _eventManager.GetEventAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(new Event()
             {
                 Type = EventType.Task
             });
 
             string id = "1";
 
-            var result = await _uut.Get(id);
+            var result = await _uut.Get(id, "");
 
             var data = result as NegotiatedContentResult<string>;
 
@@ -112,11 +112,11 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         [Test]
         public async Task GetWithId_HttpRequestExceptionThrown_HttpStatus599IsReturned()
         {
-            _eventManager.GetEventAsync(Arg.Any<string>()).Throws<HttpRequestException>();
+            _eventManager.GetEventAsync(Arg.Any<string>(), Arg.Any<string>()).Throws<HttpRequestException>();
 
             string id = "1";
 
-            var result = await _uut.Get(id);
+            var result = await _uut.Get(id, "");
 
             var data = result as NegotiatedContentResult<HttpRequestException>;
 
@@ -126,11 +126,11 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         [Test]
         public async Task GetWithId_ExceptionIsThrown_HttpStatus599IsReturned()
         {
-            _eventManager.GetEventAsync(Arg.Any<string>()).Throws<Exception>();
+            _eventManager.GetEventAsync(Arg.Any<string>(), Arg.Any<string>()).Throws<Exception>();
 
             string id = "1";
 
-            var result = await _uut.Get(id);
+            var result = await _uut.Get(id, "");
 
             var data = result as NegotiatedContentResult<string>;
 
