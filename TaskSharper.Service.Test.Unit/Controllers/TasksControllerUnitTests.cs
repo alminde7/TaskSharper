@@ -12,6 +12,7 @@ using Serilog;
 using TaskSharper.Domain.BusinessLayer;
 using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
+using TaskSharper.Domain.Notification;
 using TaskSharper.Domain.RestDTO;
 using TaskSharper.Service.Controllers;
 
@@ -21,6 +22,7 @@ namespace TaskSharper.Service.Test.Unit.Controllers
     {
         private ILogger _logger;
         private IEventManager _eventManager;
+        private INotificationPublisher _notificationPublisher;
         private TasksController _uut;
 
         [SetUp]
@@ -28,7 +30,8 @@ namespace TaskSharper.Service.Test.Unit.Controllers
         {
             _logger = Substitute.For<ILogger>();
             _eventManager = Substitute.For<IEventManager>();
-            _uut = new TasksController(_eventManager, _logger);
+            _notificationPublisher = Substitute.For<INotificationPublisher>();
+            _uut = new TasksController(_eventManager, _logger, _notificationPublisher);
         }
 
         [Test]

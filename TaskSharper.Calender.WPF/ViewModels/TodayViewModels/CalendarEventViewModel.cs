@@ -166,7 +166,10 @@ namespace TaskSharper.Calender.WPF.ViewModels
         /// <param name="uri">URI of the view to be navigated to</param>
         private void Navigate(string uri)
         {
-            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri + $"?id={Event.Id}");
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("id", Event.Id);
+            navigationParameters.Add("CalendarId", Event.Category.Id);
+            _regionManager.RequestNavigate(ViewConstants.REGION_Calendar, uri, navigationParameters);
         }
 
         /// <summary>

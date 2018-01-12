@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
 using TaskSharper.Calender.WPF.Config;
-
-using TaskSharper.Domain.Calendar;
 using TaskSharper.Domain.Models;
 using TaskSharper.Domain.RestClient;
 using TaskSharper.Shared.Exceptions;
