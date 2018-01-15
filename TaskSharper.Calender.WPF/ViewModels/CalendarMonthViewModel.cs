@@ -193,7 +193,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
                 if (i % DaysInWeek == 0)
                 {
-                    WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
+                    WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday,_eventAggregator));
                 }
 
                 DateDays.Add(new CalendarDateDayViewModel(prevMonday, _eventAggregator, _eventRestClient, CalendarTypeEnum.Month, _logger, _regionManager));
@@ -261,7 +261,7 @@ namespace TaskSharper.Calender.WPF.ViewModels
                 if (i % 7 == 0)
                 {
                     weekCount++;
-                    WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday));
+                    WeekNumbers.Add(new CalendarWeekNumberViewModel(prevMonday, _eventAggregator));
                 }
                     
                 DateDays[i].UpdateDate(prevMonday);

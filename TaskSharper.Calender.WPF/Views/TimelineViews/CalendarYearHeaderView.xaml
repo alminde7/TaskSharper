@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-
+             
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              lex:ResxLocalizationProvider.DefaultAssembly="TaskSharper.WPF.Common"
              lex:LocalizeDictionary.DesignCulture="en-US"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+             
+             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -36,7 +38,9 @@
 
         <Viewbox Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBlock Text="{lex:Loc Week}" Margin="2,0,5,0"></TextBlock>
+                <TextBlock Text="{Binding WeekText}" Margin="2,0,5,0">
+                  
+                </TextBlock>
                 <TextBlock Text="{Binding WeekNumber}"></TextBlock>
             </StackPanel>
         </Viewbox>

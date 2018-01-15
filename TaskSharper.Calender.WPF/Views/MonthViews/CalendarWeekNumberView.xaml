@@ -17,7 +17,7 @@
             VerticalAlignment="Center"
             FontWeight="SemiBold"
             Margin="2">
-            <TextBlock Text="{lex:Loc Week}"/>
+            <TextBlock Text="{Binding WeekText}"/>
             <TextBlock Text="{Binding Week}"/>
 
             <TextBlock.LayoutTransform>
