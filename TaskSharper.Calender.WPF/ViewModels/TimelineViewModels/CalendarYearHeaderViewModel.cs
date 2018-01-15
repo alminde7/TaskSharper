@@ -6,6 +6,7 @@ using Serilog;
 using TaskSharper.WPF.Common.Events;
 using TaskSharper.WPF.Common.Events.DateChangedEvents;
 using TaskSharper.WPF.Common.Events.Resources;
+using WPFLocalizeExtension.Engine;
 
 
 namespace TaskSharper.Calender.WPF.ViewModels
@@ -23,7 +24,14 @@ namespace TaskSharper.Calender.WPF.ViewModels
 
         private int _year;
         private string _month;
+        private string _weekText;
         private int _weekNumber;
+
+        public string WeekText
+        {
+            get => _weekText;
+            set => SetProperty(ref _weekText, value);
+        }
 
         public int Year
         {
@@ -93,6 +101,9 @@ namespace TaskSharper.Calender.WPF.ViewModels
             Year = date.Year;
             Month = CurrentCulture.TextInfo.ToTitleCase(DateCultureInfo.GetMonthName(date.Month));
             WeekNumber = DateCultureInfo.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
+            WeekText = LocalizeDictionary.Instance
+                .GetLocalizedObject("Week", null, LocalizeDictionary.Instance.Culture)
+                .ToString();
         }
 
         /// <summary>
