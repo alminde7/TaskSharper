@@ -41,13 +41,16 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left">
                 <Label Content="{Binding Date.Day}" />
             </Viewbox>
-            <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarEvents}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <views:CalendarDayEventView HorizontalAlignment="Stretch" Width="Auto"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ScrollViewer x:Name="ContentScrollViewer" Grid.Row="1" PanningMode="VerticalOnly"
+                          PanningRatio="1" PanningDeceleration="500" VerticalScrollBarVisibility="Hidden"> 
+                <ItemsControl ItemsSource="{Binding CalendarEvents}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <views:CalendarDayEventView HorizontalAlignment="Stretch" Width="Auto"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
     </Button>
 
